@@ -1,3 +1,11 @@
+export interface AppError {
+  message: string;
+  details?: string;
+  action?: string;
+  rawLogs?: string;
+  type: 'API_ERROR' | 'FILE_ERROR' | 'PARSING_ERROR' | 'VALIDATION_ERROR' | 'UNKNOWN';
+}
+
 export interface YearlyData {
   year: string;
   value: number;
