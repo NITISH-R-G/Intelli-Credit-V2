@@ -1,7 +1,7 @@
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 import { CreditAnalysis } from '../types';
-import { AppError } from '../App';
+import { AppError } from '../types';
 
 export const downloadPDF = async (
   elementId: string,
