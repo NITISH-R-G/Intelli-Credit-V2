@@ -181,3 +181,11 @@ export interface CreditAnalysis {
   missingData: string[];
   requiredDocs: string[];
 }
+
+export interface AppError {
+  message: string;
+  details?: string;
+  action?: string;
+  rawLogs?: string;
+  type: 'API_ERROR' | 'FILE_ERROR' | 'PARSING_ERROR' | 'VALIDATION_ERROR' | 'UNKNOWN';
+}
