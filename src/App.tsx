@@ -2,6 +2,9 @@ import { AppError } from "./types";
 import { performAnalysis, calculateDisplayAnalysis } from './services/analysisService';
 import { CompanyProfile } from './components/CompanyProfile';
 import { RiskScorePanel } from './components/RiskScorePanel';
+import { StressTestingPanel } from './components/StressTestingPanel';
+import { IndustryBenchmarkingPanel } from './components/IndustryBenchmarkingPanel';
+import { LoanRecommendationPanel } from './components/LoanRecommendationPanel';
 import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { CreditAnalysis } from './types';
 import { INDUSTRY_BENCHMARKS } from './constants';
@@ -309,92 +312,19 @@ export default function App() {
               {/* Risk Score Panel */}
                <RiskScorePanel displayAnalysis={displayAnalysis!} />
 
-              {/* Decision Panel */}
-              <div className="border border-zinc-800 bg-[#0a0a0a] p-3 flex flex-col justify-between">
-                <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-1 mb-2">
-                  Loan Recommendation
-                </div>
-                <div className="flex items-end justify-between">
-                  <div className={`text-3xl font-light ${
-                    displayAnalysis.recommendation.includes('Approve') ? 'text-emerald-500' :
-                    displayAnalysis.recommendation.includes('Reject') ? 'text-rose-500' : 'text-amber-500'
-                  }`}>
-                    {displayAnalysis.suggestedLoanAmount}
-                  </div>
-                  <div className="text-right">
-                    <div className="text-zinc-400 text-xs uppercase">Rate: {displayAnalysis.suggestedInterestRate}</div>
-                    <div className="text-zinc-500 text-xs uppercase tracking-tighter">Confidence: {displayAnalysis.decisionConfidence}%</div>
-                  </div>
-                </div>
-              </div>
+              <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
             </div>
 
-            {/* Stress Testing Module */}
-            <div className="lg:col-span-12 border border-zinc-800 bg-[#0a0a0a] p-4">
-              <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-2 mb-4 flex justify-between">
-                <span>Stress Testing (What-If Scenarios)</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-xs text-zinc-400 block mb-1">Revenue Shock ({revenueShock}%)</label>
-                    <input type="range" min="-30" max="30" value={revenueShock} onChange={(e) => setRevenueShock(Number(e.target.value))} className="w-full" />
-                  </div>
-                  <div>
-                    <label className="text-xs text-zinc-400 block mb-1">Interest Rate Shock ({interestRateShock}%)</label>
-                    <input type="range" min="0" max="5" step="0.1" value={interestRateShock} onChange={(e) => setInterestRateShock(Number(e.target.value))} className="w-full" />
-                  </div>
-                </div>
-                
-                {(() => {
-                  if (!displayAnalysis) return null;
-                  return (
-                    <div className="col-span-2 grid grid-cols-2 gap-4">
-                      <div className="border border-zinc-800 p-3">
-                        <div className="text-[10px] text-zinc-500 uppercase">Baseline Risk Grade</div>
-                        <div className="text-2xl text-zinc-300">{analysis.riskGrade}</div>
-                      </div>
-                      <div className="border border-amber-900/30 bg-amber-950/10 p-3">
-                        <div className="text-[10px] text-amber-500 uppercase">Stressed Risk Grade</div>
-                        <div className="text-2xl text-amber-500">{displayAnalysis.riskGrade}</div>
-                      </div>
-                      <div className="border border-zinc-800 p-3 text-xs">
-                        <div className="text-zinc-500 uppercase">Stressed DSCR</div>
-                        <div className="text-lg text-zinc-200">{(displayAnalysis.ratios.dscr ?? 0).toFixed(2)}</div>
-                      </div>
-                      <div className="border border-zinc-800 p-3 text-xs">
-                        <div className="text-zinc-500 uppercase">Stressed ICR</div>
-                        <div className="text-lg text-zinc-200">{(displayAnalysis.ratios.icr ?? 0).toFixed(2)}</div>
-                      </div>
-                    </div>
-                  );
-                })()}
-              </div>
-            </div>
+            <StressTestingPanel
+              revenueShock={revenueShock}
+              setRevenueShock={setRevenueShock}
+              interestRateShock={interestRateShock}
+              setInterestRateShock={setInterestRateShock}
+              analysis={analysis}
+              displayAnalysis={displayAnalysis}
+            />
 
-            {/* Industry Benchmarking */}
-            <div className="lg:col-span-12 border border-zinc-800 bg-[#0a0a0a] p-4">
-              <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-2 mb-4 flex justify-between">
-                <span>Industry Benchmarking ({analysis.companyInfo.industry})</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                  { label: 'Current Ratio', value: analysis.ratios.currentRatio, benchmark: INDUSTRY_BENCHMARKS[analysis.companyInfo.industry]?.currentRatio || 1.5 },
-                  { label: 'Profit Margin', value: analysis.ratios.profitMargin, benchmark: INDUSTRY_BENCHMARKS[analysis.companyInfo.industry]?.profitMargin || 0.1 },
-                  { label: 'Leverage (DTI)', value: analysis.ratios.debtToIncome, benchmark: INDUSTRY_BENCHMARKS[analysis.companyInfo.industry]?.debtToEquity || 1.0 },
-                ].map((item, i) => (
-                  <div key={i} className="space-y-1">
-                    <div className="flex justify-between text-xs text-zinc-400 cursor-help" title={`Company: ${item.value.toFixed(2)} | Benchmark: ${item.benchmark.toFixed(2)}`}>
-                      <span>{item.label}</span>
-                      <span>{item.value.toFixed(2)} / {item.benchmark.toFixed(2)}</span>
-                    </div>
-                    <div className="w-full bg-zinc-800 h-2 cursor-help" title={`Company: ${item.value.toFixed(2)} | Benchmark: ${item.benchmark.toFixed(2)}`}>
-                      <div className="bg-amber-500 h-2 transition-all duration-500" style={{ width: `${Math.min((item.value / (item.benchmark * 2)) * 100, 100)}%` }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <IndustryBenchmarkingPanel analysis={analysis} />
 
             {/* 5 Cs Analysis Row */}
             <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-5 gap-2">
