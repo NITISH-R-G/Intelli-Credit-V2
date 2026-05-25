@@ -2,7 +2,10 @@ import { AppError } from "./types";
 import { performAnalysis, calculateDisplayAnalysis } from './services/analysisService';
 import { CompanyProfile } from './components/CompanyProfile';
 import { RiskScorePanel } from './components/RiskScorePanel';
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
+const StressTestingModule = React.lazy(() => import('./components/StressTestingModule'));
+const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
+const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
 import { INDUSTRY_BENCHMARKS } from './constants';
 import { useDropzone } from 'react-dropzone';
@@ -329,141 +332,20 @@ export default function App() {
               </div>
             </div>
 
-            {/* Stress Testing Module */}
-            <div className="lg:col-span-12 border border-zinc-800 bg-[#0a0a0a] p-4">
-              <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-2 mb-4 flex justify-between">
-                <span>Stress Testing (What-If Scenarios)</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-xs text-zinc-400 block mb-1">Revenue Shock ({revenueShock}%)</label>
-                    <input type="range" min="-30" max="30" value={revenueShock} onChange={(e) => setRevenueShock(Number(e.target.value))} className="w-full" />
-                  </div>
-                  <div>
-                    <label className="text-xs text-zinc-400 block mb-1">Interest Rate Shock ({interestRateShock}%)</label>
-                    <input type="range" min="0" max="5" step="0.1" value={interestRateShock} onChange={(e) => setInterestRateShock(Number(e.target.value))} className="w-full" />
-                  </div>
-                </div>
-                
-                {(() => {
-                  if (!displayAnalysis) return null;
-                  return (
-                    <div className="col-span-2 grid grid-cols-2 gap-4">
-                      <div className="border border-zinc-800 p-3">
-                        <div className="text-[10px] text-zinc-500 uppercase">Baseline Risk Grade</div>
-                        <div className="text-2xl text-zinc-300">{analysis.riskGrade}</div>
-                      </div>
-                      <div className="border border-amber-900/30 bg-amber-950/10 p-3">
-                        <div className="text-[10px] text-amber-500 uppercase">Stressed Risk Grade</div>
-                        <div className="text-2xl text-amber-500">{displayAnalysis.riskGrade}</div>
-                      </div>
-                      <div className="border border-zinc-800 p-3 text-xs">
-                        <div className="text-zinc-500 uppercase">Stressed DSCR</div>
-                        <div className="text-lg text-zinc-200">{(displayAnalysis.ratios.dscr ?? 0).toFixed(2)}</div>
-                      </div>
-                      <div className="border border-zinc-800 p-3 text-xs">
-                        <div className="text-zinc-500 uppercase">Stressed ICR</div>
-                        <div className="text-lg text-zinc-200">{(displayAnalysis.ratios.icr ?? 0).toFixed(2)}</div>
-                      </div>
-                    </div>
-                  );
-                })()}
-              </div>
-            </div>
+            <Suspense fallback={<div className="lg:col-span-12 p-4 text-center text-zinc-500">Loading modules...</div>}>
+              <StressTestingModule
+                revenueShock={revenueShock}
+                setRevenueShock={setRevenueShock}
+                interestRateShock={interestRateShock}
+                setInterestRateShock={setInterestRateShock}
+                analysis={analysis}
+                displayAnalysis={displayAnalysis!}
+              />
 
-            {/* Industry Benchmarking */}
-            <div className="lg:col-span-12 border border-zinc-800 bg-[#0a0a0a] p-4">
-              <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-2 mb-4 flex justify-between">
-                <span>Industry Benchmarking ({analysis.companyInfo.industry})</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                  { label: 'Current Ratio', value: analysis.ratios.currentRatio, benchmark: INDUSTRY_BENCHMARKS[analysis.companyInfo.industry]?.currentRatio || 1.5 },
-                  { label: 'Profit Margin', value: analysis.ratios.profitMargin, benchmark: INDUSTRY_BENCHMARKS[analysis.companyInfo.industry]?.profitMargin || 0.1 },
-                  { label: 'Leverage (DTI)', value: analysis.ratios.debtToIncome, benchmark: INDUSTRY_BENCHMARKS[analysis.companyInfo.industry]?.debtToEquity || 1.0 },
-                ].map((item, i) => (
-                  <div key={i} className="space-y-1">
-                    <div className="flex justify-between text-xs text-zinc-400 cursor-help" title={`Company: ${item.value.toFixed(2)} | Benchmark: ${item.benchmark.toFixed(2)}`}>
-                      <span>{item.label}</span>
-                      <span>{item.value.toFixed(2)} / {item.benchmark.toFixed(2)}</span>
-                    </div>
-                    <div className="w-full bg-zinc-800 h-2 cursor-help" title={`Company: ${item.value.toFixed(2)} | Benchmark: ${item.benchmark.toFixed(2)}`}>
-                      <div className="bg-amber-500 h-2 transition-all duration-500" style={{ width: `${Math.min((item.value / (item.benchmark * 2)) * 100, 100)}%` }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+              <IndustryBenchmarking analysis={analysis} />
 
-            {/* 5 Cs Analysis Row */}
-            <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-5 gap-2">
-              {[
-                { label: 'Character', data: displayAnalysis.fiveCs.character, icon: Fingerprint, color: 'text-blue-400' },
-                { label: 'Capacity', data: displayAnalysis.fiveCs.capacity, icon: Activity, color: 'text-emerald-400' },
-                { label: 'Capital', data: displayAnalysis.fiveCs.capital, icon: Landmark, color: 'text-amber-400' },
-                { label: 'Collateral', data: displayAnalysis.fiveCs.collateral, icon: ShieldCheck, color: 'text-purple-400' },
-                { label: 'Conditions', data: displayAnalysis.fiveCs.conditions, icon: Globe, color: 'text-cyan-400' },
-              ].map((c, i) => (
-                <div key={i} className="border border-zinc-800 bg-[#0a0a0a] p-3 flex flex-col">
-                  <div className="text-[10px] uppercase text-zinc-500 border-b border-zinc-800 pb-1 mb-2 flex justify-between items-center">
-                    <div className="flex items-center gap-1">
-                      <c.icon className={`w-3 h-3 ${c.color}`} />
-                      <span>{c.label}</span>
-                    </div>
-                    <span className={c.color}>{Math.round(c.data.score)}%</span>
-                  </div>
-                  <div className="flex-1 overflow-y-auto custom-scrollbar pr-1 max-h-40">
-                    <div className="text-[10px] text-zinc-400 leading-tight mb-2 italic">
-                      {c.data.insights[0]}
-                    </div>
-                    {c.data.positiveSignals.length > 0 && (
-                      <div className="mb-2">
-                        <div className="text-[9px] text-emerald-500 uppercase mb-0.5">Signals</div>
-                        <ul className="text-[9px] text-zinc-500 space-y-0.5">
-                          {c.data.positiveSignals.slice(0, 2).map((s, j) => <li key={j} className="flex gap-1"><span>+</span>{s}</li>)}
-                        </ul>
-                      </div>
-                    )}
-                    {c.data.redFlags.length > 0 && (
-                      <div>
-                        <div className="text-[9px] text-rose-500 uppercase mb-0.5">Flags</div>
-                        <ul className="text-[9px] text-zinc-500 space-y-0.5">
-                          {c.data.redFlags.slice(0, 2).map((f, j) => <li key={j} className="flex gap-1"><span>!</span>{f}</li>)}
-                          {c.label === 'Character' && analysis.fraudDetection?.filter(f => f.status === 'Fail').slice(0, 1).map((f, j) => (
-                            <li key={`fraud-${j}`} className="flex gap-1 text-rose-400 font-bold"><span>!</span>FRAUD: {f.indicator}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {c.label === 'Collateral' && 'assets' in c.data && c.data.assets && (c.data.assets as any[]).length > 0 && (
-                      <div className="mt-3 space-y-2 border-t border-zinc-800 pt-2 shrink-0">
-                        <div className="text-[9px] text-zinc-500 uppercase mb-1">Liquidable Assets</div>
-                        {(c.data.assets as any[]).map((asset, idx) => (
-                          <div key={idx} className="bg-zinc-900/50 p-1.5 border border-zinc-800 rounded-sm">
-                            <div className="flex justify-between items-center mb-1">
-                              <span className="text-[9px] text-zinc-300 font-medium truncate max-w-[60%]">{asset.type}</span>
-                              <span className="text-[9px] text-purple-400 font-bold">{Math.round(asset.ltvRatio * 100)}% LTV</span>
-                            </div>
-                            <div className="relative h-6 bg-zinc-800 rounded-full overflow-hidden border border-zinc-700">
-                              <div 
-                                className="absolute inset-y-0 left-0 bg-purple-500/30 transition-all duration-1000" 
-                                style={{ width: `${asset.ltvRatio * 100}%` }}
-                              />
-                              <div className="absolute inset-0 flex items-center justify-between px-2 text-[8px] font-mono">
-                                <span className="text-zinc-400">Mkt: ₹{(asset.marketValue / 10000000).toFixed(1)}Cr</span>
-                                <span className="text-white font-bold">Liq: ₹{(asset.estimatedValue / 10000000).toFixed(1)}Cr</span>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+              <FiveCsAnalysis analysis={analysis} displayAnalysis={displayAnalysis!} />
+            </Suspense>
 
             {/* Middle Row: Financials & Verification */}
             <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-3 gap-2">
