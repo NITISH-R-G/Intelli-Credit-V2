@@ -538,7 +538,6 @@ export const performAnalysis = async (
     fileCache.current.set(combinedHash, result);
     setAnalysis(result);
   } catch (err) {
-    console.error(err);
     const rawLogs = err instanceof Error ? err.stack || err.message : String(err);
     let appError: AppError = {
       message: 'Analysis Failed',
