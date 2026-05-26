@@ -191,8 +191,7 @@ export const callMcpTool = async (toolName: string, args: any, apiMode: boolean,
 
     return { error: "Unknown tool" };
   } catch (error) {
-    console.error("Error calling MCP tool:", error);
-    return { error: "Tool execution failed" };
+    return { error: error instanceof Error ? error.message : String(error) };
   }
 };
 
