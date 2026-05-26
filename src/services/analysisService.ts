@@ -208,34 +208,34 @@ export const performAnalysis = async (
       responseSchema: RESPONSE_SCHEMA as any,
     };
 
-    let currentContents: any[] = [];
-
-    for (const f of files) {
-      if (f.type === "application/pdf" || f.type.startsWith("image/")) {
-        const base64Data = await fileToBase64(f);
-        currentContents.push({
-          role: "user",
-          parts: [
-            {
-              inlineData: {
-                data: base64Data,
-                mimeType: f.type,
+    let currentContents: any[] = await Promise.all(
+      files.map(async (f) => {
+        if (f.type === "application/pdf" || f.type.startsWith("image/")) {
+          const base64Data = await fileToBase64(f);
+          return {
+            role: "user",
+            parts: [
+              {
+                inlineData: {
+                  data: base64Data,
+                  mimeType: f.type,
+                },
               },
-            },
-          ],
-        });
-      } else {
-        const text = await fileToText(f);
-        currentContents.push({
-          role: "user",
-          parts: [
-            {
-              text: `Document Name: ${f.name}\n\nDocument Text:\n${text.substring(0, 10000)}`,
-            },
-          ],
-        });
-      }
-    }
+            ],
+          };
+        } else {
+          const text = await fileToText(f);
+          return {
+            role: "user",
+            parts: [
+              {
+                text: `Document Name: ${f.name}\n\nDocument Text:\n${text.substring(0, 10000)}`,
+              },
+            ],
+          };
+        }
+      })
+    );
 
     // Add the extraction prompt to the last content part
     if (currentContents.length > 0) {
