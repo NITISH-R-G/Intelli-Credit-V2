@@ -70,6 +70,7 @@ export default function App() {
   const [revenueShock, setRevenueShock] = useState(0);
   const [interestRateShock, setInterestRateShock] = useState(0);
   const [bureauApiKey, setBureauApiKey] = useState('');
+  const [geminiApiKey, setGeminiApiKey] = useState('');
   const [apiMode, setApiMode] = useState(false); // false = Mock, true = Real
   const fileCache = useRef<Map<string, CreditAnalysis>>(new Map());
 
@@ -111,6 +112,7 @@ export default function App() {
       fileCache,
       apiMode,
       bureauApiKey,
+      geminiApiKey,
       setLoading,
       setError,
       setAnalysis,
@@ -162,39 +164,60 @@ export default function App() {
               Upload financial documents (PDF, Image) for automated extraction, verification, and risk analysis.
             </p>
 
-            {/* Bureau Integrations Panel */}
+            {/* Configuration Panel */}
             <div className="w-full max-w-2xl border border-zinc-800 bg-black p-4 mb-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                <div className="flex items-center gap-2">
-                  <Fingerprint className="w-4 h-4 text-amber-500" />
-                  <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Bureau Integrations</h3>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className={`text-[10px] font-medium uppercase tracking-tighter ${!apiMode ? "text-amber-500" : "text-zinc-600"}`}>Gemini Generated (Mock)</span>
-                  <button
-                    onClick={() => setApiMode(!apiMode)}
-                    className={`relative inline-flex h-4 w-8 items-center rounded-full transition-colors focus:outline-none ${
-                      apiMode ? "bg-amber-600" : "bg-zinc-800"
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-2.5 w-2.5 transform rounded-full bg-white transition-transform ${
-                        apiMode ? "translate-x-4" : "translate-x-1"
-                      }`}
+              <div className="flex flex-col gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <ShieldCheck className="w-4 h-4 text-amber-500" />
+                    <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Gemini Configuration</h3>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-medium text-zinc-600 uppercase tracking-widest">Gemini API Key</label>
+                    <input
+                      type="password"
+                      value={geminiApiKey}
+                      onChange={(e) => setGeminiApiKey(e.target.value)}
+                      placeholder="Enter your Gemini API key..."
+                      className="w-full px-3 py-2 bg-[#050505] border border-zinc-800 text-zinc-300 text-xs focus:outline-none focus:border-amber-500/50 transition-all placeholder:text-zinc-700"
                     />
-                  </button>
-                  <span className={`text-[10px] font-medium uppercase tracking-tighter ${apiMode ? "text-amber-500" : "text-zinc-600"}`}>Real API</span>
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] font-medium text-zinc-600 uppercase tracking-widest">External Bureau API Key</label>
-                <input
-                  type="password"
-                  value={bureauApiKey}
-                  onChange={(e) => setBureauApiKey(e.target.value)}
-                  placeholder="Enter your API key for real-time bureau checks..."
-                  className="w-full px-3 py-2 bg-[#050505] border border-zinc-800 text-zinc-300 text-xs focus:outline-none focus:border-amber-500/50 transition-all placeholder:text-zinc-700"
-                />
+
+                <div className="border-t border-zinc-800 pt-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                    <div className="flex items-center gap-2">
+                      <Fingerprint className="w-4 h-4 text-amber-500" />
+                      <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Bureau Integrations</h3>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className={`text-[10px] font-medium uppercase tracking-tighter ${!apiMode ? "text-amber-500" : "text-zinc-600"}`}>Gemini Generated (Mock)</span>
+                      <button
+                        onClick={() => setApiMode(!apiMode)}
+                        className={`relative inline-flex h-4 w-8 items-center rounded-full transition-colors focus:outline-none ${
+                          apiMode ? "bg-amber-600" : "bg-zinc-800"
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-2.5 w-2.5 transform rounded-full bg-white transition-transform ${
+                            apiMode ? "translate-x-4" : "translate-x-1"
+                          }`}
+                        />
+                      </button>
+                      <span className={`text-[10px] font-medium uppercase tracking-tighter ${apiMode ? "text-amber-500" : "text-zinc-600"}`}>Real API</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-medium text-zinc-600 uppercase tracking-widest">External Bureau API Key</label>
+                    <input
+                      type="password"
+                      value={bureauApiKey}
+                      onChange={(e) => setBureauApiKey(e.target.value)}
+                      placeholder="Enter your API key for real-time bureau checks..."
+                      className="w-full px-3 py-2 bg-[#050505] border border-zinc-800 text-zinc-300 text-xs focus:outline-none focus:border-amber-500/50 transition-all placeholder:text-zinc-700"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             

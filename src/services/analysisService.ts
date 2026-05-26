@@ -163,12 +163,24 @@ export const performAnalysis = async (
   fileCache: React.MutableRefObject<Map<string, CreditAnalysis>>,
   apiMode: boolean,
   bureauApiKey: string,
+  geminiApiKey: string,
   setLoading: (loading: boolean) => void,
   setError: (error: AppError | null) => void,
   setAnalysis: (analysis: CreditAnalysis) => void,
   setShowLogs: (showLogs: boolean) => void
 ) => {
   if (files.length === 0) return;
+
+  if (!geminiApiKey) {
+    setError({
+      message: 'Authentication Error',
+      details: 'The Gemini API key is required.',
+      action: 'Please enter your Gemini API key in the configuration panel.',
+      rawLogs: 'Missing geminiApiKey argument.',
+      type: 'API_ERROR'
+    });
+    return;
+  }
 
   setLoading(true);
   setError(null);
@@ -183,7 +195,7 @@ export const performAnalysis = async (
       return;
     }
 
-    const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const genAI = new GoogleGenAI({ apiKey: geminiApiKey });
     const model = "gemini-3-flash-preview";
 
     // Convert files to parts
