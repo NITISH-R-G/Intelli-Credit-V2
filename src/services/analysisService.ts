@@ -6,6 +6,107 @@ import { hashFile, fileToBase64, fileToText } from '../lib/file-utils';
 import { searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration, callMcpTool, EXTRACTION_PROMPT, RESPONSE_SCHEMA } from '../lib/gemini';
 import { GoogleGenAI } from '@google/genai';
 
+interface StressedFinancials {
+  stressedRevenue: number;
+  stressedProfit: number;
+  stressedInterest: number;
+  stressedCashflow: number;
+  stressedProfitMargin: number;
+  stressedDebtToIncome: number;
+  stressedDSCR: number;
+  stressedICR: number;
+}
+
+const getStressedFinancials = (
+  analysis: CreditAnalysis,
+  revenueShock: number,
+  interestRateShock: number,
+  lastIdx: number
+): StressedFinancials => {
+  const baseRevenue = analysis.structuredData.revenue[lastIdx].value;
+  const baseProfit = analysis.structuredData.profit[lastIdx].value;
+  const baseDebt = analysis.structuredData.debt[lastIdx].value;
+  const baseInterestRate = parseFloat(analysis.suggestedInterestRate.replace('%', '')) / 100;
+
+  const stressedRevenue = baseRevenue * (1 + revenueShock / 100);
+  const stressedProfit = baseProfit * (1 + revenueShock / 100);
+  const stressedInterest = baseDebt * (baseInterestRate + interestRateShock / 100);
+  const stressedCashflow = stressedProfit - stressedInterest;
+
+  const stressedProfitMargin = stressedRevenue > 0 ? (stressedProfit - stressedInterest) / stressedRevenue : 0;
+  const stressedDebtToIncome = stressedRevenue > 0 ? baseDebt / stressedRevenue : 0;
+
+  const estimatedPrincipal = baseDebt * 0.1;
+  const stressedDSCR = (stressedInterest + estimatedPrincipal) > 0 ? stressedCashflow / (stressedInterest + estimatedPrincipal) : 0;
+  const stressedICR = stressedInterest > 0 ? stressedProfit / stressedInterest : 0;
+
+  return {
+    stressedRevenue,
+    stressedProfit,
+    stressedInterest,
+    stressedCashflow,
+    stressedProfitMargin,
+    stressedDebtToIncome,
+    stressedDSCR,
+    stressedICR
+  };
+};
+
+const calculateStressedRiskScore = (
+  analysis: CreditAnalysis,
+  financials: StressedFinancials
+): number => {
+  const industry = analysis.companyInfo.industry;
+  const benchmark = INDUSTRY_BENCHMARKS[industry] || INDUSTRY_BENCHMARKS['Manufacturing'];
+
+  let stressedRiskScore = 50;
+
+  if (financials.stressedDSCR < 1.0) stressedRiskScore += 30;
+  else if (financials.stressedDSCR < 1.25) stressedRiskScore += 15;
+
+  if (financials.stressedICR < 1.5) stressedRiskScore += 20;
+
+  if (financials.stressedProfitMargin < benchmark.profitMargin) stressedRiskScore += 15;
+  if (financials.stressedDebtToIncome > benchmark.debtToEquity) stressedRiskScore += 15;
+
+  const criticalFraudCount = analysis.fraudDetection?.filter(f => f.status === 'Fail').length || 0;
+  const warningFraudCount = analysis.fraudDetection?.filter(f => f.status === 'Warning').length || 0;
+  stressedRiskScore += (criticalFraudCount * 25) + (warningFraudCount * 10);
+
+  return Math.min(Math.max(stressedRiskScore, 0), 100);
+};
+
+const getRiskGradeAndRecommendation = (riskScore: number): {
+  riskGrade: string;
+  riskLevel: 'Low' | 'Medium' | 'High' | 'Critical';
+  recommendation: string;
+} => {
+  if (riskScore > 85) {
+    return { riskGrade: "C", riskLevel: "Critical", recommendation: "Reject" };
+  } else if (riskScore > 60) {
+    return { riskGrade: "BB", riskLevel: "High", recommendation: "Refer for Review" };
+  } else if (riskScore > 30) {
+    return { riskGrade: "BBB", riskLevel: "Medium", recommendation: "Approve with Conditions" };
+  }
+  return { riskGrade: "AAA", riskLevel: "Low", recommendation: "Approve" };
+};
+
+const parseBaseLoanAmount = (analysis: CreditAnalysis): number => {
+  if (typeof analysis.suggestedLoanAmount === 'number') {
+    return analysis.suggestedLoanAmount;
+  } else if (typeof analysis.suggestedLoanAmount === 'string') {
+    const numbers = analysis.suggestedLoanAmount.match(/\d+(\.\d+)?/g);
+    if (numbers && numbers.length > 0) {
+      let baseLoanAmount = parseFloat(numbers[0]);
+      const lowerStr = analysis.suggestedLoanAmount.toLowerCase();
+      if (lowerStr.includes('cr') || lowerStr.includes('crore')) baseLoanAmount *= 10000000;
+      else if (lowerStr.includes('lakh')) baseLoanAmount *= 100000;
+      return baseLoanAmount;
+    }
+  }
+  return 0;
+};
+
 export const calculateDisplayAnalysis = (
   analysis: CreditAnalysis | null,
   revenueShock: number,
@@ -28,87 +129,16 @@ export const calculateDisplayAnalysis = (
     };
   }
 
-  // 1. Financial Modeling
   const lastIdx = analysis.structuredData.revenue.length - 1;
-  const baseRevenue = analysis.structuredData.revenue[lastIdx].value;
-  const baseProfit = analysis.structuredData.profit[lastIdx].value;
-  const baseDebt = analysis.structuredData.debt[lastIdx].value;
-  const baseInterestRate = parseFloat(analysis.suggestedInterestRate.replace('%', '')) / 100;
+  const financials = getStressedFinancials(analysis, revenueShock, interestRateShock, lastIdx);
 
-  // Stressed Financials
-  const stressedRevenue = baseRevenue * (1 + revenueShock / 100);
-  const stressedProfit = baseProfit * (1 + revenueShock / 100);
-  const stressedInterest = baseDebt * (baseInterestRate + interestRateShock / 100);
-  const stressedCashflow = stressedProfit - stressedInterest;
-
-  // 2. Statistical Ratios
-  const stressedProfitMargin = stressedRevenue > 0 ? (stressedProfit - stressedInterest) / stressedRevenue : 0;
-  const stressedDebtToIncome = stressedRevenue > 0 ? baseDebt / stressedRevenue : 0;
-
-  // Estimate DSCR (assuming 10% principal repayment)
-  const estimatedPrincipal = baseDebt * 0.1;
-  const stressedDSCR = (stressedInterest + estimatedPrincipal) > 0 ? stressedCashflow / (stressedInterest + estimatedPrincipal) : 0;
-  const stressedICR = stressedInterest > 0 ? stressedProfit / stressedInterest : 0;
-
-  // 3. Risk Score Calculation (Statistical Model)
-  const industry = analysis.companyInfo.industry;
-  const benchmark = INDUSTRY_BENCHMARKS[industry] || INDUSTRY_BENCHMARKS['Manufacturing']; // Default to Manufacturing
-
-  let stressedRiskScore = 50;
-  // DSCR Impact
-  if (stressedDSCR < 1.0) stressedRiskScore += 30;
-  else if (stressedDSCR < 1.25) stressedRiskScore += 15;
-  // ICR Impact
-  if (stressedICR < 1.5) stressedRiskScore += 20;
-  // Leverage Impact (Using industry benchmark for Profit Margin and Leverage)
-  if (stressedProfitMargin < benchmark.profitMargin) stressedRiskScore += 15;
-  if (stressedDebtToIncome > benchmark.debtToEquity) stressedRiskScore += 15;
-
-  // Fraud Impact
-  const criticalFraudCount = analysis.fraudDetection?.filter(f => f.status === 'Fail').length || 0;
-  const warningFraudCount = analysis.fraudDetection?.filter(f => f.status === 'Warning').length || 0;
-  stressedRiskScore += (criticalFraudCount * 25) + (warningFraudCount * 10);
-
-  stressedRiskScore = Math.min(Math.max(stressedRiskScore, 0), 100);
-
-  // 4. Grade & Recommendation
-  let stressedRiskGrade = "AAA";
-  let stressedRiskLevel: 'Low' | 'Medium' | 'High' | 'Critical' = "Low";
-  let stressedRecommendation = "Approve";
-
-  if (stressedRiskScore > 85) {
-      stressedRiskGrade = "C";
-      stressedRiskLevel = "Critical";
-      stressedRecommendation = "Reject";
-  } else if (stressedRiskScore > 60) {
-      stressedRiskGrade = "BB";
-      stressedRiskLevel = "High";
-      stressedRecommendation = "Refer for Review";
-  } else if (stressedRiskScore > 30) {
-      stressedRiskGrade = "BBB";
-      stressedRiskLevel = "Medium";
-      stressedRecommendation = "Approve with Conditions";
-  }
+  const stressedRiskScore = calculateStressedRiskScore(analysis, financials);
+  const { riskGrade: stressedRiskGrade, riskLevel: stressedRiskLevel, recommendation: stressedRecommendation } = getRiskGradeAndRecommendation(stressedRiskScore);
 
   const shockFactor = Math.abs(revenueShock) / 100 + Math.abs(interestRateShock) / 5;
   const stressedConfidence = Math.max(analysis.decisionConfidence - Math.round(shockFactor * 50), 20);
 
-  // Parse loan amount safely (it might be a number or a string from the AI)
-  let baseLoanAmount = 0;
-  if (typeof analysis.suggestedLoanAmount === 'number') {
-    baseLoanAmount = analysis.suggestedLoanAmount;
-  } else if (typeof analysis.suggestedLoanAmount === 'string') {
-    // Handle potential ranges or units if the AI ignores the schema
-    const numbers = analysis.suggestedLoanAmount.match(/\d+(\.\d+)?/g);
-    if (numbers && numbers.length > 0) {
-      // If it's a range, take the lower bound to be conservative
-      baseLoanAmount = parseFloat(numbers[0]);
-      // Handle common Indian units if present
-      const lowerStr = analysis.suggestedLoanAmount.toLowerCase();
-      if (lowerStr.includes('cr') || lowerStr.includes('crore')) baseLoanAmount *= 10000000;
-      else if (lowerStr.includes('lakh')) baseLoanAmount *= 100000;
-    }
-  }
+  const baseLoanAmount = parseBaseLoanAmount(analysis);
 
   const stressedLoanAmount = (baseLoanAmount * (1 + revenueShock / 200)).toLocaleString('en-IN', {
     style: 'currency',
@@ -133,25 +163,25 @@ export const calculateDisplayAnalysis = (
     suggestedLoanAmount: stressedLoanAmount,
     ratios: {
       ...analysis.ratios,
-      debtToIncome: stressedDebtToIncome,
-      profitMargin: stressedProfitMargin,
-      dscr: stressedDSCR,
-      icr: stressedICR
+      debtToIncome: financials.stressedDebtToIncome,
+      profitMargin: financials.stressedProfitMargin,
+      dscr: financials.stressedDSCR,
+      icr: financials.stressedICR
     },
     structuredData: {
       ...analysis.structuredData,
-      cashflow: analysis.structuredData.cashflow.map((c, i) => i === lastIdx ? { ...c, value: stressedCashflow } : c),
-      profit: analysis.structuredData.profit.map((p, i) => i === lastIdx ? { ...p, value: stressedProfit } : p),
+      cashflow: analysis.structuredData.cashflow.map((c, i) => i === lastIdx ? { ...c, value: financials.stressedCashflow } : c),
+      profit: analysis.structuredData.profit.map((p, i) => i === lastIdx ? { ...p, value: financials.stressedProfit } : p),
     },
     fiveCs: {
       ...analysis.fiveCs,
       capacity: {
         ...analysis.fiveCs.capacity,
-        score: Math.min(Math.max(analysis.fiveCs.capacity.score - (stressedDSCR < 1.2 ? 20 : 0), 0), 100)
+        score: Math.min(Math.max(analysis.fiveCs.capacity.score - (financials.stressedDSCR < 1.2 ? 20 : 0), 0), 100)
       },
       capital: {
         ...analysis.fiveCs.capital,
-        score: Math.min(Math.max(analysis.fiveCs.capital.score - (stressedDebtToIncome > 0.8 ? 20 : 0), 0), 100)
+        score: Math.min(Math.max(analysis.fiveCs.capital.score - (financials.stressedDebtToIncome > 0.8 ? 20 : 0), 0), 100)
       }
     }
   };
