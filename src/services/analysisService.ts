@@ -188,149 +188,7 @@ export const calculateDisplayAnalysis = (
 };
 
 
-export const performAnalysis = async (
-  files: File[],
-  fileCache: React.MutableRefObject<Map<string, CreditAnalysis>>,
-  apiMode: boolean,
-  bureauApiKey: string,
-  setLoading: (loading: boolean) => void,
-  setError: (error: AppError | null) => void,
-  setAnalysis: (analysis: CreditAnalysis) => void,
-  setShowLogs: (showLogs: boolean) => void
-) => {
-  if (files.length === 0) return;
-
-  setLoading(true);
-  setError(null);
-
-  try {
-    const fileHashes = await Promise.all(files.map(hashFile));
-    const combinedHash = fileHashes.join('');
-
-    if (fileCache.current.has(combinedHash)) {
-      setAnalysis(fileCache.current.get(combinedHash)!);
-      setLoading(false);
-      return;
-    }
-
-    const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    const model = "gemini-3-flash-preview";
-
-    // Convert files to parts
-    const fileParts = await Promise.all(files.map(async (f) => {
-      const buffer = await f.arrayBuffer();
-      const base64 = btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-      return {
-        inlineData: {
-          mimeType: f.type,
-          data: base64
-        }
-      };
-    }));
-
-    const config = {
-      tools: [
-        { googleSearch: {} },
-        { functionDeclarations: [searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration] }
-      ],
-      toolConfig: { includeServerSideToolInvocations: true },
-      responseMimeType: "application/json",
-      responseSchema: RESPONSE_SCHEMA as any,
-    };
-
-    let currentContents: any[] = [];
-
-    for (const f of files) {
-      if (f.type === "application/pdf" || f.type.startsWith("image/")) {
-        const base64Data = await fileToBase64(f);
-        currentContents.push({
-          role: "user",
-          parts: [
-            {
-              inlineData: {
-                data: base64Data,
-                mimeType: f.type,
-              },
-            },
-          ],
-        });
-      } else {
-        const text = await fileToText(f);
-        currentContents.push({
-          role: "user",
-          parts: [
-            {
-              text: `Document Name: ${f.name}\n\nDocument Text:\n${text.substring(0, 10000)}`,
-            },
-          ],
-        });
-      }
-    }
-
-    // Add the extraction prompt to the last content part
-    if (currentContents.length > 0) {
-      currentContents[currentContents.length - 1].parts.push({ text: EXTRACTION_PROMPT });
-    } else {
-      throw new Error("No valid documents found for analysis.");
-    }
-
-    let extractionResponse = await genAI.models.generateContent({
-      model,
-      contents: currentContents,
-      config,
-    });
-
-    let iterations = 0;
-    const MAX_ITERATIONS = 10;
-    while (extractionResponse.functionCalls && extractionResponse.functionCalls.length > 0 && iterations < MAX_ITERATIONS) {
-      const call = extractionResponse.functionCalls[0];
-
-      let toolResult;
-      if (call.name === "search_cases" || call.name === "fetch_director_cibil" || call.name === "calculate_ltv" || call.name === "get_mca_info") {
-        toolResult = await callMcpTool(call.name, call.args, apiMode, bureauApiKey);
-      } else {
-        toolResult = { error: "Unknown tool" };
-      }
-
-      if (toolResult && toolResult.error) {
-        throw new Error(`TOOL_ERROR: ${toolResult.error}`);
-      }
-
-      currentContents.push(extractionResponse.candidates![0].content);
-      currentContents.push({
-        role: "user",
-        parts: [{
-          functionResponse: {
-            name: call.name,
-            response: { result: toolResult }
-          }
-        }]
-      });
-
-      extractionResponse = await genAI.models.generateContent({
-        model,
-        contents: currentContents,
-        config,
-      });
-
-      iterations++;
-    }
-
-    if (!extractionResponse.text) {
-      if (extractionResponse.functionCalls && extractionResponse.functionCalls.length > 0) {
-        throw new Error("Analysis stopped: Too many tool calls required. The model is still trying to gather information.");
-      }
-
-      const finishReason = extractionResponse.candidates?.[0]?.finishReason;
-      if (finishReason === 'SAFETY') {
-        throw new Error("Analysis Failed: The document content was flagged by safety filters.");
-      }
-
-      throw new Error("Failed to extract data from document: The model returned an empty response. This can happen if the document is too complex or the prompt is too restrictive.");
-    }
-
-    const parsedData = JSON.parse(extractionResponse.text);
-
+export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
     // Feature Calculations
     const latestRevenue = parsedData.structuredData.revenue[parsedData.structuredData.revenue.length - 1].value;
     const latestDebt = parsedData.structuredData.debt[parsedData.structuredData.debt.length - 1].value;
@@ -564,6 +422,170 @@ export const performAnalysis = async (
       recommendation,
       fraudFlags
     };
+  return result;
+};
+
+export const executeAIExtractionLoop = async (
+  genAI: any,
+  model: string,
+  currentContents: any[],
+  config: any,
+  apiMode: boolean,
+  bureauApiKey: string
+): Promise<any> => {
+    let extractionResponse = await genAI.models.generateContent({
+      model,
+      contents: currentContents,
+      config,
+    });
+
+    let iterations = 0;
+    const MAX_ITERATIONS = 10;
+    while (extractionResponse.functionCalls && extractionResponse.functionCalls.length > 0 && iterations < MAX_ITERATIONS) {
+      const call = extractionResponse.functionCalls[0];
+
+      let toolResult;
+      if (call.name === "search_cases" || call.name === "fetch_director_cibil" || call.name === "calculate_ltv" || call.name === "get_mca_info") {
+        toolResult = await callMcpTool(call.name, call.args, apiMode, bureauApiKey);
+      } else {
+        toolResult = { error: "Unknown tool" };
+      }
+
+      if (toolResult && toolResult.error) {
+        throw new Error(`TOOL_ERROR: ${toolResult.error}`);
+      }
+
+      currentContents.push(extractionResponse.candidates![0].content);
+      currentContents.push({
+        role: "user",
+        parts: [{
+          functionResponse: {
+            name: call.name,
+            response: { result: toolResult }
+          }
+        }]
+      });
+
+      extractionResponse = await genAI.models.generateContent({
+        model,
+        contents: currentContents,
+        config,
+      });
+
+      iterations++;
+    }
+
+    if (!extractionResponse.text) {
+      if (extractionResponse.functionCalls && extractionResponse.functionCalls.length > 0) {
+        throw new Error("Analysis stopped: Too many tool calls required. The model is still trying to gather information.");
+      }
+
+      const finishReason = extractionResponse.candidates?.[0]?.finishReason;
+      if (finishReason === 'SAFETY') {
+        throw new Error("Analysis Failed: The document content was flagged by safety filters.");
+      }
+
+      throw new Error("Failed to extract data from document: The model returned an empty response. This can happen if the document is too complex or the prompt is too restrictive.");
+    }
+
+    const parsedData = JSON.parse(extractionResponse.text);
+  return parsedData;
+};
+
+export const prepareDocumentContents = async (files: File[]): Promise<any[]> => {
+    let currentContents: any[] = [];
+
+    for (const f of files) {
+      if (f.type === "application/pdf" || f.type.startsWith("image/")) {
+        const base64Data = await fileToBase64(f);
+        currentContents.push({
+          role: "user",
+          parts: [
+            {
+              inlineData: {
+                data: base64Data,
+                mimeType: f.type,
+              },
+            },
+          ],
+        });
+      } else {
+        const text = await fileToText(f);
+        currentContents.push({
+          role: "user",
+          parts: [
+            {
+              text: `Document Name: ${f.name}\n\nDocument Text:\n${text.substring(0, 10000)}`,
+            },
+          ],
+        });
+      }
+    }
+
+    // Add the extraction prompt to the last content part
+    if (currentContents.length > 0) {
+      currentContents[currentContents.length - 1].parts.push({ text: EXTRACTION_PROMPT });
+    } else {
+      throw new Error("No valid documents found for analysis.");
+    }
+  return currentContents;
+};
+
+export const performAnalysis = async (
+  files: File[],
+  fileCache: React.MutableRefObject<Map<string, CreditAnalysis>>,
+  apiMode: boolean,
+  bureauApiKey: string,
+  setLoading: (loading: boolean) => void,
+  setError: (error: AppError | null) => void,
+  setAnalysis: (analysis: CreditAnalysis) => void,
+  setShowLogs: (showLogs: boolean) => void
+) => {
+  if (files.length === 0) return;
+
+  setLoading(true);
+  setError(null);
+
+  try {
+    const fileHashes = await Promise.all(files.map(hashFile));
+    const combinedHash = fileHashes.join('');
+
+    if (fileCache.current.has(combinedHash)) {
+      setAnalysis(fileCache.current.get(combinedHash)!);
+      setLoading(false);
+      return;
+    }
+
+    const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const model = "gemini-3-flash-preview";
+
+    // Convert files to parts
+    const fileParts = await Promise.all(files.map(async (f) => {
+      const buffer = await f.arrayBuffer();
+      const base64 = btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+      return {
+        inlineData: {
+          mimeType: f.type,
+          data: base64
+        }
+      };
+    }));
+
+    const config = {
+      tools: [
+        { googleSearch: {} },
+        { functionDeclarations: [searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration] }
+      ],
+      toolConfig: { includeServerSideToolInvocations: true },
+      responseMimeType: "application/json",
+      responseSchema: RESPONSE_SCHEMA as any,
+    };
+
+    let currentContents = await prepareDocumentContents(files);
+
+    const parsedData = await executeAIExtractionLoop(genAI, model, currentContents, config, apiMode, bureauApiKey);
+
+    const result = calculateRiskAndFraud(parsedData);
 
     fileCache.current.set(combinedHash, result);
     setAnalysis(result);
