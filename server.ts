@@ -4,6 +4,7 @@ import path from "path";
 import dotenv from "dotenv";
 import multer from "multer";
 import * as pdf from "pdf-parse";
+import cors from "cors";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ const upload = multer({
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 // API routes
