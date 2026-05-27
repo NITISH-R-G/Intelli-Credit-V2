@@ -43,7 +43,6 @@ export const downloadPDF = async (
 
     pdf.save('credit-appraisal-memo.pdf');
   } catch (err) {
-    console.error('Error generating PDF:', err);
     setError({
       message: 'PDF Generation Failed',
       details: err instanceof Error ? err.message : 'An unexpected error occurred while creating the PDF document.',

@@ -20,7 +20,7 @@ describe('calculateDisplayAnalysis', () => {
       liabilities: [{ year: '2023', value: 250000 }],
     },
     suggestedInterestRate: '10%',
-    suggestedLoanAmount: 500000,
+    suggestedLoanAmount: '500000',
     decisionConfidence: 80,
     fraudDetection: [],
     fraudFlags: [],
@@ -112,7 +112,7 @@ describe('calculateDisplayAnalysis', () => {
   describe('suggestedLoanAmount parsing', () => {
     it('handles numeric loan amount', () => {
       const mock = getBaseMockAnalysis();
-      mock.suggestedLoanAmount = 150000;
+      mock.suggestedLoanAmount = '150000';
       const result = calculateDisplayAnalysis(mock, -20, 0);
       // Using replace to remove narrow no-break space which might be added by toLocaleString in some environments
       const formatted = result?.suggestedLoanAmount.replace(/\u202F/g, ' ');

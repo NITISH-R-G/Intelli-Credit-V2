@@ -92,9 +92,7 @@ const getRiskGradeAndRecommendation = (riskScore: number): {
 };
 
 const parseBaseLoanAmount = (analysis: CreditAnalysis): number => {
-  if (typeof analysis.suggestedLoanAmount === 'number') {
-    return analysis.suggestedLoanAmount;
-  } else if (typeof analysis.suggestedLoanAmount === 'string') {
+  if (typeof analysis.suggestedLoanAmount === 'string') {
     const numbers = analysis.suggestedLoanAmount.match(/\d+(\.\d+)?/g);
     if (numbers && numbers.length > 0) {
       let baseLoanAmount = parseFloat(numbers[0]);
@@ -590,7 +588,6 @@ export const performAnalysis = async (
     fileCache.current.set(combinedHash, result);
     setAnalysis(result);
   } catch (err) {
-    console.error(err);
     const rawLogs = err instanceof Error ? err.stack || err.message : String(err);
     let appError: AppError = {
       message: 'Analysis Failed',
