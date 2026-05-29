@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
-import { downloadPDF } from '../export';
+import { downloadPDF, downloadJSON } from '../export';
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
+import { CreditAnalysis } from '../../types';
 
 // Mock the modules
 vi.mock('html-to-image', () => ({
@@ -103,5 +104,143 @@ describe('downloadPDF', () => {
     });
 
     expect(mockSetIsExporting).toHaveBeenCalledWith(false);
+  });
+});
+
+describe('downloadJSON', () => {
+  let mockSetError: Mock;
+  let originalCreateElement: typeof document.createElement;
+  let originalAppendChild: typeof document.body.appendChild;
+
+  const mockAnalysis: CreditAnalysis = {
+    companyInfo: {
+      name: 'Test Co Ltd',
+      establishedYear: 2010,
+      industry: 'Manufacturing',
+      registrationNumber: '123',
+      employees: '50',
+    },
+    structuredData: {
+      revenue: [],
+      debt: [],
+      cashflow: [],
+      profit: [],
+      assets: [],
+      liabilities: [],
+    },
+    suggestedInterestRate: '10%',
+    suggestedLoanAmount: '500000',
+    decisionConfidence: 80,
+    fraudDetection: [],
+    fraudFlags: [],
+    ratios: {
+      debtToIncome: 0.2,
+      profitMargin: 0.1,
+      currentRatio: 2.0,
+      dscr: 1.5,
+      icr: 2.0,
+    },
+    riskScore: 30,
+    riskLevel: 'Low',
+    riskGrade: 'AAA',
+    recommendation: 'Approve',
+    unstructuredInsights: {
+      boardMeetingNotes: [],
+      ratingAgencyReports: '',
+      shareholdingPattern: '',
+    },
+    externalIntelligence: {
+      mcaStatus: 'Active',
+      legalDisputes: [],
+      newsSectorTrends: [],
+    },
+    primaryInsights: {
+      siteVisitObservations: [],
+      managementInterviews: [],
+    },
+    verificationLayer: [],
+    fiveCs: {
+      character: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+      capacity: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+      capital: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+      collateral: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+      conditions: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+    },
+    camMarkdown: '',
+    riskAnalysisDetails: {
+      financialRisk: '',
+      legalRisk: '',
+      behavioralRisk: '',
+      industryRisk: '',
+      managementRisk: '',
+    },
+    explanation: '',
+    missingData: [],
+    requiredDocs: [],
+  };
+
+  beforeEach(() => {
+    mockSetError = vi.fn();
+    originalCreateElement = document.createElement.bind(document);
+    originalAppendChild = document.body.appendChild.bind(document.body);
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    document.createElement = originalCreateElement;
+    document.body.appendChild = originalAppendChild;
+    vi.restoreAllMocks();
+  });
+
+  it('returns early if analysis is null', () => {
+    downloadJSON(null, mockSetError);
+    // Since it returns early, no DOM methods should be called
+    expect(mockSetError).not.toHaveBeenCalled();
+  });
+
+  it('triggers a JSON download when analysis is provided', () => {
+    const mockAnchorNode = {
+      setAttribute: vi.fn(),
+      click: vi.fn(),
+      remove: vi.fn()
+    };
+    document.createElement = vi.fn().mockReturnValue(mockAnchorNode);
+    document.body.appendChild = vi.fn();
+
+    downloadJSON(mockAnalysis, mockSetError);
+
+    expect(document.createElement).toHaveBeenCalledWith('a');
+    expect(mockAnchorNode.setAttribute).toHaveBeenCalledWith(
+      'href',
+      expect.stringContaining('data:text/json;charset=utf-8,')
+    );
+    expect(mockAnchorNode.setAttribute).toHaveBeenCalledWith(
+      'download',
+      'cam-report-test-co-ltd.json'
+    );
+    expect(document.body.appendChild).toHaveBeenCalledWith(mockAnchorNode);
+    expect(mockAnchorNode.click).toHaveBeenCalled();
+    expect(mockAnchorNode.remove).toHaveBeenCalled();
+    expect(mockSetError).not.toHaveBeenCalled();
+  });
+
+  it('handles errors and calls setError with AppError format', () => {
+    // Force an error by making JSON.stringify throw
+    const originalStringify = JSON.stringify;
+    JSON.stringify = vi.fn().mockImplementation(() => {
+      throw new Error('Serialization failed');
+    });
+
+    downloadJSON(mockAnalysis, mockSetError);
+
+    expect(mockSetError).toHaveBeenCalledWith({
+      message: 'JSON Export Failed',
+      details: 'Serialization failed',
+      action: 'Check if the analysis data is complete.',
+      rawLogs: expect.any(String),
+      type: 'FILE_ERROR'
+    });
+
+    JSON.stringify = originalStringify;
   });
 });
