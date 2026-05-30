@@ -20,27 +20,35 @@ vi.mock('recharts', () => ({
   Legend: () => <div data-testid="legend" />,
 }));
 
-const mockAnalysis: CreditAnalysis = {
-  companyName: "Test Company",
-  overallRiskScore: 50,
-  overallRiskLevel: "Medium",
+const mockAnalysis = {
+  companyInfo: {
+    name: "Test Company",
+    establishedYear: "2010",
+    industry: "Tech",
+    registrationNumber: "1234",
+    employees: 100
+  },
+  riskScore: 50,
+  riskLevel: "Medium",
   executiveSummary: "A summary",
   keyFindings: ["Finding 1"],
   structuredData: {
     revenue: [{ year: "2021", value: 100 }, { year: "2022", value: 120 }],
     profit: [{ year: "2021", value: 20 }, { year: "2022", value: 25 }],
     debt: [{ year: "2021", value: 50 }, { year: "2022", value: 45 }],
-    cashflow: [{ year: "2021", value: 10 }, { year: "2022", value: 15 }]
+    cashflow: [{ year: "2021", value: 10 }, { year: "2022", value: 15 }],
+    assets: [{ year: "2021", value: 200 }, { year: "2022", value: 250 }],
+    liabilities: [{ year: "2021", value: 100 }, { year: "2022", value: 110 }]
   },
   verificationLayer: [],
   fraudFlags: [],
-  financialRatios: { dscr: 1.5, currentRatio: 2.0, debtToEquity: 1.0 },
+  ratios: { debtToIncome: 1.5, currentRatio: 2.0, profitMargin: 1.0 },
   fiveCs: {
-    character: { score: 80, notes: "Good" },
-    capacity: { score: 75, notes: "Good" },
-    capital: { score: 85, notes: "Good" },
-    collateral: { score: 60, notes: "Okay" },
-    conditions: { score: 70, notes: "Good" }
+    character: { score: 80, insights: ["Good"], redFlags: [], positiveSignals: [] },
+    capacity: { score: 75, insights: ["Good"], redFlags: [], positiveSignals: [] },
+    capital: { score: 85, insights: ["Good"], redFlags: [], positiveSignals: [] },
+    collateral: { score: 60, insights: ["Okay"], redFlags: [], positiveSignals: [] },
+    conditions: { score: 70, insights: ["Good"], redFlags: [], positiveSignals: [] }
   },
   suggestedLoanAmount: "₹ 1,00,000",
   suggestedInterestRate: "10%",
@@ -50,7 +58,7 @@ const mockAnalysis: CreditAnalysis = {
 
 describe('FinancialMetrics', () => {
   it('renders correctly', () => {
-    render(<FinancialMetrics analysis={mockAnalysis} />);
+    render(<FinancialMetrics analysis={mockAnalysis as unknown as CreditAnalysis} />);
 
     expect(screen.getByText('Financial Metrics (3-Year Trend)')).toBeInTheDocument();
     expect(screen.getByText('INR (₹)')).toBeInTheDocument();
