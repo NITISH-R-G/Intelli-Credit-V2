@@ -1,6 +1,75 @@
 import { describe, it, expect } from 'vitest';
-import { calculateDisplayAnalysis } from '../analysisService';
+import { calculateDisplayAnalysis, calculateRiskAndFraud } from '../analysisService';
 import { CreditAnalysis } from '../../types';
+
+describe('calculateRiskAndFraud', () => {
+  const getBaseMockParsedData = (): any => ({
+    companyInfo: {
+      name: 'Test Co',
+      establishedYear: 2010,
+      industry: 'Manufacturing',
+      registrationNumber: '123',
+      employees: '50',
+    },
+    structuredData: {
+      revenue: [{ year: '2023', value: 1000000 }],
+      debt: [{ year: '2023', value: 200000 }],
+      cashflow: [{ year: '2023', value: 150000 }],
+      profit: [{ year: '2023', value: 100000 }],
+      assets: [{ year: '2023', value: 500000 }],
+      liabilities: [{ year: '2023', value: 250000 }],
+    },
+    fraudDetection: [],
+    unstructuredInsights: {
+      boardMeetingNotes: [],
+      ratingAgencyReports: '',
+      shareholdingPattern: '',
+    },
+    externalIntelligence: {
+      mcaStatus: 'Active',
+      legalDisputes: [],
+      newsSectorTrends: [],
+    },
+    primaryInsights: {
+      siteVisitObservations: [],
+      managementInterviews: [],
+    },
+    verificationLayer: [],
+    fiveCs: {
+      character: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+      capacity: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+      capital: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+      collateral: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+      conditions: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
+    },
+  });
+
+  it('calculates risk for a healthy company correctly', () => {
+    const mock = getBaseMockParsedData();
+    const result = calculateRiskAndFraud(mock);
+    expect(result.riskLevel).toBe('Medium');
+    expect(result.riskScore).toBe(50);
+    expect(result.fraudFlags).toHaveLength(0);
+    expect(result.ratios.profitMargin).toBe(0.1);
+  });
+
+  it('flags extreme leverage', () => {
+    const mock = getBaseMockParsedData();
+    mock.structuredData.debt[0].value = 2000000;
+    mock.structuredData.assets[0].value = 500000; // debt > assets * 2
+    const result = calculateRiskAndFraud(mock);
+    expect(result.fraudFlags).toContain("Extreme leverage detected");
+  });
+
+  it('flags impossible state if profit > revenue', () => {
+    const mock = getBaseMockParsedData();
+    mock.structuredData.revenue[0].value = 100000;
+    mock.structuredData.profit[0].value = 150000; // profit > revenue
+    const result = calculateRiskAndFraud(mock);
+    expect(result.fraudFlags).toContain("Profit exceeds revenue (Impossible state)");
+    expect(result.recommendation).toBe('Reject');
+  });
+});
 
 describe('calculateDisplayAnalysis', () => {
   const getBaseMockAnalysis = (): CreditAnalysis => ({
