@@ -5,6 +5,10 @@ import { RiskScorePanel } from './components/RiskScorePanel';
 import { FinancialMetrics } from './components/FinancialMetrics';
 import { VerificationEngine } from './components/VerificationEngine';
 import { IntelligenceRow } from './components/IntelligenceRow';
+import { RiskDimensions } from './components/RiskDimensions';
+import { ActionRecommendation } from './components/ActionRecommendation';
+import { FraudFlags } from './components/FraudFlags';
+import { CAMReport } from './components/CAMReport';
 import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
 const StressTestingModule = React.lazy(() => import('./components/StressTestingModule'));
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
@@ -18,9 +22,6 @@ import {
   FileText, 
   Upload, 
   TrendingUp, 
-  TrendingDown,
-  Activity,
-  Users,
   AlertTriangle, 
   CheckCircle2, 
   XCircle,
@@ -28,13 +29,8 @@ import {
   Loader2,
   Info,
   Search,
-  FileWarning,
-  Building2,
-  Scale,
   Landmark,
   BadgeAlert,
-  Download,
-  FileDown,
   History,
   Fingerprint,
   Gavel,
@@ -54,11 +50,9 @@ import {
 } from 'recharts';
 import { cn } from './lib/utils';
 import { GoogleGenAI } from '@google/genai';
-import { downloadPDF, downloadJSON } from './lib/export';
 import { hashFile, fileToBase64, fileToText } from './lib/file-utils';
 import { searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration, callMcpTool, EXTRACTION_PROMPT, RESPONSE_SCHEMA } from './lib/gemini';
 
-import Markdown from 'react-markdown';
 
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -361,141 +355,15 @@ export default function App() {
 
             {/* Bottom Row: Risk Dimensions & Actions */}
             <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-3 gap-2">
-              
-              {/* Risk Dimensions */}
-              <div className="lg:col-span-2 border border-zinc-800 bg-[#0a0a0a] p-3">
-                <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-1 mb-3">
-                  Risk Dimensions Analysis
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {[
-                    { label: 'Financial Risk', value: analysis.riskAnalysisDetails.financialRisk, icon: TrendingDown },
-                    { label: 'Legal Risk', value: analysis.riskAnalysisDetails.legalRisk, icon: Scale },
-                    { label: 'Behavioral Risk', value: analysis.riskAnalysisDetails.behavioralRisk, icon: Activity },
-                    { label: 'Industry Risk', value: analysis.riskAnalysisDetails.industryRisk, icon: Building2 },
-                    { label: 'Management Risk', value: analysis.riskAnalysisDetails.managementRisk, icon: Users },
-                    ...(analysis.fraudDetection?.some(f => f.status !== 'Pass') ? [{
-                      label: 'Forensic Fraud Risk',
-                      value: `Detected ${analysis.fraudDetection.filter(f => f.status === 'Fail').length} critical flags and ${analysis.fraudDetection.filter(f => f.status === 'Warning').length} warnings in forensic checks.`,
-                      icon: ShieldAlert
-                    }] : [])
-                  ].map((dim, i) => (
-                    <div key={i} className="flex gap-3 items-start">
-                      <div className="mt-0.5 p-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400">
-                        <dim.icon className="w-3 h-3" />
-                      </div>
-                      <div>
-                        <div className="text-xs text-zinc-500 uppercase mb-0.5">{dim.label}</div>
-                        <div className="text-xs text-zinc-300 leading-relaxed">{dim.value}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Required & Recommendation */}
-              <div className="lg:col-span-1 flex flex-col gap-2">
-                <div className="border border-zinc-800 bg-[#0a0a0a] p-3 flex-1">
-                  <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-1 mb-2 flex items-center gap-2">
-                    <FileWarning className="w-3 h-3 text-amber-500" />
-                    <span>Action Required</span>
-                  </div>
-                  
-                  {analysis.missingData.length > 0 && (
-                    <div className="mb-3">
-                      <div className="text-[10px] text-rose-400 uppercase mb-1">Missing Critical Data</div>
-                      <ul className="list-disc list-inside text-xs text-zinc-400 space-y-0.5">
-                        {analysis.missingData.map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {analysis.requiredDocs.length > 0 && (
-                    <div>
-                      <div className="text-[10px] text-amber-400 uppercase mb-1">Required Documents</div>
-                      <ul className="list-disc list-inside text-xs text-zinc-400 space-y-0.5">
-                        {analysis.requiredDocs.map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {analysis.missingData.length === 0 && analysis.requiredDocs.length === 0 && (
-                    <div className="text-xs text-emerald-500 flex items-center gap-2 mt-2">
-                      <CheckCircle2 className="w-3 h-3" />
-                      <span>All required data present.</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className={`border p-3 ${
-                  analysis.recommendation.includes('Approve') ? 'border-emerald-900 bg-emerald-950/20' :
-                  analysis.recommendation.includes('Reject') ? 'border-rose-900 bg-rose-950/20' :
-                  'border-amber-900 bg-amber-950/20'
-                }`}>
-                  <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800/50 pb-1 mb-2">
-                    Final Recommendation
-                  </div>
-                  <div className={`text-lg uppercase tracking-wider mb-2 ${
-                    analysis.recommendation.includes('Approve') ? 'text-emerald-500' :
-                    analysis.recommendation.includes('Reject') ? 'text-rose-500' :
-                    'text-amber-500'
-                  }`}>
-                    {analysis.recommendation}
-                  </div>
-                  <p className="text-xs text-zinc-400 leading-relaxed">
-                    {analysis.explanation}
-                  </p>
-                </div>
-              </div>
-
+              <RiskDimensions analysis={analysis} />
+              <ActionRecommendation analysis={analysis} />
             </div>
 
             {/* Fraud Flags */}
-            {analysis.fraudFlags.length > 0 && (
-              <div className="lg:col-span-12 border border-rose-900 bg-rose-950/10 p-3 mt-2">
-                <div className="text-xs uppercase text-rose-500 border-b border-rose-900/50 pb-1 mb-2 flex items-center gap-2">
-                  <AlertTriangle className="w-3 h-3" />
-                  <span>Critical Risk Flags Detected</span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                  {analysis.fraudFlags.map((flag, index) => (
-                    <div key={index} className="flex items-start gap-2 text-xs text-rose-400 bg-rose-950/30 p-2 border border-rose-900/50">
-                      <span className="text-rose-500 font-bold">!</span>
-                      <span>{flag}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <FraudFlags analysis={analysis} />
 
             {/* CAM Report Section */}
-            <div id="cam-report" className="lg:col-span-12 border border-zinc-800 bg-[#0a0a0a] p-4">
-              <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-2 mb-4 flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <FileDown className="w-4 h-4 text-amber-500" />
-                  <span className="text-sm font-bold tracking-widest">Credit Appraisal Memo (CAM)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button 
-                    onClick={() => downloadJSON(analysis, setError)}
-                    className="flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1 text-[10px] transition-colors"
-                  >
-                    <Download className="w-3 h-3" /> EXPORT JSON
-                  </button>
-                  <button 
-                    onClick={() => downloadPDF('cam-report', setIsExporting, setError)}
-                    disabled={isExporting}
-                    className="flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1 text-[10px] transition-colors disabled:opacity-50"
-                  >
-                    <Download className="w-3 h-3" /> {isExporting ? 'EXPORTING...' : 'EXPORT PDF'}
-                  </button>
-                </div>
-              </div>
-
-              <div className="prose prose-invert prose-sm max-w-none prose-headings:text-amber-500 prose-headings:uppercase prose-headings:tracking-widest prose-a:text-cyan-400 prose-strong:text-zinc-200">
-                <Markdown>{analysis.camMarkdown}</Markdown>
-              </div>
-            </div>
+            <CAMReport analysis={analysis} isExporting={isExporting} setIsExporting={setIsExporting} setError={setError} />
 
             <div className="lg:col-span-12 flex justify-end mt-4">
               <button
