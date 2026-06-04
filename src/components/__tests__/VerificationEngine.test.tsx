@@ -10,47 +10,36 @@ describe('VerificationEngine', () => {
   });
 
   const mockAnalysis: CreditAnalysis = {
-    metadata: {
-      dateAnalyzed: '2023-10-27',
-      documentIds: ['doc1'],
-      analyzedBy: 'Test User'
-    },
+    companyInfo: { name: 'Test Corp', establishedYear: 2020, industry: 'Tech', registrationNumber: '123', employees: 50 },
+
     structuredData: {
       revenue: [{ year: '2021', value: 100 }, { year: '2022', value: 150 }, { year: '2023', value: 200 }],
       profit: [{ year: '2021', value: 10 }, { year: '2022', value: 15 }, { year: '2023', value: 20 }],
       debt: [{ year: '2021', value: 50 }, { year: '2022', value: 40 }, { year: '2023', value: 30 }],
-      cashflow: 50,
-      assets: 300,
-      liabilities: 100,
-      ebitda: 60
+      cashflow: [{ year: "2023", value: 50 }],
+      assets: [{ year: "2023", value: 300 }],
+      liabilities: [{ year: "2023", value: 100 }],
     },
     unstructuredInsights: {
-      managementQuality: 'Good',
-      marketPosition: 'Strong',
-      regulatoryRisks: 'None',
-      operationalRisks: 'Low',
-      keyContracts: ['Contract A']
+      boardMeetingNotes: ['note1'], ratingAgencyReports: 'report1', shareholdingPattern: 'pattern1'
     },
     fiveCs: {
-      character: { score: 8, reasoning: 'Strong history.' },
-      capacity: { score: 9, reasoning: 'High cashflow.' },
-      capital: { score: 7, reasoning: 'Good reserves.' },
-      collateral: { score: 8, reasoning: 'Solid assets.' },
-      conditions: { score: 7, reasoning: 'Stable market.' }
+      character: { score: 8, insights: ['Strong history.'], redFlags: [], positiveSignals: [] },
+      capacity: { score: 9, insights: ['High cashflow.'], redFlags: [], positiveSignals: [] },
+      capital: { score: 7, insights: ['Good reserves.'], redFlags: [], positiveSignals: [] },
+      collateral: { score: 8, insights: ['Solid assets.'], redFlags: [], positiveSignals: [] },
+      conditions: { score: 7, insights: ['Stable market.'], redFlags: [], positiveSignals: [] }
     },
-    riskFlags: [
-      { type: 'Alert', description: 'Test Alert', severity: 'Medium' }
-    ],
     fraudDetection: [
       { category: 'Identity', indicator: 'Mismatched Director PAN', status: 'Fail', details: 'PAN does not match MCA records.', evidence: 'MCA Database' }
     ],
     verificationLayer: [
-      { category: 'Financials', dataPoint: 'Revenue', source: 'ITR', status: 'Verified', confidenceScore: 95 }
+      { category: 'Financials', dataPoint: 'Revenue', source: 'ITR', status: 'Verified', confidenceScore: 95, notes: '' }
     ],
     shellCompanyAnalysis: {
       isPotentialShell: true,
       riskLevel: 'High',
-      employeeCount: '0-5',
+      employeeCount: 5,
       officeType: 'Virtual',
       operationalEvidence: ['No website', 'No physical office'],
       indicators: [
@@ -68,13 +57,26 @@ describe('VerificationEngine', () => {
     externalIntelligence: {
       mcaStatus: 'Active',
       legalDisputes: ['Case 1'],
-      cibilScore: 750,
-      newsSentiment: 'Neutral'
+      newsSectorTrends: ['Trend 1']
     },
     decisionConfidence: 85,
     suggestedLoanAmount: '1,000,000',
+    primaryInsights: { siteVisitObservations: [], managementInterviews: [] },
     suggestedInterestRate: '10.5%',
-    recommendation: 'Approve'
+    recommendation: 'Approve',
+    camMarkdown: '',
+    riskAnalysisDetails: {
+      financialRisk: '', legalRisk: '', behavioralRisk: '', industryRisk: '', managementRisk: ''
+    },
+    ratios: { debtToIncome: 0, profitMargin: 0, currentRatio: 0 },
+    riskScore: 50,
+    riskLevel: 'Medium',
+    explanation: '',
+    riskGrade: 'B',
+    fraudFlags: [],
+    missingData: [],
+    requiredDocs: [],
+
   };
 
   it('renders Trust Engine Verification Log correctly', () => {
