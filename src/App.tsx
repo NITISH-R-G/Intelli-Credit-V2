@@ -54,7 +54,8 @@ import {
 import { cn } from './lib/utils';
 import { GoogleGenAI } from '@google/genai';
 import { hashFile, fileToBase64, fileToText } from './lib/file-utils';
-import { searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration, callMcpTool, EXTRACTION_PROMPT, RESPONSE_SCHEMA } from './lib/gemini';
+import { callMcpTool } from './lib/gemini';
+import { searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration, EXTRACTION_PROMPT, RESPONSE_SCHEMA } from './lib/gemini-config';
 
 
 export default function App() {
