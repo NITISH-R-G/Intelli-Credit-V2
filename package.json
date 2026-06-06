@@ -16,7 +16,8 @@
     "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
     "ai:review": "tsx scripts/automation/ai-reviewer.ts",
-    "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts"
+    "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
+    "fix": "tsx scripts/automation/auto-fix.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
