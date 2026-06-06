@@ -1,0 +1,45 @@
+name: Self-Updating README
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_run:
+    workflows: ["Autonomous Repository Analysis"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref || github.ref_name }}
+        fetch-depth: 0 # Need full history for changelog/commit history
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run README Generator
+      run: npm run generate:readme
+      continue-on-error: true
+
+    - name: Commit README Updates
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add README.md docs/ || true
+        if ! git diff-index --quiet HEAD; then
+          git commit -m "docs: Auto-update README and Documentation [skip ci]"
+          git push
+        fi
