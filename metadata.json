@@ -56,7 +56,8 @@
     "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
     "ai:review": "tsx scripts/automation/ai-reviewer.ts",
-    "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts"
+    "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
+    "fix": "tsx scripts/automation/auto-fix.ts"
   },
   "frameworks": [
     "React",
@@ -67,12 +68,26 @@
   "structure": {
     ".env.example": "file",
     ".github": {
+      "CODEOWNERS": "file",
+      "ISSUE_TEMPLATE": {
+        "bug_report.md": "file",
+        "feature_request.md": "file"
+      },
+      "PULL_REQUEST_TEMPLATE": {
+        "pull_request_template.md": "file"
+      },
+      "dependabot.yml": "file",
+      "labeler.yml": "file",
       "workflows": {
         "ai-documentation-agent.yml": "file",
         "autonomous-repo-analysis.yml": "file",
         "ci-cd-automation.yml": "file",
+        "codeql.yml": "file",
+        "greetings.yml": "file",
+        "labeler.yml": "file",
         "repo-health-dashboard.yml": "file",
-        "self-updating-readme.yml": "file"
+        "self-updating-readme.yml": "file",
+        "stale.yml": "file"
       }
     },
     ".gitignore": "file",
@@ -88,6 +103,7 @@
     },
     "docs": {
       "architecture": {
+        "SERVICE_MAP.md": "file",
         "dependency-graph.md": "file"
       },
       "dashboard.html": "file"
@@ -99,6 +115,7 @@
     "scripts": {
       "automation": {
         "ai-reviewer.ts": "file",
+        "auto-fix.ts": "file",
         "generate-dashboard.ts": "file",
         "generate-diagrams.ts": "file",
         "generate-readme.ts": "file",
