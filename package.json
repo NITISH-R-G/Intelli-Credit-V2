@@ -11,7 +11,11 @@
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "analyze:repo": "tsx scripts/automation/repo-analyzer.ts",
+    "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
+    "generate:readme": "tsx scripts/automation/generate-readme.ts",
+    "ai:review": "tsx scripts/automation/ai-reviewer.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -49,7 +53,7 @@
     "autoprefixer": "^10.4.21",
     "jsdom": "^29.1.1",
     "tailwindcss": "^4.1.14",
-    "tsx": "^4.21.0",
+    "tsx": "^4.22.4",
     "typescript": "~5.8.2",
     "vite": "^6.4.2",
     "vitest": "^4.1.7"

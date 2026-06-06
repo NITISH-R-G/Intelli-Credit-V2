@@ -33,3 +33,60 @@ Intelli-Credit Terminal is an advanced, automated corporate credit appraisal app
 ## ⚙️ Installation & Local Setup
 
 1. **Clone the repository:**
+
+
+<!-- AUTO-GENERATED-SECTION-START -->
+## 🤖 Auto-Generated Repository Analytics
+
+
+![CI/CD](https://github.com/your-org/your-repo/actions/workflows/ci-cd-automation.yml/badge.svg)
+![Repo Analysis](https://github.com/your-org/your-repo/actions/workflows/autonomous-repo-analysis.yml/badge.svg)
+
+
+### Project Overview
+- **Name:** Intelli-Credit
+- **Version:** 0.0.0
+- **Detected Frameworks:** None detected
+
+### Technology Stack & Dependencies
+*No dependencies found*
+
+### Available Scripts
+
+
+### Environment Variables
+| Variable | Example Value |
+|---|---|
+| `VITE_ECOURTS_API_KEY` | `` |
+
+### Architecture & System Design
+# Architecture & Dependencies
+
+This diagram is auto-generated based on the repository structure and dependencies.
+
+```mermaid
+graph TD;
+  Root["Intelli-Credit"]
+```
+
+### Setup & Deployment Instructions
+1. **Install Dependencies:**
+   ```bash
+   npm ci
+   ```
+2. **Set Environment Variables:**
+   Copy `.env.example` to `.env` and configure appropriately.
+3. **Run Application:**
+   ```bash
+   npm run dev
+   ```
+4. **Deployment:**
+   Configure your deployment target (e.g., Vercel, Node server) to run the `build` script and serve the output directory.
+
+### AI Automated Maintenance
+This repository is self-maintaining:
+- **CI/CD Automation:** Runs tests, linting, and security audits automatically.
+- **Repository Analysis:** Weekly scheduled tasks map the codebase structure.
+- **AI Documentation Agent:** An AI automatically reviews PRs and updates documentation based on detected architectural changes.
+
+<!-- AUTO-GENERATED-SECTION-END -->
