@@ -51,7 +51,14 @@ Tasks:
 1. Summarize the changes made in this Pull Request.
 2. Detect any architectural modifications (new dependencies, new routes, database changes, etc.).
 3. Generate missing documentation strings or identify areas that lack documentation.
-4. Provide recommendations for the developer to improve code quality or architecture.
+4. Assess documentation quality and consistency.
+5. Identify any potential security concerns or vulnerabilities introduced in the diff.
+6. Identify potential performance regressions.
+7. Suggest missing test coverage for the changes.
+8. Provide recommendations for the developer to improve code quality or architecture.
+9. Generate actionable code fixes in diff format where issues are found.
+
+Remember to act as a senior staff engineer: explain your findings, recommend fixes, and prioritize issues accurately.
 `;
 
   let responseText = "";

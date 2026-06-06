@@ -19,6 +19,45 @@ const buildMermaidFromStructure = (structure: any, parentNode: string, depth = 0
   }
 };
 
+const generateServiceMap = () => {
+  const metadataPath = path.resolve(process.cwd(), 'metadata.json');
+  if (!fs.existsSync(metadataPath)) return '';
+
+  const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+
+  // We only look at src directory if it exists
+  const srcStructure = metadata.structure?.src;
+  if (!srcStructure) return '';
+
+  const lines: string[] = [];
+  lines.push("```mermaid");
+  lines.push("graph LR;");
+  lines.push(`  subgraph Application Services`);
+
+  // Simple mapping: top level folders in src map to services/modules
+  for (const [key, value] of Object.entries(srcStructure)) {
+    if (typeof value === 'object' && value !== null && key !== '__tests__') {
+       lines.push(`    ${sanitize(key)}["${key.toUpperCase()}"]`);
+    }
+  }
+
+  // Create some implicit relationships based on common architectural patterns
+  if (srcStructure['components'] && srcStructure['services']) {
+    lines.push(`    components --> services`);
+  }
+  if (srcStructure['services'] && srcStructure['lib']) {
+    lines.push(`    services --> lib`);
+  }
+  if (srcStructure['components'] && srcStructure['lib']) {
+    lines.push(`    components --> lib`);
+  }
+
+  lines.push(`  end`);
+  lines.push("```");
+
+  return lines.join('\n');
+};
+
 const generateArchitectureGraph = () => {
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
   if (!fs.existsSync(metadataPath)) return '';
@@ -62,9 +101,17 @@ const main = () => {
   const mermaidGraph = generateArchitectureGraph();
   if (mermaidGraph) {
     fs.writeFileSync(path.join(outDir, 'dependency-graph.md'), `# Architecture & Dependencies\n\nThis diagram is auto-generated based on the repository structure and dependencies.\n\n${mermaidGraph}`);
-    console.log("Interactive Diagrams generated successfully.");
+    console.log("Interactive Dependency Diagram generated successfully.");
   } else {
     console.warn("Could not generate diagram. metadata.json might be missing.");
+  }
+
+  const serviceMap = generateServiceMap();
+  if (serviceMap) {
+    fs.writeFileSync(path.join(outDir, 'SERVICE_MAP.md'), `# Service Map\n\nThis diagram is auto-generated based on the application's source modules.\n\n${serviceMap}`);
+    console.log("Interactive Service Map generated successfully.");
+  } else {
+    console.warn("Could not generate service map. metadata.json might be missing or src/ not found.");
   }
 };
 
