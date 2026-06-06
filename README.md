@@ -88,6 +88,7 @@ Intelli-Credit Terminal is an advanced, automated corporate credit appraisal app
 | `npm run generate:readme` | `tsx scripts/automation/generate-readme.ts` |
 | `npm run ai:review` | `tsx scripts/automation/ai-reviewer.ts` |
 | `npm run generate:dashboard` | `tsx scripts/automation/generate-dashboard.ts` |
+| `npm run fix` | `tsx scripts/automation/auto-fix.ts` |
 
 ### Environment Variables
 | Variable | Example Value |
@@ -104,12 +105,24 @@ graph TD;
   Root["react-example"]
   Root --> Root__env_example[".env.example"]
   Root --> Root__github[".github"]
+  Root__github --> Root__github_CODEOWNERS["CODEOWNERS"]
+  Root__github --> Root__github_ISSUE_TEMPLATE["ISSUE_TEMPLATE"]
+  Root__github_ISSUE_TEMPLATE --> Root__github_ISSUE_TEMPLATE_bug_report_md["bug_report.md"]
+  Root__github_ISSUE_TEMPLATE --> Root__github_ISSUE_TEMPLATE_feature_request_md["feature_request.md"]
+  Root__github --> Root__github_PULL_REQUEST_TEMPLATE["PULL_REQUEST_TEMPLATE"]
+  Root__github_PULL_REQUEST_TEMPLATE --> Root__github_PULL_REQUEST_TEMPLATE_pull_request_template_md["pull_request_template.md"]
+  Root__github --> Root__github_dependabot_yml["dependabot.yml"]
+  Root__github --> Root__github_labeler_yml["labeler.yml"]
   Root__github --> Root__github_workflows["workflows"]
   Root__github_workflows --> Root__github_workflows_ai_documentation_agent_yml["ai-documentation-agent.yml"]
   Root__github_workflows --> Root__github_workflows_autonomous_repo_analysis_yml["autonomous-repo-analysis.yml"]
   Root__github_workflows --> Root__github_workflows_ci_cd_automation_yml["ci-cd-automation.yml"]
+  Root__github_workflows --> Root__github_workflows_codeql_yml["codeql.yml"]
+  Root__github_workflows --> Root__github_workflows_greetings_yml["greetings.yml"]
+  Root__github_workflows --> Root__github_workflows_labeler_yml["labeler.yml"]
   Root__github_workflows --> Root__github_workflows_repo_health_dashboard_yml["repo-health-dashboard.yml"]
   Root__github_workflows --> Root__github_workflows_self_updating_readme_yml["self-updating-readme.yml"]
+  Root__github_workflows --> Root__github_workflows_stale_yml["stale.yml"]
   Root --> Root__gitignore[".gitignore"]
   Root --> Root_README_md["README.md"]
   Root --> Root_cycle_1_report_md["cycle_1_report.md"]
@@ -122,6 +135,7 @@ graph TD;
   Root_dev --> Root_dev_plan_md["plan.md"]
   Root --> Root_docs["docs"]
   Root_docs --> Root_docs_architecture["architecture"]
+  Root_docs_architecture --> Root_docs_architecture_SERVICE_MAP_md["SERVICE_MAP.md"]
   Root_docs_architecture --> Root_docs_architecture_dependency_graph_md["dependency-graph.md"]
   Root_docs --> Root_docs_dashboard_html["dashboard.html"]
   Root --> Root_index_html["index.html"]
@@ -131,6 +145,7 @@ graph TD;
   Root --> Root_scripts["scripts"]
   Root_scripts --> Root_scripts_automation["automation"]
   Root_scripts_automation --> Root_scripts_automation_ai_reviewer_ts["ai-reviewer.ts"]
+  Root_scripts_automation --> Root_scripts_automation_auto_fix_ts["auto-fix.ts"]
   Root_scripts_automation --> Root_scripts_automation_generate_dashboard_ts["generate-dashboard.ts"]
   Root_scripts_automation --> Root_scripts_automation_generate_diagrams_ts["generate-diagrams.ts"]
   Root_scripts_automation --> Root_scripts_automation_generate_readme_ts["generate-readme.ts"]
