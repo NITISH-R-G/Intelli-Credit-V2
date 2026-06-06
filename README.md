@@ -87,6 +87,7 @@ Intelli-Credit Terminal is an advanced, automated corporate credit appraisal app
 | `npm run generate:diagrams` | `tsx scripts/automation/generate-diagrams.ts` |
 | `npm run generate:readme` | `tsx scripts/automation/generate-readme.ts` |
 | `npm run ai:review` | `tsx scripts/automation/ai-reviewer.ts` |
+| `npm run generate:dashboard` | `tsx scripts/automation/generate-dashboard.ts` |
 
 ### Environment Variables
 | Variable | Example Value |
@@ -107,6 +108,7 @@ graph TD;
   Root__github_workflows --> Root__github_workflows_ai_documentation_agent_yml["ai-documentation-agent.yml"]
   Root__github_workflows --> Root__github_workflows_autonomous_repo_analysis_yml["autonomous-repo-analysis.yml"]
   Root__github_workflows --> Root__github_workflows_ci_cd_automation_yml["ci-cd-automation.yml"]
+  Root__github_workflows --> Root__github_workflows_repo_health_dashboard_yml["repo-health-dashboard.yml"]
   Root__github_workflows --> Root__github_workflows_self_updating_readme_yml["self-updating-readme.yml"]
   Root --> Root__gitignore[".gitignore"]
   Root --> Root_README_md["README.md"]
@@ -121,6 +123,7 @@ graph TD;
   Root --> Root_docs["docs"]
   Root_docs --> Root_docs_architecture["architecture"]
   Root_docs_architecture --> Root_docs_architecture_dependency_graph_md["dependency-graph.md"]
+  Root_docs --> Root_docs_dashboard_html["dashboard.html"]
   Root --> Root_index_html["index.html"]
   Root --> Root_metadata_json["metadata.json"]
   Root --> Root_package_lock_json["package-lock.json"]
@@ -128,6 +131,7 @@ graph TD;
   Root --> Root_scripts["scripts"]
   Root_scripts --> Root_scripts_automation["automation"]
   Root_scripts_automation --> Root_scripts_automation_ai_reviewer_ts["ai-reviewer.ts"]
+  Root_scripts_automation --> Root_scripts_automation_generate_dashboard_ts["generate-dashboard.ts"]
   Root_scripts_automation --> Root_scripts_automation_generate_diagrams_ts["generate-diagrams.ts"]
   Root_scripts_automation --> Root_scripts_automation_generate_readme_ts["generate-readme.ts"]
   Root_scripts_automation --> Root_scripts_automation_repo_analyzer_ts["repo-analyzer.ts"]
