@@ -1,5 +1,176 @@
 {
-  "name": "Intelli-Credit",
-  "description": "AI-powered credit risk analysis and fraud detection system for financial documents.",
-  "requestFramePermissions": []
+  "name": "react-example",
+  "description": "",
+  "version": "0.0.0",
+  "dependencies": {
+    "@google/genai": "^1.29.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "clsx": "^2.1.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "html-to-image": "^1.11.13",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.38.0",
+    "multer": "^2.1.1",
+    "pdf-parse": "^2.4.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-dropzone": "^15.0.0",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.8.1",
+    "tailwind-merge": "^3.5.0",
+    "vite": "^6.4.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^22.14.0",
+    "@types/pdf-parse": "^1.1.5",
+    "@vitest/coverage-v8": "^4.1.7",
+    "autoprefixer": "^10.4.21",
+    "jsdom": "^29.1.1",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.22.4",
+    "typescript": "~5.8.2",
+    "vite": "^6.4.2",
+    "vitest": "^4.1.7"
+  },
+  "scripts": {
+    "dev": "tsx server.ts",
+    "build": "vite build",
+    "start": "node --experimental-strip-types server.ts",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "analyze:repo": "tsx scripts/automation/repo-analyzer.ts",
+    "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
+    "generate:readme": "tsx scripts/automation/generate-readme.ts",
+    "ai:review": "tsx scripts/automation/ai-reviewer.ts"
+  },
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
+  "structure": {
+    ".env.example": "file",
+    ".github": {
+      "workflows": {
+        "ai-documentation-agent.yml": "file",
+        "autonomous-repo-analysis.yml": "file",
+        "ci-cd-automation.yml": "file",
+        "self-updating-readme.yml": "file"
+      }
+    },
+    ".gitignore": "file",
+    "README.md": "file",
+    "cycle_1_report.md": "file",
+    "cycle_2_report.md": "file",
+    "cycle_3_report.md": "file",
+    "cycle_4_report.md": "file",
+    "cycle_5_report.md": "file",
+    "cycle_6_report.md": "file",
+    "dev": {
+      "plan.md": "file"
+    },
+    "docs": {
+      "architecture": {
+        "dependency-graph.md": "file"
+      }
+    },
+    "index.html": "file",
+    "metadata.json": "file",
+    "package-lock.json": "file",
+    "package.json": "file",
+    "scripts": {
+      "automation": {
+        "ai-reviewer.ts": "file",
+        "generate-diagrams.ts": "file",
+        "generate-readme.ts": "file",
+        "repo-analyzer.ts": "file"
+      }
+    },
+    "server.ts": "file",
+    "src": {
+      "App.tsx": "file",
+      "__tests__": {
+        "App.test.tsx": "file"
+      },
+      "components": {
+        "ActionRecommendation.tsx": "file",
+        "CAMReport.tsx": "file",
+        "CompanyProfile.tsx": "file",
+        "DataIngestion.tsx": "file",
+        "DecisionPanel.tsx": "file",
+        "ErrorDisplay.tsx": "file",
+        "FinancialMetrics.tsx": "file",
+        "FiveCsAnalysis.tsx": "file",
+        "FraudFlags.tsx": "file",
+        "IndustryBenchmarking.tsx": "file",
+        "IntelligenceRow.tsx": "file",
+        "RiskDimensions.tsx": "file",
+        "RiskScorePanel.tsx": "file",
+        "StressTestingModule.tsx": "file",
+        "VerificationEngine.tsx": "file",
+        "__tests__": {
+          "ActionRecommendation.test.tsx": "file",
+          "CAMReport.test.tsx": "file",
+          "CompanyProfile.test.tsx": "file",
+          "DataIngestion.test.tsx": "file",
+          "DecisionPanel.test.tsx": "file",
+          "ErrorDisplay.test.tsx": "file",
+          "FinancialMetrics.test.tsx": "file",
+          "FiveCsAnalysis.test.tsx": "file",
+          "FraudFlags.test.tsx": "file",
+          "IndustryBenchmarking.test.tsx": "file",
+          "IntelligenceRow.test.tsx": "file",
+          "RiskDimensions.test.tsx": "file",
+          "RiskScorePanel.test.tsx": "file",
+          "StressTestingModule.test.tsx": "file",
+          "VerificationEngine.test.tsx": "file"
+        }
+      },
+      "constants.ts": "file",
+      "index.css": "file",
+      "lib": {
+        "__tests__": {
+          "export.test.ts": "file",
+          "file-utils.test.ts": "file",
+          "gemini.test.ts": "file"
+        },
+        "export.ts": "file",
+        "file-utils.test.ts": "file",
+        "file-utils.ts": "file",
+        "gemini-config.ts": "file",
+        "gemini.ts": "file",
+        "utils.test.ts": "file",
+        "utils.ts": "file"
+      },
+      "main.tsx": "file",
+      "services": {
+        "__tests__": {
+          "analysisService.test.ts": "file"
+        },
+        "analysisService.ts": "file"
+      },
+      "types.ts": "file",
+      "vite-env.d.ts": "file"
+    },
+    "test-pdf.ts": "file",
+    "test-pdf2.ts": "file",
+    "tsconfig.json": "file",
+    "vercel.json": "file",
+    "vite.config.ts": "file"
+  }
 }
