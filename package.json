@@ -15,7 +15,8 @@
     "analyze:repo": "tsx scripts/automation/repo-analyzer.ts",
     "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
-    "ai:review": "tsx scripts/automation/ai-reviewer.ts"
+    "ai:review": "tsx scripts/automation/ai-reviewer.ts",
+    "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
