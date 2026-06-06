@@ -55,7 +55,8 @@
     "analyze:repo": "tsx scripts/automation/repo-analyzer.ts",
     "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
-    "ai:review": "tsx scripts/automation/ai-reviewer.ts"
+    "ai:review": "tsx scripts/automation/ai-reviewer.ts",
+    "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts"
   },
   "frameworks": [
     "React",
@@ -70,6 +71,7 @@
         "ai-documentation-agent.yml": "file",
         "autonomous-repo-analysis.yml": "file",
         "ci-cd-automation.yml": "file",
+        "repo-health-dashboard.yml": "file",
         "self-updating-readme.yml": "file"
       }
     },
@@ -87,7 +89,8 @@
     "docs": {
       "architecture": {
         "dependency-graph.md": "file"
-      }
+      },
+      "dashboard.html": "file"
     },
     "index.html": "file",
     "metadata.json": "file",
@@ -96,6 +99,7 @@
     "scripts": {
       "automation": {
         "ai-reviewer.ts": "file",
+        "generate-dashboard.ts": "file",
         "generate-diagrams.ts": "file",
         "generate-readme.ts": "file",
         "repo-analyzer.ts": "file"
