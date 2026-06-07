@@ -1,5 +1,52 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { fileToBase64, fileToText } from '../file-utils';
+import { fileToBase64, fileToText, hashFile } from '../file-utils';
+
+describe('hashFile', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('should resolve with the correct hash hex string on success', async () => {
+    const file = new File(['test data'], 'test.txt', { type: 'text/plain' });
+
+    // Create a dummy digest buffer to return from our mock
+    // 32 bytes for SHA-256
+    const dummyHashArray = new Uint8Array(32);
+    dummyHashArray.fill(10); // 0a in hex
+    const dummyHashBuffer = dummyHashArray.buffer;
+
+    const mockDigest = vi.fn().mockResolvedValue(dummyHashBuffer);
+    vi.stubGlobal('crypto', {
+      subtle: {
+        digest: mockDigest,
+      },
+    });
+
+    const result = await hashFile(file);
+
+    expect(mockDigest).toHaveBeenCalledWith('SHA-256', expect.any(ArrayBuffer));
+    // Each byte is 10, which is '0a' in hex. 32 bytes = 64 characters of '0a'
+    const expectedHash = '0a'.repeat(32);
+    expect(result).toBe(expectedHash);
+  });
+
+  it('should reject if crypto.subtle.digest throws an error', async () => {
+    const file = new File(['test data'], 'test.txt', { type: 'text/plain' });
+
+    const mockDigest = vi.fn().mockRejectedValue(new Error('Mock crypto error'));
+    vi.stubGlobal('crypto', {
+      subtle: {
+        digest: mockDigest,
+      },
+    });
+
+    await expect(hashFile(file)).rejects.toThrow('Mock crypto error');
+  });
+});
 
 describe('fileToBase64', () => {
   const originalFileReader = global.FileReader;
@@ -18,6 +65,12 @@ describe('fileToBase64', () => {
     const result = await fileToBase64(file);
     // 'test' in base64 is 'dGVzdA=='
     expect(result).toBe('dGVzdA==');
+  });
+
+  it('should handle empty file correctly', async () => {
+    const file = new File([], 'empty.txt', { type: 'text/plain' });
+    const result = await fileToBase64(file);
+    expect(result).toBe('');
   });
 
   it('should reject when result is not a string', async () => {
