@@ -105,6 +105,46 @@ describe('downloadPDF', () => {
 
     expect(mockSetIsExporting).toHaveBeenCalledWith(false);
   });
+
+  it('handles non-Error objects thrown during PDF generation and calls setError', async () => {
+    const mockElement = { offsetWidth: 1000, offsetHeight: 1000 } as HTMLElement;
+    document.getElementById = vi.fn().mockReturnValue(mockElement);
+
+    (toPng as Mock).mockRejectedValue('String error');
+
+    await downloadPDF('test-id', mockSetIsExporting, mockSetError);
+
+    expect(mockSetError).toHaveBeenCalledWith({
+      message: 'PDF Generation Failed',
+      details: 'An unexpected error occurred while creating the PDF document.',
+      action: 'Try refreshing the page or using a different browser.',
+      rawLogs: 'String error',
+      type: 'FILE_ERROR'
+    });
+
+    expect(mockSetIsExporting).toHaveBeenCalledWith(false);
+  });
+
+  it('handles Error objects without a stack property thrown during PDF generation', async () => {
+    const mockElement = { offsetWidth: 1000, offsetHeight: 1000 } as HTMLElement;
+    document.getElementById = vi.fn().mockReturnValue(mockElement);
+
+    const errorWithoutStack = new Error('Error without stack');
+    delete errorWithoutStack.stack;
+    (toPng as Mock).mockRejectedValue(errorWithoutStack);
+
+    await downloadPDF('test-id', mockSetIsExporting, mockSetError);
+
+    expect(mockSetError).toHaveBeenCalledWith({
+      message: 'PDF Generation Failed',
+      details: 'Error without stack',
+      action: 'Try refreshing the page or using a different browser.',
+      rawLogs: 'Error without stack',
+      type: 'FILE_ERROR'
+    });
+
+    expect(mockSetIsExporting).toHaveBeenCalledWith(false);
+  });
 });
 
 describe('downloadJSON', () => {
@@ -238,6 +278,46 @@ describe('downloadJSON', () => {
       details: 'Serialization failed',
       action: 'Check if the analysis data is complete.',
       rawLogs: expect.any(String),
+      type: 'FILE_ERROR'
+    });
+
+    JSON.stringify = originalStringify;
+  });
+
+  it('handles non-Error objects thrown and calls setError with AppError format', () => {
+    const originalStringify = JSON.stringify;
+    JSON.stringify = vi.fn().mockImplementation(() => {
+      throw 'Serialization string error';
+    });
+
+    downloadJSON(mockAnalysis, mockSetError);
+
+    expect(mockSetError).toHaveBeenCalledWith({
+      message: 'JSON Export Failed',
+      details: 'Failed to serialize analysis data.',
+      action: 'Check if the analysis data is complete.',
+      rawLogs: 'Serialization string error',
+      type: 'FILE_ERROR'
+    });
+
+    JSON.stringify = originalStringify;
+  });
+
+  it('handles Error objects without a stack property thrown and calls setError with AppError format', () => {
+    const originalStringify = JSON.stringify;
+    JSON.stringify = vi.fn().mockImplementation(() => {
+      const errorWithoutStack = new Error('Error without stack');
+      delete errorWithoutStack.stack;
+      throw errorWithoutStack;
+    });
+
+    downloadJSON(mockAnalysis, mockSetError);
+
+    expect(mockSetError).toHaveBeenCalledWith({
+      message: 'JSON Export Failed',
+      details: 'Error without stack',
+      action: 'Check if the analysis data is complete.',
+      rawLogs: 'Error without stack',
       type: 'FILE_ERROR'
     });
 
