@@ -9,6 +9,10 @@ const main = async () => {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is not set. Skipping real AI review generation.');
+    fs.writeFileSync(
+      path.resolve(process.cwd(), 'ai-review-output.md'),
+      'GEMINI_API_KEY is not set. Skipping real AI review generation.',
+    );
     return;
   }
 
@@ -86,6 +90,7 @@ ${responseText}
 `;
 
   fs.writeFileSync(path.join(outDir, `review-${Date.now()}.md`), reviewContent);
+  // Ensure the file exists for the github action even if no API key is provided
   fs.writeFileSync(path.resolve(process.cwd(), 'ai-review-output.md'), reviewContent);
 
   if (process.env.GITHUB_STEP_SUMMARY) {

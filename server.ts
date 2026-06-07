@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import multer from 'multer';
 import * as pdf from 'pdf-parse';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
@@ -17,6 +18,16 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Apply rate limiting to all requests
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+app.use('/api', limiter);
 
 // API routes
 app.get('/api/health', (req, res) => {
