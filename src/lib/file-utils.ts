@@ -1,6 +1,8 @@
 export const hashFile = async (file: File): Promise<string> => {
   const buffer = await file.arrayBuffer();
-  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  // Use Uint8Array to ensure compatibility across different JS environments (e.g. jsdom in Vitest, Node Buffer)
+  const data = new Uint8Array(buffer);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 };
