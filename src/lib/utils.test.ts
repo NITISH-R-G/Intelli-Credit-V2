@@ -7,7 +7,9 @@ describe('cn utility function', () => {
   });
 
   it('handles conditional classes', () => {
-    expect(cn('class1', true && 'class2', false && 'class3')).toBe('class1 class2');
+    const isTrue = true;
+    const isFalse = false;
+    expect(cn('class1', isTrue ? 'class2' : '', isFalse ? 'class3' : '')).toBe('class1 class2');
   });
 
   it('handles arrays of classes', () => {
@@ -35,8 +37,8 @@ describe('cn utility function', () => {
         { 'conditional-true': true, 'conditional-false': false },
         ['array-class'],
         null,
-        'p-4 p-2' // tailwind-merge inside string
-      )
+        'p-4 p-2', // tailwind-merge inside string
+      ),
     ).toBe('base-class conditional-true array-class p-2');
   });
 });

@@ -18,7 +18,7 @@ describe('DataIngestion', () => {
     isDragActive: false,
     loading: false,
     files: [],
-    handleAnalyze: vi.fn()
+    handleAnalyze: vi.fn(),
   };
 
   it('renders correctly in default state', () => {

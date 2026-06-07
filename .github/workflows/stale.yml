@@ -1,4 +1,4 @@
-name: "Mark Stale Issues & PRs"
+name: 'Mark Stale Issues & PRs'
 on:
   schedule:
     - cron: '0 0 * * *'

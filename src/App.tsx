@@ -1,4 +1,4 @@
-import { AppError } from "./types";
+import { AppError } from './types';
 import { performAnalysis, calculateDisplayAnalysis } from './services/analysisService';
 import { DecisionPanel } from './components/DecisionPanel';
 import { ErrorDisplay } from './components/ErrorDisplay';
@@ -19,14 +19,14 @@ const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
 import { INDUSTRY_BENCHMARKS } from './constants';
 import { useDropzone } from 'react-dropzone';
-import { 
-  ShieldAlert, 
-  ShieldCheck, 
-  FileText, 
-  Upload, 
-  TrendingUp, 
-  AlertTriangle, 
-  CheckCircle2, 
+import {
+  ShieldAlert,
+  ShieldCheck,
+  FileText,
+  Upload,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle2,
   XCircle,
   BarChart3,
   Loader2,
@@ -38,25 +38,31 @@ import {
   Fingerprint,
   Gavel,
   ShieldQuestion,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
-  Legend
+  Legend,
 } from 'recharts';
 import { cn } from './lib/utils';
 import { GoogleGenAI } from '@google/genai';
 import { hashFile, fileToBase64, fileToText } from './lib/file-utils';
 import { callMcpTool } from './lib/gemini';
-import { searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration, EXTRACTION_PROMPT, RESPONSE_SCHEMA } from './lib/gemini-config';
-
+import {
+  searchCasesDeclaration,
+  getMcaInfoDeclaration,
+  fetchDirectorCibilDeclaration,
+  calculateLtvDeclaration,
+  EXTRACTION_PROMPT,
+  RESPONSE_SCHEMA,
+} from './lib/gemini-config';
 
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -71,7 +77,10 @@ export default function App() {
   const [apiMode, setApiMode] = useState(false); // false = Mock, true = Real
   const fileCache = useRef<Map<string, CreditAnalysis>>(new Map());
 
-  const displayAnalysis: CreditAnalysis | null = useMemo(() => calculateDisplayAnalysis(analysis, revenueShock, interestRateShock), [analysis, revenueShock, interestRateShock]);
+  const displayAnalysis: CreditAnalysis | null = useMemo(
+    () => calculateDisplayAnalysis(analysis, revenueShock, interestRateShock),
+    [analysis, revenueShock, interestRateShock],
+  );
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -85,9 +94,10 @@ export default function App() {
     setError({
       message: 'File Upload Rejected',
       details: firstError?.message || 'The selected file does not meet the requirements.',
-      action: 'Ensure the file is a supported format (PDF, CSV, JSON, TXT) and does not exceed size limits.',
+      action:
+        'Ensure the file is a supported format (PDF, CSV, JSON, TXT) and does not exceed size limits.',
       rawLogs: JSON.stringify(fileRejections, null, 2),
-      type: 'FILE_ERROR'
+      type: 'FILE_ERROR',
     });
   }, []);
 
@@ -98,7 +108,7 @@ export default function App() {
       'application/pdf': ['.pdf'],
       'text/csv': ['.csv'],
       'application/json': ['.json'],
-      'text/plain': ['.txt']
+      'text/plain': ['.txt'],
     },
     multiple: true,
   } as any);
@@ -112,26 +122,33 @@ export default function App() {
       setLoading,
       setError,
       setAnalysis,
-      setShowLogs
+      setShowLogs,
     );
   };
 
   const getRiskColor = (level: string) => {
     switch (level) {
-      case 'Low': return 'text-emerald-500 bg-emerald-50 border-emerald-100';
-      case 'Medium': return 'text-amber-500 bg-amber-50 border-amber-100';
-      case 'High': return 'text-orange-500 bg-orange-50 border-orange-100';
-      case 'Critical': return 'text-rose-500 bg-rose-50 border-rose-100';
-      default: return 'text-slate-500 bg-slate-50 border-slate-100';
+      case 'Low':
+        return 'text-emerald-500 bg-emerald-50 border-emerald-100';
+      case 'Medium':
+        return 'text-amber-500 bg-amber-50 border-amber-100';
+      case 'High':
+        return 'text-orange-500 bg-orange-50 border-orange-100';
+      case 'Critical':
+        return 'text-rose-500 bg-rose-50 border-rose-100';
+      default:
+        return 'text-slate-500 bg-slate-50 border-slate-100';
     }
   };
 
-  const chartData = analysis ? [
-    { name: 'Revenue', value: analysis.structuredData.revenue },
-    { name: 'Debt', value: analysis.structuredData.debt },
-    { name: 'Profit', value: analysis.structuredData.profit },
-    { name: 'Cashflow', value: analysis.structuredData.cashflow },
-  ] : [];
+  const chartData = analysis
+    ? [
+        { name: 'Revenue', value: analysis.structuredData.revenue },
+        { name: 'Debt', value: analysis.structuredData.debt },
+        { name: 'Profit', value: analysis.structuredData.profit },
+        { name: 'Cashflow', value: analysis.structuredData.cashflow },
+      ]
+    : [];
 
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-mono text-xs sm:text-sm selection:bg-amber-500/30">
@@ -144,7 +161,9 @@ export default function App() {
           <span className="text-zinc-500 uppercase tracking-widest text-xs">Terminal v2.4.1</span>
         </div>
         <div className="flex items-center gap-4 text-xs text-zinc-500 uppercase">
-          <span className="flex items-center gap-1"><ShieldCheck className="w-3 h-3 text-emerald-500" /> SECURE</span>
+          <span className="flex items-center gap-1">
+            <ShieldCheck className="w-3 h-3 text-emerald-500" /> SECURE
+          </span>
           <span>{new Date().toISOString().split('T')[0]}</span>
         </div>
       </header>
@@ -174,20 +193,25 @@ export default function App() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
-            
             {/* Top Row: Company Profile & Core Stats */}
             <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-4 gap-2">
               {/* Company Info Panel */}
               <CompanyProfile analysis={analysis} />
 
               {/* Risk Score Panel */}
-               <RiskScorePanel displayAnalysis={displayAnalysis!} />
+              <RiskScorePanel displayAnalysis={displayAnalysis!} />
 
               {/* Decision Panel */}
               <DecisionPanel displayAnalysis={displayAnalysis!} />
             </div>
 
-            <Suspense fallback={<div className="lg:col-span-12 p-4 text-center text-zinc-500">Loading modules...</div>}>
+            <Suspense
+              fallback={
+                <div className="lg:col-span-12 p-4 text-center text-zinc-500">
+                  Loading modules...
+                </div>
+              }
+            >
               <StressTestingModule
                 revenueShock={revenueShock}
                 setRevenueShock={setRevenueShock}
@@ -204,7 +228,6 @@ export default function App() {
 
             {/* Middle Row: Financials & Verification */}
             <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-3 gap-2">
-              
               {/* Financial Data */}
               <FinancialMetrics analysis={analysis} />
 
@@ -224,7 +247,12 @@ export default function App() {
             <FraudFlags analysis={analysis} />
 
             {/* CAM Report Section */}
-            <CAMReport analysis={analysis} isExporting={isExporting} setIsExporting={setIsExporting} setError={setError} />
+            <CAMReport
+              analysis={analysis}
+              isExporting={isExporting}
+              setIsExporting={setIsExporting}
+              setError={setError}
+            />
 
             <div className="lg:col-span-12 flex justify-end mt-4">
               <button

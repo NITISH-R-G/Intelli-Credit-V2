@@ -17,7 +17,10 @@ export function FraudFlags({ analysis }: FraudFlagsProps) {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
         {analysis.fraudFlags.map((flag, index) => (
-          <div key={index} className="flex items-start gap-2 text-xs text-rose-400 bg-rose-950/30 p-2 border border-rose-900/50">
+          <div
+            key={index}
+            className="flex items-start gap-2 text-xs text-rose-400 bg-rose-950/30 p-2 border border-rose-900/50"
+          >
             <span className="text-rose-500 font-bold">!</span>
             <span>{flag}</span>
           </div>

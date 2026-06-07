@@ -2,9 +2,9 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig, loadEnv} from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
@@ -26,8 +26,8 @@ export default defineConfig(({mode}) => {
       coverage: {
         provider: 'v8',
         reporter: ['text', 'json-summary'],
-        reportsDirectory: './coverage'
-      }
+        reportsDirectory: './coverage',
+      },
     },
     build: {
       rollupOptions: {
@@ -38,7 +38,7 @@ export default defineConfig(({mode}) => {
             jspdf: ['jspdf'],
             recharts: ['recharts'],
             reactMarkdown: ['react-markdown'],
-            lucide: ['lucide-react']
+            lucide: ['lucide-react'],
           },
         },
       },

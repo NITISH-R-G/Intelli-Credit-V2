@@ -59,12 +59,7 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": [
-    "React",
-    "Express",
-    "Vite",
-    "TailwindCSS"
-  ],
+  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
   "structure": {
     ".env.example": "file",
     ".github": {

@@ -1,6 +1,6 @@
-import React from "react";
-import { AppError } from "../types";
-import { AlertTriangle, ChevronRight } from "lucide-react";
+import React from 'react';
+import { AppError } from '../types';
+import { AlertTriangle, ChevronRight } from 'lucide-react';
 
 interface ErrorDisplayProps {
   error: AppError | null;
@@ -9,7 +9,12 @@ interface ErrorDisplayProps {
   setShowLogs: (show: boolean) => void;
 }
 
-export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, setError, showLogs, setShowLogs }) => {
+export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
+  error,
+  setError,
+  showLogs,
+  setShowLogs,
+}) => {
   if (!error) return null;
 
   return (
@@ -43,7 +48,9 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, setError, sho
                 onClick={() => setShowLogs(!showLogs)}
                 className="flex items-center gap-2 text-[10px] text-rose-400/60 hover:text-rose-400 uppercase tracking-widest transition-colors"
               >
-                <ChevronRight className={`w-3 h-3 transition-transform ${showLogs ? 'rotate-90' : ''}`} />
+                <ChevronRight
+                  className={`w-3 h-3 transition-transform ${showLogs ? 'rotate-90' : ''}`}
+                />
                 {showLogs ? 'Hide Technical Logs' : 'View Technical Logs'}
               </button>
 

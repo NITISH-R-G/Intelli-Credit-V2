@@ -15,7 +15,7 @@ describe('callMcpTool', () => {
 
   it('handles unknown tool', async () => {
     const result = await callMcpTool('unknown_tool', {}, false, '');
-    expect(result).toEqual({ error: "Unknown tool" });
+    expect(result).toEqual({ error: 'Unknown tool' });
   });
 
   describe('search_cases', () => {
@@ -31,12 +31,12 @@ describe('callMcpTool', () => {
       expect(result).toEqual({
         cases: [
           {
-            caseNumber: "COM/2023/001",
-            court: "High Court",
-            status: "Pending",
-            summary: `Commercial dispute involving Test Company.`
-          }
-        ]
+            caseNumber: 'COM/2023/001',
+            court: 'High Court',
+            status: 'Pending',
+            summary: `Commercial dispute involving Test Company.`,
+          },
+        ],
       });
     });
 
@@ -45,12 +45,12 @@ describe('callMcpTool', () => {
       expect(result).toEqual({
         cases: [
           {
-            caseNumber: "COM/2023/001",
-            court: "High Court",
-            status: "Pending",
-            summary: `Commercial dispute involving the entity.`
-          }
-        ]
+            caseNumber: 'COM/2023/001',
+            court: 'High Court',
+            status: 'Pending',
+            summary: `Commercial dispute involving the entity.`,
+          },
+        ],
       });
     });
   });
@@ -64,24 +64,26 @@ describe('callMcpTool', () => {
     it('handles network failure during fetch_director_cibil in api mode', async () => {
       vi.mocked(fetch).mockRejectedValue(new Error('Network failure'));
       const result = await callMcpTool('fetch_director_cibil', {}, true, 'dummy-key');
-      expect(result).toEqual({ error: "Network error: Failed to reach the Bureau API endpoint. Check your connection." });
+      expect(result).toEqual({
+        error: 'Network error: Failed to reach the Bureau API endpoint. Check your connection.',
+      });
     });
 
     it('handles non-ok response from fetch_director_cibil in api mode', async () => {
       vi.mocked(fetch).mockResolvedValue({
         ok: false,
         status: 500,
-        statusText: 'Internal Server Error'
+        statusText: 'Internal Server Error',
       } as Response);
       const result = await callMcpTool('fetch_director_cibil', {}, true, 'dummy-key');
-      expect(result).toEqual({ error: "Bureau API returned status 500: Internal Server Error" });
+      expect(result).toEqual({ error: 'Bureau API returned status 500: Internal Server Error' });
     });
 
     it('returns JSON response from fetch_director_cibil in api mode on success', async () => {
       const mockData = { score: 800 };
       vi.mocked(fetch).mockResolvedValue({
         ok: true,
-        json: async () => mockData
+        json: async () => mockData,
       } as Response);
       const result = await callMcpTool('fetch_director_cibil', {}, true, 'dummy-key');
       expect(result).toEqual(mockData);
@@ -103,44 +105,58 @@ describe('callMcpTool', () => {
     it('handles network failure during calculate_ltv in api mode', async () => {
       vi.mocked(fetch).mockRejectedValue(new Error('Network failure'));
       const result = await callMcpTool('calculate_ltv', {}, true, 'dummy-key');
-      expect(result).toEqual({ error: "Network error: Failed to reach the LTV Calculation API. Check your connection." });
+      expect(result).toEqual({
+        error: 'Network error: Failed to reach the LTV Calculation API. Check your connection.',
+      });
     });
 
     it('handles non-ok response from calculate_ltv in api mode', async () => {
       vi.mocked(fetch).mockResolvedValue({
         ok: false,
         status: 500,
-        statusText: 'Internal Server Error'
+        statusText: 'Internal Server Error',
       } as Response);
       const result = await callMcpTool('calculate_ltv', {}, true, 'dummy-key');
-      expect(result).toEqual({ error: "LTV Calculation API returned status 500: Internal Server Error" });
+      expect(result).toEqual({
+        error: 'LTV Calculation API returned status 500: Internal Server Error',
+      });
     });
 
     it('returns JSON response from calculate_ltv in api mode on success', async () => {
       const mockData = { ltv: 0.8 };
       vi.mocked(fetch).mockResolvedValue({
         ok: true,
-        json: async () => mockData
+        json: async () => mockData,
       } as Response);
       const result = await callMcpTool('calculate_ltv', {}, true, 'dummy-key');
       expect(result).toEqual(mockData);
     });
 
     it('returns mock data in mock mode', async () => {
-      const result = await callMcpTool('calculate_ltv', { assetType: 'Residential Property', marketValue: 1000 }, false, '');
+      const result = await callMcpTool(
+        'calculate_ltv',
+        { assetType: 'Residential Property', marketValue: 1000 },
+        false,
+        '',
+      );
       expect(result).toEqual({
         estimatedValue: 800,
         ltvRatio: 0.8,
-        remarks: "Standard LTV applied for Residential Property."
+        remarks: 'Standard LTV applied for Residential Property.',
       });
     });
 
     it('returns default mock data for unknown asset type', async () => {
-      const result = await callMcpTool('calculate_ltv', { assetType: 'Unknown', marketValue: 1000 }, false, '');
+      const result = await callMcpTool(
+        'calculate_ltv',
+        { assetType: 'Unknown', marketValue: 1000 },
+        false,
+        '',
+      );
       expect(result).toEqual({
         estimatedValue: 500,
         ltvRatio: 0.5,
-        remarks: "Standard LTV applied for Unknown."
+        remarks: 'Standard LTV applied for Unknown.',
       });
     });
   });
@@ -156,7 +172,7 @@ describe('callMcpTool', () => {
       const mockData = { mcaStatus: 'Active API' };
       vi.mocked(fetch).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockData
+        json: async () => mockData,
       } as Response);
       const result = await callMcpTool('get_mca_info', { companyName: 'Test' }, true, 'dummy');
       expect(result).toEqual(mockData);
@@ -178,23 +194,25 @@ describe('callMcpTool', () => {
         .mockResolvedValueOnce({ ok: false, status: 404 } as Response);
 
       const result = await callMcpTool('get_mca_info', { companyName: 'Test' }, true, 'dummy');
-      expect(result).toEqual({ error: "MCA API returned status 404" });
+      expect(result).toEqual({ error: 'MCA API returned status 404' });
     });
 
     it('handles network failure', async () => {
       vi.mocked(fetch).mockRejectedValue(new Error('Network failure'));
       const result = await callMcpTool('get_mca_info', { companyName: 'Test' }, true, 'dummy');
-      expect(result).toEqual({ error: "Failed to fetch MCA info from API" });
+      expect(result).toEqual({ error: 'Failed to fetch MCA info from API' });
     });
   });
 
   describe('catch block', () => {
     it('returns error if an exception is thrown', async () => {
       const originalSetTimeout = global.setTimeout;
-      vi.stubGlobal('setTimeout', () => { throw new Error('Forced exception'); });
+      vi.stubGlobal('setTimeout', () => {
+        throw new Error('Forced exception');
+      });
 
       const result = await callMcpTool('search_cases', {}, false, '');
-      expect(result).toEqual({ error: "Tool execution failed" });
+      expect(result).toEqual({ error: 'Tool execution failed' });
 
       vi.stubGlobal('setTimeout', originalSetTimeout);
     });

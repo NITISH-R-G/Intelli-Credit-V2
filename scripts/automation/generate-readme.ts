@@ -8,9 +8,9 @@ const parseEnvVars = () => {
   const content = fs.readFileSync(envPath, 'utf8');
   return content
     .split('\n')
-    .map(line => line.trim())
-    .filter(line => line && !line.startsWith('#'))
-    .map(line => {
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith('#'))
+    .map((line) => {
       const [key, ...rest] = line.split('=');
       return { key, value: rest.join('=') };
     });
@@ -32,7 +32,7 @@ const getBadges = () => {
 };
 
 const main = () => {
-  console.log("Generating Comprehensive README.md...");
+  console.log('Generating Comprehensive README.md...');
 
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
   let metadata: any = {};
@@ -41,26 +41,34 @@ const main = () => {
   }
 
   const existingReadmePath = path.resolve(process.cwd(), 'README.md');
-  let existingReadme = fs.existsSync(existingReadmePath) ? fs.readFileSync(existingReadmePath, 'utf8') : '';
+  const existingReadme = fs.existsSync(existingReadmePath)
+    ? fs.readFileSync(existingReadmePath, 'utf8')
+    : '';
 
   const envVars = parseEnvVars();
-  const envVarTable = envVars.length > 0
-    ? `| Variable | Example Value |\n|---|---|\n${envVars.map(v => `| \`${v.key}\` | \`${v.value}\` |`).join('\n')}`
-    : '*No `.env.example` file found.*';
+  const envVarTable =
+    envVars.length > 0
+      ? `| Variable | Example Value |\n|---|---|\n${envVars.map((v) => `| \`${v.key}\` | \`${v.value}\` |`).join('\n')}`
+      : '*No `.env.example` file found.*';
 
-  const autoGenStart = "<!-- AUTO-GENERATED-SECTION-START -->";
-  const autoGenEnd = "<!-- AUTO-GENERATED-SECTION-END -->";
+  const autoGenStart = '<!-- AUTO-GENERATED-SECTION-START -->';
+  const autoGenEnd = '<!-- AUTO-GENERATED-SECTION-END -->';
 
-  const frameworksList = metadata.frameworks && metadata.frameworks.length > 0
-    ? metadata.frameworks.join(', ')
-    : 'None detected';
+  const frameworksList =
+    metadata.frameworks && metadata.frameworks.length > 0
+      ? metadata.frameworks.join(', ')
+      : 'None detected';
 
   const scriptTable = metadata.scripts
-    ? `| Script | Command |\n|---|---|\n${Object.entries(metadata.scripts).map(([name, cmd]) => `| \`npm run ${name}\` | \`${cmd}\` |`).join('\n')}`
+    ? `| Script | Command |\n|---|---|\n${Object.entries(metadata.scripts)
+        .map(([name, cmd]) => `| \`npm run ${name}\` | \`${cmd}\` |`)
+        .join('\n')}`
     : '';
 
   const dependenciesList = metadata.dependencies
-    ? Object.keys(metadata.dependencies).map(d => `- \`${d}\``).join('\n')
+    ? Object.keys(metadata.dependencies)
+        .map((d) => `- \`${d}\``)
+        .join('\n')
     : '*No dependencies found*';
 
   const diagrams = getArchitectureDiagram();
@@ -118,7 +126,7 @@ ${autoGenEnd}`;
   }
 
   fs.writeFileSync(existingReadmePath, newReadme);
-  console.log("Comprehensive README.md updated successfully.");
+  console.log('Comprehensive README.md updated successfully.');
 };
 
 main();

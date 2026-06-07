@@ -14,16 +14,36 @@ export function RiskDimensions({ analysis }: RiskDimensionsProps) {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
-          { label: 'Financial Risk', value: analysis.riskAnalysisDetails.financialRisk, icon: TrendingDown },
+          {
+            label: 'Financial Risk',
+            value: analysis.riskAnalysisDetails.financialRisk,
+            icon: TrendingDown,
+          },
           { label: 'Legal Risk', value: analysis.riskAnalysisDetails.legalRisk, icon: Scale },
-          { label: 'Behavioral Risk', value: analysis.riskAnalysisDetails.behavioralRisk, icon: Activity },
-          { label: 'Industry Risk', value: analysis.riskAnalysisDetails.industryRisk, icon: Building2 },
-          { label: 'Management Risk', value: analysis.riskAnalysisDetails.managementRisk, icon: Users },
-          ...(analysis.fraudDetection?.some(f => f.status !== 'Pass') ? [{
-            label: 'Forensic Fraud Risk',
-            value: `Detected ${analysis.fraudDetection.filter(f => f.status === 'Fail').length} critical flags and ${analysis.fraudDetection.filter(f => f.status === 'Warning').length} warnings in forensic checks.`,
-            icon: ShieldAlert
-          }] : [])
+          {
+            label: 'Behavioral Risk',
+            value: analysis.riskAnalysisDetails.behavioralRisk,
+            icon: Activity,
+          },
+          {
+            label: 'Industry Risk',
+            value: analysis.riskAnalysisDetails.industryRisk,
+            icon: Building2,
+          },
+          {
+            label: 'Management Risk',
+            value: analysis.riskAnalysisDetails.managementRisk,
+            icon: Users,
+          },
+          ...(analysis.fraudDetection?.some((f) => f.status !== 'Pass')
+            ? [
+                {
+                  label: 'Forensic Fraud Risk',
+                  value: `Detected ${analysis.fraudDetection.filter((f) => f.status === 'Fail').length} critical flags and ${analysis.fraudDetection.filter((f) => f.status === 'Warning').length} warnings in forensic checks.`,
+                  icon: ShieldAlert,
+                },
+              ]
+            : []),
         ].map((dim, i) => (
           <div key={i} className="flex gap-3 items-start">
             <div className="mt-0.5 p-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400">

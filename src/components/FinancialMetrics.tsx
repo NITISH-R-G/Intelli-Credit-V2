@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend
+  Legend,
 } from 'recharts';
 
 interface FinancialMetricsProps {
@@ -24,12 +24,14 @@ export const FinancialMetrics: React.FC<FinancialMetricsProps> = ({ analysis }) 
       </div>
       <div className="h-48 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={analysis.structuredData.revenue.map((r, i) => ({
-            year: r.year,
-            Revenue: r.value,
-            Profit: analysis.structuredData.profit[i].value,
-            Debt: analysis.structuredData.debt[i].value
-          }))}>
+          <LineChart
+            data={analysis.structuredData.revenue.map((r, i) => ({
+              year: r.year,
+              Revenue: r.value,
+              Profit: analysis.structuredData.profit[i].value,
+              Debt: analysis.structuredData.debt[i].value,
+            }))}
+          >
             <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
             <XAxis dataKey="year" stroke="#71717a" fontSize={10} />
             <YAxis stroke="#71717a" fontSize={10} />

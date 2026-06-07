@@ -1,8 +1,7 @@
+# Intelli-Credit Terminal
 
+**Production-Grade Corporate Credit Appraisal System powered by Google Gemini AI**
 
-  # Intelli-Credit Terminal
-  
-  **Production-Grade Corporate Credit Appraisal System powered by Google Gemini AI**
 </div>
 
 ## 🚀 Overview
@@ -34,21 +33,21 @@ Intelli-Credit Terminal is an advanced, automated corporate credit appraisal app
 
 1. **Clone the repository:**
 
-
 <!-- AUTO-GENERATED-SECTION-START -->
-## 🤖 Auto-Generated Repository Analytics
 
+## 🤖 Auto-Generated Repository Analytics
 
 ![CI/CD](https://github.com/your-org/your-repo/actions/workflows/ci-cd-automation.yml/badge.svg)
 ![Repo Analysis](https://github.com/your-org/your-repo/actions/workflows/autonomous-repo-analysis.yml/badge.svg)
 
-
 ### Project Overview
+
 - **Name:** react-example
 - **Version:** 0.0.0
 - **Detected Frameworks:** React, Express, Vite, TailwindCSS
 
 ### Technology Stack & Dependencies
+
 - `@google/genai`
 - `@tailwindcss/typography`
 - `@tailwindcss/vite`
@@ -73,29 +72,32 @@ Intelli-Credit Terminal is an advanced, automated corporate credit appraisal app
 - `vite`
 
 ### Available Scripts
-| Script | Command |
-|---|---|
-| `npm run dev` | `tsx server.ts` |
-| `npm run build` | `vite build` |
-| `npm run start` | `node --experimental-strip-types server.ts` |
-| `npm run preview` | `vite preview` |
-| `npm run clean` | `rm -rf dist` |
-| `npm run lint` | `tsc --noEmit` |
-| `npm run test` | `vitest run` |
-| `npm run test:watch` | `vitest` |
-| `npm run analyze:repo` | `tsx scripts/automation/repo-analyzer.ts` |
-| `npm run generate:diagrams` | `tsx scripts/automation/generate-diagrams.ts` |
-| `npm run generate:readme` | `tsx scripts/automation/generate-readme.ts` |
-| `npm run ai:review` | `tsx scripts/automation/ai-reviewer.ts` |
+
+| Script                       | Command                                        |
+| ---------------------------- | ---------------------------------------------- |
+| `npm run dev`                | `tsx server.ts`                                |
+| `npm run build`              | `vite build`                                   |
+| `npm run start`              | `node --experimental-strip-types server.ts`    |
+| `npm run preview`            | `vite preview`                                 |
+| `npm run clean`              | `rm -rf dist`                                  |
+| `npm run lint`               | `tsc --noEmit`                                 |
+| `npm run test`               | `vitest run`                                   |
+| `npm run test:watch`         | `vitest`                                       |
+| `npm run analyze:repo`       | `tsx scripts/automation/repo-analyzer.ts`      |
+| `npm run generate:diagrams`  | `tsx scripts/automation/generate-diagrams.ts`  |
+| `npm run generate:readme`    | `tsx scripts/automation/generate-readme.ts`    |
+| `npm run ai:review`          | `tsx scripts/automation/ai-reviewer.ts`        |
 | `npm run generate:dashboard` | `tsx scripts/automation/generate-dashboard.ts` |
-| `npm run fix` | `tsx scripts/automation/auto-fix.ts` |
+| `npm run fix`                | `tsx scripts/automation/auto-fix.ts`           |
 
 ### Environment Variables
-| Variable | Example Value |
-|---|---|
-| `VITE_ECOURTS_API_KEY` | `` |
+
+| Variable               | Example Value |
+| ---------------------- | ------------- |
+| `VITE_ECOURTS_API_KEY` | ``            |
 
 ### Architecture & System Design
+
 # Architecture & Dependencies
 
 This diagram is auto-generated based on the repository structure and dependencies.
@@ -211,6 +213,7 @@ graph TD;
 ```
 
 ### Setup & Deployment Instructions
+
 1. **Install Dependencies:**
    ```bash
    npm ci
@@ -225,7 +228,9 @@ graph TD;
    Configure your deployment target (e.g., Vercel, Node server) to run the `build` script and serve the output directory.
 
 ### AI Automated Maintenance
+
 This repository is self-maintaining:
+
 - **CI/CD Automation:** Runs tests, linting, and security audits automatically.
 - **Repository Analysis:** Weekly scheduled tasks map the codebase structure.
 - **AI Documentation Agent:** An AI automatically reviews PRs and updates documentation based on detected architectural changes.

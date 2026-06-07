@@ -7,7 +7,7 @@ import { CreditAnalysis } from '../../types';
 // Mock Recharts components because they use SVG features that jsdom might not fully support
 vi.mock('recharts', () => ({
   ResponsiveContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  LineChart: ({ children, data }: { children: React.ReactNode, data: any[] }) => (
+  LineChart: ({ children, data }: { children: React.ReactNode; data: any[] }) => (
     <div data-testid="line-chart" data-points={JSON.stringify(data)}>
       {children}
     </div>
@@ -22,38 +22,56 @@ vi.mock('recharts', () => ({
 
 const mockAnalysis = {
   companyInfo: {
-    name: "Test Company",
-    establishedYear: "2010",
-    industry: "Tech",
-    registrationNumber: "1234",
-    employees: 100
+    name: 'Test Company',
+    establishedYear: '2010',
+    industry: 'Tech',
+    registrationNumber: '1234',
+    employees: 100,
   },
   riskScore: 50,
-  riskLevel: "Medium",
-  executiveSummary: "A summary",
-  keyFindings: ["Finding 1"],
+  riskLevel: 'Medium',
+  executiveSummary: 'A summary',
+  keyFindings: ['Finding 1'],
   structuredData: {
-    revenue: [{ year: "2021", value: 100 }, { year: "2022", value: 120 }],
-    profit: [{ year: "2021", value: 20 }, { year: "2022", value: 25 }],
-    debt: [{ year: "2021", value: 50 }, { year: "2022", value: 45 }],
-    cashflow: [{ year: "2021", value: 10 }, { year: "2022", value: 15 }],
-    assets: [{ year: "2021", value: 200 }, { year: "2022", value: 250 }],
-    liabilities: [{ year: "2021", value: 100 }, { year: "2022", value: 110 }]
+    revenue: [
+      { year: '2021', value: 100 },
+      { year: '2022', value: 120 },
+    ],
+    profit: [
+      { year: '2021', value: 20 },
+      { year: '2022', value: 25 },
+    ],
+    debt: [
+      { year: '2021', value: 50 },
+      { year: '2022', value: 45 },
+    ],
+    cashflow: [
+      { year: '2021', value: 10 },
+      { year: '2022', value: 15 },
+    ],
+    assets: [
+      { year: '2021', value: 200 },
+      { year: '2022', value: 250 },
+    ],
+    liabilities: [
+      { year: '2021', value: 100 },
+      { year: '2022', value: 110 },
+    ],
   },
   verificationLayer: [],
   fraudFlags: [],
   ratios: { debtToIncome: 1.5, currentRatio: 2.0, profitMargin: 1.0 },
   fiveCs: {
-    character: { score: 80, insights: ["Good"], redFlags: [], positiveSignals: [] },
-    capacity: { score: 75, insights: ["Good"], redFlags: [], positiveSignals: [] },
-    capital: { score: 85, insights: ["Good"], redFlags: [], positiveSignals: [] },
-    collateral: { score: 60, insights: ["Okay"], redFlags: [], positiveSignals: [] },
-    conditions: { score: 70, insights: ["Good"], redFlags: [], positiveSignals: [] }
+    character: { score: 80, insights: ['Good'], redFlags: [], positiveSignals: [] },
+    capacity: { score: 75, insights: ['Good'], redFlags: [], positiveSignals: [] },
+    capital: { score: 85, insights: ['Good'], redFlags: [], positiveSignals: [] },
+    collateral: { score: 60, insights: ['Okay'], redFlags: [], positiveSignals: [] },
+    conditions: { score: 70, insights: ['Good'], redFlags: [], positiveSignals: [] },
   },
-  suggestedLoanAmount: "₹ 1,00,000",
-  suggestedInterestRate: "10%",
+  suggestedLoanAmount: '₹ 1,00,000',
+  suggestedInterestRate: '10%',
   decisionConfidence: 85,
-  recommendation: "Approve"
+  recommendation: 'Approve',
 };
 
 describe('FinancialMetrics', () => {

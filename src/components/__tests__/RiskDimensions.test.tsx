@@ -12,7 +12,7 @@ vi.mock('lucide-react', () => ({
   Activity: () => <div data-testid="activity-icon" />,
   Building2: () => <div data-testid="building-icon" />,
   Users: () => <div data-testid="users-icon" />,
-  ShieldAlert: () => <div data-testid="shield-alert-icon" />
+  ShieldAlert: () => <div data-testid="shield-alert-icon" />,
 }));
 
 describe('RiskDimensions', () => {
@@ -27,12 +27,9 @@ describe('RiskDimensions', () => {
       legalRisk: 'Pending Lawsuits',
       behavioralRisk: 'Late Payments',
       industryRisk: 'Cyclical Downturn',
-      managementRisk: 'Inexperienced Team'
+      managementRisk: 'Inexperienced Team',
     },
-    fraudDetection: [
-      { status: 'Pass' },
-      { status: 'Fail' }
-    ]
+    fraudDetection: [{ status: 'Pass' }, { status: 'Fail' }],
   } as unknown as CreditAnalysis;
 
   it('renders risk dimensions correctly', () => {
@@ -60,14 +57,16 @@ describe('RiskDimensions', () => {
     render(<RiskDimensions analysis={mockAnalysis} />);
 
     expect(screen.getByText('Forensic Fraud Risk')).toBeInTheDocument();
-    expect(screen.getByText(/Detected 1 critical flags and 0 warnings in forensic checks./)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Detected 1 critical flags and 0 warnings in forensic checks./),
+    ).toBeInTheDocument();
     expect(screen.getByTestId('shield-alert-icon')).toBeInTheDocument();
   });
 
   it('does not render forensic fraud risk when all checks pass', () => {
     const passedAnalysis = {
       ...mockAnalysis,
-      fraudDetection: [{ status: 'Pass' }, { status: 'Pass' }]
+      fraudDetection: [{ status: 'Pass' }, { status: 'Pass' }],
     } as unknown as CreditAnalysis;
 
     render(<RiskDimensions analysis={passedAnalysis} />);
