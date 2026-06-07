@@ -34,12 +34,18 @@
     "@types/multer": "^2.1.0",
     "@types/node": "^22.14.0",
     "@types/pdf-parse": "^1.1.5",
+    "@typescript-eslint/eslint-plugin": "^8.60.1",
+    "@typescript-eslint/parser": "^8.60.1",
     "@vitest/coverage-v8": "^4.1.7",
     "autoprefixer": "^10.4.21",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react": "^7.37.5",
     "jsdom": "^29.1.1",
+    "prettier": "^3.8.3",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.22.4",
     "typescript": "~5.8.2",
+    "typescript-eslint": "^8.60.1",
     "vite": "^6.4.2",
     "vitest": "^4.1.7"
   },
@@ -49,7 +55,9 @@
     "start": "node --experimental-strip-types server.ts",
     "preview": "vite preview",
     "clean": "rm -rf dist",
+    "format": "prettier --write .",
     "lint": "tsc --noEmit",
+    "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest",
     "analyze:repo": "tsx scripts/automation/repo-analyzer.ts",
@@ -59,14 +67,19 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": "file",
     ".github": {
       "CODEOWNERS": "file",
       "ISSUE_TEMPLATE": {
-        "bug_report.md": "file",
-        "feature_request.md": "file"
+        "bug_report.yml": "file",
+        "feature_request.yml": "file"
       },
       "PULL_REQUEST_TEMPLATE": {
         "pull_request_template.md": "file"
@@ -75,9 +88,12 @@
       "labeler.yml": "file",
       "workflows": {
         "ai-documentation-agent.yml": "file",
+        "auto-assign.yml": "file",
+        "auto-fix.yml": "file",
         "autonomous-repo-analysis.yml": "file",
         "ci-cd-automation.yml": "file",
         "codeql.yml": "file",
+        "dependency-review.yml": "file",
         "greetings.yml": "file",
         "labeler.yml": "file",
         "repo-health-dashboard.yml": "file",
@@ -86,7 +102,11 @@
       }
     },
     ".gitignore": "file",
+    ".prettierrc": "file",
+    "CODE_OF_CONDUCT.md": "file",
+    "CONTRIBUTING.md": "file",
     "README.md": "file",
+    "SECURITY.md": "file",
     "cycle_1_report.md": "file",
     "cycle_2_report.md": "file",
     "cycle_3_report.md": "file",
@@ -104,6 +124,7 @@
       },
       "dashboard.html": "file"
     },
+    "eslint.config.mjs": "file",
     "index.html": "file",
     "metadata.json": "file",
     "package-lock.json": "file",
