@@ -87,6 +87,15 @@ describe('callMcpTool', () => {
       expect(result).toEqual(mockData);
     });
 
+    it('handles invalid JSON response from fetch_director_cibil in api mode', async () => {
+      vi.mocked(fetch).mockResolvedValue({
+        ok: true,
+        json: async () => { throw new Error('Invalid JSON'); }
+      } as Response);
+      const result = await callMcpTool('fetch_director_cibil', {}, true, 'dummy-key');
+      expect(result).toEqual({ error: "Network error: Failed to reach the Bureau API endpoint. Check your connection." });
+    });
+
     it('returns mock data in mock mode', async () => {
       const result = await callMcpTool('fetch_director_cibil', {}, false, '');
       expect(result).toHaveProperty('score');
@@ -124,6 +133,15 @@ describe('callMcpTool', () => {
       } as Response);
       const result = await callMcpTool('calculate_ltv', {}, true, 'dummy-key');
       expect(result).toEqual(mockData);
+    });
+
+    it('handles invalid JSON response from calculate_ltv in api mode', async () => {
+      vi.mocked(fetch).mockResolvedValue({
+        ok: true,
+        json: async () => { throw new Error('Invalid JSON'); }
+      } as Response);
+      const result = await callMcpTool('calculate_ltv', {}, true, 'dummy-key');
+      expect(result).toEqual({ error: "Network error: Failed to reach the LTV Calculation API. Check your connection." });
     });
 
     it('returns mock data in mock mode', async () => {
