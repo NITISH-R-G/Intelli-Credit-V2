@@ -519,7 +519,7 @@ export const prepareDocumentContents = async (files: File[]): Promise<any[]> => 
       }
     });
 
-    let currentContents = await Promise.all(promises);
+    let currentContents: any[] = await Promise.all(promises);
 
     // Add the extraction prompt to the last content part
     if (currentContents.length > 0) {
