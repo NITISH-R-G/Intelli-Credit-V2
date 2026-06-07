@@ -498,7 +498,7 @@ describe('executeAIExtractionLoop', () => {
       }
     };
 
-    await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+    await expect(executeAIExtractionLoop(mockGenAI as unknown as import("@google/genai").GoogleGenAI, 'test-model', [], {}, false, ''))
       .rejects.toThrow('Analysis Failed: The document content was flagged by safety filters.');
   });
 
@@ -513,7 +513,7 @@ describe('executeAIExtractionLoop', () => {
       }
     };
 
-    await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+    await expect(executeAIExtractionLoop(mockGenAI as unknown as import("@google/genai").GoogleGenAI, 'test-model', [], {}, false, ''))
       .rejects.toThrow('Failed to extract data from document');
   });
 
@@ -535,7 +535,7 @@ describe('executeAIExtractionLoop', () => {
 
     vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ cases: [] });
 
-    const result = await executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, '');
+    const result = await executeAIExtractionLoop(mockGenAI as unknown as import("@google/genai").GoogleGenAI, 'test-model', [], {}, false, '');
 
     expect(result).toEqual({ mockData: 'success' });
     expect(gemini.callMcpTool).toHaveBeenCalledWith('search_cases', { query: 'test' }, false, '');
@@ -555,7 +555,7 @@ describe('executeAIExtractionLoop', () => {
 
     vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ error: 'API limits reached' });
 
-    await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+    await expect(executeAIExtractionLoop(mockGenAI as unknown as import("@google/genai").GoogleGenAI, 'test-model', [], {}, false, ''))
       .rejects.toThrow('TOOL_ERROR: API limits reached');
   });
 
@@ -570,7 +570,7 @@ describe('executeAIExtractionLoop', () => {
       }
     };
 
-    await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+    await expect(executeAIExtractionLoop(mockGenAI as unknown as import("@google/genai").GoogleGenAI, 'test-model', [], {}, false, ''))
       .rejects.toThrow('TOOL_ERROR: Unknown tool');
   });
 
@@ -587,7 +587,7 @@ describe('executeAIExtractionLoop', () => {
 
       vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ cases: [] });
 
-      await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+      await expect(executeAIExtractionLoop(mockGenAI as unknown as import("@google/genai").GoogleGenAI, 'test-model', [], {}, false, ''))
         .rejects.toThrow('Analysis stopped: Too many tool calls required');
   });
 });

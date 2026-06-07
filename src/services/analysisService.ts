@@ -5,7 +5,7 @@ import { AppError } from "../types";
 import { hashFile, fileToBase64, fileToText } from '../lib/file-utils';
 import { callMcpTool } from '../lib/gemini';
 import { searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration, EXTRACTION_PROMPT, RESPONSE_SCHEMA } from '../lib/gemini-config';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, Content, GenerateContentConfig } from '@google/genai';
 
 interface StressedFinancials {
   stressedRevenue: number;
@@ -425,13 +425,13 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
 };
 
 export const executeAIExtractionLoop = async (
-  genAI: any,
+  genAI: GoogleGenAI,
   model: string,
-  currentContents: any[],
-  config: any,
+  currentContents: Content[],
+  config: GenerateContentConfig,
   apiMode: boolean,
   bureauApiKey: string
-): Promise<any> => {
+): Promise<Partial<CreditAnalysis>> => {
     let extractionResponse = await genAI.models.generateContent({
       model,
       contents: currentContents,
