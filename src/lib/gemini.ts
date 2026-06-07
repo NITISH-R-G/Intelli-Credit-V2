@@ -2,9 +2,6 @@ export const callMcpTool = async (toolName: string, args: any, apiMode: boolean,
   const apiKey = import.meta.env.VITE_ECOURTS_API_KEY;
 
   try {
-    // Simulate latency
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
     if (toolName === "search_cases") {
       if (!apiKey) {
         return { error: "eCourts API key not configured. Please set VITE_ECOURTS_API_KEY in your environment." };

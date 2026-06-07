@@ -190,13 +190,17 @@ describe('callMcpTool', () => {
 
   describe('catch block', () => {
     it('returns error if an exception is thrown', async () => {
-      const originalSetTimeout = global.setTimeout;
-      vi.stubGlobal('setTimeout', () => { throw new Error('Forced exception'); });
+      // Temporarily redefine toolName as undefined to trigger an exception,
+      // or mock fetch if we want to ensure an error bubbles up.
+      // Easiest is to force a JSON.stringify failure on circular references or similar,
+      // but since we just want to hit the catch block around the whole execution:
+      const badArgs = {};
+      Object.defineProperty(badArgs, 'query', {
+        get: () => { throw new Error('Forced exception'); }
+      });
 
-      const result = await callMcpTool('search_cases', {}, false, '');
+      const result = await callMcpTool('search_cases', badArgs, false, '');
       expect(result).toEqual({ error: "Tool execution failed" });
-
-      vi.stubGlobal('setTimeout', originalSetTimeout);
     });
   });
 });
