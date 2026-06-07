@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { fileToBase64, fileToText } from '../file-utils';
+import { fileToBase64, fileToText, hashFile } from '../file-utils';
 
 describe('fileToBase64', () => {
   const originalFileReader = global.FileReader;
@@ -110,5 +110,49 @@ describe('fileToText', () => {
     const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
     await expect(fileToText(file)).rejects.toThrow('FILE_ERROR: Error reading test.txt. The file might be corrupted.');
+  });
+});
+
+describe('hashFile', () => {
+  beforeEach(() => {
+    // Mock the File API
+    class MockFile {
+      name: string;
+      type: string;
+      arrayBuffer: ReturnType<typeof vi.fn>;
+
+      constructor(bits: any[], name: string, options?: any) {
+        this.name = name;
+        this.type = options?.type || '';
+        this.arrayBuffer = vi.fn().mockResolvedValue(new ArrayBuffer(8));
+      }
+    }
+    vi.stubGlobal('File', MockFile);
+
+    // Mock crypto.subtle
+    const mockCrypto = {
+      subtle: {
+        digest: vi.fn().mockResolvedValue(new ArrayBuffer(32)), // SHA-256 generates a 32-byte array
+      },
+    };
+    vi.stubGlobal('crypto', mockCrypto);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.clearAllMocks();
+  });
+
+  it('should generate a correct SHA-256 hash for a given file', async () => {
+    const fileContent = 'Hello, world!';
+    const file = new File([fileContent], 'hello.txt', { type: 'text/plain' });
+    const hash = await hashFile(file);
+
+    // Since we mocked arrayBuffer and digest, it should return a hash consisting of 32 zeros
+    const expectedHash = '00'.repeat(32);
+    expect(hash).toBe(expectedHash);
+
+    expect(crypto.subtle.digest).toHaveBeenCalledWith('SHA-256', expect.any(ArrayBuffer));
+    expect((file as any).arrayBuffer).toHaveBeenCalled();
   });
 });

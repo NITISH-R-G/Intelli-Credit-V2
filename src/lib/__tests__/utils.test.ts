@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { cn } from './utils';
+import { cn } from '../utils';
 
 describe('cn utility function', () => {
   it('merges basic string classes', () => {
@@ -38,5 +38,30 @@ describe('cn utility function', () => {
         'p-4 p-2' // tailwind-merge inside string
       )
     ).toBe('base-class conditional-true array-class p-2');
+  });
+
+  it('handles complex objects correctly', () => {
+    expect(cn({ 'class1': true, 'class2': false, 'class3': true })).toBe('class1 class3');
+  });
+
+  it('handles arrays containing objects correctly', () => {
+    expect(cn(['class1', { 'class2': true, 'class3': false }])).toBe('class1 class2');
+  });
+
+  it('handles duplicate classes using tailwind-merge', () => {
+    expect(cn('flex', 'flex', 'items-center', 'items-start')).toBe('flex items-start');
+  });
+
+  it('merges multiple conditional classes properly', () => {
+    const isError = true;
+    const isSuccess = false;
+    expect(
+      cn(
+        'base-input',
+        isError && 'border-red-500',
+        isSuccess && 'border-green-500',
+        { 'opacity-50': false }
+      )
+    ).toBe('base-input border-red-500');
   });
 });
