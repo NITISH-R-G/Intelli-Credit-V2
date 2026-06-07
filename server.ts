@@ -27,7 +27,7 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
-app.use('/api', limiter);
+app.use(limiter);
 
 // API routes
 app.get('/api/health', (req, res) => {
