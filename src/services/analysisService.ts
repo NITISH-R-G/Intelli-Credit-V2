@@ -187,6 +187,182 @@ export const calculateDisplayAnalysis = (
 };
 
 
+
+export const evaluateAnomalyFraudRules = (parsedData: any, metrics: any) => {
+  const fraudFlags: string[] = [];
+  let forceReject = false;
+  let forceRefer = false;
+
+  if (metrics.latestRevenue > 0 && metrics.latestProfit > metrics.latestRevenue) {
+    fraudFlags.push("Profit exceeds revenue (Impossible state)");
+    forceReject = true;
+  }
+  if (metrics.latestDebt > metrics.latestAssets * 2) {
+    fraudFlags.push("Extreme leverage detected");
+    forceRefer = true;
+  }
+  if (metrics.latestCashflow === 0 && metrics.latestRevenue > 1000000) {
+    fraudFlags.push("Suspiciously zero cashflow for high revenue");
+    forceRefer = true;
+  }
+
+  const currentYear = new Date().getFullYear();
+  const age = currentYear - parseInt(parsedData.companyInfo?.establishedYear || currentYear);
+  if (age <= 1 && metrics.latestRevenue > 100000000) { // > 10 Cr for < 1 year old company
+    fraudFlags.push("Unusually high revenue for a newly established entity");
+    forceRefer = true;
+  }
+
+  if (parsedData.structuredData?.revenue && parsedData.structuredData.revenue.length >= 2) {
+    const prevRevenue = parsedData.structuredData.revenue[parsedData.structuredData.revenue.length - 2].value;
+    if (prevRevenue > 0 && metrics.latestRevenue / prevRevenue > 5) { // > 500% growth
+      fraudFlags.push("Extreme revenue growth detected (>500%)");
+      forceRefer = true;
+    }
+  }
+
+  if (metrics.latestRevenue > 100000000 && metrics.profitMargin < 0.01) { // > 10 Cr with < 1% profit
+    fraudFlags.push("Suspiciously low profitability relative to high revenue");
+    forceRefer = true;
+  }
+
+  // Shell Company Detection: Low employees relative to high revenue
+  const employeeCount = parseInt(String(parsedData.companyInfo?.employees).replace(/[^0-9]/g, '')) || 0;
+  if (metrics.latestRevenue > 50000000 && employeeCount > 0 && employeeCount < 5) { // > 5 Cr with < 5 employees
+    fraudFlags.push("Potential Shell Company: Unusually low employee count for stated revenue");
+    forceRefer = true;
+  }
+
+  return { fraudFlags, forceReject, forceRefer };
+};
+
+
+export const evaluateShellCompanyPenalties = (parsedData: any) => {
+  let penaltyScore = 0;
+  const shellFlags: string[] = [];
+
+  // Specific Shell Company Penalty
+  const shellIndicators = parsedData.fraudDetection?.filter((f: any) =>
+    f.indicator.toLowerCase().includes('shell') ||
+    f.details.toLowerCase().includes('virtual office') ||
+    f.details.toLowerCase().includes('low employee') ||
+    f.details.toLowerCase().includes('director change') ||
+    f.details.toLowerCase().includes('shareholder change')
+  ) || [];
+  if (shellIndicators.some((f: any) => f.status === 'Fail')) penaltyScore += 30;
+  else if (shellIndicators.some((f: any) => f.status === 'Warning')) penaltyScore += 15;
+
+  // Shell Company Analysis Object Penalty
+  if (parsedData.shellCompanyAnalysis) {
+    const sca = parsedData.shellCompanyAnalysis;
+    if (sca.isPotentialShell) {
+      if (sca.riskLevel === 'High') penaltyScore += 25;
+      else if (sca.riskLevel === 'Medium') penaltyScore += 15;
+    }
+
+    // Check detailed indicators in shellCompanyAnalysis
+    if (sca.indicators && sca.indicators.length > 0) {
+      const scaFails = sca.indicators.filter((f: any) => f.status === 'Fail').length;
+      const scaWarnings = sca.indicators.filter((f: any) => f.status === 'Warning').length;
+      penaltyScore += (scaFails * 15);
+      penaltyScore += (scaWarnings * 5);
+
+      sca.indicators.forEach((ind: any) => {
+        if (ind.status === 'Fail' || ind.status === 'Warning') {
+          shellFlags.push(`Shell Indicator (${ind.status}): ${ind.name} - ${ind.details}`);
+        }
+      });
+    }
+
+    // Check operational evidence for specific red flags
+    const evidenceStr = (sca.operationalEvidence || []).join(' ').toLowerCase();
+    if (evidenceStr.includes('no physical assets') || evidenceStr.includes('lack of assets')) {
+      penaltyScore += 15;
+      shellFlags.push("Shell Indicator: Lack of physical assets on balance sheet");
+    }
+    if (evidenceStr.includes('virtual office') || evidenceStr.includes('registered office only')) {
+      penaltyScore += 15;
+      shellFlags.push("Shell Indicator: Official filings mention virtual/registered office only");
+    }
+  }
+
+  return { penaltyScore, shellFlags };
+};
+
+
+export const evaluateUnstructuredDataPenalties = (parsedData: any) => {
+  let penaltyScore = 0;
+  const unstructuredFlags: string[] = [];
+
+  // Director & Shareholder History Penalty
+  if (parsedData.directorShareholderHistory) {
+    const dsh = parsedData.directorShareholderHistory;
+    if (dsh.hasRapidChanges) {
+      if (dsh.riskLevel === 'High') penaltyScore += 25;
+      else if (dsh.riskLevel === 'Medium') penaltyScore += 15;
+      unstructuredFlags.push(`History Alert: Rapid or unexplained changes in directors/shareholders detected (${dsh.riskLevel} Volatility)`);
+    }
+  }
+
+  // Primary Insights Penalty (Lack of operations)
+  const siteVisitNotes = (parsedData.primaryInsights?.siteVisitObservations || []).join(' ').toLowerCase();
+  if (siteVisitNotes.includes('no physical operations') || siteVisitNotes.includes('closed') || siteVisitNotes.includes('virtual office')) {
+    penaltyScore += 25;
+    unstructuredFlags.push("Primary Insight: Lack of demonstrable physical operations at site");
+  }
+
+  // External Intelligence Penalty (MCA Status)
+  const mcaStatus = (parsedData.externalIntelligence?.mcaStatus || '').toLowerCase();
+  if (mcaStatus.includes('dormant') || mcaStatus.includes('struck off') || mcaStatus.includes('inactive')) {
+    penaltyScore += 40;
+    unstructuredFlags.push(`External Intelligence: Critical MCA Status (${parsedData.externalIntelligence.mcaStatus})`);
+  }
+
+  // Legal Dispute Penalty
+  const legalNotes = (parsedData.externalIntelligence?.legalDisputes || []).join(' ').toLowerCase();
+  if (legalNotes.includes('fraud') || legalNotes.includes('money laundering') || legalNotes.includes('scam')) {
+    penaltyScore += 35;
+    unstructuredFlags.push("External Intelligence: Critical legal disputes involving fraud/money laundering");
+  }
+
+  // Shareholding Pattern Penalty
+  const shareholding = (parsedData.unstructuredInsights?.shareholdingPattern || '').toLowerCase();
+  if (shareholding.includes('opaque') || shareholding.includes('complex') || shareholding.includes('shell')) {
+    penaltyScore += 20;
+    unstructuredFlags.push("Unstructured Insight: Opaque or complex shareholding pattern");
+  }
+
+  // Board Meeting Notes Penalty
+  const boardNotes = (parsedData.unstructuredInsights?.boardMeetingNotes || []).join(' ').toLowerCase();
+  if (boardNotes.includes('related party') || boardNotes.includes('unusual') || boardNotes.includes('deviation')) {
+    penaltyScore += 15;
+    unstructuredFlags.push("Unstructured Insight: Unusual board meeting notes or related party transactions mentioned");
+  }
+
+  // Management Interview Penalty
+  const interviewNotes = (parsedData.primaryInsights?.managementInterviews || []).join(' ').toLowerCase();
+  if (interviewNotes.includes('evasive') || interviewNotes.includes('contradictory') || interviewNotes.includes('unclear')) {
+    penaltyScore += 20;
+    unstructuredFlags.push("Primary Insight: Evasive or contradictory management responses");
+  }
+
+  // Rating Agency Penalty
+  const ratingReport = (parsedData.unstructuredInsights?.ratingAgencyReports || '').toLowerCase();
+  if (ratingReport.includes('downgrade') || ratingReport.includes('negative') || ratingReport.includes('default')) {
+    penaltyScore += 30;
+    unstructuredFlags.push("Unstructured Insight: Negative rating agency report or downgrade");
+  }
+
+  // News/Sector Trends Penalty
+  const newsNotes = (parsedData.externalIntelligence?.newsSectorTrends || []).join(' ').toLowerCase();
+  if (newsNotes.includes('scandal') || newsNotes.includes('investigation') || newsNotes.includes('fraud') || newsNotes.includes('crisis')) {
+    penaltyScore += 25;
+    unstructuredFlags.push("External Intelligence: Negative news or sector-wide crisis detected");
+  }
+
+  return { penaltyScore, unstructuredFlags };
+};
+
 export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
     // Feature Calculations
     const latestRevenue = parsedData.structuredData.revenue[parsedData.structuredData.revenue.length - 1].value;
@@ -209,63 +385,33 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
     if (latestCashflow < 0) riskScore += 15;
 
     // Penalize for unverified or mismatched data
-    const unverifiedCount = parsedData.verificationLayer.filter((v: any) => v.status === 'Unverified').length;
-    const mismatchCount = parsedData.verificationLayer.filter((v: any) => v.status === 'Mismatch').length;
+    const unverifiedCount = (parsedData.verificationLayer || []).filter((v: any) => v.status === 'Unverified').length;
+    const mismatchCount = (parsedData.verificationLayer || []).filter((v: any) => v.status === 'Mismatch').length;
     riskScore += (unverifiedCount * 5);
     riskScore += (mismatchCount * 15);
 
     // Fraud Detection (Simple Anomaly Rules)
-    const fraudFlags = [];
-    let forceReject = false;
-    let forceRefer = false;
-
-    if (latestRevenue > 0 && latestProfit > latestRevenue) {
-      fraudFlags.push("Profit exceeds revenue (Impossible state)");
-      forceReject = true;
-    }
-    if (latestDebt > latestAssets * 2) {
-      fraudFlags.push("Extreme leverage detected");
-      forceRefer = true;
-    }
-    if (latestCashflow === 0 && latestRevenue > 1000000) {
-      fraudFlags.push("Suspiciously zero cashflow for high revenue");
-      forceRefer = true;
-    }
-
-    const currentYear = new Date().getFullYear();
-    const age = currentYear - parseInt(parsedData.companyInfo.establishedYear || currentYear);
-    if (age <= 1 && latestRevenue > 100000000) { // > 10 Cr for < 1 year old company
-      fraudFlags.push("Unusually high revenue for a newly established entity");
-      forceRefer = true;
-    }
-
-    if (parsedData.structuredData.revenue.length >= 2) {
-      const prevRevenue = parsedData.structuredData.revenue[parsedData.structuredData.revenue.length - 2].value;
-      if (prevRevenue > 0 && latestRevenue / prevRevenue > 5) { // > 500% growth
-        fraudFlags.push("Extreme revenue growth detected (>500%)");
-        forceRefer = true;
-      }
-    }
-
-    if (latestRevenue > 100000000 && profitMargin < 0.01) { // > 10 Cr with < 1% profit
-      fraudFlags.push("Suspiciously low profitability relative to high revenue");
-      forceRefer = true;
-    }
-
-    // Shell Company Detection: Low employees relative to high revenue
-    const employeeCount = parseInt(String(parsedData.companyInfo.employees).replace(/[^0-9]/g, '')) || 0;
-    if (latestRevenue > 50000000 && employeeCount > 0 && employeeCount < 5) { // > 5 Cr with < 5 employees
-      fraudFlags.push("Potential Shell Company: Unusually low employee count for stated revenue");
-      forceRefer = true;
-    }
-
+    const fraudFlags: string[] = [];
     if (mismatchCount > 0) {
       fraudFlags.push(`${mismatchCount} data mismatch(es) detected during verification`);
     }
 
-    // Adjust score based on fraud flags
-    if (forceReject) riskScore += 50;
-    if (forceRefer) riskScore += 20;
+    const anomalyMetrics = {
+      latestRevenue,
+      latestDebt,
+      latestProfit,
+      latestAssets,
+      latestLiabilities,
+      latestCashflow,
+      debtToIncome,
+      profitMargin,
+      currentRatio
+    };
+
+    const anomalyResult = evaluateAnomalyFraudRules(parsedData, anomalyMetrics);
+    fraudFlags.push(...anomalyResult.fraudFlags);
+    if (anomalyResult.forceReject) riskScore += 50;
+    if (anomalyResult.forceRefer) riskScore += 20;
 
     // AI-detected fraud penalties
     const aiFraudFails = parsedData.fraudDetection?.filter((f: any) => f.status === 'Fail').length || 0;
@@ -273,116 +419,15 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
     riskScore += (aiFraudFails * 20);
     riskScore += (aiFraudWarnings * 10);
 
-    // Specific Shell Company Penalty
-    const shellIndicators = parsedData.fraudDetection?.filter((f: any) =>
-      f.indicator.toLowerCase().includes('shell') ||
-      f.details.toLowerCase().includes('virtual office') ||
-      f.details.toLowerCase().includes('low employee') ||
-      f.details.toLowerCase().includes('director change') ||
-      f.details.toLowerCase().includes('shareholder change')
-    ) || [];
-    if (shellIndicators.some((f: any) => f.status === 'Fail')) riskScore += 30;
-    else if (shellIndicators.some((f: any) => f.status === 'Warning')) riskScore += 15;
+    // Shell Company Penalty
+    const shellResult = evaluateShellCompanyPenalties(parsedData);
+    riskScore += shellResult.penaltyScore;
+    fraudFlags.push(...shellResult.shellFlags);
 
-    // Shell Company Analysis Object Penalty
-    if (parsedData.shellCompanyAnalysis) {
-      const sca = parsedData.shellCompanyAnalysis;
-      if (sca.isPotentialShell) {
-        if (sca.riskLevel === 'High') riskScore += 25;
-        else if (sca.riskLevel === 'Medium') riskScore += 15;
-      }
-
-      // Check detailed indicators in shellCompanyAnalysis
-      if (sca.indicators && sca.indicators.length > 0) {
-        const scaFails = sca.indicators.filter((f: any) => f.status === 'Fail').length;
-        const scaWarnings = sca.indicators.filter((f: any) => f.status === 'Warning').length;
-        riskScore += (scaFails * 15);
-        riskScore += (scaWarnings * 5);
-
-        sca.indicators.forEach((ind: any) => {
-          if (ind.status === 'Fail' || ind.status === 'Warning') {
-            fraudFlags.push(`Shell Indicator (${ind.status}): ${ind.name} - ${ind.details}`);
-          }
-        });
-      }
-
-      // Check operational evidence for specific red flags
-      const evidenceStr = sca.operationalEvidence.join(' ').toLowerCase();
-      if (evidenceStr.includes('no physical assets') || evidenceStr.includes('lack of assets')) {
-        riskScore += 15;
-        fraudFlags.push("Shell Indicator: Lack of physical assets on balance sheet");
-      }
-      if (evidenceStr.includes('virtual office') || evidenceStr.includes('registered office only')) {
-        riskScore += 15;
-        fraudFlags.push("Shell Indicator: Official filings mention virtual/registered office only");
-      }
-    }
-
-    // Director & Shareholder History Penalty
-    if (parsedData.directorShareholderHistory) {
-      const dsh = parsedData.directorShareholderHistory;
-      if (dsh.hasRapidChanges) {
-        if (dsh.riskLevel === 'High') riskScore += 25;
-        else if (dsh.riskLevel === 'Medium') riskScore += 15;
-        fraudFlags.push(`History Alert: Rapid or unexplained changes in directors/shareholders detected (${dsh.riskLevel} Volatility)`);
-      }
-    }
-
-    // Primary Insights Penalty (Lack of operations)
-    const siteVisitNotes = parsedData.primaryInsights.siteVisitObservations.join(' ').toLowerCase();
-    if (siteVisitNotes.includes('no physical operations') || siteVisitNotes.includes('closed') || siteVisitNotes.includes('virtual office')) {
-      riskScore += 25;
-      fraudFlags.push("Primary Insight: Lack of demonstrable physical operations at site");
-    }
-
-    // External Intelligence Penalty (MCA Status)
-    const mcaStatus = parsedData.externalIntelligence.mcaStatus.toLowerCase();
-    if (mcaStatus.includes('dormant') || mcaStatus.includes('struck off') || mcaStatus.includes('inactive')) {
-      riskScore += 40;
-      fraudFlags.push(`External Intelligence: Critical MCA Status (${parsedData.externalIntelligence.mcaStatus})`);
-    }
-
-    // Legal Dispute Penalty
-    const legalNotes = parsedData.externalIntelligence.legalDisputes.join(' ').toLowerCase();
-    if (legalNotes.includes('fraud') || legalNotes.includes('money laundering') || legalNotes.includes('scam')) {
-      riskScore += 35;
-      fraudFlags.push("External Intelligence: Critical legal disputes involving fraud/money laundering");
-    }
-
-    // Shareholding Pattern Penalty
-    const shareholding = parsedData.unstructuredInsights.shareholdingPattern.toLowerCase();
-    if (shareholding.includes('opaque') || shareholding.includes('complex') || shareholding.includes('shell')) {
-      riskScore += 20;
-      fraudFlags.push("Unstructured Insight: Opaque or complex shareholding pattern");
-    }
-
-    // Board Meeting Notes Penalty
-    const boardNotes = parsedData.unstructuredInsights.boardMeetingNotes.join(' ').toLowerCase();
-    if (boardNotes.includes('related party') || boardNotes.includes('unusual') || boardNotes.includes('deviation')) {
-      riskScore += 15;
-      fraudFlags.push("Unstructured Insight: Unusual board meeting notes or related party transactions mentioned");
-    }
-
-    // Management Interview Penalty
-    const interviewNotes = parsedData.primaryInsights.managementInterviews.join(' ').toLowerCase();
-    if (interviewNotes.includes('evasive') || interviewNotes.includes('contradictory') || interviewNotes.includes('unclear')) {
-      riskScore += 20;
-      fraudFlags.push("Primary Insight: Evasive or contradictory management responses");
-    }
-
-    // Rating Agency Penalty
-    const ratingReport = parsedData.unstructuredInsights.ratingAgencyReports.toLowerCase();
-    if (ratingReport.includes('downgrade') || ratingReport.includes('negative') || ratingReport.includes('default')) {
-      riskScore += 30;
-      fraudFlags.push("Unstructured Insight: Negative rating agency report or downgrade");
-    }
-
-    // News/Sector Trends Penalty
-    const newsNotes = parsedData.externalIntelligence.newsSectorTrends.join(' ').toLowerCase();
-    if (newsNotes.includes('scandal') || newsNotes.includes('investigation') || newsNotes.includes('fraud') || newsNotes.includes('crisis')) {
-      riskScore += 25;
-      fraudFlags.push("External Intelligence: Negative news or sector-wide crisis detected");
-    }
+    // Unstructured Data Penalty
+    const unstructuredResult = evaluateUnstructuredDataPenalties(parsedData);
+    riskScore += unstructuredResult.penaltyScore;
+    fraudFlags.push(...unstructuredResult.unstructuredFlags);
 
     riskScore = Math.min(Math.max(riskScore, 0), 100);
 
