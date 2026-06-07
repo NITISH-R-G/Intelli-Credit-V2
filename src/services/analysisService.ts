@@ -1,5 +1,5 @@
 import React from "react";
-import { CreditAnalysis } from '../types';
+import { CreditAnalysis, VerificationDataPoint, FraudDetectionCheck, ShellIndicator } from '../types';
 import { INDUSTRY_BENCHMARKS } from '../constants';
 import { AppError } from "../types";
 import { hashFile, fileToBase64, fileToText } from '../lib/file-utils';
@@ -187,7 +187,7 @@ export const calculateDisplayAnalysis = (
 };
 
 
-export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
+export const calculateRiskAndFraud = (parsedData: CreditAnalysis): CreditAnalysis => {
     // Feature Calculations
     const latestRevenue = parsedData.structuredData.revenue[parsedData.structuredData.revenue.length - 1].value;
     const latestDebt = parsedData.structuredData.debt[parsedData.structuredData.debt.length - 1].value;
@@ -209,8 +209,8 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
     if (latestCashflow < 0) riskScore += 15;
 
     // Penalize for unverified or mismatched data
-    const unverifiedCount = parsedData.verificationLayer.filter((v: any) => v.status === 'Unverified').length;
-    const mismatchCount = parsedData.verificationLayer.filter((v: any) => v.status === 'Mismatch').length;
+    const unverifiedCount = parsedData.verificationLayer.filter((v: VerificationDataPoint) => v.status === 'Unverified').length;
+    const mismatchCount = parsedData.verificationLayer.filter((v: VerificationDataPoint) => v.status === 'Mismatch').length;
     riskScore += (unverifiedCount * 5);
     riskScore += (mismatchCount * 15);
 
@@ -233,7 +233,7 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
     }
 
     const currentYear = new Date().getFullYear();
-    const age = currentYear - parseInt(parsedData.companyInfo.establishedYear || currentYear);
+    const age = currentYear - parseInt(String(parsedData.companyInfo.establishedYear || currentYear));
     if (age <= 1 && latestRevenue > 100000000) { // > 10 Cr for < 1 year old company
       fraudFlags.push("Unusually high revenue for a newly established entity");
       forceRefer = true;
@@ -268,21 +268,21 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
     if (forceRefer) riskScore += 20;
 
     // AI-detected fraud penalties
-    const aiFraudFails = parsedData.fraudDetection?.filter((f: any) => f.status === 'Fail').length || 0;
-    const aiFraudWarnings = parsedData.fraudDetection?.filter((f: any) => f.status === 'Warning').length || 0;
+    const aiFraudFails = parsedData.fraudDetection?.filter((f: FraudDetectionCheck) => f.status === 'Fail').length || 0;
+    const aiFraudWarnings = parsedData.fraudDetection?.filter((f: FraudDetectionCheck) => f.status === 'Warning').length || 0;
     riskScore += (aiFraudFails * 20);
     riskScore += (aiFraudWarnings * 10);
 
     // Specific Shell Company Penalty
-    const shellIndicators = parsedData.fraudDetection?.filter((f: any) =>
+    const shellIndicators = parsedData.fraudDetection?.filter((f: FraudDetectionCheck) =>
       f.indicator.toLowerCase().includes('shell') ||
       f.details.toLowerCase().includes('virtual office') ||
       f.details.toLowerCase().includes('low employee') ||
       f.details.toLowerCase().includes('director change') ||
       f.details.toLowerCase().includes('shareholder change')
     ) || [];
-    if (shellIndicators.some((f: any) => f.status === 'Fail')) riskScore += 30;
-    else if (shellIndicators.some((f: any) => f.status === 'Warning')) riskScore += 15;
+    if (shellIndicators.some((f: FraudDetectionCheck) => f.status === 'Fail')) riskScore += 30;
+    else if (shellIndicators.some((f: FraudDetectionCheck) => f.status === 'Warning')) riskScore += 15;
 
     // Shell Company Analysis Object Penalty
     if (parsedData.shellCompanyAnalysis) {
@@ -294,12 +294,12 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
 
       // Check detailed indicators in shellCompanyAnalysis
       if (sca.indicators && sca.indicators.length > 0) {
-        const scaFails = sca.indicators.filter((f: any) => f.status === 'Fail').length;
-        const scaWarnings = sca.indicators.filter((f: any) => f.status === 'Warning').length;
+        const scaFails = sca.indicators.filter((f: ShellIndicator) => f.status === 'Fail').length;
+        const scaWarnings = sca.indicators.filter((f: ShellIndicator) => f.status === 'Warning').length;
         riskScore += (scaFails * 15);
         riskScore += (scaWarnings * 5);
 
-        sca.indicators.forEach((ind: any) => {
+        sca.indicators.forEach((ind: ShellIndicator) => {
           if (ind.status === 'Fail' || ind.status === 'Warning') {
             fraudFlags.push(`Shell Indicator (${ind.status}): ${ind.name} - ${ind.details}`);
           }
@@ -431,7 +431,7 @@ export const executeAIExtractionLoop = async (
   config: any,
   apiMode: boolean,
   bureauApiKey: string
-): Promise<any> => {
+): Promise<CreditAnalysis> => {
     let extractionResponse = await genAI.models.generateContent({
       model,
       contents: currentContents,
