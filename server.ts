@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import multer from "multer";
 import * as pdf from "pdf-parse";
 import cors from "cors";
+import { fileTypeFromBuffer } from "file-type";
 
 dotenv.config();
 
@@ -29,14 +30,22 @@ app.post("/api/extract-text", upload.single("file"), async (req, res) => {
       return res.status(400).json({ error: "No file uploaded" });
     }
     const fileBuffer = req.file.buffer;
-    const fileType = req.file.mimetype;
-    if (fileType === "application/pdf") {
+
+    // Verify file type using magic bytes instead of relying on user-provided mimetype
+    const actualFileType = await fileTypeFromBuffer(fileBuffer);
+    if (!actualFileType) {
+        return res.status(400).json({ error: "Could not determine file type" });
+    }
+
+    const mimeType = actualFileType.mime;
+
+    if (mimeType === "application/pdf") {
       const pdfParser = (pdf as any).default || pdf;
       const data = await pdfParser(fileBuffer);
       return res.json({ text: data.text });
-    } else if (fileType.startsWith("image/")) {
+    } else if (mimeType.startsWith("image/")) {
       const base64Data = fileBuffer.toString("base64");
-      return res.json({ base64: base64Data, mimeType: fileType });
+      return res.json({ base64: base64Data, mimeType: mimeType });
     } else {
       return res.status(400).json({ error: "Unsupported file type" });
     }
