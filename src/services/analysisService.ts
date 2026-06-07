@@ -492,12 +492,10 @@ export const executeAIExtractionLoop = async (
 };
 
 export const prepareDocumentContents = async (files: File[]): Promise<any[]> => {
-    let currentContents: any[] = [];
-
-    for (const f of files) {
+    const promises = files.map(async (f) => {
       if (f.type === "application/pdf" || f.type.startsWith("image/")) {
         const base64Data = await fileToBase64(f);
-        currentContents.push({
+        return {
           role: "user",
           parts: [
             {
@@ -507,19 +505,21 @@ export const prepareDocumentContents = async (files: File[]): Promise<any[]> => 
               },
             },
           ],
-        });
+        };
       } else {
         const text = await fileToText(f);
-        currentContents.push({
+        return {
           role: "user",
           parts: [
             {
               text: `Document Name: ${f.name}\n\nDocument Text:\n${text.substring(0, 10000)}`,
             },
           ],
-        });
+        };
       }
-    }
+    });
+
+    let currentContents = await Promise.all(promises);
 
     // Add the extraction prompt to the last content part
     if (currentContents.length > 0) {
