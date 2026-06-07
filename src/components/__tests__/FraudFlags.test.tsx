@@ -7,7 +7,7 @@ import { FraudFlags } from '../FraudFlags';
 import { CreditAnalysis } from '../../types';
 
 vi.mock('lucide-react', () => ({
-  AlertTriangle: () => <div data-testid="alert-triangle-icon" />
+  AlertTriangle: () => <div data-testid="alert-triangle-icon" />,
 }));
 
 describe('FraudFlags', () => {
@@ -18,7 +18,7 @@ describe('FraudFlags', () => {
 
   it('renders nothing when there are no fraud flags', () => {
     const analysisWithoutFlags = {
-      fraudFlags: []
+      fraudFlags: [],
     } as unknown as CreditAnalysis;
 
     const { container } = render(<FraudFlags analysis={analysisWithoutFlags} />);
@@ -27,7 +27,7 @@ describe('FraudFlags', () => {
 
   it('renders fraud flags correctly', () => {
     const analysisWithFlags = {
-      fraudFlags: ['Suspicious Activity', 'Unverified Identity']
+      fraudFlags: ['Suspicious Activity', 'Unverified Identity'],
     } as unknown as CreditAnalysis;
 
     render(<FraudFlags analysis={analysisWithFlags} />);

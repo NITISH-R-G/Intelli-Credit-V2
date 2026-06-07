@@ -1,29 +1,29 @@
 # Add 'dependencies' label to PRs touching package.json or lockfile
 dependencies:
   - any:
-    - changed-files:
-      - any-glob-to-any-file: ['package.json', 'package-lock.json']
+      - changed-files:
+          - any-glob-to-any-file: ['package.json', 'package-lock.json']
 
 # Add 'frontend' label to PRs touching src/ or index.html
 frontend:
   - any:
-    - changed-files:
-      - any-glob-to-any-file: ['src/**/*', 'index.html']
+      - changed-files:
+          - any-glob-to-any-file: ['src/**/*', 'index.html']
 
 # Add 'backend' label to PRs touching server.ts
 backend:
   - any:
-    - changed-files:
-      - any-glob-to-any-file: ['server.ts']
+      - changed-files:
+          - any-glob-to-any-file: ['server.ts']
 
 # Add 'docs' label to PRs touching markdown files
 documentation:
   - any:
-    - changed-files:
-      - any-glob-to-any-file: ['**/*.md', 'docs/**/*']
+      - changed-files:
+          - any-glob-to-any-file: ['**/*.md', 'docs/**/*']
 
 # Add 'github-actions' label to PRs touching workflow files
 github-actions:
   - any:
-    - changed-files:
-      - any-glob-to-any-file: ['.github/workflows/*.yml']
+      - changed-files:
+          - any-glob-to-any-file: ['.github/workflows/*.yml']

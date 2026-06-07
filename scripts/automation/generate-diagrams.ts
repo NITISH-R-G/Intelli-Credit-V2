@@ -4,7 +4,12 @@ import path from 'path';
 // Helper to escape node names in Mermaid
 const sanitize = (name: string) => name.replace(/[^a-zA-Z0-9]/g, '_');
 
-const buildMermaidFromStructure = (structure: any, parentNode: string, depth = 0, lines: string[] = []) => {
+const buildMermaidFromStructure = (
+  structure: any,
+  parentNode: string,
+  depth = 0,
+  lines: string[] = [],
+) => {
   if (depth > 2) return; // Limit depth to avoid massive unreadable graphs
 
   for (const [key, value] of Object.entries(structure)) {
@@ -30,14 +35,14 @@ const generateServiceMap = () => {
   if (!srcStructure) return '';
 
   const lines: string[] = [];
-  lines.push("```mermaid");
-  lines.push("graph LR;");
+  lines.push('```mermaid');
+  lines.push('graph LR;');
   lines.push(`  subgraph Application Services`);
 
   // Simple mapping: top level folders in src map to services/modules
   for (const [key, value] of Object.entries(srcStructure)) {
     if (typeof value === 'object' && value !== null && key !== '__tests__') {
-       lines.push(`    ${sanitize(key)}["${key.toUpperCase()}"]`);
+      lines.push(`    ${sanitize(key)}["${key.toUpperCase()}"]`);
     }
   }
 
@@ -53,7 +58,7 @@ const generateServiceMap = () => {
   }
 
   lines.push(`  end`);
-  lines.push("```");
+  lines.push('```');
 
   return lines.join('\n');
 };
@@ -64,8 +69,8 @@ const generateArchitectureGraph = () => {
 
   const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   const lines: string[] = [];
-  lines.push("```mermaid");
-  lines.push("graph TD;");
+  lines.push('```mermaid');
+  lines.push('graph TD;');
 
   lines.push(`  Root["${metadata.name || 'Repository Root'}"]`);
 
@@ -77,7 +82,7 @@ const generateArchitectureGraph = () => {
   if (metadata.dependencies) {
     lines.push(`  subgraph Dependencies`);
     const deps = Object.keys(metadata.dependencies);
-    deps.slice(0, 10).forEach(dep => {
+    deps.slice(0, 10).forEach((dep) => {
       lines.push(`    Root --> Dep_${sanitize(dep)}["${dep}"]`);
     });
     if (deps.length > 10) {
@@ -86,12 +91,12 @@ const generateArchitectureGraph = () => {
     lines.push(`  end`);
   }
 
-  lines.push("```");
+  lines.push('```');
   return lines.join('\n');
 };
 
 const main = () => {
-  console.log("Generating dynamic architecture diagrams...");
+  console.log('Generating dynamic architecture diagrams...');
 
   const outDir = path.resolve(process.cwd(), 'docs/architecture');
   if (!fs.existsSync(outDir)) {
@@ -100,18 +105,26 @@ const main = () => {
 
   const mermaidGraph = generateArchitectureGraph();
   if (mermaidGraph) {
-    fs.writeFileSync(path.join(outDir, 'dependency-graph.md'), `# Architecture & Dependencies\n\nThis diagram is auto-generated based on the repository structure and dependencies.\n\n${mermaidGraph}`);
-    console.log("Interactive Dependency Diagram generated successfully.");
+    fs.writeFileSync(
+      path.join(outDir, 'dependency-graph.md'),
+      `# Architecture & Dependencies\n\nThis diagram is auto-generated based on the repository structure and dependencies.\n\n${mermaidGraph}`,
+    );
+    console.log('Interactive Dependency Diagram generated successfully.');
   } else {
-    console.warn("Could not generate diagram. metadata.json might be missing.");
+    console.warn('Could not generate diagram. metadata.json might be missing.');
   }
 
   const serviceMap = generateServiceMap();
   if (serviceMap) {
-    fs.writeFileSync(path.join(outDir, 'SERVICE_MAP.md'), `# Service Map\n\nThis diagram is auto-generated based on the application's source modules.\n\n${serviceMap}`);
-    console.log("Interactive Service Map generated successfully.");
+    fs.writeFileSync(
+      path.join(outDir, 'SERVICE_MAP.md'),
+      `# Service Map\n\nThis diagram is auto-generated based on the application's source modules.\n\n${serviceMap}`,
+    );
+    console.log('Interactive Service Map generated successfully.');
   } else {
-    console.warn("Could not generate service map. metadata.json might be missing or src/ not found.");
+    console.warn(
+      'Could not generate service map. metadata.json might be missing or src/ not found.',
+    );
   }
 };
 

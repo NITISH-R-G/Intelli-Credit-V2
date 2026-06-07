@@ -8,7 +8,7 @@ import { CreditAnalysis } from '../../types';
 
 vi.mock('lucide-react', () => ({
   FileWarning: () => <div data-testid="file-warning-icon" />,
-  CheckCircle2: () => <div data-testid="check-circle-icon" />
+  CheckCircle2: () => <div data-testid="check-circle-icon" />,
 }));
 
 describe('ActionRecommendation', () => {
@@ -21,7 +21,7 @@ describe('ActionRecommendation', () => {
     missingData: [],
     requiredDocs: [],
     recommendation: 'Approve with Conditions',
-    explanation: 'Solid financials, but missing some recent statements.'
+    explanation: 'Solid financials, but missing some recent statements.',
   } as unknown as CreditAnalysis;
 
   it('renders correctly with no missing data or required docs', () => {
@@ -34,13 +34,15 @@ describe('ActionRecommendation', () => {
 
     expect(screen.getByText('Final Recommendation')).toBeInTheDocument();
     expect(screen.getByText('Approve with Conditions')).toBeInTheDocument();
-    expect(screen.getByText('Solid financials, but missing some recent statements.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Solid financials, but missing some recent statements.'),
+    ).toBeInTheDocument();
   });
 
   it('renders missing data correctly', () => {
     const analysisWithMissingData = {
       ...mockAnalysisBase,
-      missingData: ['Q3 Financials', 'Board Resolution']
+      missingData: ['Q3 Financials', 'Board Resolution'],
     } as unknown as CreditAnalysis;
 
     render(<ActionRecommendation analysis={analysisWithMissingData} />);
@@ -54,7 +56,7 @@ describe('ActionRecommendation', () => {
   it('renders required documents correctly', () => {
     const analysisWithRequiredDocs = {
       ...mockAnalysisBase,
-      requiredDocs: ['Tax Returns', 'ID Proof']
+      requiredDocs: ['Tax Returns', 'ID Proof'],
     } as unknown as CreditAnalysis;
 
     render(<ActionRecommendation analysis={analysisWithRequiredDocs} />);
@@ -68,7 +70,7 @@ describe('ActionRecommendation', () => {
   it('renders different colors based on recommendation (Reject)', () => {
     const rejectedAnalysis = {
       ...mockAnalysisBase,
-      recommendation: 'Reject due to high risk'
+      recommendation: 'Reject due to high risk',
     } as unknown as CreditAnalysis;
 
     render(<ActionRecommendation analysis={rejectedAnalysis} />);

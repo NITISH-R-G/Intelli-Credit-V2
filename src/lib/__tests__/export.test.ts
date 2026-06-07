@@ -100,7 +100,7 @@ describe('downloadPDF', () => {
       details: 'toPng failed',
       action: 'Try refreshing the page or using a different browser.',
       rawLogs: expect.any(String),
-      type: 'FILE_ERROR'
+      type: 'FILE_ERROR',
     });
 
     expect(mockSetIsExporting).toHaveBeenCalledWith(false);
@@ -202,7 +202,7 @@ describe('downloadJSON', () => {
     const mockAnchorNode = {
       setAttribute: vi.fn(),
       click: vi.fn(),
-      remove: vi.fn()
+      remove: vi.fn(),
     };
     document.createElement = vi.fn().mockReturnValue(mockAnchorNode);
     document.body.appendChild = vi.fn();
@@ -212,11 +212,11 @@ describe('downloadJSON', () => {
     expect(document.createElement).toHaveBeenCalledWith('a');
     expect(mockAnchorNode.setAttribute).toHaveBeenCalledWith(
       'href',
-      expect.stringContaining('data:text/json;charset=utf-8,')
+      expect.stringContaining('data:text/json;charset=utf-8,'),
     );
     expect(mockAnchorNode.setAttribute).toHaveBeenCalledWith(
       'download',
-      'cam-report-test-co-ltd.json'
+      'cam-report-test-co-ltd.json',
     );
     expect(document.body.appendChild).toHaveBeenCalledWith(mockAnchorNode);
     expect(mockAnchorNode.click).toHaveBeenCalled();
@@ -238,7 +238,7 @@ describe('downloadJSON', () => {
       details: 'Serialization failed',
       action: 'Check if the analysis data is complete.',
       rawLogs: expect.any(String),
-      type: 'FILE_ERROR'
+      type: 'FILE_ERROR',
     });
 
     JSON.stringify = originalStringify;

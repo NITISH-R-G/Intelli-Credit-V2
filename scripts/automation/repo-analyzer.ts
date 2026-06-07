@@ -32,7 +32,7 @@ const analyzePackageJson = (): Partial<RepoMetadata> => {
       dependencies: pkg.dependencies || {},
       devDependencies: pkg.devDependencies || {},
       scripts: pkg.scripts || {},
-      frameworks
+      frameworks,
     };
   }
   return {};
@@ -52,14 +52,14 @@ const mapDirectory = (dir: string, depth = 0, maxDepth = 3): any => {
     if (stat.isDirectory()) {
       structure[item] = mapDirectory(fullPath, depth + 1, maxDepth);
     } else {
-      structure[item] = "file";
+      structure[item] = 'file';
     }
   }
   return structure;
 };
 
 const main = () => {
-  console.log("Analyzing repository...");
+  console.log('Analyzing repository...');
 
   const pkgMeta = analyzePackageJson();
   const structure = mapDirectory(process.cwd());
@@ -72,11 +72,11 @@ const main = () => {
     devDependencies: pkgMeta.devDependencies || {},
     scripts: pkgMeta.scripts || {},
     frameworks: pkgMeta.frameworks || [],
-    structure
+    structure,
   };
 
   fs.writeFileSync(path.resolve(process.cwd(), 'metadata.json'), JSON.stringify(metadata, null, 2));
-  console.log("Analysis complete. Saved to metadata.json");
+  console.log('Analysis complete. Saved to metadata.json');
 };
 
 main();

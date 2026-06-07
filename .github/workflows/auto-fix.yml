@@ -1,0 +1,51 @@
+name: Repository Self-Healing
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+  schedule:
+    - cron: '0 2 * * *' # Daily at 2 AM
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  auto-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Auto-fix Formatting and Linting
+        run: |
+          npm run format || true
+          npm run lint:fix || true
+
+      - name: Run Self-Healing Script (auto-fix.ts)
+        run: npm run fix || true
+
+      - name: Commit fixes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -u
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "chore(auto-fix): self-healing repository formatting and lint fixes [skip ci]"
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          else
+            echo "No changes to commit"
+          fi

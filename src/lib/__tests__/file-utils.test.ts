@@ -57,7 +57,9 @@ describe('fileToBase64', () => {
 
     const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
-    await expect(fileToBase64(file)).rejects.toThrow('FILE_ERROR: Failed to convert test.txt to base64 format.');
+    await expect(fileToBase64(file)).rejects.toThrow(
+      'FILE_ERROR: Failed to convert test.txt to base64 format.',
+    );
   });
 
   it('should reject on file reader error', async () => {
@@ -75,7 +77,9 @@ describe('fileToBase64', () => {
 
     const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
-    await expect(fileToBase64(file)).rejects.toThrow('FILE_ERROR: Error reading test.txt. The file might be corrupted.');
+    await expect(fileToBase64(file)).rejects.toThrow(
+      'FILE_ERROR: Error reading test.txt. The file might be corrupted.',
+    );
   });
 });
 
@@ -112,7 +116,9 @@ describe('fileToText', () => {
 
     const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
-    await expect(fileToText(file)).rejects.toThrow('FILE_ERROR: Failed to extract text from test.txt.');
+    await expect(fileToText(file)).rejects.toThrow(
+      'FILE_ERROR: Failed to extract text from test.txt.',
+    );
   });
 
   it('should reject on file reader error', async () => {
@@ -130,6 +136,8 @@ describe('fileToText', () => {
 
     const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
-    await expect(fileToText(file)).rejects.toThrow('FILE_ERROR: Error reading test.txt. The file might be corrupted.');
+    await expect(fileToText(file)).rejects.toThrow(
+      'FILE_ERROR: Error reading test.txt. The file might be corrupted.',
+    );
   });
 });

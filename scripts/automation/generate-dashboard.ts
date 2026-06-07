@@ -9,149 +9,158 @@ dotenv.config();
 // --- Data Gathering ---
 
 function getGitStats() {
-    try {
-        const commitCount = parseInt(execSync('git rev-list --count HEAD').toString().trim());
-        const authorCount = parseInt(execSync('git log --format="%aN" | sort -u | wc -l').toString().trim());
+  try {
+    const commitCount = parseInt(execSync('git rev-list --count HEAD').toString().trim());
+    const authorCount = parseInt(
+      execSync('git log --format="%aN" | sort -u | wc -l').toString().trim(),
+    );
 
-        // Simulating some stats since a full git history might not be available or too complex to parse here
-        const recentCommits = parseInt(execSync('git log --since="1 week ago" --oneline | wc -l').toString().trim());
+    // Simulating some stats since a full git history might not be available or too complex to parse here
+    const recentCommits = parseInt(
+      execSync('git log --since="1 week ago" --oneline | wc -l').toString().trim(),
+    );
 
-        return {
-            commitCount,
-            authorCount,
-            recentCommits,
-            branchCount: parseInt(execSync('git branch -r | wc -l').toString().trim()) || 1
-        };
-    } catch (e) {
-        console.error("Error getting git stats", e);
-        return { commitCount: 0, authorCount: 0, recentCommits: 0, branchCount: 1 };
-    }
+    return {
+      commitCount,
+      authorCount,
+      recentCommits,
+      branchCount: parseInt(execSync('git branch -r | wc -l').toString().trim()) || 1,
+    };
+  } catch (e) {
+    console.error('Error getting git stats', e);
+    return { commitCount: 0, authorCount: 0, recentCommits: 0, branchCount: 1 };
+  }
 }
 
 function getFileStats() {
-    try {
-        // Exclude node_modules, dist, .git
-        const files = execSync('find . -type f -not -path "*/node_modules/*" -not -path "*/dist/*" -not -path "*/.git/*"').toString().split('\n').filter(Boolean);
-        const tsFiles = files.filter(f => f.endsWith('.ts') || f.endsWith('.tsx')).length;
-        const jsFiles = files.filter(f => f.endsWith('.js') || f.endsWith('.jsx')).length;
-        const cssFiles = files.filter(f => f.endsWith('.css')).length;
+  try {
+    // Exclude node_modules, dist, .git
+    const files = execSync(
+      'find . -type f -not -path "*/node_modules/*" -not -path "*/dist/*" -not -path "*/.git/*"',
+    )
+      .toString()
+      .split('\n')
+      .filter(Boolean);
+    const tsFiles = files.filter((f) => f.endsWith('.ts') || f.endsWith('.tsx')).length;
+    const jsFiles = files.filter((f) => f.endsWith('.js') || f.endsWith('.jsx')).length;
+    const cssFiles = files.filter((f) => f.endsWith('.css')).length;
 
-        return {
-            totalFiles: files.length,
-            tsFiles,
-            jsFiles,
-            cssFiles
-        };
-    } catch (e) {
-        return { totalFiles: 0, tsFiles: 0, jsFiles: 0, cssFiles: 0 };
-    }
+    return {
+      totalFiles: files.length,
+      tsFiles,
+      jsFiles,
+      cssFiles,
+    };
+  } catch (e) {
+    return { totalFiles: 0, tsFiles: 0, jsFiles: 0, cssFiles: 0 };
+  }
 }
 
 function getPackageStats() {
-    try {
-        const pkgPath = path.resolve(process.cwd(), 'package.json');
-        if (!fs.existsSync(pkgPath)) return { deps: 0, devDeps: 0 };
-        const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-        return {
-            deps: Object.keys(pkg.dependencies || {}).length,
-            devDeps: Object.keys(pkg.devDependencies || {}).length
-        };
-    } catch (e) {
-        return { deps: 0, devDeps: 0 };
-    }
+  try {
+    const pkgPath = path.resolve(process.cwd(), 'package.json');
+    if (!fs.existsSync(pkgPath)) return { deps: 0, devDeps: 0 };
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+    return {
+      deps: Object.keys(pkg.dependencies || {}).length,
+      devDeps: Object.keys(pkg.devDependencies || {}).length,
+    };
+  } catch (e) {
+    return { deps: 0, devDeps: 0 };
+  }
 }
 
 // Run npm audit
 function getAuditStats() {
-    try {
-        console.log("Running npm audit...");
-        const auditOutput = execSync('npm audit --json || true', { encoding: 'utf8' });
-        const audit = JSON.parse(auditOutput);
-        return {
-            critical: audit.metadata?.vulnerabilities?.critical || 0,
-            high: audit.metadata?.vulnerabilities?.high || 0,
-            medium: audit.metadata?.vulnerabilities?.medium || 0,
-            low: audit.metadata?.vulnerabilities?.low || 0
-        };
-    } catch (e) {
-        console.error("Error running npm audit", e);
-        return { critical: 0, high: 0, medium: 0, low: 0 };
-    }
+  try {
+    console.log('Running npm audit...');
+    const auditOutput = execSync('npm audit --json || true', { encoding: 'utf8' });
+    const audit = JSON.parse(auditOutput);
+    return {
+      critical: audit.metadata?.vulnerabilities?.critical || 0,
+      high: audit.metadata?.vulnerabilities?.high || 0,
+      medium: audit.metadata?.vulnerabilities?.medium || 0,
+      low: audit.metadata?.vulnerabilities?.low || 0,
+    };
+  } catch (e) {
+    console.error('Error running npm audit', e);
+    return { critical: 0, high: 0, medium: 0, low: 0 };
+  }
 }
 
 // Run vitest coverage
 function getCoverageStats() {
-    try {
-        console.log("Running unit tests with coverage...");
-        execSync('npx vitest run --coverage', { stdio: 'ignore' });
-        const covPath = path.resolve(process.cwd(), 'coverage/coverage-summary.json');
-        if (fs.existsSync(covPath)) {
-            const cov = JSON.parse(fs.readFileSync(covPath, 'utf8'));
-            return {
-                unit: cov.total?.lines?.pct || 0,
-                statements: cov.total?.statements?.pct || 0,
-                branches: cov.total?.branches?.pct || 0,
-                functions: cov.total?.functions?.pct || 0
-            };
-        }
-        return { unit: 0, statements: 0, branches: 0, functions: 0 };
-    } catch (e) {
-        console.error("Error gathering coverage stats", e);
-        return { unit: 0, statements: 0, branches: 0, functions: 0 };
+  try {
+    console.log('Running unit tests with coverage...');
+    execSync('npx vitest run --coverage', { stdio: 'ignore' });
+    const covPath = path.resolve(process.cwd(), 'coverage/coverage-summary.json');
+    if (fs.existsSync(covPath)) {
+      const cov = JSON.parse(fs.readFileSync(covPath, 'utf8'));
+      return {
+        unit: cov.total?.lines?.pct || 0,
+        statements: cov.total?.statements?.pct || 0,
+        branches: cov.total?.branches?.pct || 0,
+        functions: cov.total?.functions?.pct || 0,
+      };
     }
+    return { unit: 0, statements: 0, branches: 0, functions: 0 };
+  } catch (e) {
+    console.error('Error gathering coverage stats', e);
+    return { unit: 0, statements: 0, branches: 0, functions: 0 };
+  }
 }
 
 function getIssueStats() {
-    try {
-        // Very rough proxy for issues using git commits mentioning "#" (e.g. "fixes #123")
-        const mentions = execSync('git log --grep="#" --oneline | wc -l').toString().trim();
-        const merges = execSync('git log --merges --oneline | wc -l').toString().trim();
-        return {
-            closedIssues: parseInt(mentions) || 0,
-            mergedPRs: parseInt(merges) || 0,
-        };
-    } catch (e) {
-        return { closedIssues: 0, mergedPRs: 0 };
-    }
+  try {
+    // Very rough proxy for issues using git commits mentioning "#" (e.g. "fixes #123")
+    const mentions = execSync('git log --grep="#" --oneline | wc -l').toString().trim();
+    const merges = execSync('git log --merges --oneline | wc -l').toString().trim();
+    return {
+      closedIssues: parseInt(mentions) || 0,
+      mergedPRs: parseInt(merges) || 0,
+    };
+  } catch (e) {
+    return { closedIssues: 0, mergedPRs: 0 };
+  }
 }
 
 // Generate Mock Data for complex metrics we can't easily gather
 function generateMockMetrics() {
-    return {
-        healthScore: 88,
-        engineeringQuality: 92,
-        securityScore: 85,
-        maintainability: 78,
-        testReliability: 95,
-        deploymentReliability: 99,
+  return {
+    healthScore: 88,
+    engineeringQuality: 92,
+    securityScore: 85,
+    maintainability: 78,
+    testReliability: 95,
+    deploymentReliability: 99,
 
-        buildSuccessRate: 98.5,
-        meanDeploymentTime: "4m 12s",
-        recoveryTime: "1h 5m",
+    buildSuccessRate: 98.5,
+    meanDeploymentTime: '4m 12s',
+    recoveryTime: '1h 5m',
 
-        techDebt: "Low",
-        cyclomaticComplexity: 12.4,
+    techDebt: 'Low',
+    cyclomaticComplexity: 12.4,
 
-        prVelocity: "1.2 days",
-        openIssues: 5,
+    prVelocity: '1.2 days',
+    openIssues: 5,
 
-        buildDuration: "3m 45s",
-        bundleSize: "2.4 MB"
-    };
+    buildDuration: '3m 45s',
+    bundleSize: '2.4 MB',
+  };
 }
 
 async function getAiInsights(metrics: any) {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-        return {
-            summary: "AI Insights unavailable. Please set GEMINI_API_KEY environment variable.",
-            actionItems: ["Configure API Key for AI Insights", "Review metrics manually"]
-        };
-    }
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return {
+      summary: 'AI Insights unavailable. Please set GEMINI_API_KEY environment variable.',
+      actionItems: ['Configure API Key for AI Insights', 'Review metrics manually'],
+    };
+  }
 
-    try {
-        const ai = new GoogleGenAI({ apiKey });
-        const prompt = `
+  try {
+    const ai = new GoogleGenAI({ apiKey });
+    const prompt = `
         Analyze the following repository metrics and provide a brief executive summary of repository health and 3-5 priority action items.
         Metrics: ${JSON.stringify(metrics, null, 2)}
 
@@ -162,59 +171,59 @@ async function getAiInsights(metrics: any) {
         }
         `;
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-            config: {
-                responseMimeType: 'application/json',
-            }
-        });
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+      config: {
+        responseMimeType: 'application/json',
+      },
+    });
 
-        const text = response.text;
-        return JSON.parse(text);
-    } catch (error) {
-        console.error("Failed to generate AI insights:", error);
-        return {
-            summary: "Failed to generate AI insights due to an error.",
-            actionItems: []
-        };
-    }
+    const text = response.text;
+    return JSON.parse(text);
+  } catch (error) {
+    console.error('Failed to generate AI insights:', error);
+    return {
+      summary: 'Failed to generate AI insights due to an error.',
+      actionItems: [],
+    };
+  }
 }
 
 async function gatherData() {
-    const gitStats = getGitStats();
-    const fileStats = getFileStats();
-    const pkgStats = getPackageStats();
-    const auditStats = getAuditStats();
-    const covStats = getCoverageStats();
-    const issueStats = getIssueStats();
-    const mockMetrics = generateMockMetrics();
+  const gitStats = getGitStats();
+  const fileStats = getFileStats();
+  const pkgStats = getPackageStats();
+  const auditStats = getAuditStats();
+  const covStats = getCoverageStats();
+  const issueStats = getIssueStats();
+  const mockMetrics = generateMockMetrics();
 
-    const fullMetrics = {
-        git: gitStats,
-        files: fileStats,
-        package: pkgStats,
-        vulnerabilities: auditStats,
-        coverage: covStats,
-        issues: issueStats,
-        ...mockMetrics,
-        lastUpdated: new Date().toISOString()
-    };
+  const fullMetrics = {
+    git: gitStats,
+    files: fileStats,
+    package: pkgStats,
+    vulnerabilities: auditStats,
+    coverage: covStats,
+    issues: issueStats,
+    ...mockMetrics,
+    lastUpdated: new Date().toISOString(),
+  };
 
-    const aiInsights = await getAiInsights(fullMetrics);
+  const aiInsights = await getAiInsights(fullMetrics);
 
-    return {
-        metrics: fullMetrics,
-        insights: aiInsights
-    };
+  return {
+    metrics: fullMetrics,
+    insights: aiInsights,
+  };
 }
 
 // --- HTML Generation ---
 
 function generateHtml(data: any) {
-    const { metrics, insights } = data;
+  const { metrics, insights } = data;
 
-    const html = `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -477,24 +486,24 @@ function generateHtml(data: any) {
     </script>
 </body>
 </html>`;
-    return html;
+  return html;
 }
 
 async function main() {
-    console.log("Gathering repository metrics...");
-    const data = await gatherData();
+  console.log('Gathering repository metrics...');
+  const data = await gatherData();
 
-    console.log("Generating HTML dashboard...");
-    const html = generateHtml(data);
+  console.log('Generating HTML dashboard...');
+  const html = generateHtml(data);
 
-    const docsDir = path.resolve(process.cwd(), 'docs');
-    if (!fs.existsSync(docsDir)) {
-        fs.mkdirSync(docsDir, { recursive: true });
-    }
+  const docsDir = path.resolve(process.cwd(), 'docs');
+  if (!fs.existsSync(docsDir)) {
+    fs.mkdirSync(docsDir, { recursive: true });
+  }
 
-    const outPath = path.join(docsDir, 'dashboard.html');
-    fs.writeFileSync(outPath, html);
-    console.log(`Dashboard generated successfully at ${outPath}`);
+  const outPath = path.join(docsDir, 'dashboard.html');
+  fs.writeFileSync(outPath, html);
+  console.log(`Dashboard generated successfully at ${outPath}`);
 }
 
 main().catch(console.error);

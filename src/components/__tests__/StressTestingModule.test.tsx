@@ -1,5 +1,4 @@
-
-import "@testing-library/jest-dom/vitest";
+import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
@@ -15,8 +14,8 @@ describe('StressTestingModule', () => {
     riskGrade: 'C',
     ratios: {
       dscr: 1.25,
-      icr: 2.50,
-    }
+      icr: 2.5,
+    },
   } as CreditAnalysis;
 
   it('renders correctly and responds to input changes', () => {
@@ -31,7 +30,7 @@ describe('StressTestingModule', () => {
         setInterestRateShock={setInterestRateShockMock}
         analysis={mockAnalysis}
         displayAnalysis={mockDisplayAnalysis}
-      />
+      />,
     );
 
     expect(screen.getByText('Revenue Shock (-10%)')).toBeInTheDocument();

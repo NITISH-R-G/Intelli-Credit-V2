@@ -1,70 +1,73 @@
 import { Type } from '@google/genai';
 
 export const searchCasesDeclaration = {
-  name: "search_cases",
-  description: "Search for legal cases and disputes involving a specific company or individual on the eCourts India portal.",
+  name: 'search_cases',
+  description:
+    'Search for legal cases and disputes involving a specific company or individual on the eCourts India portal.',
   parameters: {
     type: Type.OBJECT,
     properties: {
       query: {
         type: Type.STRING,
-        description: "The name of the company or individual to search for.",
+        description: 'The name of the company or individual to search for.',
       },
     },
-    required: ["query"],
+    required: ['query'],
   },
 };
 
 export const getMcaInfoDeclaration = {
-  name: "get_mca_info",
-  description: "Retrieve information from the Ministry of Corporate Affairs (MCA) about a company.",
+  name: 'get_mca_info',
+  description: 'Retrieve information from the Ministry of Corporate Affairs (MCA) about a company.',
   parameters: {
     type: Type.OBJECT,
     properties: {
       companyName: {
         type: Type.STRING,
-        description: "The name of the company to search for.",
+        description: 'The name of the company to search for.',
       },
     },
-    required: ["companyName"],
+    required: ['companyName'],
   },
 };
 
 export const fetchDirectorCibilDeclaration = {
-  name: "fetch_director_cibil",
-  description: "Fetch the CIBIL credit score for a company director using their name or PAN.",
+  name: 'fetch_director_cibil',
+  description: 'Fetch the CIBIL credit score for a company director using their name or PAN.',
   parameters: {
     type: Type.OBJECT,
     properties: {
       directorName: {
         type: Type.STRING,
-        description: "The name of the director.",
+        description: 'The name of the director.',
       },
       pan: {
         type: Type.STRING,
-        description: "The PAN (Permanent Account Number) of the director.",
+        description: 'The PAN (Permanent Account Number) of the director.',
       },
     },
-    required: ["directorName"],
+    required: ['directorName'],
   },
 };
 
 export const calculateLtvDeclaration = {
-  name: "calculate_ltv",
-  description: "Calculate the estimated liquidable value (Loan-to-Value) for a specific asset type and its current market value.",
+  name: 'calculate_ltv',
+  description:
+    'Calculate the estimated liquidable value (Loan-to-Value) for a specific asset type and its current market value.',
   parameters: {
     type: Type.OBJECT,
     properties: {
       assetType: {
         type: Type.STRING,
-        description: "The type of asset (e.g., Residential Property, Commercial Property, Machinery, Inventory).",
+        description:
+          'The type of asset (e.g., Residential Property, Commercial Property, Machinery, Inventory).',
       },
       marketValue: {
         type: Type.NUMBER,
-        description: "The current market value of the asset.",
+        description: 'The current market value of the asset.',
       },
     },
-    required: ["assetType", "marketValue"],
+    required: ['assetType', 'marketValue'],
   },
 };
 
@@ -194,234 +197,296 @@ export const EXTRACTION_PROMPT = `
 `;
 
 export const RESPONSE_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    companyInfo: {
+      type: Type.OBJECT,
+      properties: {
+        name: { type: Type.STRING },
+        industry: { type: Type.STRING },
+        establishedYear: { type: Type.NUMBER },
+        employees: { type: Type.STRING },
+        registrationNumber: { type: Type.STRING },
+      },
+      required: ['name', 'industry', 'establishedYear', 'employees', 'registrationNumber'],
+    },
+    structuredData: {
+      type: Type.OBJECT,
+      properties: {
+        revenue: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } },
+            required: ['year', 'value'],
+          },
+        },
+        debt: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } },
+            required: ['year', 'value'],
+          },
+        },
+        cashflow: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } },
+            required: ['year', 'value'],
+          },
+        },
+        profit: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } },
+            required: ['year', 'value'],
+          },
+        },
+        assets: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } },
+            required: ['year', 'value'],
+          },
+        },
+        liabilities: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } },
+            required: ['year', 'value'],
+          },
+        },
+      },
+      required: ['revenue', 'debt', 'cashflow', 'profit', 'assets', 'liabilities'],
+    },
+    unstructuredInsights: {
+      type: Type.OBJECT,
+      properties: {
+        boardMeetingNotes: { type: Type.ARRAY, items: { type: Type.STRING } },
+        ratingAgencyReports: { type: Type.STRING },
+        shareholdingPattern: { type: Type.STRING },
+      },
+      required: ['boardMeetingNotes', 'ratingAgencyReports', 'shareholdingPattern'],
+    },
+    externalIntelligence: {
+      type: Type.OBJECT,
+      properties: {
+        mcaStatus: { type: Type.STRING },
+        legalDisputes: { type: Type.ARRAY, items: { type: Type.STRING } },
+        newsSectorTrends: { type: Type.ARRAY, items: { type: Type.STRING } },
+      },
+      required: ['mcaStatus', 'legalDisputes', 'newsSectorTrends'],
+    },
+    primaryInsights: {
+      type: Type.OBJECT,
+      properties: {
+        siteVisitObservations: { type: Type.ARRAY, items: { type: Type.STRING } },
+        managementInterviews: { type: Type.ARRAY, items: { type: Type.STRING } },
+      },
+      required: ['siteVisitObservations', 'managementInterviews'],
+    },
+    verificationLayer: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          category: { type: Type.STRING },
+          dataPoint: { type: Type.STRING },
+          status: { type: Type.STRING },
+          confidenceScore: { type: Type.NUMBER },
+          source: { type: Type.STRING },
+          notes: { type: Type.STRING },
+        },
+        required: ['category', 'dataPoint', 'status', 'confidenceScore', 'source', 'notes'],
+      },
+    },
+    riskAnalysisDetails: {
+      type: Type.OBJECT,
+      properties: {
+        financialRisk: { type: Type.STRING },
+        legalRisk: { type: Type.STRING },
+        behavioralRisk: { type: Type.STRING },
+        industryRisk: { type: Type.STRING },
+        managementRisk: { type: Type.STRING },
+      },
+      required: ['financialRisk', 'legalRisk', 'behavioralRisk', 'industryRisk', 'managementRisk'],
+    },
+    fraudDetection: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          category: { type: Type.STRING },
+          indicator: { type: Type.STRING },
+          status: { type: Type.STRING }, // Pass, Fail, Warning
+          details: { type: Type.STRING },
+          evidence: { type: Type.STRING }, // e.g., "Page 4, Line 12"
+        },
+        required: ['category', 'indicator', 'status', 'details', 'evidence'],
+      },
+    },
+    shellCompanyAnalysis: {
+      type: Type.OBJECT,
+      properties: {
+        employeeCount: { type: Type.NUMBER },
+        officeType: { type: Type.STRING },
+        operationalEvidence: { type: Type.ARRAY, items: { type: Type.STRING } },
+        isPotentialShell: { type: Type.BOOLEAN },
+        riskLevel: { type: Type.STRING },
+        indicators: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              name: { type: Type.STRING },
+              status: { type: Type.STRING }, // Pass, Fail, Warning
+              details: { type: Type.STRING },
+              evidence: { type: Type.STRING }, // e.g., "Page 4, Line 12"
+            },
+            required: ['name', 'status', 'details', 'evidence'],
+          },
+        },
+      },
+      required: [
+        'employeeCount',
+        'officeType',
+        'operationalEvidence',
+        'isPotentialShell',
+        'riskLevel',
+        'indicators',
+      ],
+    },
+    directorShareholderHistory: {
+      type: Type.OBJECT,
+      properties: {
+        events: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              date: { type: Type.STRING },
+              type: { type: Type.STRING },
+              description: { type: Type.STRING },
+              reason: { type: Type.STRING },
+              evidence: { type: Type.STRING },
+            },
+            required: ['date', 'type', 'description', 'reason', 'evidence'],
+          },
+        },
+        summary: { type: Type.STRING },
+        hasRapidChanges: { type: Type.BOOLEAN },
+        riskLevel: { type: Type.STRING },
+      },
+      required: ['events', 'summary', 'hasRapidChanges', 'riskLevel'],
+    },
+    fiveCs: {
+      type: Type.OBJECT,
+      properties: {
+        character: {
           type: Type.OBJECT,
           properties: {
-            companyInfo: {
-              type: Type.OBJECT,
-              properties: {
-                name: { type: Type.STRING },
-                industry: { type: Type.STRING },
-                establishedYear: { type: Type.NUMBER },
-                employees: { type: Type.STRING },
-                registrationNumber: { type: Type.STRING },
-              },
-              required: ["name", "industry", "establishedYear", "employees", "registrationNumber"],
-            },
-            structuredData: {
-              type: Type.OBJECT,
-              properties: {
-                revenue: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } }, required: ["year", "value"] } },
-                debt: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } }, required: ["year", "value"] } },
-                cashflow: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } }, required: ["year", "value"] } },
-                profit: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } }, required: ["year", "value"] } },
-                assets: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } }, required: ["year", "value"] } },
-                liabilities: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { year: { type: Type.STRING }, value: { type: Type.NUMBER } }, required: ["year", "value"] } },
-              },
-              required: ["revenue", "debt", "cashflow", "profit", "assets", "liabilities"],
-            },
-            unstructuredInsights: {
-              type: Type.OBJECT,
-              properties: {
-                boardMeetingNotes: { type: Type.ARRAY, items: { type: Type.STRING } },
-                ratingAgencyReports: { type: Type.STRING },
-                shareholdingPattern: { type: Type.STRING },
-              },
-              required: ["boardMeetingNotes", "ratingAgencyReports", "shareholdingPattern"],
-            },
-            externalIntelligence: {
-              type: Type.OBJECT,
-              properties: {
-                mcaStatus: { type: Type.STRING },
-                legalDisputes: { type: Type.ARRAY, items: { type: Type.STRING } },
-                newsSectorTrends: { type: Type.ARRAY, items: { type: Type.STRING } },
-              },
-              required: ["mcaStatus", "legalDisputes", "newsSectorTrends"],
-            },
-            primaryInsights: {
-              type: Type.OBJECT,
-              properties: {
-                siteVisitObservations: { type: Type.ARRAY, items: { type: Type.STRING } },
-                managementInterviews: { type: Type.ARRAY, items: { type: Type.STRING } },
-              },
-              required: ["siteVisitObservations", "managementInterviews"],
-            },
-            verificationLayer: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  category: { type: Type.STRING },
-                  dataPoint: { type: Type.STRING },
-                  status: { type: Type.STRING },
-                  confidenceScore: { type: Type.NUMBER },
-                  source: { type: Type.STRING },
-                  notes: { type: Type.STRING },
-                },
-                required: ["category", "dataPoint", "status", "confidenceScore", "source", "notes"],
-              }
-            },
-            riskAnalysisDetails: {
-              type: Type.OBJECT,
-              properties: {
-                financialRisk: { type: Type.STRING },
-                legalRisk: { type: Type.STRING },
-                behavioralRisk: { type: Type.STRING },
-                industryRisk: { type: Type.STRING },
-                managementRisk: { type: Type.STRING },
-              },
-              required: ["financialRisk", "legalRisk", "behavioralRisk", "industryRisk", "managementRisk"],
-            },
-            fraudDetection: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  category: { type: Type.STRING },
-                  indicator: { type: Type.STRING },
-                  status: { type: Type.STRING }, // Pass, Fail, Warning
-                  details: { type: Type.STRING },
-                  evidence: { type: Type.STRING }, // e.g., "Page 4, Line 12"
-                },
-                required: ["category", "indicator", "status", "details", "evidence"],
-              }
-            },
-            shellCompanyAnalysis: {
-              type: Type.OBJECT,
-              properties: {
-                employeeCount: { type: Type.NUMBER },
-                officeType: { type: Type.STRING },
-                operationalEvidence: { type: Type.ARRAY, items: { type: Type.STRING } },
-                isPotentialShell: { type: Type.BOOLEAN },
-                riskLevel: { type: Type.STRING },
-                indicators: {
-                  type: Type.ARRAY,
-                  items: {
-                    type: Type.OBJECT,
-                    properties: {
-                      name: { type: Type.STRING },
-                      status: { type: Type.STRING }, // Pass, Fail, Warning
-                      details: { type: Type.STRING },
-                      evidence: { type: Type.STRING }, // e.g., "Page 4, Line 12"
-                    },
-                    required: ["name", "status", "details", "evidence"],
-                  }
-                }
-              },
-              required: ["employeeCount", "officeType", "operationalEvidence", "isPotentialShell", "riskLevel", "indicators"],
-            },
-            directorShareholderHistory: {
-              type: Type.OBJECT,
-              properties: {
-                events: {
-                  type: Type.ARRAY,
-                  items: {
-                    type: Type.OBJECT,
-                    properties: {
-                      date: { type: Type.STRING },
-                      type: { type: Type.STRING },
-                      description: { type: Type.STRING },
-                      reason: { type: Type.STRING },
-                      evidence: { type: Type.STRING },
-                    },
-                    required: ["date", "type", "description", "reason", "evidence"],
-                  }
-                },
-                summary: { type: Type.STRING },
-                hasRapidChanges: { type: Type.BOOLEAN },
-                riskLevel: { type: Type.STRING },
-              },
-              required: ["events", "summary", "hasRapidChanges", "riskLevel"],
-            },
-            fiveCs: {
-              type: Type.OBJECT,
-              properties: {
-                character: {
-                  type: Type.OBJECT,
-                  properties: {
-                    score: { type: Type.NUMBER },
-                    insights: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  },
-                  required: ["score", "insights", "redFlags", "positiveSignals"],
-                },
-                capacity: {
-                  type: Type.OBJECT,
-                  properties: {
-                    score: { type: Type.NUMBER },
-                    insights: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  },
-                  required: ["score", "insights", "redFlags", "positiveSignals"],
-                },
-                capital: {
-                  type: Type.OBJECT,
-                  properties: {
-                    score: { type: Type.NUMBER },
-                    insights: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  },
-                  required: ["score", "insights", "redFlags", "positiveSignals"],
-                },
-                collateral: {
-                  type: Type.OBJECT,
-                  properties: {
-                    score: { type: Type.NUMBER },
-                    insights: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    assets: {
-                      type: Type.ARRAY,
-                      items: {
-                        type: Type.OBJECT,
-                        properties: {
-                          type: { type: Type.STRING },
-                          marketValue: { type: Type.NUMBER },
-                          estimatedValue: { type: Type.NUMBER },
-                          ltvRatio: { type: Type.NUMBER },
-                          remarks: { type: Type.STRING },
-                        },
-                        required: ["type", "marketValue", "estimatedValue", "ltvRatio", "remarks"],
-                      }
-                    }
-                  },
-                  required: ["score", "insights", "redFlags", "positiveSignals"],
-                },
-                conditions: {
-                  type: Type.OBJECT,
-                  properties: {
-                    score: { type: Type.NUMBER },
-                    insights: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  },
-                  required: ["score", "insights", "redFlags", "positiveSignals"],
-                },
-              },
-              required: ["character", "capacity", "capital", "collateral", "conditions"],
-            },
-            camMarkdown: { type: Type.STRING },
-            explanation: { type: Type.STRING },
-            recommendation: { type: Type.STRING },
-            decisionConfidence: { type: Type.NUMBER },
-            suggestedLoanAmount: { type: Type.NUMBER },
-            suggestedInterestRate: { type: Type.STRING },
-            riskGrade: { type: Type.STRING },
-            missingData: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING }
-            },
-            requiredDocs: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING }
-            }
+            score: { type: Type.NUMBER },
+            insights: { type: Type.ARRAY, items: { type: Type.STRING } },
+            redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
+            positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
           },
-          required: [
-            "companyInfo", "structuredData", "unstructuredInsights", "externalIntelligence",
-            "primaryInsights", "verificationLayer", "riskAnalysisDetails", "fiveCs", "camMarkdown",
-            "explanation", "recommendation", "decisionConfidence", "suggestedLoanAmount",
-            "suggestedInterestRate", "riskGrade", "missingData", "requiredDocs"
-          ],
-        };
+          required: ['score', 'insights', 'redFlags', 'positiveSignals'],
+        },
+        capacity: {
+          type: Type.OBJECT,
+          properties: {
+            score: { type: Type.NUMBER },
+            insights: { type: Type.ARRAY, items: { type: Type.STRING } },
+            redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
+            positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
+          },
+          required: ['score', 'insights', 'redFlags', 'positiveSignals'],
+        },
+        capital: {
+          type: Type.OBJECT,
+          properties: {
+            score: { type: Type.NUMBER },
+            insights: { type: Type.ARRAY, items: { type: Type.STRING } },
+            redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
+            positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
+          },
+          required: ['score', 'insights', 'redFlags', 'positiveSignals'],
+        },
+        collateral: {
+          type: Type.OBJECT,
+          properties: {
+            score: { type: Type.NUMBER },
+            insights: { type: Type.ARRAY, items: { type: Type.STRING } },
+            redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
+            positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
+            assets: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  type: { type: Type.STRING },
+                  marketValue: { type: Type.NUMBER },
+                  estimatedValue: { type: Type.NUMBER },
+                  ltvRatio: { type: Type.NUMBER },
+                  remarks: { type: Type.STRING },
+                },
+                required: ['type', 'marketValue', 'estimatedValue', 'ltvRatio', 'remarks'],
+              },
+            },
+          },
+          required: ['score', 'insights', 'redFlags', 'positiveSignals'],
+        },
+        conditions: {
+          type: Type.OBJECT,
+          properties: {
+            score: { type: Type.NUMBER },
+            insights: { type: Type.ARRAY, items: { type: Type.STRING } },
+            redFlags: { type: Type.ARRAY, items: { type: Type.STRING } },
+            positiveSignals: { type: Type.ARRAY, items: { type: Type.STRING } },
+          },
+          required: ['score', 'insights', 'redFlags', 'positiveSignals'],
+        },
+      },
+      required: ['character', 'capacity', 'capital', 'collateral', 'conditions'],
+    },
+    camMarkdown: { type: Type.STRING },
+    explanation: { type: Type.STRING },
+    recommendation: { type: Type.STRING },
+    decisionConfidence: { type: Type.NUMBER },
+    suggestedLoanAmount: { type: Type.NUMBER },
+    suggestedInterestRate: { type: Type.STRING },
+    riskGrade: { type: Type.STRING },
+    missingData: {
+      type: Type.ARRAY,
+      items: { type: Type.STRING },
+    },
+    requiredDocs: {
+      type: Type.ARRAY,
+      items: { type: Type.STRING },
+    },
+  },
+  required: [
+    'companyInfo',
+    'structuredData',
+    'unstructuredInsights',
+    'externalIntelligence',
+    'primaryInsights',
+    'verificationLayer',
+    'riskAnalysisDetails',
+    'fiveCs',
+    'camMarkdown',
+    'explanation',
+    'recommendation',
+    'decisionConfidence',
+    'suggestedLoanAmount',
+    'suggestedInterestRate',
+    'riskGrade',
+    'missingData',
+    'requiredDocs',
+  ],
+};

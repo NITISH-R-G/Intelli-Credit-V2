@@ -9,16 +9,18 @@ import { downloadPDF, downloadJSON } from '../../lib/export';
 
 vi.mock('lucide-react', () => ({
   FileDown: () => <div data-testid="file-down-icon" />,
-  Download: () => <div data-testid="download-icon" />
+  Download: () => <div data-testid="download-icon" />,
 }));
 
 vi.mock('../../lib/export', () => ({
   downloadPDF: vi.fn(),
-  downloadJSON: vi.fn()
+  downloadJSON: vi.fn(),
 }));
 
 vi.mock('react-markdown', () => ({
-  default: ({ children }: { children: React.ReactNode }) => <div data-testid="markdown">{children}</div>
+  default: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="markdown">{children}</div>
+  ),
 }));
 
 describe('CAMReport', () => {
@@ -28,7 +30,7 @@ describe('CAMReport', () => {
   });
 
   const mockAnalysis = {
-    camMarkdown: '# Mock CAM Report\nThis is a test report.'
+    camMarkdown: '# Mock CAM Report\nThis is a test report.',
   } as unknown as CreditAnalysis;
 
   const mockSetIsExporting = vi.fn();
@@ -41,7 +43,7 @@ describe('CAMReport', () => {
         isExporting={false}
         setIsExporting={mockSetIsExporting}
         setError={mockSetError}
-      />
+      />,
     );
 
     expect(screen.getByText('Credit Appraisal Memo (CAM)')).toBeInTheDocument();
@@ -49,7 +51,9 @@ describe('CAMReport', () => {
     expect(screen.getByText('EXPORT JSON')).toBeInTheDocument();
     expect(screen.getByText('EXPORT PDF')).toBeInTheDocument();
 
-    expect(screen.getByTestId('markdown')).toHaveTextContent('# Mock CAM Report This is a test report.');
+    expect(screen.getByTestId('markdown')).toHaveTextContent(
+      '# Mock CAM Report This is a test report.',
+    );
   });
 
   it('calls downloadJSON when Export JSON is clicked', () => {
@@ -59,7 +63,7 @@ describe('CAMReport', () => {
         isExporting={false}
         setIsExporting={mockSetIsExporting}
         setError={mockSetError}
-      />
+      />,
     );
 
     const jsonButton = screen.getByText('EXPORT JSON');
@@ -75,7 +79,7 @@ describe('CAMReport', () => {
         isExporting={false}
         setIsExporting={mockSetIsExporting}
         setError={mockSetError}
-      />
+      />,
     );
 
     const pdfButton = screen.getByText('EXPORT PDF');
@@ -91,7 +95,7 @@ describe('CAMReport', () => {
         isExporting={true}
         setIsExporting={mockSetIsExporting}
         setError={mockSetError}
-      />
+      />,
     );
 
     const pdfButton = screen.getByText('EXPORTING...');

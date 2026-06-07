@@ -11,14 +11,14 @@ const executeCommand = (command: string, description: string) => {
   } catch (error) {
     console.error(`❌ Failed: ${description}`);
     if (error instanceof Error) {
-        console.error(error.message);
+      console.error(error.message);
     }
     return false;
   }
 };
 
 const main = () => {
-  console.log("🛠️ Starting Autonomous Repository Self-Healing Process...\n");
+  console.log('🛠️ Starting Autonomous Repository Self-Healing Process...\n');
 
   const results = [];
 
@@ -31,9 +31,9 @@ const main = () => {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     if (allDeps['eslint']) {
-       results.push(executeCommand('npm run lint -- --fix', 'Auto-fixing linting issues'));
+      results.push(executeCommand('npm run lint:fix', 'Auto-fixing linting issues'));
     } else {
-       console.log('⏭️ ESLint not found, skipping lint --fix step.');
+      console.log('⏭️ ESLint not found, skipping lint:fix step.');
     }
   }
 
@@ -52,7 +52,7 @@ const main = () => {
   results.push(executeCommand('npm audit fix', 'Auto-fixing security vulnerabilities'));
 
   // 4. Update dependencies (minor/patch only)
-  console.log("\n💡 Note: For major dependency updates, Dependabot PRs are recommended.");
+  console.log('\n💡 Note: For major dependency updates, Dependabot PRs are recommended.');
 
   const successCount = results.filter(Boolean).length;
   console.log(`\n🎉 Self-Healing Complete. ${successCount}/${results.length} tasks succeeded.`);
