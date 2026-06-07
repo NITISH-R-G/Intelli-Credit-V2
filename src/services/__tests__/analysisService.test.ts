@@ -1,6 +1,9 @@
-import { describe, it, expect } from 'vitest';
-import { calculateDisplayAnalysis, calculateRiskAndFraud } from '../analysisService';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
+import { calculateDisplayAnalysis, calculateRiskAndFraud, prepareDocumentContents, executeAIExtractionLoop, performAnalysis } from '../analysisService';
 import { CreditAnalysis } from '../../types';
+import * as fileUtils from '../../lib/file-utils';
+import * as gemini from '../../lib/gemini';
+import { EXTRACTION_PROMPT } from '../../lib/gemini-config';
 
 describe('calculateRiskAndFraud', () => {
   const getBaseMockParsedData = (): any => ({
@@ -68,6 +71,102 @@ describe('calculateRiskAndFraud', () => {
     const result = calculateRiskAndFraud(mock);
     expect(result.fraudFlags).toContain("Profit exceeds revenue (Impossible state)");
     expect(result.recommendation).toBe('Reject');
+  });
+
+  it('penalizes shell company indicators', () => {
+    const mock = getBaseMockParsedData();
+    mock.fraudDetection = [{ indicator: 'Shell Company', details: 'test', status: 'Fail' }];
+    mock.shellCompanyAnalysis = {
+      isPotentialShell: true,
+      riskLevel: 'High',
+      indicators: [{ name: 'Test', details: 'test', status: 'Fail' }],
+      operationalEvidence: ['virtual office', 'no physical assets']
+    };
+    const result = calculateRiskAndFraud(mock);
+    expect(result.riskScore).toBeGreaterThan(85);
+    expect(result.riskLevel).toBe('Critical');
+    expect(result.fraudFlags.some(f => f.includes('Shell Indicator'))).toBe(true);
+  });
+
+  it('penalizes high risk score logic', () => {
+    const mock = getBaseMockParsedData();
+    mock.structuredData.debt[0].value = 1000000;
+    mock.structuredData.revenue[0].value = 100000;
+    mock.structuredData.cashflow[0].value = -10000;
+    mock.verificationLayer = [{ status: 'Mismatch' }, { status: 'Mismatch' }];
+    const result = calculateRiskAndFraud(mock);
+    expect(result.riskScore).toBeGreaterThan(85);
+    expect(result.riskLevel).toBe('Critical');
+    expect(result.recommendation).toBe('Reject');
+  });
+
+  it('penalizes missing or dormant external intelligence', () => {
+    const mock = getBaseMockParsedData();
+    mock.externalIntelligence.mcaStatus = 'Struck Off';
+    mock.externalIntelligence.legalDisputes = ['Fraud dispute found'];
+    mock.unstructuredInsights.shareholdingPattern = 'Complex opaque pattern';
+    mock.primaryInsights.siteVisitObservations = ['No physical operations found'];
+    const result = calculateRiskAndFraud(mock);
+    expect(result.riskScore).toBeGreaterThan(85);
+    expect(result.fraudFlags.some(f => f.includes('MCA Status'))).toBe(true);
+  });
+
+  it('penalizes negative rating agency reports and bad management interviews', () => {
+    const mock = getBaseMockParsedData();
+    mock.unstructuredInsights.ratingAgencyReports = 'Company downgrade due to default';
+    mock.primaryInsights.managementInterviews = ['evasive and contradictory answers'];
+    mock.unstructuredInsights.boardMeetingNotes = ['related party transaction'];
+    const result = calculateRiskAndFraud(mock);
+    expect(result.riskScore).toBeGreaterThan(85);
+    expect(result.fraudFlags.some(f => f.includes('Negative rating agency'))).toBe(true);
+    expect(result.fraudFlags.some(f => f.includes('Evasive'))).toBe(true);
+    expect(result.fraudFlags.some(f => f.includes('Unusual board meeting'))).toBe(true);
+  });
+
+  it('penalizes director shareholder rapid changes and negative news', () => {
+    const mock = getBaseMockParsedData();
+    mock.directorShareholderHistory = {
+      hasRapidChanges: true,
+      riskLevel: 'High'
+    };
+    mock.externalIntelligence.newsSectorTrends = ['fraud scandal'];
+    const result = calculateRiskAndFraud(mock);
+    expect(result.riskScore).toBeGreaterThan(85);
+    expect(result.fraudFlags.some(f => f.includes('Negative news'))).toBe(true);
+    expect(result.fraudFlags.some(f => f.includes('History Alert'))).toBe(true);
+  });
+
+  it('handles edge cases: low employees, early age, missing fields', () => {
+    const mock = getBaseMockParsedData();
+    // High revenue, young age
+    mock.companyInfo.establishedYear = new Date().getFullYear();
+    mock.structuredData.revenue[0].value = 200000000;
+
+    // Low employees
+    mock.companyInfo.employees = '2';
+
+    // Missing fields fallback check
+    mock.fraudDetection = undefined;
+    mock.companyInfo.establishedYear = undefined;
+
+    const result = calculateRiskAndFraud(mock);
+    expect(result.fraudFlags.some(f => f.includes('Unusually high revenue for a newly established entity'))).toBe(true);
+    expect(result.fraudFlags.some(f => f.includes('low employee count'))).toBe(true);
+  });
+
+  it('flags extreme revenue growth and low profitability', () => {
+    const mock = getBaseMockParsedData();
+    mock.structuredData.revenue = [
+      { year: '2022', value: 100000 },
+      { year: '2023', value: 200000000 }
+    ];
+    mock.structuredData.profit = [
+      { year: '2022', value: 10000 },
+      { year: '2023', value: 1000 } // < 1% profit
+    ];
+    const result = calculateRiskAndFraud(mock);
+    expect(result.fraudFlags.some(f => f.includes('Extreme revenue growth'))).toBe(true);
+    expect(result.fraudFlags.some(f => f.includes('low profitability relative to high revenue'))).toBe(true);
   });
 });
 
@@ -344,4 +443,256 @@ describe('calculateDisplayAnalysis', () => {
       });
   });
 
+});
+
+describe('prepareDocumentContents', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('throws error if no valid documents provided', async () => {
+    await expect(prepareDocumentContents([])).rejects.toThrow('No valid documents found for analysis.');
+  });
+
+  it('processes image and pdf files as inlineData', async () => {
+    vi.spyOn(fileUtils, 'fileToBase64').mockResolvedValue('base64DataString');
+    const mockFile1 = new File([''], 'test.pdf', { type: 'application/pdf' });
+    const mockFile2 = new File([''], 'test.png', { type: 'image/png' });
+
+    const result = await prepareDocumentContents([mockFile1, mockFile2]);
+
+    expect(result).toHaveLength(2); // 2 files
+    expect(result[0].parts[0].inlineData).toEqual({ mimeType: 'application/pdf', data: 'base64DataString' });
+    expect(result[1].parts[0].inlineData).toEqual({ mimeType: 'image/png', data: 'base64DataString' });
+
+    // Checks if prompt is appended to the last part
+    expect(result[1].parts[1]).toEqual({ text: EXTRACTION_PROMPT });
+  });
+
+  it('processes text/other files as text', async () => {
+    vi.spyOn(fileUtils, 'fileToText').mockResolvedValue('sample document text content');
+    const mockFile1 = new File([''], 'test.txt', { type: 'text/plain' });
+
+    const result = await prepareDocumentContents([mockFile1]);
+
+    expect(result).toHaveLength(1);
+    expect(result[0].parts[0].text).toContain('Document Name: test.txt');
+    expect(result[0].parts[0].text).toContain('sample document text content');
+    expect(result[0].parts[1]).toEqual({ text: EXTRACTION_PROMPT });
+  });
+});
+
+describe('executeAIExtractionLoop', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('throws an error if extraction finishes with SAFETY reason', async () => {
+    const mockGenAI = {
+      models: {
+        generateContent: vi.fn().mockResolvedValue({
+          text: null,
+          functionCalls: [],
+          candidates: [{ finishReason: 'SAFETY' }]
+        })
+      }
+    };
+
+    await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+      .rejects.toThrow('Analysis Failed: The document content was flagged by safety filters.');
+  });
+
+  it('throws an error if text is null and no function calls', async () => {
+    const mockGenAI = {
+      models: {
+        generateContent: vi.fn().mockResolvedValue({
+          text: null,
+          functionCalls: [],
+          candidates: [{ finishReason: 'STOP' }]
+        })
+      }
+    };
+
+    await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+      .rejects.toThrow('Failed to extract data from document');
+  });
+
+  it('executes a tool call and iterates', async () => {
+    const mockGenAI = {
+      models: {
+        generateContent: vi.fn()
+          .mockResolvedValueOnce({
+            text: null,
+            functionCalls: [{ name: 'search_cases', args: { query: 'test' } }],
+            candidates: [{ content: { role: 'model', parts: [] } }]
+          })
+          .mockResolvedValueOnce({
+            text: JSON.stringify({ mockData: 'success' }),
+            functionCalls: []
+          })
+      }
+    };
+
+    vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ cases: [] });
+
+    const result = await executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, '');
+
+    expect(result).toEqual({ mockData: 'success' });
+    expect(gemini.callMcpTool).toHaveBeenCalledWith('search_cases', { query: 'test' }, false, '');
+    expect(mockGenAI.models.generateContent).toHaveBeenCalledTimes(2);
+  });
+
+  it('throws an error if tool call returns an error', async () => {
+    const mockGenAI = {
+      models: {
+        generateContent: vi.fn().mockResolvedValueOnce({
+          text: null,
+          functionCalls: [{ name: 'search_cases', args: {} }],
+          candidates: [{ content: { role: 'model', parts: [] } }]
+        })
+      }
+    };
+
+    vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ error: 'API limits reached' });
+
+    await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+      .rejects.toThrow('TOOL_ERROR: API limits reached');
+  });
+
+  it('handles unknown tool call', async () => {
+    const mockGenAI = {
+      models: {
+        generateContent: vi.fn().mockResolvedValueOnce({
+          text: null,
+          functionCalls: [{ name: 'unknown_tool', args: {} }],
+          candidates: [{ content: { role: 'model', parts: [] } }]
+        })
+      }
+    };
+
+    await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+      .rejects.toThrow('TOOL_ERROR: Unknown tool');
+  });
+
+  it('throws error if max iterations reached', async () => {
+      const mockGenAI = {
+        models: {
+          generateContent: vi.fn().mockResolvedValue({
+            text: null,
+            functionCalls: [{ name: 'search_cases', args: {} }],
+            candidates: [{ content: { role: 'model', parts: [] } }]
+          })
+        }
+      };
+
+      vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ cases: [] });
+
+      await expect(executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''))
+        .rejects.toThrow('Analysis stopped: Too many tool calls required');
+  });
+});
+
+describe('performAnalysis', () => {
+  let mockSetLoading: any;
+  let mockSetError: any;
+  let mockSetAnalysis: any;
+  let mockSetShowLogs: any;
+  let mockFileCache: any;
+
+  beforeEach(() => {
+    mockSetLoading = vi.fn();
+    mockSetError = vi.fn();
+    mockSetAnalysis = vi.fn();
+    mockSetShowLogs = vi.fn();
+    mockFileCache = { current: new Map() };
+    vi.stubEnv('GEMINI_API_KEY', 'test-key');
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('returns early if files array is empty', async () => {
+    await performAnalysis([], mockFileCache, false, '', mockSetLoading, mockSetError, mockSetAnalysis, mockSetShowLogs);
+    expect(mockSetLoading).not.toHaveBeenCalled();
+  });
+
+  it('returns cached analysis if hash matches', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockResolvedValue('testhash');
+    mockFileCache.current.set('testhash', { riskScore: 50 });
+
+    const mockFile = new File([''], 'test.pdf');
+    await performAnalysis([mockFile], mockFileCache, false, '', mockSetLoading, mockSetError, mockSetAnalysis, mockSetShowLogs);
+
+    expect(mockSetAnalysis).toHaveBeenCalledWith({ riskScore: 50 });
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+  });
+
+  it('handles general errors during execution', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('Hash failed'));
+
+    const mockFile = new File([''], 'test.pdf');
+    await performAnalysis([mockFile], mockFileCache, false, '', mockSetLoading, mockSetError, mockSetAnalysis, mockSetShowLogs);
+
+    expect(mockSetError).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Analysis Failed',
+      details: 'Hash failed'
+    }));
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+  });
+
+  it('handles authentication API errors', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('API_KEY missing'));
+
+    const mockFile = new File([''], 'test.pdf');
+    await performAnalysis([mockFile], mockFileCache, false, '', mockSetLoading, mockSetError, mockSetAnalysis, mockSetShowLogs);
+
+    expect(mockSetError).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Authentication Error'
+    }));
+  });
+
+  it('handles parsing JSON errors', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('Invalid JSON format'));
+
+    const mockFile = new File([''], 'test.pdf');
+    await performAnalysis([mockFile], mockFileCache, false, '', mockSetLoading, mockSetError, mockSetAnalysis, mockSetShowLogs);
+
+    expect(mockSetError).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Data Parsing Error'
+    }));
+  });
+
+  it('handles network fetch errors', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('fetch failed'));
+
+    const mockFile = new File([''], 'test.pdf');
+    await performAnalysis([mockFile], mockFileCache, false, '', mockSetLoading, mockSetError, mockSetAnalysis, mockSetShowLogs);
+
+    expect(mockSetError).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Network Error'
+    }));
+  });
+
+  it('handles Tool errors', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('TOOL_ERROR: limits'));
+
+    const mockFile = new File([''], 'test.pdf');
+    await performAnalysis([mockFile], mockFileCache, false, '', mockSetLoading, mockSetError, mockSetAnalysis, mockSetShowLogs);
+
+    expect(mockSetError).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Integration Tool Error'
+    }));
+  });
+
+  it('handles File errors', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('FILE_ERROR: corruption'));
+
+    const mockFile = new File([''], 'test.pdf');
+    await performAnalysis([mockFile], mockFileCache, false, '', mockSetLoading, mockSetError, mockSetAnalysis, mockSetShowLogs);
+
+    expect(mockSetError).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'File Processing Error'
+    }));
+  });
 });

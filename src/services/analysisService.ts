@@ -268,19 +268,19 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
     if (forceRefer) riskScore += 20;
 
     // AI-detected fraud penalties
-    const aiFraudFails = parsedData.fraudDetection.filter((f: any) => f.status === 'Fail').length;
-    const aiFraudWarnings = parsedData.fraudDetection.filter((f: any) => f.status === 'Warning').length;
+    const aiFraudFails = parsedData.fraudDetection?.filter((f: any) => f.status === 'Fail').length || 0;
+    const aiFraudWarnings = parsedData.fraudDetection?.filter((f: any) => f.status === 'Warning').length || 0;
     riskScore += (aiFraudFails * 20);
     riskScore += (aiFraudWarnings * 10);
 
     // Specific Shell Company Penalty
-    const shellIndicators = parsedData.fraudDetection.filter((f: any) =>
+    const shellIndicators = parsedData.fraudDetection?.filter((f: any) =>
       f.indicator.toLowerCase().includes('shell') ||
       f.details.toLowerCase().includes('virtual office') ||
       f.details.toLowerCase().includes('low employee') ||
       f.details.toLowerCase().includes('director change') ||
       f.details.toLowerCase().includes('shareholder change')
-    );
+    ) || [];
     if (shellIndicators.some((f: any) => f.status === 'Fail')) riskScore += 30;
     else if (shellIndicators.some((f: any) => f.status === 'Warning')) riskScore += 15;
 
