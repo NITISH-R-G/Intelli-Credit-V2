@@ -169,14 +169,13 @@
         "__tests__": {
           "export.test.ts": "file",
           "file-utils.test.ts": "file",
-          "gemini.test.ts": "file"
+          "gemini.test.ts": "file",
+          "utils.test.ts": "file"
         },
         "export.ts": "file",
-        "file-utils.test.ts": "file",
         "file-utils.ts": "file",
         "gemini-config.ts": "file",
         "gemini.ts": "file",
-        "utils.test.ts": "file",
         "utils.ts": "file"
       },
       "main.tsx": "file",
