@@ -41,7 +41,7 @@ describe('file-utils', () => {
       const expectedHash = '00'.repeat(32);
       expect(hash).toBe(expectedHash);
 
-      expect(crypto.subtle.digest).toHaveBeenCalledWith('SHA-256', expect.any(ArrayBuffer));
+      expect(crypto.subtle.digest).toHaveBeenCalledWith('SHA-256', expect.any(Uint8Array));
       expect((file as any).arrayBuffer).toHaveBeenCalled();
     });
   });

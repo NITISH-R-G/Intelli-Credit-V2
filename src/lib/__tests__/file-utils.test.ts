@@ -1,5 +1,26 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { fileToBase64, fileToText } from '../file-utils';
+import { fileToBase64, fileToText, hashFile } from '../file-utils';
+
+describe('hashFile', () => {
+  it('should generate correct SHA-256 hash for a given file content', async () => {
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const hash = await hashFile(file);
+    // SHA-256 hash of 'test' is '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
+    expect(hash).toBe('9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+  });
+
+  it('should generate different hashes for different file contents', async () => {
+    const file1 = new File(['content A'], 'a.txt', { type: 'text/plain' });
+    const file2 = new File(['content B'], 'b.txt', { type: 'text/plain' });
+
+    const hash1 = await hashFile(file1);
+    const hash2 = await hashFile(file2);
+
+    expect(hash1).not.toBe(hash2);
+    expect(hash1).toHaveLength(64);
+    expect(hash2).toHaveLength(64);
+  });
+});
 
 describe('fileToBase64', () => {
   const originalFileReader = global.FileReader;
