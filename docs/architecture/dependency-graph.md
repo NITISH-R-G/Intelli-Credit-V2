@@ -106,8 +106,8 @@ graph TD;
     Root --> Dep_cors["cors"]
     Root --> Dep_dotenv["dotenv"]
     Root --> Dep_express["express"]
+    Root --> Dep_file_type["file-type"]
     Root --> Dep_html_to_image["html-to-image"]
-    Root --> Dep_html2canvas["html2canvas"]
-    Root --> Dep_More["...and 12 more"]
+    Root --> Dep_More["...and 13 more"]
   end
 ```
