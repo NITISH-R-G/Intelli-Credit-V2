@@ -5,7 +5,7 @@ import { AppError } from "../types";
 import { hashFile, fileToBase64, fileToText } from '../lib/file-utils';
 import { callMcpTool } from '../lib/gemini';
 import { searchCasesDeclaration, getMcaInfoDeclaration, fetchDirectorCibilDeclaration, calculateLtvDeclaration, EXTRACTION_PROMPT, RESPONSE_SCHEMA } from '../lib/gemini-config';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, Content, GenerateContentConfig } from '@google/genai';
 
 interface StressedFinancials {
   stressedRevenue: number;
@@ -425,13 +425,13 @@ export const calculateRiskAndFraud = (parsedData: any): CreditAnalysis => {
 };
 
 export const executeAIExtractionLoop = async (
-  genAI: any,
+  genAI: GoogleGenAI,
   model: string,
-  currentContents: any[],
-  config: any,
+  currentContents: Content[],
+  config: GenerateContentConfig,
   apiMode: boolean,
   bureauApiKey: string
-): Promise<any> => {
+): Promise<Partial<CreditAnalysis>> => {
     let extractionResponse = await genAI.models.generateContent({
       model,
       contents: currentContents,
@@ -462,7 +462,7 @@ export const executeAIExtractionLoop = async (
             name: call.name,
             response: { result: toolResult }
           }
-        }]
+        } as any] // Needs to be cast to any or a more specific type due to missing type details
       });
 
       extractionResponse = await genAI.models.generateContent({
@@ -491,8 +491,8 @@ export const executeAIExtractionLoop = async (
   return parsedData;
 };
 
-export const prepareDocumentContents = async (files: File[]): Promise<any[]> => {
-    let currentContents: any[] = [];
+export const prepareDocumentContents = async (files: File[]): Promise<Content[]> => {
+    let currentContents: Content[] = [];
 
     for (const f of files) {
       if (f.type === "application/pdf" || f.type.startsWith("image/")) {
