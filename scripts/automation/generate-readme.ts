@@ -35,7 +35,7 @@ const main = () => {
   console.info('Generating Comprehensive README.md...');
 
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
-  let metadata: Record<string, unknown> = {};
+  let metadata: any = {};
   if (fs.existsSync(metadataPath)) {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }

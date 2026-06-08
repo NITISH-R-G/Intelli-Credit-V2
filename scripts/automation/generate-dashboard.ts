@@ -26,8 +26,8 @@ function getGitStats() {
       recentCommits,
       branchCount: parseInt(execSync('git branch -r | wc -l').toString().trim()) || 1,
     };
-  } catch (_) {
-    console.error('Error getting git stats', e);
+  } catch (error) {
+    console.error('Error getting git stats', error);
     return { commitCount: 0, authorCount: 0, recentCommits: 0, branchCount: 1 };
   }
 }
@@ -51,7 +51,7 @@ function getFileStats() {
       jsFiles,
       cssFiles,
     };
-  } catch (_) {
+  } catch (error) {
     return { totalFiles: 0, tsFiles: 0, jsFiles: 0, cssFiles: 0 };
   }
 }
@@ -65,7 +65,7 @@ function getPackageStats() {
       deps: Object.keys(pkg.dependencies || {}).length,
       devDeps: Object.keys(pkg.devDependencies || {}).length,
     };
-  } catch (_) {
+  } catch (error) {
     return { deps: 0, devDeps: 0 };
   }
 }
@@ -82,8 +82,8 @@ function getAuditStats() {
       medium: audit.metadata?.vulnerabilities?.medium || 0,
       low: audit.metadata?.vulnerabilities?.low || 0,
     };
-  } catch (_) {
-    console.error('Error running npm audit', e);
+  } catch (error) {
+    console.error('Error running npm audit', error);
     return { critical: 0, high: 0, medium: 0, low: 0 };
   }
 }
@@ -104,8 +104,8 @@ function getCoverageStats() {
       };
     }
     return { unit: 0, statements: 0, branches: 0, functions: 0 };
-  } catch (_) {
-    console.error('Error gathering coverage stats', e);
+  } catch (error) {
+    console.error('Error gathering coverage stats', error);
     return { unit: 0, statements: 0, branches: 0, functions: 0 };
   }
 }
@@ -119,7 +119,7 @@ function getIssueStats() {
       closedIssues: parseInt(mentions) || 0,
       mergedPRs: parseInt(merges) || 0,
     };
-  } catch (_) {
+  } catch (error) {
     return { closedIssues: 0, mergedPRs: 0 };
   }
 }
@@ -149,7 +149,7 @@ function generateMockMetrics() {
   };
 }
 
-async function getAiInsights(metrics: Record<string, unknown>) {
+async function getAiInsights(metrics: any) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return {
@@ -220,7 +220,7 @@ async function gatherData() {
 
 // --- HTML Generation ---
 
-function generateHtml(data: Record<string, unknown>) {
+function generateHtml(data: any) {
   const { metrics, insights } = data;
 
   const html = `<!DOCTYPE html>

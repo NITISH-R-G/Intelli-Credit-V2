@@ -9,7 +9,7 @@ interface RepoMetadata {
   devDependencies: Record<string, string>;
   scripts: Record<string, string>;
   frameworks: string[];
-  structure: Record<string, unknown>;
+  structure: any;
 }
 
 const analyzePackageJson = (): Partial<RepoMetadata> => {
@@ -38,7 +38,7 @@ const analyzePackageJson = (): Partial<RepoMetadata> => {
   return {};
 };
 
-const mapDirectory = (dir: string, depth = 0, maxDepth = 3): Record<string, unknown> => {
+const mapDirectory = (dir: string, depth = 0, maxDepth = 3): any => {
   if (depth > maxDepth) return null;
   const items = fs.readdirSync(dir);
   const structure: Record<string, any> = {};
