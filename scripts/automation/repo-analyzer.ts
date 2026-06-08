@@ -77,6 +77,26 @@ const main = () => {
 
   fs.writeFileSync(path.resolve(process.cwd(), 'metadata.json'), JSON.stringify(metadata, null, 2));
   console.log('Analysis complete. Saved to metadata.json');
+
+  // Also generate the initial knowledge graph data
+  const knowledgeGraph = {
+    nodes: [
+      { id: 'Repository', type: 'root', name: metadata.name },
+      ...Object.keys(metadata.dependencies).map(dep => ({ id: dep, type: 'dependency', name: dep })),
+      ...Object.keys(metadata.scripts).map(script => ({ id: script, type: 'script', name: script })),
+    ],
+    edges: [
+      ...Object.keys(metadata.dependencies).map(dep => ({ source: 'Repository', target: dep, relation: 'depends_on' })),
+      ...Object.keys(metadata.scripts).map(script => ({ source: 'Repository', target: script, relation: 'runs' })),
+    ]
+  };
+
+  const docsDir = path.resolve(process.cwd(), 'docs');
+  if (!fs.existsSync(docsDir)) {
+    fs.mkdirSync(docsDir, { recursive: true });
+  }
+  fs.writeFileSync(path.join(docsDir, 'knowledge-graph.json'), JSON.stringify(knowledgeGraph, null, 2));
+  console.log('Knowledge graph raw data generated at docs/knowledge-graph.json');
 };
 
 main();

@@ -126,6 +126,27 @@ const main = () => {
       'Could not generate service map. metadata.json might be missing or src/ not found.',
     );
   }
+
+  // Generate natural language markdown index for the knowledge graph
+  const kgPath = path.resolve(process.cwd(), 'docs/knowledge-graph.json');
+  if (fs.existsSync(kgPath)) {
+    const kg = JSON.parse(fs.readFileSync(kgPath, 'utf8'));
+    let md = '# Repository Knowledge Graph\n\n';
+    md += 'This document is a continuously updated natural-language map of the repository.\n\n';
+
+    md += '## Nodes\n';
+    kg.nodes.forEach((n: any) => {
+      md += `- **${n.name}** (${n.type})\n`;
+    });
+
+    md += '\n## Relationships\n';
+    kg.edges.forEach((e: any) => {
+      md += `- **${e.source}** ${e.relation.replace(/_/g, ' ')} **${e.target}**\n`;
+    });
+
+    fs.writeFileSync(path.join(outDir, 'knowledge-graph.md'), md);
+    console.log('Knowledge graph markdown generated successfully.');
+  }
 };
 
 main();

@@ -1,0 +1,30 @@
+name: Security Vulnerability Report
+description: Report a security vulnerability or concern safely
+title: "[SECURITY]: "
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Important:** For critical vulnerabilities, please follow our SECURITY.md instead of creating a public issue. Use this form for non-critical security enhancements.
+  - type: textarea
+    id: vulnerability
+    attributes:
+      label: Vulnerability Details
+      description: Describe the security issue in detail.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Provide steps to reproduce the vulnerability if applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Proposed Mitigation
+      description: How should this vulnerability be patched?
+    validations:
+      required: false

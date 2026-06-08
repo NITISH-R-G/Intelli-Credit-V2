@@ -1,0 +1,88 @@
+# Repository Knowledge Graph
+
+This document is a continuously updated natural-language map of the repository.
+
+## Nodes
+- **react-example** (root)
+- **@google/genai** (dependency)
+- **@tailwindcss/typography** (dependency)
+- **@tailwindcss/vite** (dependency)
+- **@vitejs/plugin-react** (dependency)
+- **clsx** (dependency)
+- **cors** (dependency)
+- **dotenv** (dependency)
+- **express** (dependency)
+- **express-rate-limit** (dependency)
+- **html-to-image** (dependency)
+- **html2canvas** (dependency)
+- **jspdf** (dependency)
+- **lucide-react** (dependency)
+- **motion** (dependency)
+- **multer** (dependency)
+- **pdf-parse** (dependency)
+- **react** (dependency)
+- **react-dom** (dependency)
+- **react-dropzone** (dependency)
+- **react-markdown** (dependency)
+- **recharts** (dependency)
+- **tailwind-merge** (dependency)
+- **vite** (dependency)
+- **dev** (script)
+- **build** (script)
+- **start** (script)
+- **preview** (script)
+- **clean** (script)
+- **format** (script)
+- **lint** (script)
+- **lint:fix** (script)
+- **test** (script)
+- **test:watch** (script)
+- **analyze:repo** (script)
+- **generate:diagrams** (script)
+- **generate:readme** (script)
+- **ai:review** (script)
+- **generate:dashboard** (script)
+- **fix** (script)
+- **improve:repo** (script)
+
+## Relationships
+- **Repository** depends on **@google/genai**
+- **Repository** depends on **@tailwindcss/typography**
+- **Repository** depends on **@tailwindcss/vite**
+- **Repository** depends on **@vitejs/plugin-react**
+- **Repository** depends on **clsx**
+- **Repository** depends on **cors**
+- **Repository** depends on **dotenv**
+- **Repository** depends on **express**
+- **Repository** depends on **express-rate-limit**
+- **Repository** depends on **html-to-image**
+- **Repository** depends on **html2canvas**
+- **Repository** depends on **jspdf**
+- **Repository** depends on **lucide-react**
+- **Repository** depends on **motion**
+- **Repository** depends on **multer**
+- **Repository** depends on **pdf-parse**
+- **Repository** depends on **react**
+- **Repository** depends on **react-dom**
+- **Repository** depends on **react-dropzone**
+- **Repository** depends on **react-markdown**
+- **Repository** depends on **recharts**
+- **Repository** depends on **tailwind-merge**
+- **Repository** depends on **vite**
+- **Repository** runs **dev**
+- **Repository** runs **build**
+- **Repository** runs **start**
+- **Repository** runs **preview**
+- **Repository** runs **clean**
+- **Repository** runs **format**
+- **Repository** runs **lint**
+- **Repository** runs **lint:fix**
+- **Repository** runs **test**
+- **Repository** runs **test:watch**
+- **Repository** runs **analyze:repo**
+- **Repository** runs **generate:diagrams**
+- **Repository** runs **generate:readme**
+- **Repository** runs **ai:review**
+- **Repository** runs **generate:dashboard**
+- **Repository** runs **fix**
+- **Repository** runs **improve:repo**

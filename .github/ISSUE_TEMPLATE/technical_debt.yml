@@ -1,0 +1,31 @@
+name: Technical Debt Report
+description: Report technical debt, poorly documented code, or refactoring opportunities
+title: "[TECH DEBT]: "
+labels: ["technical-debt", "maintenance"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting technical debt! Identifying areas for improvement helps keep our repository healthy and maintainable.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of the Technical Debt
+      description: Describe the current state and why it is problematic.
+      placeholder: "The module X is tightly coupled to module Y..."
+    validations:
+      required: true
+  - type: textarea
+    id: location
+    attributes:
+      label: Code Location
+      description: Provide links to the specific files or lines of code.
+    validations:
+      required: true
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: Proposed Solution
+      description: How should this be refactored or improved?
+    validations:
+      required: false

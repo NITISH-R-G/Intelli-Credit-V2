@@ -1,0 +1,411 @@
+{
+  "nodes": [
+    {
+      "id": "Repository",
+      "type": "root",
+      "name": "react-example"
+    },
+    {
+      "id": "@google/genai",
+      "type": "dependency",
+      "name": "@google/genai"
+    },
+    {
+      "id": "@tailwindcss/typography",
+      "type": "dependency",
+      "name": "@tailwindcss/typography"
+    },
+    {
+      "id": "@tailwindcss/vite",
+      "type": "dependency",
+      "name": "@tailwindcss/vite"
+    },
+    {
+      "id": "@vitejs/plugin-react",
+      "type": "dependency",
+      "name": "@vitejs/plugin-react"
+    },
+    {
+      "id": "clsx",
+      "type": "dependency",
+      "name": "clsx"
+    },
+    {
+      "id": "cors",
+      "type": "dependency",
+      "name": "cors"
+    },
+    {
+      "id": "dotenv",
+      "type": "dependency",
+      "name": "dotenv"
+    },
+    {
+      "id": "express",
+      "type": "dependency",
+      "name": "express"
+    },
+    {
+      "id": "express-rate-limit",
+      "type": "dependency",
+      "name": "express-rate-limit"
+    },
+    {
+      "id": "html-to-image",
+      "type": "dependency",
+      "name": "html-to-image"
+    },
+    {
+      "id": "html2canvas",
+      "type": "dependency",
+      "name": "html2canvas"
+    },
+    {
+      "id": "jspdf",
+      "type": "dependency",
+      "name": "jspdf"
+    },
+    {
+      "id": "lucide-react",
+      "type": "dependency",
+      "name": "lucide-react"
+    },
+    {
+      "id": "motion",
+      "type": "dependency",
+      "name": "motion"
+    },
+    {
+      "id": "multer",
+      "type": "dependency",
+      "name": "multer"
+    },
+    {
+      "id": "pdf-parse",
+      "type": "dependency",
+      "name": "pdf-parse"
+    },
+    {
+      "id": "react",
+      "type": "dependency",
+      "name": "react"
+    },
+    {
+      "id": "react-dom",
+      "type": "dependency",
+      "name": "react-dom"
+    },
+    {
+      "id": "react-dropzone",
+      "type": "dependency",
+      "name": "react-dropzone"
+    },
+    {
+      "id": "react-markdown",
+      "type": "dependency",
+      "name": "react-markdown"
+    },
+    {
+      "id": "recharts",
+      "type": "dependency",
+      "name": "recharts"
+    },
+    {
+      "id": "tailwind-merge",
+      "type": "dependency",
+      "name": "tailwind-merge"
+    },
+    {
+      "id": "vite",
+      "type": "dependency",
+      "name": "vite"
+    },
+    {
+      "id": "dev",
+      "type": "script",
+      "name": "dev"
+    },
+    {
+      "id": "build",
+      "type": "script",
+      "name": "build"
+    },
+    {
+      "id": "start",
+      "type": "script",
+      "name": "start"
+    },
+    {
+      "id": "preview",
+      "type": "script",
+      "name": "preview"
+    },
+    {
+      "id": "clean",
+      "type": "script",
+      "name": "clean"
+    },
+    {
+      "id": "format",
+      "type": "script",
+      "name": "format"
+    },
+    {
+      "id": "lint",
+      "type": "script",
+      "name": "lint"
+    },
+    {
+      "id": "lint:fix",
+      "type": "script",
+      "name": "lint:fix"
+    },
+    {
+      "id": "test",
+      "type": "script",
+      "name": "test"
+    },
+    {
+      "id": "test:watch",
+      "type": "script",
+      "name": "test:watch"
+    },
+    {
+      "id": "analyze:repo",
+      "type": "script",
+      "name": "analyze:repo"
+    },
+    {
+      "id": "generate:diagrams",
+      "type": "script",
+      "name": "generate:diagrams"
+    },
+    {
+      "id": "generate:readme",
+      "type": "script",
+      "name": "generate:readme"
+    },
+    {
+      "id": "ai:review",
+      "type": "script",
+      "name": "ai:review"
+    },
+    {
+      "id": "generate:dashboard",
+      "type": "script",
+      "name": "generate:dashboard"
+    },
+    {
+      "id": "fix",
+      "type": "script",
+      "name": "fix"
+    },
+    {
+      "id": "improve:repo",
+      "type": "script",
+      "name": "improve:repo"
+    }
+  ],
+  "edges": [
+    {
+      "source": "Repository",
+      "target": "@google/genai",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "@tailwindcss/typography",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "@tailwindcss/vite",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "@vitejs/plugin-react",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "clsx",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "cors",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "dotenv",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "express",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "express-rate-limit",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "html-to-image",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "html2canvas",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "jspdf",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "lucide-react",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "motion",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "multer",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "pdf-parse",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "react",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "react-dom",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "react-dropzone",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "react-markdown",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "recharts",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "tailwind-merge",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "vite",
+      "relation": "depends_on"
+    },
+    {
+      "source": "Repository",
+      "target": "dev",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "build",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "start",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "preview",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "clean",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "format",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "lint",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "lint:fix",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "test",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "test:watch",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "analyze:repo",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "generate:diagrams",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "generate:readme",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "ai:review",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "generate:dashboard",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "fix",
+      "relation": "runs"
+    },
+    {
+      "source": "Repository",
+      "target": "improve:repo",
+      "relation": "runs"
+    }
+  ]
+}
