@@ -31,14 +31,16 @@ jobs:
         run: npm run improve:repo || true
 
       - name: Commit fixes
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name || 'main' }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs/
           if ! git diff-index --quiet HEAD; then
             git commit -m "docs(auto-improve): Update technical debt report [skip ci]"
-            git pull --rebase origin ${{ github.head_ref || github.ref_name || 'main' }} || true
-            git push origin HEAD:${{ github.head_ref || github.ref_name || 'main' }} || true
+            git pull --rebase origin "$HEAD_REF" || true
+            git push origin HEAD:"$HEAD_REF" || true
           else
             echo "No technical debt updates to commit"
           fi

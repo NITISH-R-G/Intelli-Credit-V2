@@ -1,13 +1,15 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const searchForTodos = (dir: string): string[] => {
-  if (!/^[a-zA-Z0-9_-]+$/.test(dir)) {
+  if (dir !== 'src' && dir !== 'scripts') {
     throw new Error('Invalid directory name');
   }
+  const baseDir = path.resolve(process.cwd(), dir);
   const todos: string[] = [];
 
   const scanDirectory = (currentDir: string) => {
+    if (!currentDir.startsWith(baseDir)) return;
     if (!fs.existsSync(currentDir)) return;
 
     const entries = fs.readdirSync(currentDir, { withFileTypes: true });
