@@ -39,8 +39,8 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v3
         with:
-          filePath: ai-review-output.md
-          comment_tag: ai_review
+          file-path: ai-review-output.md
+          comment-tag: ai_review
 
       - name: Commit AI Generated Docs
         run: |
@@ -49,5 +49,6 @@ jobs:
           git add docs/ || true
           if ! git diff-index --quiet HEAD; then
             git commit -m "docs(ai): Generated documentation and summaries from PR [skip ci]"
-            git push origin HEAD:${{ github.head_ref }}
+            git pull --rebase origin ${{ github.head_ref }} || true
+            git push origin HEAD:${{ github.head_ref }} || true
           fi

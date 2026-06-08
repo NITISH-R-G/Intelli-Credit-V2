@@ -1,21 +1,46 @@
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
 
 const searchForTodos = (dir: string): string[] => {
-  const todos: string[] = [];
-  try {
-    const result = execSync(`grep -rnw '${dir}' -e 'TODO' --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=build --exclude-dir=.git`, { encoding: 'utf8' });
-    if (result) {
-      todos.push(...result.trim().split('\n'));
-    }
-  } catch (error) {
-    // grep returns exit code 1 if no matches found
+  if (!/^[a-zA-Z0-9_-]+$/.test(dir)) {
+    throw new Error('Invalid directory name');
   }
+  const todos: string[] = [];
+
+  const scanDirectory = (currentDir: string) => {
+    if (!fs.existsSync(currentDir)) return;
+
+    const entries = fs.readdirSync(currentDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (['node_modules', 'dist', 'build', '.git'].includes(entry.name)) {
+        continue;
+      }
+
+      const fullPath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        scanDirectory(fullPath);
+      } else if (entry.isFile() && (fullPath.endsWith('.ts') || fullPath.endsWith('.tsx') || fullPath.endsWith('.js') || fullPath.endsWith('.jsx'))) {
+        try {
+          const content = fs.readFileSync(fullPath, 'utf8');
+          const lines = content.split('\n');
+          for (let i = 0; i < lines.length; i++) {
+            if (lines[i].includes('TODO')) {
+              todos.push(`${fullPath}:${i + 1}:${lines[i].trim()}`);
+            }
+          }
+        } catch {
+          // ignore read errors
+        }
+      }
+    }
+  };
+
+  scanDirectory(dir);
   return todos;
 };
 
 const main = async () => {
+  // eslint-disable-next-line no-console
   console.log('Running Autonomous Repository Improver...');
 
   const todos = searchForTodos('src');
@@ -24,10 +49,12 @@ const main = async () => {
   const allTodos = [...todos, ...scriptsTodos];
 
   if (allTodos.length === 0) {
+    // eslint-disable-next-line no-console
     console.log('No technical debt (TODOs) found. Repository is pristine!');
     return;
   }
 
+  // eslint-disable-next-line no-console
   console.log(`Found ${allTodos.length} technical debt items.`);
 
   const reportPath = path.resolve(process.cwd(), 'docs/technical-debt-report.md');
@@ -48,10 +75,12 @@ const main = async () => {
   }
 
   fs.writeFileSync(reportPath, reportContent);
+  // eslint-disable-next-line no-console
   console.log('Technical debt report generated successfully at docs/technical-debt-report.md.');
 
   // In a real scenario, this script could use the GitHub API to open issues for each TODO,
   // but to prevent spamming, we just generate a report and a PR could be opened by another action.
 };
 
+// eslint-disable-next-line no-console
 main().catch(console.error);

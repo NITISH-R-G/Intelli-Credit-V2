@@ -135,13 +135,13 @@ const main = () => {
     md += 'This document is a continuously updated natural-language map of the repository.\n\n';
 
     md += '## Nodes\n';
-    kg.nodes.forEach((n: any) => {
+    kg.nodes.forEach((n: {name: string, type: string}) => {
       md += `- **${n.name}** (${n.type})\n`;
     });
 
     md += '\n## Relationships\n';
-    kg.edges.forEach((e: any) => {
-      md += `- **${e.source}** ${e.relation.replace(/_/g, ' ')} **${e.target}**\n`;
+    kg.edges.forEach((e: {source: string, relation: string, target: string}) => {
+      md += `- **${e.source}** ${e.relation.split('_').join(' ')} **${e.target}**\n`;
     });
 
     fs.writeFileSync(path.join(outDir, 'knowledge-graph.md'), md);

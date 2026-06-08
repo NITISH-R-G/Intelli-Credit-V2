@@ -101,7 +101,6 @@
         "codeql.yml": "file",
         "dependabot-auto-merge.yml": "file",
         "dependency-review.yml": "file",
-        "github-pages.yml": "file",
         "greetings.yml": "file",
         "labeler.yml": "file",
         "lock-threads.yml": "file",
@@ -131,11 +130,9 @@
     "docs": {
       "architecture": {
         "SERVICE_MAP.md": "file",
-        "dependency-graph.md": "file",
-        "knowledge-graph.md": "file"
+        "dependency-graph.md": "file"
       },
       "dashboard.html": "file",
-      "knowledge-graph.json": "file",
       "technical-debt-report.md": "file"
     },
     "eslint.config.mjs": "file",

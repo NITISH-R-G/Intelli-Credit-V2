@@ -41,5 +41,6 @@ jobs:
           git add README.md docs/ || true
           if ! git diff-index --quiet HEAD; then
             git commit -m "docs: Auto-update README and Documentation [skip ci]"
-            git push
+            git pull --rebase origin ${{ github.head_ref || github.ref_name }} || true
+            git push origin HEAD:${{ github.head_ref || github.ref_name }} || true
           fi

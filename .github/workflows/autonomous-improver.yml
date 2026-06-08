@@ -37,7 +37,8 @@ jobs:
           git add docs/
           if ! git diff-index --quiet HEAD; then
             git commit -m "docs(auto-improve): Update technical debt report [skip ci]"
-            git push
+            git pull --rebase origin ${{ github.head_ref || github.ref_name || 'main' }} || true
+            git push origin HEAD:${{ github.head_ref || github.ref_name || 'main' }} || true
           else
             echo "No technical debt updates to commit"
           fi
