@@ -17,52 +17,12 @@ const StressTestingModule = React.lazy(() => import('./components/StressTestingM
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
-import { INDUSTRY_BENCHMARKS } from './constants';
+
 import { useDropzone } from 'react-dropzone';
-import {
-  ShieldAlert,
-  ShieldCheck,
-  FileText,
-  Upload,
-  TrendingUp,
-  AlertTriangle,
-  CheckCircle2,
-  XCircle,
-  BarChart3,
-  Loader2,
-  Info,
-  Search,
-  Landmark,
-  BadgeAlert,
-  History,
-  Fingerprint,
-  Gavel,
-  ShieldQuestion,
-  ChevronRight,
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from 'recharts';
-import { cn } from './lib/utils';
-import { GoogleGenAI } from '@google/genai';
-import { hashFile, fileToBase64, fileToText } from './lib/file-utils';
-import { callMcpTool } from './lib/gemini';
-import {
-  searchCasesDeclaration,
-  getMcaInfoDeclaration,
-  fetchDirectorCibilDeclaration,
-  calculateLtvDeclaration,
-  EXTRACTION_PROMPT,
-  RESPONSE_SCHEMA,
-} from './lib/gemini-config';
+import { ShieldCheck } from 'lucide-react';
+
+
+
 
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -126,6 +86,7 @@ export default function App() {
     );
   };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getRiskColor = (level: string) => {
     switch (level) {
       case 'Low':
@@ -141,6 +102,7 @@ export default function App() {
     }
   };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const chartData = analysis
     ? [
         { name: 'Revenue', value: analysis.structuredData.revenue },
