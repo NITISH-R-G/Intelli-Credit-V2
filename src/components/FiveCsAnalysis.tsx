@@ -92,11 +92,11 @@ export const FiveCsAnalysis: React.FC<FiveCsAnalysisProps> = ({ analysis, displa
 
             {c.label === 'Collateral' &&
               'assets' in c.data &&
-              c.data.assets &&
-              c.data.assets.length > 0 && (
+              Array.isArray((c.data as { assets?: import('../types').CollateralAsset[] }).assets) &&
+              ((c.data as { assets?: import('../types').CollateralAsset[] }).assets as import('../types').CollateralAsset[]).length > 0 && (
                 <div className="mt-3 space-y-2 border-t border-zinc-800 pt-2 shrink-0">
                   <div className="text-[9px] text-zinc-500 uppercase mb-1">Liquidable Assets</div>
-                  {c.data.assets.map((asset, idx) => (
+                  {((c.data as { assets?: import('../types').CollateralAsset[] }).assets as import('../types').CollateralAsset[]).map((asset: import('../types').CollateralAsset, idx: number) => (
                     <div
                       key={idx}
                       className="bg-zinc-900/50 p-1.5 border border-zinc-800 rounded-sm"

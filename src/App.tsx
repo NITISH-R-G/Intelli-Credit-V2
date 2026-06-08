@@ -21,9 +21,6 @@ import { CreditAnalysis } from './types';
 import { useDropzone } from 'react-dropzone';
 import { ShieldCheck } from 'lucide-react';
 
-
-
-
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -86,7 +83,7 @@ export default function App() {
     );
   };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getRiskColor = (level: string) => {
     switch (level) {
       case 'Low':
@@ -102,7 +99,7 @@ export default function App() {
     }
   };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const chartData = analysis
     ? [
         { name: 'Revenue', value: analysis.structuredData.revenue },

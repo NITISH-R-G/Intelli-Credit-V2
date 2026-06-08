@@ -7,7 +7,13 @@ import { CreditAnalysis } from '../../types';
 // Mock Recharts components because they use SVG features that jsdom might not fully support
 vi.mock('recharts', () => ({
   ResponsiveContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  LineChart: ({ children, data }: { children: React.ReactNode; data: Record<string, unknown>[] }) => (
+  LineChart: ({
+    children,
+    data,
+  }: {
+    children: React.ReactNode;
+    data: Record<string, unknown>[];
+  }) => (
     <div data-testid="line-chart" data-points={JSON.stringify(data)}>
       {children}
     </div>
