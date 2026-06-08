@@ -109,6 +109,9 @@
     "CONTRIBUTING.md": "file",
     "README.md": "file",
     "SECURITY.md": "file",
+    "coverage": {
+      "coverage-summary.json": "file"
+    },
     "cycle_1_report.md": "file",
     "cycle_2_report.md": "file",
     "cycle_3_report.md": "file",
@@ -120,6 +123,7 @@
     "dev": {
       "plan.md": "file"
     },
+    "dev_output.log": "file",
     "docs": {
       "architecture": {
         "SERVICE_MAP.md": "file",
