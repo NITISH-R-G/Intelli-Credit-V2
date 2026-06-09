@@ -5,7 +5,7 @@ import path from 'path';
 const sanitize = (name: string) => name.replace(/[^a-zA-Z0-9]/g, '_');
 
 const buildMermaidFromStructure = (
-  structure: any,
+  structure: Record<string, unknown>,
   parentNode: string,
   depth = 0,
   lines: string[] = [],
@@ -19,7 +19,7 @@ const buildMermaidFromStructure = (
     lines.push(`  ${parentNode} --> ${nodeName}["${displayName}"]`);
 
     if (typeof value === 'object' && value !== null) {
-      buildMermaidFromStructure(value, nodeName, depth + 1, lines);
+      buildMermaidFromStructure(value as Record<string, unknown>, nodeName, depth + 1, lines);
     }
   }
 };
@@ -96,7 +96,7 @@ const generateArchitectureGraph = () => {
 };
 
 const main = () => {
-  console.log('Generating dynamic architecture diagrams...');
+  console.info('Generating dynamic architecture diagrams...');
 
   const outDir = path.resolve(process.cwd(), 'docs/architecture');
   if (!fs.existsSync(outDir)) {
@@ -109,7 +109,7 @@ const main = () => {
       path.join(outDir, 'dependency-graph.md'),
       `# Architecture & Dependencies\n\nThis diagram is auto-generated based on the repository structure and dependencies.\n\n${mermaidGraph}`,
     );
-    console.log('Interactive Dependency Diagram generated successfully.');
+    console.info('Interactive Dependency Diagram generated successfully.');
   } else {
     console.warn('Could not generate diagram. metadata.json might be missing.');
   }
@@ -120,7 +120,7 @@ const main = () => {
       path.join(outDir, 'SERVICE_MAP.md'),
       `# Service Map\n\nThis diagram is auto-generated based on the application's source modules.\n\n${serviceMap}`,
     );
-    console.log('Interactive Service Map generated successfully.');
+    console.info('Interactive Service Map generated successfully.');
   } else {
     console.warn(
       'Could not generate service map. metadata.json might be missing or src/ not found.',

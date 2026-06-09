@@ -32,10 +32,10 @@ const getBadges = () => {
 };
 
 const main = () => {
-  console.log('Generating Comprehensive README.md...');
+  console.info('Generating Comprehensive README.md...');
 
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
-  let metadata: any = {};
+  let metadata: Record<string, unknown> = {};
   if (fs.existsSync(metadataPath)) {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }
@@ -55,18 +55,18 @@ const main = () => {
   const autoGenEnd = '<!-- AUTO-GENERATED-SECTION-END -->';
 
   const frameworksList =
-    metadata.frameworks && metadata.frameworks.length > 0
-      ? metadata.frameworks.join(', ')
+    metadata.frameworks && (metadata.frameworks as string[]).length > 0
+      ? (metadata.frameworks as string[]).join(', ')
       : 'None detected';
 
   const scriptTable = metadata.scripts
-    ? `| Script | Command |\n|---|---|\n${Object.entries(metadata.scripts)
+    ? `| Script | Command |\n|---|---|\n${Object.entries(metadata.scripts as Record<string, string>)
         .map(([name, cmd]) => `| \`npm run ${name}\` | \`${cmd}\` |`)
         .join('\n')}`
     : '';
 
   const dependenciesList = metadata.dependencies
-    ? Object.keys(metadata.dependencies)
+    ? Object.keys(metadata.dependencies as Record<string, string>)
         .map((d) => `- \`${d}\``)
         .join('\n')
     : '*No dependencies found*';
@@ -126,7 +126,7 @@ ${autoGenEnd}`;
   }
 
   fs.writeFileSync(existingReadmePath, newReadme);
-  console.log('Comprehensive README.md updated successfully.');
+  console.info('Comprehensive README.md updated successfully.');
 };
 
 main();

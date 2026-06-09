@@ -9,7 +9,7 @@ interface RepoMetadata {
   devDependencies: Record<string, string>;
   scripts: Record<string, string>;
   frameworks: string[];
-  structure: any;
+  structure: Record<string, unknown>;
 }
 
 const analyzePackageJson = (): Partial<RepoMetadata> => {
@@ -38,10 +38,10 @@ const analyzePackageJson = (): Partial<RepoMetadata> => {
   return {};
 };
 
-const mapDirectory = (dir: string, depth = 0, maxDepth = 3): any => {
+const mapDirectory = (dir: string, depth = 0, maxDepth = 3): Record<string, unknown> | string | null => {
   if (depth > maxDepth) return null;
   const items = fs.readdirSync(dir);
-  const structure: Record<string, any> = {};
+  const structure: Record<string, unknown> = {};
 
   for (const item of items) {
     if (['node_modules', '.git', 'dist', 'build'].includes(item)) continue;
@@ -59,7 +59,7 @@ const mapDirectory = (dir: string, depth = 0, maxDepth = 3): any => {
 };
 
 const main = () => {
-  console.log('Analyzing repository...');
+  console.info('Analyzing repository...');
 
   const pkgMeta = analyzePackageJson();
   const structure = mapDirectory(process.cwd());
@@ -76,7 +76,7 @@ const main = () => {
   };
 
   fs.writeFileSync(path.resolve(process.cwd(), 'metadata.json'), JSON.stringify(metadata, null, 2));
-  console.log('Analysis complete. Saved to metadata.json');
+  console.info('Analysis complete. Saved to metadata.json');
 };
 
 main();
