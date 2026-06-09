@@ -3,7 +3,7 @@ import path from 'path';
 import { GoogleGenAI } from '@google/genai';
 
 const main = async () => {
-  console.log('Running AI Technical Debt Analyzer...');
+  console.info('Running AI Technical Debt Analyzer...');
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -11,7 +11,7 @@ const main = async () => {
     fs.mkdirSync(path.resolve(process.cwd(), 'docs'), { recursive: true });
     fs.writeFileSync(
       path.resolve(process.cwd(), 'docs/technical-debt-report.md'),
-      'GEMINI_API_KEY is not set. Skipping real AI generation.'
+      'GEMINI_API_KEY is not set. Skipping real AI generation.',
     );
     return;
   }
@@ -29,7 +29,8 @@ const main = async () => {
   let sampleCode = '';
   const serverPath = path.resolve(process.cwd(), 'server.ts');
   if (fs.existsSync(serverPath)) {
-    sampleCode += `\n\n--- server.ts ---\n` + fs.readFileSync(serverPath, 'utf8').substring(0, 5000);
+    sampleCode +=
+      `\n\n--- server.ts ---\n` + fs.readFileSync(serverPath, 'utf8').substring(0, 5000);
   }
 
   const prompt = `
@@ -73,7 +74,7 @@ ${responseText}
 `;
 
   fs.writeFileSync(path.join(outDir, 'technical-debt-report.md'), reportContent);
-  console.log('Technical Debt Report generated successfully at docs/technical-debt-report.md');
+  console.info('Technical Debt Report generated successfully at docs/technical-debt-report.md');
 };
 
 main().catch(console.error);
