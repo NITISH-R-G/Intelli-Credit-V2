@@ -49,5 +49,5 @@ jobs:
           git add docs/ || true
           if ! git diff-index --quiet HEAD; then
             git commit -m "docs(ai): Generated documentation and summaries from PR [skip ci]"
-            git push origin HEAD:${{ github.head_ref }}
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
           fi
