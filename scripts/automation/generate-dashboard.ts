@@ -73,7 +73,7 @@ function getPackageStats() {
 // Run npm audit
 function getAuditStats() {
   try {
-    console.log('Running npm audit...');
+    console.info('Running npm audit...');
     const auditOutput = execSync('npm audit --json || true', { encoding: 'utf8' });
     const audit = JSON.parse(auditOutput);
     return {
@@ -91,7 +91,7 @@ function getAuditStats() {
 // Run vitest coverage
 function getCoverageStats() {
   try {
-    console.log('Running unit tests with coverage...');
+    console.info('Running unit tests with coverage...');
     execSync('npx vitest run --coverage', { stdio: 'ignore' });
     const covPath = path.resolve(process.cwd(), 'coverage/coverage-summary.json');
     if (fs.existsSync(covPath)) {
@@ -490,10 +490,10 @@ function generateHtml(data: any) {
 }
 
 async function main() {
-  console.log('Gathering repository metrics...');
+  console.info('Gathering repository metrics...');
   const data = await gatherData();
 
-  console.log('Generating HTML dashboard...');
+  console.info('Generating HTML dashboard...');
   const html = generateHtml(data);
 
   const docsDir = path.resolve(process.cwd(), 'docs');
@@ -503,7 +503,7 @@ async function main() {
 
   const outPath = path.join(docsDir, 'dashboard.html');
   fs.writeFileSync(outPath, html);
-  console.log(`Dashboard generated successfully at ${outPath}`);
+  console.info(`Dashboard generated successfully at ${outPath}`);
 }
 
 main().catch(console.error);

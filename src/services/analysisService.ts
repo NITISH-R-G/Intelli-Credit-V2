@@ -682,22 +682,6 @@ export const performAnalysis = async (
     const genAI = new GoogleGenAI({ apiKey: geminiApiKey });
     const model = 'gemini-3-flash-preview';
 
-    // Convert files to parts
-    const fileParts = await Promise.all(
-      files.map(async (f) => {
-        const buffer = await f.arrayBuffer();
-        const base64 = btoa(
-          new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''),
-        );
-        return {
-          inlineData: {
-            mimeType: f.type,
-            data: base64,
-          },
-        };
-      }),
-    );
-
     const config = {
       tools: [
         { googleSearch: {} },

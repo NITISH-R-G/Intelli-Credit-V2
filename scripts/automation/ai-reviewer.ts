@@ -4,11 +4,11 @@ import { execSync } from 'child_process';
 import { GoogleGenAI } from '@google/genai';
 
 const main = async () => {
-  console.log('Running AI Documentation Reviewer...');
+  console.info('Running AI Documentation Reviewer...');
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    console.warn('GEMINI_API_KEY is not set. Skipping real AI review generation.');
+    console.info('GEMINI_API_KEY is not set. Skipping real AI review generation.');
     fs.writeFileSync(
       path.resolve(process.cwd(), 'ai-review-output.md'),
       'GEMINI_API_KEY is not set. Skipping real AI review generation.',
@@ -24,7 +24,7 @@ const main = async () => {
       diff = execSync('git show').toString(); // Fallback for testing locally
     }
   } catch (error) {
-    console.warn('Could not fetch git diff. Ensure git is initialized and committed.');
+    console.info('Could not fetch git diff. Ensure git is initialized and committed.');
     diff = 'No diff available. This might be a new branch or no commits are made.';
   }
 
@@ -35,7 +35,7 @@ const main = async () => {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }
 
-  console.log(`Analyzing diff for ${metadata.name || 'Project'}...`);
+  console.info(`Analyzing diff for ${metadata.name || 'Project'}...`);
 
   const ai = new GoogleGenAI({ apiKey });
 
@@ -97,7 +97,7 @@ ${responseText}
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, reviewContent);
   }
 
-  console.log('AI Review generated successfully.');
+  console.info('AI Review generated successfully.');
 };
 
 main().catch(console.error);

@@ -96,7 +96,7 @@ const generateArchitectureGraph = () => {
 };
 
 const main = () => {
-  console.log('Generating dynamic architecture diagrams...');
+  console.info('Generating dynamic architecture diagrams...');
 
   const outDir = path.resolve(process.cwd(), 'docs/architecture');
   if (!fs.existsSync(outDir)) {
@@ -109,9 +109,9 @@ const main = () => {
       path.join(outDir, 'dependency-graph.md'),
       `# Architecture & Dependencies\n\nThis diagram is auto-generated based on the repository structure and dependencies.\n\n${mermaidGraph}`,
     );
-    console.log('Interactive Dependency Diagram generated successfully.');
+    console.info('Interactive Dependency Diagram generated successfully.');
   } else {
-    console.warn('Could not generate diagram. metadata.json might be missing.');
+    console.info('Could not generate diagram. metadata.json might be missing.');
   }
 
   const serviceMap = generateServiceMap();
@@ -120,9 +120,9 @@ const main = () => {
       path.join(outDir, 'SERVICE_MAP.md'),
       `# Service Map\n\nThis diagram is auto-generated based on the application's source modules.\n\n${serviceMap}`,
     );
-    console.log('Interactive Service Map generated successfully.');
+    console.info('Interactive Service Map generated successfully.');
   } else {
-    console.warn(
+    console.info(
       'Could not generate service map. metadata.json might be missing or src/ not found.',
     );
   }
