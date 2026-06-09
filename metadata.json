@@ -67,15 +67,9 @@
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
     "ai:review": "tsx scripts/automation/ai-reviewer.ts",
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
-    "fix": "tsx scripts/automation/auto-fix.ts",
-    "improve:repo": "tsx scripts/automation/improve-repo.ts"
+    "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": [
-    "React",
-    "Express",
-    "Vite",
-    "TailwindCSS"
-  ],
+  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -89,7 +83,6 @@
       },
       "dependabot.yml": "file",
       "labeler.yml": "file",
-      "release-drafter.yml": "file",
       "workflows": {
         "ai-documentation-agent.yml": "file",
         "auto-assign.yml": "file",
@@ -97,14 +90,9 @@
         "autonomous-repo-analysis.yml": "file",
         "ci-cd-automation.yml": "file",
         "codeql.yml": "file",
-        "continuous-improvement.yml": "file",
-        "dependabot-auto-merge.yml": "file",
         "dependency-review.yml": "file",
         "greetings.yml": "file",
-        "issue-ai-triage.yml": "file",
         "labeler.yml": "file",
-        "link-checker.yml": "file",
-        "release-drafter.yml": "file",
         "repo-health-dashboard.yml": "file",
         "self-updating-readme.yml": "file",
         "stale.yml": "file"
@@ -145,7 +133,6 @@
         "generate-dashboard.ts": "file",
         "generate-diagrams.ts": "file",
         "generate-readme.ts": "file",
-        "improve-repo.ts": "file",
         "repo-analyzer.ts": "file"
       }
     },
