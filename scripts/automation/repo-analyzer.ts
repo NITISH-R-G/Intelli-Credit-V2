@@ -62,7 +62,7 @@ const main = () => {
   console.info('Analyzing repository...');
 
   const pkgMeta = analyzePackageJson();
-  const structure = mapDirectory(process.cwd());
+  const structure = mapDirectory(process.cwd()) as Record<string, unknown>;
 
   const metadata: RepoMetadata = {
     name: pkgMeta.name || '',
