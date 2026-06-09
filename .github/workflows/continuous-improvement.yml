@@ -1,0 +1,47 @@
+name: Continuous Repository Improvement
+
+on:
+  schedule:
+    - cron: '0 4 * * 1' # Weekly on Monday at 4 AM
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  improve-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run AI Technical Debt Analyzer
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run improve:repo
+
+      - name: Create Pull Request for Technical Debt Report
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'docs(ai): update technical debt report'
+          title: '🤖 Automated Technical Debt & Improvement Report'
+          body: |
+            This PR contains an auto-generated analysis of the repository's current technical debt, code smells, and optimization opportunities.
+
+            Please review the report located in `docs/technical-debt-report.md`.
+          branch: 'chore/ai-tech-debt-report'
+          labels: 'documentation, ai, tech-debt'
+          delete-branch: true

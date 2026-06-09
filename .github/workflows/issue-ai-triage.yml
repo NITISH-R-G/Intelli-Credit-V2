@@ -1,0 +1,85 @@
+name: AI Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  ai-triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run AI Triage Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          # Use AI Reviewer or a dedicated script, for now we just use a small node script
+          cat << 'INNER_EOF' > scripts/automation/issue-triage.ts
+          import { GoogleGenAI } from '@google/genai';
+          import fs from 'fs';
+          import path from 'path';
+
+          const main = async () => {
+            const apiKey = process.env.GEMINI_API_KEY;
+            if (!apiKey) {
+              console.warn('GEMINI_API_KEY is not set. Skipping AI Issue triage.');
+              return;
+            }
+
+            const ai = new GoogleGenAI({ apiKey });
+            const title = process.env.ISSUE_TITLE || '';
+            const body = process.env.ISSUE_BODY || '';
+
+            const prompt = \`
+            You are an AI maintainer for an open source repository.
+            A user has opened the following issue.
+            Title: \${title}
+            Body: \${body}
+
+            Task: Provide a helpful, technical initial response. Suggest potential workarounds or request specific logs/code snippets if missing.
+            \`;
+
+            try {
+              const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: prompt,
+              });
+
+              const reply = response.text;
+              fs.writeFileSync(path.resolve(process.cwd(), 'ai-issue-reply.md'), reply || 'No response generated.');
+            } catch (err) {
+              console.error(err);
+            }
+          };
+
+          main().catch(console.error);
+          INNER_EOF
+
+          npm i -D tsx
+          npx tsx scripts/automation/issue-triage.ts
+
+      - name: Comment on Issue
+        if: hashFiles('ai-issue-reply.md') != ''
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body-path: ai-issue-reply.md
+          token: ${{ secrets.GITHUB_TOKEN }}

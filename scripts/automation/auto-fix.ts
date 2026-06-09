@@ -25,8 +25,6 @@ const main = () => {
   const pkgPath = path.resolve(process.cwd(), 'package.json');
 
   // 1. Linting fixes
-  // Note: tsc --noEmit doesn't support --fix, but if eslint is added later this will help.
-  // We check for eslint first to avoid TS errors.
   if (fs.existsSync(pkgPath)) {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
@@ -37,7 +35,7 @@ const main = () => {
     }
   }
 
-  // 2. Prettier/Formatting if applicable (we use simple check if prettier is installed)
+  // 2. Prettier/Formatting
   if (fs.existsSync(pkgPath)) {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
@@ -51,7 +49,10 @@ const main = () => {
   // 3. Security Audits
   results.push(executeCommand('npm audit fix', 'Auto-fixing security vulnerabilities'));
 
-  // 4. Update dependencies (minor/patch only)
+  // 4. Update dependencies and lockfiles safely
+  results.push(executeCommand('npm install --package-lock-only', 'Updating lockfile securely'));
+  results.push(executeCommand('npm dedupe', 'Optimizing dependency tree (dedupe)'));
+
   console.log('\n💡 Note: For major dependency updates, Dependabot PRs are recommended.');
 
   const successCount = results.filter(Boolean).length;
