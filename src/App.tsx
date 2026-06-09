@@ -74,6 +74,7 @@ export default function App() {
   const [revenueShock, setRevenueShock] = useState(0);
   const [interestRateShock, setInterestRateShock] = useState(0);
   const [bureauApiKey, setBureauApiKey] = useState('');
+  const [geminiApiKey, setGeminiApiKey] = useState('');
   const [apiMode, setApiMode] = useState(false); // false = Mock, true = Real
   const fileCache = useRef<Map<string, CreditAnalysis>>(new Map());
 
@@ -119,6 +120,7 @@ export default function App() {
       fileCache,
       apiMode,
       bureauApiKey,
+      geminiApiKey,
       setLoading,
       setError,
       setAnalysis,
@@ -176,6 +178,8 @@ export default function App() {
               setApiMode={setApiMode}
               bureauApiKey={bureauApiKey}
               setBureauApiKey={setBureauApiKey}
+              geminiApiKey={geminiApiKey}
+              setGeminiApiKey={setGeminiApiKey}
               getRootProps={getRootProps}
               getInputProps={getInputProps}
               isDragActive={isDragActive}

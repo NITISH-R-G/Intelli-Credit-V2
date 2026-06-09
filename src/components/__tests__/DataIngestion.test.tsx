@@ -13,6 +13,8 @@ describe('DataIngestion', () => {
     setApiMode: vi.fn(),
     bureauApiKey: '',
     setBureauApiKey: vi.fn(),
+    geminiApiKey: '',
+    setGeminiApiKey: vi.fn(),
     getRootProps: vi.fn().mockReturnValue({}),
     getInputProps: vi.fn().mockReturnValue({}),
     isDragActive: false,
@@ -24,7 +26,9 @@ describe('DataIngestion', () => {
   it('renders correctly in default state', () => {
     render(<DataIngestion {...defaultProps} />);
     expect(screen.getByText('Initialize Data Ingestion')).toBeInTheDocument();
-    expect(screen.getByText('Bureau Integrations')).toBeInTheDocument();
+    expect(screen.getByText('API Keys & Integrations')).toBeInTheDocument();
+    expect(screen.getByText('Gemini API Key')).toBeInTheDocument();
+    expect(screen.getByText('External Bureau API Key')).toBeInTheDocument();
     expect(screen.getByText('Drag & drop files here, or click to select')).toBeInTheDocument();
   });
 
@@ -73,5 +77,9 @@ describe('DataIngestion', () => {
     const input = screen.getByPlaceholderText('Enter your API key for real-time bureau checks...');
     fireEvent.change(input, { target: { value: 'new-key' } });
     expect(setBureauApiKey).toHaveBeenCalledWith('new-key');
+
+    const geminiInput = screen.getByPlaceholderText('Enter your Gemini API key...');
+    fireEvent.change(geminiInput, { target: { value: 'new-gemini-key' } });
+    expect(defaultProps.setGeminiApiKey).toHaveBeenCalledWith('new-gemini-key');
   });
 });

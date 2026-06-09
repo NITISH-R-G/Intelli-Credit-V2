@@ -7,6 +7,8 @@ interface DataIngestionProps {
   setApiMode: (mode: boolean) => void;
   bureauApiKey: string;
   setBureauApiKey: (key: string) => void;
+  geminiApiKey: string;
+  setGeminiApiKey: (key: string) => void;
   getRootProps: <T extends DropzoneRootProps>(props?: T) => T;
   getInputProps: <T extends DropzoneInputProps>(props?: T) => T;
   isDragActive: boolean;
@@ -20,6 +22,8 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
   setApiMode,
   bureauApiKey,
   setBureauApiKey,
+  geminiApiKey,
+  setGeminiApiKey,
   getRootProps,
   getInputProps,
   isDragActive,
@@ -46,7 +50,7 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
           <div className="flex items-center gap-2">
             <Fingerprint className="w-4 h-4 text-amber-500" />
             <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
-              Bureau Integrations
+              API Keys & Integrations
             </h3>
           </div>
           <div className="flex items-center gap-3">
@@ -74,17 +78,31 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
             </span>
           </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-[10px] font-medium text-zinc-600 uppercase tracking-widest">
-            External Bureau API Key
-          </label>
-          <input
-            type="password"
-            value={bureauApiKey}
-            onChange={(e) => setBureauApiKey(e.target.value)}
-            placeholder="Enter your API key for real-time bureau checks..."
-            className="w-full px-3 py-2 bg-[#050505] border border-zinc-800 text-zinc-300 text-xs focus:outline-none focus:border-amber-500/50 transition-all placeholder:text-zinc-700"
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-medium text-zinc-600 uppercase tracking-widest">
+              Gemini API Key
+            </label>
+            <input
+              type="password"
+              value={geminiApiKey}
+              onChange={(e) => setGeminiApiKey(e.target.value)}
+              placeholder="Enter your Gemini API key..."
+              className="w-full px-3 py-2 bg-[#050505] border border-zinc-800 text-zinc-300 text-xs focus:outline-none focus:border-amber-500/50 transition-all placeholder:text-zinc-700"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-medium text-zinc-600 uppercase tracking-widest">
+              External Bureau API Key
+            </label>
+            <input
+              type="password"
+              value={bureauApiKey}
+              onChange={(e) => setBureauApiKey(e.target.value)}
+              placeholder="Enter your API key for real-time bureau checks..."
+              className="w-full px-3 py-2 bg-[#050505] border border-zinc-800 text-zinc-300 text-xs focus:outline-none focus:border-amber-500/50 transition-all placeholder:text-zinc-700"
+            />
+          </div>
         </div>
       </div>
 
