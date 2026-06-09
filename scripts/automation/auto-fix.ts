@@ -1,57 +1,91 @@
 import { execSync } from 'child_process';
-import fs from 'fs';
+import fs from 'fs/promises';
+import { existsSync } from 'fs';
 import path from 'path';
 
-const executeCommand = (command: string, description: string) => {
-  console.info(`\n⏳ Running: ${description}`);
-  try {
-    const _output = execSync(command, { encoding: 'utf8', stdio: 'inherit' });
-    console.info(`✅ Success: ${description}`);
-    return true;
-  } catch (error) {
-    console.error(`❌ Failed: ${description}`);
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-    return false;
+const logSuccess = (description: string) => console.info(`✅ Success: ${description}`);
+const logFailure = (description: string, error: unknown) => {
+  console.error(`❌ Failed: ${description}`);
+  if (error instanceof Error) {
+    console.error(error.message);
   }
 };
 
-const main = () => {
+const main = async () => {
   console.info('🛠️ Starting Autonomous Repository Self-Healing Process...\n');
 
   const results = [];
-
   const pkgPath = path.resolve(process.cwd(), 'package.json');
 
   // 1. Linting fixes
-  if (fs.existsSync(pkgPath)) {
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+  if (existsSync(pkgPath)) {
+    const pkg = JSON.parse(await fs.readFile(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     if (allDeps['eslint']) {
-      results.push(executeCommand('npm run lint:fix', 'Auto-fixing linting issues'));
+      console.info('\n⏳ Running: Auto-fixing linting issues');
+      try {
+        execSync('npm run lint:fix', { encoding: 'utf8', stdio: 'inherit' });
+        logSuccess('Auto-fixing linting issues');
+        results.push(true);
+      } catch (e) {
+        logFailure('Auto-fixing linting issues', e);
+        results.push(false);
+      }
     } else {
       console.info('⏭️ ESLint not found, skipping lint:fix step.');
     }
   }
 
   // 2. Prettier/Formatting
-  if (fs.existsSync(pkgPath)) {
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+  if (existsSync(pkgPath)) {
+    const pkg = JSON.parse(await fs.readFile(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     if (allDeps['prettier']) {
-      results.push(executeCommand('npx prettier --write .', 'Formatting code with Prettier'));
+      console.info('\n⏳ Running: Formatting code with Prettier');
+      try {
+        execSync('npx prettier --write .', { encoding: 'utf8', stdio: 'inherit' });
+        logSuccess('Formatting code with Prettier');
+        results.push(true);
+      } catch (e) {
+        logFailure('Formatting code with Prettier', e);
+        results.push(false);
+      }
     } else {
       console.info('⏭️ Prettier not found in dependencies, skipping formatting step.');
     }
   }
 
   // 3. Security Audits
-  results.push(executeCommand('npm audit fix', 'Auto-fixing security vulnerabilities'));
+  console.info('\n⏳ Running: Auto-fixing security vulnerabilities');
+  try {
+    execSync('npm audit fix', { encoding: 'utf8', stdio: 'inherit' });
+    logSuccess('Auto-fixing security vulnerabilities');
+    results.push(true);
+  } catch (e) {
+    logFailure('Auto-fixing security vulnerabilities', e);
+    results.push(false);
+  }
 
   // 4. Update dependencies and lockfiles safely
-  results.push(executeCommand('npm install --package-lock-only', 'Updating lockfile securely'));
-  results.push(executeCommand('npm dedupe', 'Optimizing dependency tree (dedupe)'));
+  console.info('\n⏳ Running: Updating lockfile securely');
+  try {
+    execSync('npm install --package-lock-only', { encoding: 'utf8', stdio: 'inherit' });
+    logSuccess('Updating lockfile securely');
+    results.push(true);
+  } catch (e) {
+    logFailure('Updating lockfile securely', e);
+    results.push(false);
+  }
+
+  console.info('\n⏳ Running: Optimizing dependency tree (dedupe)');
+  try {
+    execSync('npm dedupe', { encoding: 'utf8', stdio: 'inherit' });
+    logSuccess('Optimizing dependency tree (dedupe)');
+    results.push(true);
+  } catch (e) {
+    logFailure('Optimizing dependency tree (dedupe)', e);
+    results.push(false);
+  }
 
   console.info('\n💡 Note: For major dependency updates, Dependabot PRs are recommended.');
 
@@ -59,4 +93,4 @@ const main = () => {
   console.info(`\n🎉 Self-Healing Complete. ${successCount}/${results.length} tasks succeeded.`);
 };
 
-main();
+main().catch(console.error);
