@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { spawnSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -43,7 +42,9 @@ const main = () => {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     if (allDeps['prettier']) {
-      results.push(executeCommand('npx', ['prettier', '--write', '.'], 'Formatting code with Prettier'));
+      results.push(
+        executeCommand('npx', ['prettier', '--write', '.'], 'Formatting code with Prettier'),
+      );
     } else {
       console.info('⏭️ Prettier not found in dependencies, skipping formatting step.');
     }
