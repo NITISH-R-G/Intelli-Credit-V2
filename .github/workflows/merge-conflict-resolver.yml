@@ -6,6 +6,10 @@ on:
   push:
     branches: [main]
 
+permissions:
+  pull-requests: write
+  issues: write
+
 jobs:
   label-merge-conflicts:
     runs-on: ubuntu-latest
