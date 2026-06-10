@@ -67,9 +67,15 @@
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
     "ai:review": "tsx scripts/automation/ai-reviewer.ts",
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
-    "fix": "tsx scripts/automation/auto-fix.ts"
+    "fix": "tsx scripts/automation/auto-fix.ts",
+    "issue:manage": "tsx scripts/automation/issue-manager.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -83,6 +89,7 @@
       },
       "dependabot.yml": "file",
       "labeler.yml": "file",
+      "release-drafter.yml": "file",
       "workflows": {
         "ai-documentation-agent.yml": "file",
         "auto-assign.yml": "file",
@@ -92,8 +99,14 @@
         "codeql.yml": "file",
         "dependency-review.yml": "file",
         "greetings.yml": "file",
+        "issue-triage.yml": "file",
         "labeler.yml": "file",
+        "license-compliance.yml": "file",
+        "link-checker.yml": "file",
+        "merge-conflict-resolver.yml": "file",
+        "release.yml": "file",
         "repo-health-dashboard.yml": "file",
+        "sbom.yml": "file",
         "self-updating-readme.yml": "file",
         "stale.yml": "file"
       }
@@ -133,6 +146,7 @@
         "generate-dashboard.ts": "file",
         "generate-diagrams.ts": "file",
         "generate-readme.ts": "file",
+        "issue-manager.ts": "file",
         "repo-analyzer.ts": "file"
       }
     },
@@ -207,5 +221,6 @@
     "tsconfig.json": "file",
     "vercel.json": "file",
     "vite.config.ts": "file"
-  }
+  },
+  "complexityScore": 75
 }
