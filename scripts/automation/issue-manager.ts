@@ -3,7 +3,7 @@ import path from 'path';
 import { GoogleGenAI } from '@google/genai';
 
 const main = async () => {
-  console.log('Running AI Issue Manager...');
+  console.info('Running AI Issue Manager...');
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -75,7 +75,7 @@ LABELS: label1, label2
   fs.writeFileSync(path.resolve(process.cwd(), 'issue-response.md'), comment);
   fs.writeFileSync(path.resolve(process.cwd(), 'issue-labels.txt'), labels);
 
-  console.log('AI Issue response generated successfully.');
+  console.info('AI Issue response generated successfully.');
 };
 
 main().catch(console.error);

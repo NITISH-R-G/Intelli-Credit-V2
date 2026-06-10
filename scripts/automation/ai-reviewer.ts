@@ -1,3 +1,4 @@
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';

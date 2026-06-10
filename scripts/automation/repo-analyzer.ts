@@ -1,3 +1,4 @@
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any */
 import fs from 'fs';
 import path from 'path';
 
@@ -67,7 +68,10 @@ const main = () => {
 
   const depCount = Object.keys(pkgMeta.dependencies || {}).length;
   const devDepCount = Object.keys(pkgMeta.devDependencies || {}).length;
-  const complexityScore = depCount + devDepCount + (structure && typeof structure === 'object' ? Object.keys(structure).length : 0);
+  const complexityScore =
+    depCount +
+    devDepCount +
+    (structure && typeof structure === 'object' ? Object.keys(structure).length : 0);
 
   const metadata: RepoMetadata = {
     name: pkgMeta.name || '',

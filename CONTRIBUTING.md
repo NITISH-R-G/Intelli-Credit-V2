@@ -25,9 +25,10 @@ First off, thank you for considering contributing to the Intelli-Credit Terminal
 ### 🤖 Automated Assistance
 
 The Intelli-Credit Terminal repository operates as a highly automated, self-improving ecosystem to maximize contributor experience and maintainability. When you submit a Pull Request or open an Issue, our AI systems will:
-* **Automatically Review PRs:** Provide architectural feedback, detect issues, and suggest inline fixes.
-* **Auto-Format Code:** Automatically fix code styling via autonomous commits.
-* **Manage Issues:** Categorize, label, and provide initial responses to speed up debugging.
+
+- **Automatically Review PRs:** Provide architectural feedback, detect issues, and suggest inline fixes.
+- **Auto-Format Code:** Automatically fix code styling via autonomous commits.
+- **Manage Issues:** Categorize, label, and provide initial responses to speed up debugging.
 
 ## Code of Conduct
 
