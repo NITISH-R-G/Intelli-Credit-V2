@@ -63,6 +63,7 @@ Tasks:
 9. Generate actionable code fixes in diff format where issues are found.
 
 Remember to act as a senior staff engineer: explain your findings, recommend fixes, and prioritize issues accurately.
+CRITICAL INSTRUCTION: Always return actionable inline fixes in diff format and output an actionable checklist comment for the contributor.
 `;
 
   let responseText = '';

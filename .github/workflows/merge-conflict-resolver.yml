@@ -1,0 +1,17 @@
+name: Merge Conflict Resolver
+
+on:
+  pull_request_target:
+    types: [synchronize, opened, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  label-merge-conflicts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label Merge Conflicts
+        uses: eps1lon/actions-label-merge-conflict@v3
+        with:
+          dirtyLabel: 'needs-manual-resolution'
+          repoToken: ${{ secrets.GITHUB_TOKEN }}

@@ -10,6 +10,7 @@ interface RepoMetadata {
   scripts: Record<string, string>;
   frameworks: string[];
   structure: any;
+  complexityScore?: number;
 }
 
 const analyzePackageJson = (): Partial<RepoMetadata> => {
@@ -64,6 +65,10 @@ const main = () => {
   const pkgMeta = analyzePackageJson();
   const structure = mapDirectory(process.cwd());
 
+  const depCount = Object.keys(pkgMeta.dependencies || {}).length;
+  const devDepCount = Object.keys(pkgMeta.devDependencies || {}).length;
+  const complexityScore = depCount + devDepCount + (structure && typeof structure === 'object' ? Object.keys(structure).length : 0);
+
   const metadata: RepoMetadata = {
     name: pkgMeta.name || '',
     description: pkgMeta.description || '',
@@ -73,6 +78,7 @@ const main = () => {
     scripts: pkgMeta.scripts || {},
     frameworks: pkgMeta.frameworks || [],
     structure,
+    complexityScore,
   };
 
   fs.writeFileSync(path.resolve(process.cwd(), 'metadata.json'), JSON.stringify(metadata, null, 2));

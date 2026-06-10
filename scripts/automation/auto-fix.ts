@@ -54,6 +54,9 @@ const main = () => {
   // 4. Update dependencies (minor/patch only)
   console.log('\n💡 Note: For major dependency updates, Dependabot PRs are recommended.');
 
+  // 5. Dependency deduplication
+  results.push(executeCommand('npm dedupe', 'Deduplicating dependencies'));
+
   const successCount = results.filter(Boolean).length;
   console.log(`\n🎉 Self-Healing Complete. ${successCount}/${results.length} tasks succeeded.`);
 };

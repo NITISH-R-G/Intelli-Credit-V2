@@ -1,0 +1,49 @@
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run AI Issue Manager
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+        run: npm run issue:manage
+
+      - name: Read Labels and Comment
+        id: read_ai
+        run: |
+          if [ -f issue-labels.txt ]; then
+            echo "labels=$(cat issue-labels.txt)" >> $GITHUB_ENV
+          fi
+
+      - name: Apply Labels
+        if: env.labels != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh issue edit ${{ github.event.issue.number }} --add-label "$labels" --repo ${{ github.repository }}
+
+      - name: Comment on Issue
+        if: hashFiles('issue-response.md') != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh issue comment ${{ github.event.issue.number }} --body-file issue-response.md --repo ${{ github.repository }}

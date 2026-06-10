@@ -24,6 +24,19 @@ const buildMermaidFromStructure = (
   }
 };
 
+const generateDataFlow = () => {
+  const lines: string[] = [];
+  lines.push('```mermaid');
+  lines.push('graph TD;');
+  lines.push('  subgraph Data Flow');
+  lines.push('    Client --> API_Gateway["API Gateway"]');
+  lines.push('    API_Gateway --> Services["Core Services"]');
+  lines.push('    Services --> DB[(Database)]');
+  lines.push('  end');
+  lines.push('```');
+  return lines.join('\n');
+};
+
 const generateServiceMap = () => {
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
   if (!fs.existsSync(metadataPath)) return '';
@@ -125,6 +138,15 @@ const main = () => {
     console.warn(
       'Could not generate service map. metadata.json might be missing or src/ not found.',
     );
+  }
+
+  const dataFlow = generateDataFlow();
+  if (dataFlow) {
+    fs.writeFileSync(
+      path.join(outDir, 'DATA_FLOW.md'),
+      `# Data Flow\n\nThis diagram is auto-generated representing a generalized data flow.\n\n${dataFlow}`,
+    );
+    console.log('Data Flow diagram generated successfully.');
   }
 };
 
