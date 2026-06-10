@@ -9,12 +9,12 @@ interface ErrorDisplayProps {
   setShowLogs: (show: boolean) => void;
 }
 
-export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
+export const ErrorDisplay = ({
   error,
   setError,
   showLogs,
   setShowLogs,
-}) => {
+}: ErrorDisplayProps) => {
   if (!error) return null;
 
   return (
@@ -77,4 +77,3 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
     </div>
   );
 };
-export default ErrorDisplay;

@@ -6,7 +6,7 @@ interface VerificationEngineProps {
   analysis: CreditAnalysis;
 }
 
-export const VerificationEngine: React.FC<VerificationEngineProps> = ({ analysis }) => {
+export const VerificationEngine = ({ analysis }: VerificationEngineProps) => {
   return (
     <div className="lg:col-span-2 border border-zinc-800 bg-[#0a0a0a] p-3 flex flex-col">
       <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-1 mb-2 flex items-center gap-2">

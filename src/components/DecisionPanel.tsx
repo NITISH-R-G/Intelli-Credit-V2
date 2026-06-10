@@ -5,7 +5,7 @@ interface DecisionPanelProps {
   displayAnalysis: CreditAnalysis;
 }
 
-export const DecisionPanel: React.FC<DecisionPanelProps> = ({ displayAnalysis }) => {
+export const DecisionPanel = ({ displayAnalysis }: DecisionPanelProps) => {
   return (
     <div className="border border-zinc-800 bg-[#0a0a0a] p-3 flex flex-col justify-between">
       <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-1 mb-2">
@@ -35,4 +35,3 @@ export const DecisionPanel: React.FC<DecisionPanelProps> = ({ displayAnalysis })
     </div>
   );
 };
-export default DecisionPanel;

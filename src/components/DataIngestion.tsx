@@ -15,7 +15,7 @@ interface DataIngestionProps {
   handleAnalyze: () => void;
 }
 
-export const DataIngestion: React.FC<DataIngestionProps> = ({
+export const DataIngestion = ({
   apiMode,
   setApiMode,
   bureauApiKey,
@@ -26,7 +26,7 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
   loading,
   files,
   handleAnalyze,
-}) => {
+}: DataIngestionProps) => {
   return (
     <>
       <div className="text-amber-500 mb-4 animate-pulse">
@@ -141,4 +141,3 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
     </>
   );
 };
-export default DataIngestion;

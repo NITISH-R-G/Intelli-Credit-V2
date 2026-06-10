@@ -15,7 +15,7 @@ interface FinancialMetricsProps {
   analysis: CreditAnalysis;
 }
 
-export const FinancialMetrics: React.FC<FinancialMetricsProps> = ({ analysis }) => {
+export const FinancialMetrics = ({ analysis }: FinancialMetricsProps) => {
   return (
     <div className="lg:col-span-1 border border-zinc-800 bg-[#0a0a0a] p-3">
       <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-1 mb-2 flex justify-between">
