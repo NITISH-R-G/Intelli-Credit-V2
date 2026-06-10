@@ -9,12 +9,7 @@ interface ErrorDisplayProps {
   setShowLogs: (show: boolean) => void;
 }
 
-export const ErrorDisplay = ({
-  error,
-  setError,
-  showLogs,
-  setShowLogs,
-}: ErrorDisplayProps) => {
+export const ErrorDisplay = ({ error, setError, showLogs, setShowLogs }: ErrorDisplayProps) => {
   if (!error) return null;
 
   return (
