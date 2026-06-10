@@ -52,6 +52,7 @@ graph TD;
   Root_dev --> Root_dev_plan_md["plan.md"]
   Root --> Root_docs["docs"]
   Root_docs --> Root_docs_architecture["architecture"]
+  Root_docs_architecture --> Root_docs_architecture_DATA_FLOW_md["DATA_FLOW.md"]
   Root_docs_architecture --> Root_docs_architecture_SERVICE_MAP_md["SERVICE_MAP.md"]
   Root_docs_architecture --> Root_docs_architecture_dependency_graph_md["dependency-graph.md"]
   Root_docs --> Root_docs_dashboard_html["dashboard.html"]

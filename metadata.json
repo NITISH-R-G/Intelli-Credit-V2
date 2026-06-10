@@ -70,7 +70,12 @@
     "fix": "tsx scripts/automation/auto-fix.ts",
     "issue:manage": "tsx scripts/automation/issue-manager.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -124,6 +129,7 @@
     },
     "docs": {
       "architecture": {
+        "DATA_FLOW.md": "file",
         "SERVICE_MAP.md": "file",
         "dependency-graph.md": "file"
       },
