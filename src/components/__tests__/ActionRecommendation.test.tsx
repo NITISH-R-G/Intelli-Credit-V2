@@ -77,4 +77,15 @@ describe('ActionRecommendation', () => {
     const recElement = screen.getByText('Reject due to high risk');
     expect(recElement).toHaveClass('text-rose-500');
   });
+
+  it('renders different colors based on recommendation (Refer)', () => {
+    const referAnalysis = {
+      ...mockAnalysisBase,
+      recommendation: 'Refer for Review',
+    } as unknown as CreditAnalysis;
+
+    render(<ActionRecommendation analysis={referAnalysis} />);
+    const recElement = screen.getByText('Refer for Review');
+    expect(recElement).toHaveClass('text-amber-500');
+  });
 });

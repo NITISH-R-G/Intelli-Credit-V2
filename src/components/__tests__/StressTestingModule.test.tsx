@@ -49,4 +49,26 @@ describe('StressTestingModule', () => {
     fireEvent.change(interestSlider, { target: { value: '3' } });
     expect(setInterestRateShockMock).toHaveBeenCalledWith(3);
   });
+
+  it('handles undefined dscr and icr in displayAnalysis', () => {
+    const mockDisplayAnalysisNoRatios = {
+      riskGrade: 'C',
+      ratios: {},
+    } as CreditAnalysis;
+
+    render(
+      <StressTestingModule
+        revenueShock={0}
+        setRevenueShock={vi.fn()}
+        interestRateShock={0}
+        setInterestRateShock={vi.fn()}
+        analysis={mockAnalysis}
+        displayAnalysis={mockDisplayAnalysisNoRatios}
+      />,
+    );
+
+    // If undefined, it should fallback to 0.00
+    const values = screen.getAllByText('0.00');
+    expect(values.length).toBe(2);
+  });
 });
