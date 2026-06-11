@@ -3,10 +3,10 @@ import path from 'path';
 import { GoogleGenAI } from '@google/genai';
 
 const main = async () => {
-  console.log('Running AI Repo Improvement Analyzer...');
+  console.info('Running AI Repo Improvement Analyzer...');
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
+  const api_key = process.env.GEMINI_API_KEY;
+  if (!api_key) {
     console.warn('GEMINI_API_KEY is not set. Skipping real improvement generation.');
     return;
   }
@@ -17,7 +17,7 @@ const main = async () => {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }
 
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({ api_key });
 
   const prompt = `
 You are a Staff AI Software Engineer tasked with continuous improvement of a repository.
@@ -66,7 +66,7 @@ ${responseText}
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, reportContent);
   }
 
-  console.log('Improvement report generated successfully.');
+  console.info('Improvement report generated successfully.');
 };
 
 main().catch(console.error);
