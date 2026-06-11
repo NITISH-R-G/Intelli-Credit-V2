@@ -8,7 +8,10 @@ const main = async () => {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is not set. Skipping real issue management.');
-    fs.writeFileSync(path.resolve(process.cwd(), 'issue-reply.md'), 'GEMINI_API_KEY is not set. Cannot triage.');
+    fs.writeFileSync(
+      path.resolve(process.cwd(), 'issue-reply.md'),
+      'GEMINI_API_KEY is not set. Cannot triage.',
+    );
     return;
   }
 
@@ -40,10 +43,13 @@ Tasks:
       model: 'gemini-2.5-flash',
       contents: prompt,
     });
-    responseText = response.text || 'Thank you for opening this issue! A human maintainer will review it shortly.';
+    responseText =
+      response.text ||
+      'Thank you for opening this issue! A human maintainer will review it shortly.';
   } catch (error) {
     console.error('AI Generation failed:', error);
-    responseText = 'Thank you for your report! An error occurred while generating an AI response, but we will look into this manually.';
+    responseText =
+      'Thank you for your report! An error occurred while generating an AI response, but we will look into this manually.';
   }
 
   const outPath = path.resolve(process.cwd(), 'issue-reply.md');
