@@ -5,8 +5,8 @@ import { GoogleGenAI } from '@google/genai';
 const main = async () => {
   console.info('Running AI Repo Improvement Analyzer...');
 
-  const api_key = process.env.GEMINI_API_KEY;
-  if (!api_key) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
     console.warn('GEMINI_API_KEY is not set. Skipping real improvement generation.');
     return;
   }
@@ -17,7 +17,7 @@ const main = async () => {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }
 
-  const ai = new GoogleGenAI({ api_key });
+  const ai = new GoogleGenAI({ apiKey });
 
   const prompt = `
 You are a Staff AI Software Engineer tasked with continuous improvement of a repository.

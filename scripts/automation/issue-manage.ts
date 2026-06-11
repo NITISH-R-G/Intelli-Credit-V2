@@ -5,8 +5,8 @@ import { GoogleGenAI } from '@google/genai';
 const main = async () => {
   console.info('Running AI Issue Manager...');
 
-  const api_key = process.env.GEMINI_API_KEY;
-  if (!api_key) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
     console.warn('GEMINI_API_KEY is not set. Skipping real issue management.');
     fs.writeFileSync(
       path.resolve(process.cwd(), 'issue-reply.md'),
@@ -19,7 +19,7 @@ const main = async () => {
   const issueBody = process.env.ISSUE_BODY || 'No content provided.';
   const issueAuthor = process.env.ISSUE_AUTHOR || 'Contributor';
 
-  const ai = new GoogleGenAI({ api_key });
+  const ai = new GoogleGenAI({ apiKey });
 
   const prompt = `
 You are an expert AI Maintainer for an open source repository.
