@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const main = async () => {
-  console.log('Running Autonomous Repository Improver...');
+  console.info('Running Autonomous Repository Improver...');
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -13,7 +13,7 @@ const main = async () => {
 
   // Load existing metadata to understand the repo
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
-  let metadata: any = {};
+  let metadata: Record<string, unknown> = {};
   if (fs.existsSync(metadataPath)) {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }
@@ -63,7 +63,7 @@ ${responseText}
   const reportPath = path.join(outDir, `improvement-${Date.now()}.md`);
   fs.writeFileSync(reportPath, reportContent);
 
-  console.log(`Improvement report generated successfully at ${reportPath}`);
+  console.info(`Improvement report generated successfully at ${reportPath}`);
 };
 
 main().catch(console.error);

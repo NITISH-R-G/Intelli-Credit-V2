@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const main = async () => {
-  console.log('Running AI Issue Manager...');
+  console.info('Running AI Issue Manager...');
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -56,7 +56,7 @@ Your response will be posted directly as a comment on the issue. Be polite and p
   fs.writeFileSync(path.resolve(process.cwd(), 'ai-issue-response.md'), responseText);
   fs.writeFileSync(path.resolve(process.cwd(), 'ai-issue-label.txt'), suggestedLabel);
 
-  console.log('AI Issue response generated successfully.');
+  console.info('AI Issue response generated successfully.');
 };
 
 main().catch(console.error);
