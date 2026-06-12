@@ -1,6 +1,6 @@
+import { GoogleGenAI } from '@google/genai';
 import fs from 'fs';
 import path from 'path';
-import { GoogleGenAI } from '@google/genai';
 
 const main = async () => {
   console.log('Running Autonomous Repository Improver...');
