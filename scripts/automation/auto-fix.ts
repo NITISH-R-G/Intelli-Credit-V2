@@ -2,11 +2,11 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-const executeCommand = (command: string, description: string) => {
+const executeCommand = (command: string, _description: string) => {
   try {
     execSync(command, { encoding: 'utf8', stdio: 'inherit' });
     return true;
-  } catch (error) {
+  } catch (_err) {
     return false;
   }
 };
