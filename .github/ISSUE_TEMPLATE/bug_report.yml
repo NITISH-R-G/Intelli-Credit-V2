@@ -42,3 +42,11 @@ body:
       description: A clear and concise description of what you expected to happen.
     validations:
       required: true
+  - type: checkboxes
+    id: automation-checks
+    attributes:
+      label: AI & Automation
+      description: Please check the following before submitting.
+      options:
+        - label: I have reviewed the automated PR/Issue guidelines in `AGENTS.md`.
+          required: false

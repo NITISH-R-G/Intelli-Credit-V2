@@ -52,7 +52,23 @@ const mapDirectory = (dir: string, depth = 0, maxDepth = 3): any => {
     if (stat.isDirectory()) {
       structure[item] = mapDirectory(fullPath, depth + 1, maxDepth);
     } else {
-      structure[item] = 'file';
+      // Basic file statistics to enrich technical debt analysis
+      const ext = path.extname(item);
+      let lines = 0;
+      if (['.ts', '.tsx', '.js', '.jsx', '.json', '.md'].includes(ext)) {
+        try {
+          const content = fs.readFileSync(fullPath, 'utf8');
+          lines = content.split('\n').length;
+        } catch (e) {
+          // ignore read errors
+        }
+      }
+
+      structure[item] = {
+        type: 'file',
+        sizeBytes: stat.size,
+        lines: lines,
+      };
     }
   }
   return structure;

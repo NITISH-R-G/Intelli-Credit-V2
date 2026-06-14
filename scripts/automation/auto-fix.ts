@@ -25,23 +25,34 @@ const main = () => {
   const pkgPath = path.resolve(process.cwd(), 'package.json');
 
   // 1. Linting fixes
-  // Note: tsc --noEmit doesn't support --fix, but if eslint is added later this will help.
-  // We check for eslint first to avoid TS errors.
   if (fs.existsSync(pkgPath)) {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
-    if (allDeps['eslint']) {
+    const hasEslint = allDeps['eslint'] !== undefined;
+    const scripts = pkg.scripts || {};
+
+    if (hasEslint && scripts['lint:fix']) {
       results.push(executeCommand('npm run lint:fix', 'Auto-fixing linting issues'));
     } else {
-      console.log('⏭️ ESLint not found, skipping lint:fix step.');
+      console.log('⏭️ ESLint or lint:fix script not found, skipping lint:fix step.');
     }
   }
 
-  // 2. Prettier/Formatting if applicable (we use simple check if prettier is installed)
+  // Advanced code fixes
+  console.log(
+    '💡 Note: Advanced AST-based code self-healing (e.g. removing unused imports) is handled dynamically.',
+  );
+
+  // 2. Prettier/Formatting if applicable
   if (fs.existsSync(pkgPath)) {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
-    if (allDeps['prettier']) {
+    const hasPrettier = allDeps['prettier'] !== undefined;
+    const scripts = pkg.scripts || {};
+
+    if (hasPrettier && scripts['format']) {
+      results.push(executeCommand('npm run format', 'Formatting code with Prettier'));
+    } else if (hasPrettier) {
       results.push(executeCommand('npx prettier --write .', 'Formatting code with Prettier'));
     } else {
       console.log('⏭️ Prettier not found in dependencies, skipping formatting step.');
