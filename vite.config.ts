@@ -39,7 +39,7 @@ export default defineConfig(({ mode }) => {
             if (id.includes('recharts')) return 'recharts';
             if (id.includes('react-markdown')) return 'reactMarkdown';
             if (id.includes('lucide-react')) return 'lucide';
-          }
+          },
         },
       },
     },
