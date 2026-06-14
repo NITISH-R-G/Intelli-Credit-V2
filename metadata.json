@@ -24,8 +24,7 @@
     "react-dropzone": "^15.0.0",
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
-    "tailwind-merge": "^3.5.0",
-    "vite": "^6.4.2"
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
@@ -48,7 +47,7 @@
     "tsx": "^4.22.4",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.60.1",
-    "vite": "^6.4.2",
+    "vite": "^8.0.16",
     "vitest": "^4.1.7"
   },
   "scripts": {
@@ -69,7 +68,12 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": {
       "type": "file",
@@ -114,7 +118,7 @@
       "workflows": {
         "ai-documentation-agent.yml": {
           "type": "file",
-          "sizeBytes": 1446,
+          "sizeBytes": 1447,
           "lines": 0
         },
         "ai-pr-reviewer.yml": {
@@ -302,34 +306,34 @@
     },
     "metadata.json": {
       "type": "file",
-      "sizeBytes": 15030,
-      "lines": 650
+      "sizeBytes": 15023,
+      "lines": 645
     },
     "package-lock.json": {
       "type": "file",
-      "sizeBytes": 394705,
-      "lines": 11116
+      "sizeBytes": 379878,
+      "lines": 10659
     },
     "package.json": {
       "type": "file",
-      "sizeBytes": 2266,
-      "lines": 74
+      "sizeBytes": 2245,
+      "lines": 73
     },
     "scripts": {
       "automation": {
         "ai-reviewer.ts": {
           "type": "file",
-          "sizeBytes": 3588,
-          "lines": 104
+          "sizeBytes": 3501,
+          "lines": 103
         },
         "auto-fix.ts": {
           "type": "file",
-          "sizeBytes": 2494,
-          "lines": 73
+          "sizeBytes": 2267,
+          "lines": 67
         },
         "generate-dashboard.ts": {
           "type": "file",
-          "sizeBytes": 20503,
+          "sizeBytes": 20563,
           "lines": 510
         },
         "generate-diagrams.ts": {
@@ -339,7 +343,7 @@
         },
         "generate-readme.ts": {
           "type": "file",
-          "sizeBytes": 4029,
+          "sizeBytes": 4079,
           "lines": 133
         },
         "repo-analyzer.ts": {
@@ -637,7 +641,7 @@
     },
     "vite.config.ts": {
       "type": "file",
-      "sizeBytes": 1275,
+      "sizeBytes": 1421,
       "lines": 48
     }
   }
