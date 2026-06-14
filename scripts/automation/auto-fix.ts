@@ -12,7 +12,7 @@ const executeCommand = (command: string, description: string) => {
 };
 
 const main = () => {
-  console.log('🛠️ Starting Autonomous Repository Self-Healing Process...\n');
+  console.info('🛠️ Starting Autonomous Repository Self-Healing Process...\\n');
 
   const results = [];
 
@@ -28,12 +28,12 @@ const main = () => {
     if (hasEslint && scripts['lint:fix']) {
       results.push(executeCommand('npm run lint:fix', 'Auto-fixing linting issues'));
     } else {
-      console.log('⏭️ ESLint or lint:fix script not found, skipping lint:fix step.');
+      console.info('⏭️ ESLint or lint:fix script not found, skipping lint:fix step.');
     }
   }
 
   // Advanced code fixes
-  console.log(
+  console.info(
     '💡 Note: Advanced AST-based code self-healing (e.g. removing unused imports) is handled dynamically.',
   );
 
@@ -49,7 +49,7 @@ const main = () => {
     } else if (hasPrettier) {
       results.push(executeCommand('npx prettier --write .', 'Formatting code with Prettier'));
     } else {
-      console.log('⏭️ Prettier not found in dependencies, skipping formatting step.');
+      console.info('⏭️ Prettier not found in dependencies, skipping formatting step.');
     }
   }
 
@@ -57,10 +57,10 @@ const main = () => {
   results.push(executeCommand('npm audit fix', 'Auto-fixing security vulnerabilities'));
 
   // 4. Update dependencies (minor/patch only)
-  console.log('\n💡 Note: For major dependency updates, Dependabot PRs are recommended.');
+  console.info('\\n💡 Note: For major dependency updates, Dependabot PRs are recommended.');
 
   const successCount = results.filter(Boolean).length;
-  console.log(`\n🎉 Self-Healing Complete. ${successCount}/${results.length} tasks succeeded.`);
+  console.info(`\\n🎉 Self-Healing Complete. ${successCount}/${results.length} tasks succeeded.`);
 };
 
 main();
