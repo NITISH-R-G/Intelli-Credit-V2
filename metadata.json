@@ -69,7 +69,12 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": {
       "type": "file",
@@ -114,7 +119,7 @@
       "workflows": {
         "ai-documentation-agent.yml": {
           "type": "file",
-          "sizeBytes": 1446,
+          "sizeBytes": 1447,
           "lines": 0
         },
         "ai-pr-reviewer.yml": {
@@ -302,8 +307,8 @@
     },
     "metadata.json": {
       "type": "file",
-      "sizeBytes": 15030,
-      "lines": 650
+      "sizeBytes": 15023,
+      "lines": 645
     },
     "package-lock.json": {
       "type": "file",
@@ -319,17 +324,17 @@
       "automation": {
         "ai-reviewer.ts": {
           "type": "file",
-          "sizeBytes": 3588,
-          "lines": 104
+          "sizeBytes": 3498,
+          "lines": 103
         },
         "auto-fix.ts": {
           "type": "file",
-          "sizeBytes": 2494,
-          "lines": 73
+          "sizeBytes": 2258,
+          "lines": 67
         },
         "generate-dashboard.ts": {
           "type": "file",
-          "sizeBytes": 20503,
+          "sizeBytes": 20563,
           "lines": 510
         },
         "generate-diagrams.ts": {
@@ -339,7 +344,7 @@
         },
         "generate-readme.ts": {
           "type": "file",
-          "sizeBytes": 4029,
+          "sizeBytes": 4079,
           "lines": 133
         },
         "repo-analyzer.ts": {
