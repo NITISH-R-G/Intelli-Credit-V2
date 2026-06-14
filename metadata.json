@@ -307,8 +307,8 @@
     },
     "metadata.json": {
       "type": "file",
-      "sizeBytes": 15030,
-      "lines": 650
+      "sizeBytes": 15042,
+      "lines": 649
     },
     "package-lock.json": {
       "type": "file",
