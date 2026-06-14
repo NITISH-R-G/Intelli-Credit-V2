@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const parseEnvVars = () => {
+const parseEnvVars = (): { key: string; value: string }[] => {
   const envPath = path.resolve(process.cwd(), '.env.example');
   if (!fs.existsSync(envPath)) return [];
 
@@ -35,7 +35,7 @@ const main = () => {
   console.log('Generating Comprehensive README.md...');
 
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
-  let metadata: any = {};
+  let metadata: Record<string, any> = {};
   if (fs.existsSync(metadataPath)) {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }

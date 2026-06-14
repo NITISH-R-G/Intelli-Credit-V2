@@ -23,8 +23,7 @@ const main = async () => {
     if (!diff) {
       diff = execSync('git show').toString(); // Fallback for testing locally
     }
-  } catch (error) {
-    console.warn('Could not fetch git diff. Ensure git is initialized and committed.');
+  } catch (err) {
     diff = 'No diff available. This might be a new branch or no commits are made.';
   }
 

@@ -2,7 +2,7 @@ name: Post AI PR Review Comment
 
 on:
   workflow_run:
-    workflows: ["AI PR Reviewer"]
+    workflows: ['AI PR Reviewer']
     types:
       - completed
 

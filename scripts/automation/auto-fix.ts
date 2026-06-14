@@ -3,16 +3,10 @@ import fs from 'fs';
 import path from 'path';
 
 const executeCommand = (command: string, description: string) => {
-  console.log(`\n⏳ Running: ${description}`);
   try {
-    const output = execSync(command, { encoding: 'utf8', stdio: 'inherit' });
-    console.log(`✅ Success: ${description}`);
+    execSync(command, { encoding: 'utf8', stdio: 'inherit' });
     return true;
   } catch (error) {
-    console.error(`❌ Failed: ${description}`);
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
     return false;
   }
 };

@@ -438,8 +438,8 @@ function generateHtml(data: any) {
         Chart.defaults.font.family = 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
 
         // Build Chart (Mock Data for trend)
-        const buildCtx = document.getElementById('buildChart').getContext('2d');
-        new Chart(buildCtx, {
+        const buildCtx = (document.getElementById('buildChart') as HTMLCanvasElement).getContext('2d');
+        new Chart(buildCtx as any, {
             type: 'line',
             data: {
                 labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -465,8 +465,8 @@ function generateHtml(data: any) {
         });
 
         // Coverage Chart
-        const covCtx = document.getElementById('coverageChart').getContext('2d');
-        new Chart(covCtx, {
+        const covCtx = (document.getElementById('coverageChart') as HTMLCanvasElement).getContext('2d');
+        new Chart(covCtx as any, {
             type: 'doughnut',
             data: {
                 labels: ['Covered', 'Uncovered'],
