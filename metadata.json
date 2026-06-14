@@ -279,13 +279,13 @@
       "architecture": {
         "SERVICE_MAP.md": {
           "type": "file",
-          "sizeBytes": 294,
-          "lines": 16
+          "sizeBytes": 461,
+          "lines": 21
         },
         "dependency-graph.md": {
           "type": "file",
-          "sizeBytes": 7406,
-          "lines": 122
+          "sizeBytes": 14849,
+          "lines": 237
         }
       },
       "dashboard.html": {
@@ -306,8 +306,8 @@
     },
     "metadata.json": {
       "type": "file",
-      "sizeBytes": 15023,
-      "lines": 645
+      "sizeBytes": 15021,
+      "lines": 648
     },
     "package-lock.json": {
       "type": "file",
