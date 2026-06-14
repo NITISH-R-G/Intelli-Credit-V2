@@ -68,7 +68,12 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": {
       "type": "file",
@@ -274,13 +279,13 @@
       "architecture": {
         "SERVICE_MAP.md": {
           "type": "file",
-          "sizeBytes": 294,
-          "lines": 16
+          "sizeBytes": 462,
+          "lines": 22
         },
         "dependency-graph.md": {
           "type": "file",
-          "sizeBytes": 7406,
-          "lines": 122
+          "sizeBytes": 14850,
+          "lines": 238
         }
       },
       "dashboard.html": {
@@ -301,8 +306,8 @@
     },
     "metadata.json": {
       "type": "file",
-      "sizeBytes": 15023,
-      "lines": 645
+      "sizeBytes": 15002,
+      "lines": 644
     },
     "package-lock.json": {
       "type": "file",
