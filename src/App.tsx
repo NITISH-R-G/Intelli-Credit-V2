@@ -5,6 +5,10 @@ import { ErrorDisplay } from './components/ErrorDisplay';
 import { DataIngestion } from './components/DataIngestion';
 import { CompanyProfile } from './components/CompanyProfile';
 import { RiskScorePanel } from './components/RiskScorePanel';
+import { StressTestingPanel } from './components/StressTestingPanel';
+import { IndustryBenchmarkingPanel } from './components/IndustryBenchmarkingPanel';
+import { LoanRecommendationPanel } from './components/LoanRecommendationPanel';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { FinancialMetrics } from './components/FinancialMetrics';
 import { VerificationEngine } from './components/VerificationEngine';
 import { IntelligenceRow } from './components/IntelligenceRow';
@@ -201,6 +205,19 @@ export default function App() {
               {/* Risk Score Panel */}
               <RiskScorePanel displayAnalysis={displayAnalysis!} />
 
+              <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
+            </div>
+
+            <StressTestingPanel
+              revenueShock={revenueShock}
+              setRevenueShock={setRevenueShock}
+              interestRateShock={interestRateShock}
+              setInterestRateShock={setInterestRateShock}
+              analysis={analysis}
+              displayAnalysis={displayAnalysis}
+            />
+
+            <IndustryBenchmarkingPanel analysis={analysis} />
               {/* Decision Panel */}
               <DecisionPanel displayAnalysis={displayAnalysis!} />
             </div>
