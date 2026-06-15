@@ -1,8 +1,10 @@
 export const hashFile = async (file: File): Promise<string> => {
   const buffer = await file.arrayBuffer();
-  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  // Use Uint8Array to ensure compatibility across different JS environments (e.g. jsdom in Vitest, Node Buffer)
+  const data = new Uint8Array(buffer);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 };
 
 export const fileToBase64 = (file: File): Promise<string> => {
@@ -17,7 +19,8 @@ export const fileToBase64 = (file: File): Promise<string> => {
         reject(new Error(`FILE_ERROR: Failed to convert ${file.name} to base64 format.`));
       }
     };
-    reader.onerror = () => reject(new Error(`FILE_ERROR: Error reading ${file.name}. The file might be corrupted.`));
+    reader.onerror = () =>
+      reject(new Error(`FILE_ERROR: Error reading ${file.name}. The file might be corrupted.`));
   });
 };
 
@@ -32,6 +35,7 @@ export const fileToText = (file: File): Promise<string> => {
         reject(new Error(`FILE_ERROR: Failed to extract text from ${file.name}.`));
       }
     };
-    reader.onerror = () => reject(new Error(`FILE_ERROR: Error reading ${file.name}. The file might be corrupted.`));
+    reader.onerror = () =>
+      reject(new Error(`FILE_ERROR: Error reading ${file.name}. The file might be corrupted.`));
   });
 };

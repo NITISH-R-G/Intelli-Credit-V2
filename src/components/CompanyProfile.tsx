@@ -18,7 +18,9 @@ export const CompanyProfile = ({ analysis }: { analysis: CreditAnalysis }) => {
         </div>
         <div className="flex justify-between border-b border-zinc-800/50 py-1">
           <span className="text-zinc-500">INDUSTRY</span>
-          <span className="text-amber-500 truncate ml-2 text-right">{analysis.companyInfo.industry}</span>
+          <span className="text-amber-500 truncate ml-2 text-right">
+            {analysis.companyInfo.industry}
+          </span>
         </div>
         <div className="flex justify-between border-b border-zinc-800/50 py-1">
           <span className="text-zinc-500">EMPLOYEES</span>
