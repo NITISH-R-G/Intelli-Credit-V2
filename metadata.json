@@ -69,7 +69,12 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -153,10 +158,13 @@
         "FiveCsAnalysis.tsx": "file",
         "FraudFlags.tsx": "file",
         "IndustryBenchmarking.tsx": "file",
+        "IndustryBenchmarkingPanel.tsx": "file",
         "IntelligenceRow.tsx": "file",
+        "LoanRecommendationPanel.tsx": "file",
         "RiskDimensions.tsx": "file",
         "RiskScorePanel.tsx": "file",
         "StressTestingModule.tsx": "file",
+        "StressTestingPanel.tsx": "file",
         "VerificationEngine.tsx": "file",
         "__tests__": {
           "ActionRecommendation.test.tsx": "file",
