@@ -17,8 +17,10 @@ const main = async () => {
   // Gather basic stats for the prompt
   let stats = '';
   try {
-     stats = execSync('npm run analyze:repo > /dev/null 2>&1 && cat metadata.json').toString();
-  } catch(e) {}
+    stats = execSync('npm run analyze:repo > /dev/null 2>&1 && cat metadata.json').toString();
+  } catch (e) {
+    // fallback if analysis fails
+  }
 
   const prompt = `
 You are an autonomous AI maintaining this repository.
@@ -56,7 +58,10 @@ Output the report in Markdown format.
   }
 
   const reportPath = path.join(outDir, `report-${new Date().toISOString().split('T')[0]}.md`);
-  fs.writeFileSync(reportPath, `# Daily Continuous Improvement Report\nDate: ${new Date().toISOString()}\n\n${responseText}`);
+  fs.writeFileSync(
+    reportPath,
+    `# Daily Continuous Improvement Report\nDate: ${new Date().toISOString()}\n\n${responseText}`,
+  );
 
   // also write to a fixed file for PR creation
   fs.writeFileSync(path.resolve(process.cwd(), 'latest-improvement-report.md'), responseText);
