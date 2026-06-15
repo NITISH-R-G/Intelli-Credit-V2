@@ -1,0 +1,41 @@
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Auto-label based on title/body
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const text = (issue.title + ' ' + (issue.body || '')).toLowerCase();
+            const labelsToAdd = [];
+
+            if (text.includes('bug') || text.includes('error') || text.includes('fix') || text.includes('crash')) {
+              labelsToAdd.push('bug');
+            }
+            if (text.includes('feature') || text.includes('add') || text.includes('enhancement')) {
+              labelsToAdd.push('enhancement');
+            }
+            if (text.includes('docs') || text.includes('documentation') || text.includes('readme')) {
+              labelsToAdd.push('documentation');
+            }
+            if (text.includes('security') || text.includes('vulnerability')) {
+              labelsToAdd.push('security');
+            }
+
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: labelsToAdd
+              });
+            }

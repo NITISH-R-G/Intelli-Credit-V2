@@ -32,13 +32,13 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         output: {
-          manualChunks: {
-            genai: ['@google/genai'],
-            html2canvas: ['html2canvas'],
-            jspdf: ['jspdf'],
-            recharts: ['recharts'],
-            reactMarkdown: ['react-markdown'],
-            lucide: ['lucide-react'],
+          manualChunks(id) {
+            if (id.includes('@google/genai')) return 'genai';
+            if (id.includes('html2canvas')) return 'html2canvas';
+            if (id.includes('jspdf')) return 'jspdf';
+            if (id.includes('recharts')) return 'recharts';
+            if (id.includes('react-markdown')) return 'reactMarkdown';
+            if (id.includes('lucide-react')) return 'lucide';
           },
         },
       },
