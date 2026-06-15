@@ -72,12 +72,7 @@
     "generate:knowledge-graph": "tsx scripts/automation/generate-knowledge-graph.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": [
-    "React",
-    "Express",
-    "Vite",
-    "TailwindCSS"
-  ],
+  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
   "structure": {
     ".env.example": "file",
     ".github": {
