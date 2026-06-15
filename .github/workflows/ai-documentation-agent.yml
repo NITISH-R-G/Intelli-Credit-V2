@@ -35,12 +35,21 @@ jobs:
         run: npm run ai:review
         continue-on-error: true
 
+      - name: Check for Triage File
+        id: check_file
+        run: |
+          if [ -f "ai-review-output.md" ]; then
+            echo "file_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "file_exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Comment PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.check_file.outputs.file_exists == 'true'
         uses: thollander/actions-comment-pull-request@v3
         with:
-          filePath: ai-review-output.md
-          comment_tag: ai_review
+          file-path: ai-review-output.md
+          comment-tag: ai_review
 
       - name: Commit AI Generated Docs
         run: |
