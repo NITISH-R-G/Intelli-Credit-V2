@@ -66,7 +66,10 @@
     "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
     "ai:review": "tsx scripts/automation/ai-reviewer.ts",
+    "ai:triage": "tsx scripts/automation/issue-triager.ts",
+    "ai:improve": "tsx scripts/automation/continuous-improvement.ts",
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
+    "generate:knowledge-graph": "tsx scripts/automation/generate-knowledge-graph.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
   "frameworks": [
@@ -90,11 +93,13 @@
       "labeler.yml": "file",
       "workflows": {
         "ai-documentation-agent.yml": "file",
+        "ai-issue-triager.yml": "file",
         "auto-assign.yml": "file",
         "auto-fix.yml": "file",
         "autonomous-repo-analysis.yml": "file",
         "ci-cd-automation.yml": "file",
         "codeql.yml": "file",
+        "continuous-improvement.yml": "file",
         "dependency-review.yml": "file",
         "greetings.yml": "file",
         "labeler.yml": "file",
@@ -105,6 +110,7 @@
     },
     ".gitignore": "file",
     ".prettierrc": "file",
+    "AGENTS.md": "file",
     "CODE_OF_CONDUCT.md": "file",
     "CONTRIBUTING.md": "file",
     "README.md": "file",
@@ -124,7 +130,8 @@
         "SERVICE_MAP.md": "file",
         "dependency-graph.md": "file"
       },
-      "dashboard.html": "file"
+      "dashboard.html": "file",
+      "knowledge-graph.json": "file"
     },
     "eslint.config.mjs": "file",
     "index.html": "file",
@@ -135,9 +142,12 @@
       "automation": {
         "ai-reviewer.ts": "file",
         "auto-fix.ts": "file",
+        "continuous-improvement.ts": "file",
         "generate-dashboard.ts": "file",
         "generate-diagrams.ts": "file",
+        "generate-knowledge-graph.ts": "file",
         "generate-readme.ts": "file",
+        "issue-triager.ts": "file",
         "repo-analyzer.ts": "file"
       }
     },
