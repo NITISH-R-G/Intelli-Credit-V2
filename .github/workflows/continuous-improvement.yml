@@ -1,0 +1,60 @@
+name: Continuous Improvement Loop
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # Run daily at 8 AM UTC
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  analyze-and-improve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run AI Improvement Analysis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:improve
+        continue-on-error: true
+
+      - name: Check for Report File
+        id: check_file
+        run: |
+          if [ -f "./latest-improvement-report.md" ]; then
+            echo "file_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "file_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Improvement Issue
+        if: success() && steps.check_file.outputs.file_exists == 'true'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: 'Daily AI Repository Improvement Report'
+          content-filepath: ./latest-improvement-report.md
+          labels: enhancement, ai-generated
+          assignees: jules
+
+      - name: Commit Reports
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/improvement-reports/ || true
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "docs(ai): Add daily continuous improvement report [skip ci]"
+            git push
+          fi

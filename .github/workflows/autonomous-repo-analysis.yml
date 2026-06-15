@@ -34,14 +34,16 @@ jobs:
         continue-on-error: true
 
       - name: Run Architecture/Knowledge Graph Generator
-        run: npm run generate:diagrams
+        run: |
+          npm run generate:diagrams
+          npm run generate:knowledge-graph
         continue-on-error: true
 
       - name: Commit Architecture Updates
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add docs/architecture/ metadata.json || true
+          git add docs/architecture/ docs/knowledge-graph.json metadata.json || true
           if ! git diff-index --quiet HEAD; then
             git commit -m "docs(architecture): Update autonomous repository analysis and knowledge graph [skip ci]"
             git push
