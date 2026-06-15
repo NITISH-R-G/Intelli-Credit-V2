@@ -66,6 +66,11 @@
       "label": "ai-documentation-agent.yml"
     },
     {
+      "id": ".github/workflows/ai-issue-triager.yml",
+      "group": 2,
+      "label": "ai-issue-triager.yml"
+    },
+    {
       "id": ".github/workflows/auto-assign.yml",
       "group": 2,
       "label": "auto-assign.yml"
@@ -89,6 +94,11 @@
       "id": ".github/workflows/codeql.yml",
       "group": 2,
       "label": "codeql.yml"
+    },
+    {
+      "id": ".github/workflows/continuous-improvement.yml",
+      "group": 2,
+      "label": "continuous-improvement.yml"
     },
     {
       "id": ".github/workflows/dependency-review.yml",
@@ -266,6 +276,11 @@
       "label": "auto-fix.ts"
     },
     {
+      "id": "scripts/automation/continuous-improvement.ts",
+      "group": 2,
+      "label": "continuous-improvement.ts"
+    },
+    {
       "id": "scripts/automation/generate-dashboard.ts",
       "group": 2,
       "label": "generate-dashboard.ts"
@@ -289,6 +304,11 @@
       "id": "scripts/automation/generate-readme.ts",
       "group": 2,
       "label": "generate-readme.ts"
+    },
+    {
+      "id": "scripts/automation/issue-triager.ts",
+      "group": 2,
+      "label": "issue-triager.ts"
     },
     {
       "id": "scripts/automation/repo-analyzer.ts",
@@ -779,6 +799,11 @@
     },
     {
       "source": ".github/workflows",
+      "target": ".github/workflows/ai-issue-triager.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
       "target": ".github/workflows/auto-assign.yml",
       "value": 1
     },
@@ -800,6 +825,11 @@
     {
       "source": ".github/workflows",
       "target": ".github/workflows/codeql.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/continuous-improvement.yml",
       "value": 1
     },
     {
@@ -994,6 +1024,31 @@
     },
     {
       "source": "scripts/automation",
+      "target": "scripts/automation/continuous-improvement.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/continuous-improvement.ts",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/continuous-improvement.ts",
+      "target": "ext:child_process",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/continuous-improvement.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/continuous-improvement.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
       "target": "scripts/automation/generate-dashboard.ts",
       "value": 1
     },
@@ -1064,6 +1119,26 @@
     },
     {
       "source": "scripts/automation/generate-readme.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/issue-triager.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/issue-triager.ts",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/issue-triager.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/issue-triager.ts",
       "target": "ext:path",
       "value": 1
     },
