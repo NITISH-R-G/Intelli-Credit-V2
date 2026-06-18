@@ -85,4 +85,17 @@ describe('DecisionPanel', () => {
     expect(screen.getByText('₹ 0')).toBeInTheDocument();
     expect(screen.getByText('Confidence: 95%')).toBeInTheDocument();
   });
+
+  it('renders DecisionPanel with referral correctly', () => {
+    const referAnalysis = {
+      ...mockAnalysis,
+      recommendation: 'Refer for Review',
+      suggestedLoanAmount: '₹ 500,000',
+      decisionConfidence: 60,
+    };
+    render(<DecisionPanel displayAnalysis={referAnalysis} />);
+    expect(screen.getByText('₹ 500,000')).toBeInTheDocument();
+    expect(screen.getByText('Confidence: 60%')).toBeInTheDocument();
+    expect(screen.getByText('₹ 500,000')).toHaveClass('text-amber-500');
+  });
 });

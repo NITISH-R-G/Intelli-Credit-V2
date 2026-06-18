@@ -160,4 +160,95 @@ describe('VerificationEngine', () => {
     render(<VerificationEngine analysis={safeAnalysis} />);
     expect(screen.queryByText('Critical Shell Company Risk')).not.toBeInTheDocument();
   });
+
+  it('renders different statuses for Fraud Detection and Shell Indicators correctly', () => {
+    const customAnalysis = {
+      ...mockAnalysis,
+      verificationLayer: [
+        {
+          category: 'Financials',
+          dataPoint: 'Revenue',
+          source: 'ITR',
+          status: 'Mismatch',
+          confidenceScore: 40,
+          notes: '',
+        },
+        {
+          category: 'Identity',
+          dataPoint: 'PAN',
+          source: 'MCA',
+          status: 'Warning',
+          confidenceScore: 60,
+          notes: '',
+        },
+      ],
+      fraudDetection: [
+        {
+          category: 'Identity',
+          indicator: 'Warning Indicator',
+          status: 'Warning',
+          details: 'Minor issue.',
+          evidence: 'MCA Database',
+        },
+        {
+          category: 'Identity',
+          indicator: 'Pass Indicator',
+          status: 'Pass',
+          details: 'All good.',
+          evidence: undefined,
+        },
+      ],
+      shellCompanyAnalysis: {
+        isPotentialShell: true,
+        riskLevel: 'Medium',
+        employeeCount: 5,
+        officeType: 'Virtual',
+        operationalEvidence: ['No website'],
+        indicators: [
+          {
+            name: 'Warning Shell Indicator',
+            status: 'Warning',
+            details: 'Some detail.',
+            evidence: 'Some evidence',
+          },
+          {
+            name: 'Pass Shell Indicator',
+            status: 'Pass',
+            details: 'All good.',
+            evidence: 'Some evidence',
+          },
+        ],
+      },
+    };
+    render(<VerificationEngine analysis={customAnalysis as unknown as CreditAnalysis} />);
+
+    // Check specific elements and styling
+    expect(screen.getByText('Warning Indicator')).toBeInTheDocument();
+    expect(screen.getByText('Pass Indicator')).toBeInTheDocument();
+    expect(screen.getByText('Medium Risk')).toBeInTheDocument();
+  });
+
+  it('handles low risk level and missing optional fields in history', () => {
+    const customAnalysis = {
+      ...mockAnalysis,
+      directorShareholderHistory: {
+        hasRapidChanges: true,
+        riskLevel: 'Low',
+        summary: 'Changes in directorship.',
+        events: [
+          {
+            date: '2023-01-01',
+            type: 'Appointment',
+            description: 'Director B appointed.',
+            evidence: 'DIR-12',
+            reason: undefined,
+          },
+        ],
+      },
+    };
+    render(<VerificationEngine analysis={customAnalysis as unknown as CreditAnalysis} />);
+    expect(screen.getByText('Low Volatility')).toBeInTheDocument();
+    expect(screen.getByText('Director B appointed.')).toBeInTheDocument();
+    expect(screen.queryByText(/Reason:/)).not.toBeInTheDocument();
+  });
 });

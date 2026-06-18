@@ -74,4 +74,11 @@ describe('DataIngestion', () => {
     fireEvent.change(input, { target: { value: 'new-key' } });
     expect(setBureauApiKey).toHaveBeenCalledWith('new-key');
   });
+
+  it('renders correctly when drag is active', () => {
+    render(<DataIngestion {...defaultProps} isDragActive={true} />);
+    // The dropzone container changes class when drag is active
+    // We can verify the presence of the default text to ensure it renders without crashing
+    expect(screen.getByText('Drag & drop files here, or click to select')).toBeInTheDocument();
+  });
 });
