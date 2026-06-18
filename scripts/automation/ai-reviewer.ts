@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 import { GoogleGenAI } from '@google/genai';
 
 const main = async () => {
-  console.log('Running AI Documentation Reviewer...');
+  console.info('Running AI Documentation Reviewer...');
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -23,19 +23,19 @@ const main = async () => {
     if (!diff) {
       diff = execSync('git show').toString(); // Fallback for testing locally
     }
-  } catch (error) {
+  } catch {
     console.warn('Could not fetch git diff. Ensure git is initialized and committed.');
     diff = 'No diff available. This might be a new branch or no commits are made.';
   }
 
   // Example: Read some metadata to give context to the AI
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
-  let metadata: any = {};
+  let metadata: Record<string, unknown> = {};
   if (fs.existsSync(metadataPath)) {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }
 
-  console.log(`Analyzing diff for ${metadata.name || 'Project'}...`);
+  console.info(`Analyzing diff for ${metadata.name || 'Project'}...`);
 
   const ai = new GoogleGenAI({ apiKey });
 
@@ -44,7 +44,7 @@ You are an expert AI software architect and documentation maintainer.
 Analyze the following Git diff for a project named ${metadata.name}.
 
 Repository Metadata:
-Frameworks: ${metadata.frameworks?.join(', ') || 'Unknown'}
+Frameworks: ${(metadata.frameworks as string[])?.join(', ') || 'Unknown'}
 
 Git Diff:
 \`\`\`diff
@@ -97,7 +97,7 @@ ${responseText}
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, reviewContent);
   }
 
-  console.log('AI Review generated successfully.');
+  console.info('AI Review generated successfully.');
 };
 
 main().catch(console.error);
