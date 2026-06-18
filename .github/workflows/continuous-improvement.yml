@@ -1,0 +1,40 @@
+name: Continuous Repository Improvement
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Run weekly on Sundays
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  improve-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Repository Improver
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run improve:repo
+
+      - name: Commit Improvement Report
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/improvements/ || true
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "docs(ai): Generate autonomous improvement report [skip ci]"
+            git push
+          fi
