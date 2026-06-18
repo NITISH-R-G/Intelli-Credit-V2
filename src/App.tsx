@@ -19,8 +19,15 @@ const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBench
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
 
-import { useDropzone } from 'react-dropzone';
+import { useDropzone, FileRejection, DropzoneOptions } from 'react-dropzone';
 import { ShieldCheck } from 'lucide-react';
+
+
+
+
+
+
+
 
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -47,7 +54,7 @@ export default function App() {
     }
   }, []);
 
-  const onDropRejected = useCallback((fileRejections: any[]) => {
+  const onDropRejected = useCallback((fileRejections: FileRejection[]) => {
     const firstError = fileRejections[0]?.errors[0];
     setError({
       message: 'File Upload Rejected',
@@ -69,7 +76,7 @@ export default function App() {
       'text/plain': ['.txt'],
     },
     multiple: true,
-  } as any);
+  } as DropzoneOptions);
 
   const handleAnalyze = async () => {
     await performAnalysis(
@@ -83,6 +90,10 @@ export default function App() {
       setShowLogs,
     );
   };
+
+
+
+
 
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-mono text-xs sm:text-sm selection:bg-amber-500/30">
