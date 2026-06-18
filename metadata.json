@@ -67,9 +67,17 @@
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
     "ai:review": "tsx scripts/automation/ai-reviewer.ts",
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
-    "fix": "tsx scripts/automation/auto-fix.ts"
+    "fix": "tsx scripts/automation/auto-fix.ts",
+    "ai:triage": "tsx scripts/automation/ai-issue-triager.ts",
+    "ai:improve": "tsx scripts/automation/continuous-improvement.ts",
+    "generate:knowledge-graph": "tsx scripts/automation/generate-knowledge-graph.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -85,11 +93,13 @@
       "labeler.yml": "file",
       "workflows": {
         "ai-documentation-agent.yml": "file",
+        "ai-issue-triage.yml": "file",
         "auto-assign.yml": "file",
         "auto-fix.yml": "file",
         "autonomous-repo-analysis.yml": "file",
         "ci-cd-automation.yml": "file",
         "codeql.yml": "file",
+        "continuous-improvement.yml": "file",
         "dependency-review.yml": "file",
         "greetings.yml": "file",
         "labeler.yml": "file",
@@ -128,10 +138,13 @@
     "package.json": "file",
     "scripts": {
       "automation": {
+        "ai-issue-triager.ts": "file",
         "ai-reviewer.ts": "file",
         "auto-fix.ts": "file",
+        "continuous-improvement.ts": "file",
         "generate-dashboard.ts": "file",
         "generate-diagrams.ts": "file",
+        "generate-knowledge-graph.ts": "file",
         "generate-readme.ts": "file",
         "repo-analyzer.ts": "file"
       }

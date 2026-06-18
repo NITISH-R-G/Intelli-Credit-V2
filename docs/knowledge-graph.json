@@ -1,0 +1,1511 @@
+{
+  "nodes": [
+    {
+      "id": "root",
+      "label": "react-example",
+      "type": "repository"
+    },
+    {
+      "id": "root/.env.example",
+      "label": ".env.example",
+      "type": "file"
+    },
+    {
+      "id": "root/.github",
+      "label": ".github",
+      "type": "directory"
+    },
+    {
+      "id": "root/.github/CODEOWNERS",
+      "label": "CODEOWNERS",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/ISSUE_TEMPLATE",
+      "label": "ISSUE_TEMPLATE",
+      "type": "directory"
+    },
+    {
+      "id": "root/.github/ISSUE_TEMPLATE/bug_report.yml",
+      "label": "bug_report.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/ISSUE_TEMPLATE/feature_request.yml",
+      "label": "feature_request.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/PULL_REQUEST_TEMPLATE",
+      "label": "PULL_REQUEST_TEMPLATE",
+      "type": "directory"
+    },
+    {
+      "id": "root/.github/PULL_REQUEST_TEMPLATE/pull_request_template.md",
+      "label": "pull_request_template.md",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/dependabot.yml",
+      "label": "dependabot.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/labeler.yml",
+      "label": "labeler.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows",
+      "label": "workflows",
+      "type": "directory"
+    },
+    {
+      "id": "root/.github/workflows/ai-documentation-agent.yml",
+      "label": "ai-documentation-agent.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/ai-issue-triage.yml",
+      "label": "ai-issue-triage.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/auto-assign.yml",
+      "label": "auto-assign.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/auto-fix.yml",
+      "label": "auto-fix.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/autonomous-repo-analysis.yml",
+      "label": "autonomous-repo-analysis.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/ci-cd-automation.yml",
+      "label": "ci-cd-automation.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/codeql.yml",
+      "label": "codeql.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/continuous-improvement.yml",
+      "label": "continuous-improvement.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/dependency-review.yml",
+      "label": "dependency-review.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/greetings.yml",
+      "label": "greetings.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/labeler.yml",
+      "label": "labeler.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/repo-health-dashboard.yml",
+      "label": "repo-health-dashboard.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/self-updating-readme.yml",
+      "label": "self-updating-readme.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.github/workflows/stale.yml",
+      "label": "stale.yml",
+      "type": "file"
+    },
+    {
+      "id": "root/.gitignore",
+      "label": ".gitignore",
+      "type": "file"
+    },
+    {
+      "id": "root/.prettierrc",
+      "label": ".prettierrc",
+      "type": "file"
+    },
+    {
+      "id": "root/CODE_OF_CONDUCT.md",
+      "label": "CODE_OF_CONDUCT.md",
+      "type": "file"
+    },
+    {
+      "id": "root/CONTRIBUTING.md",
+      "label": "CONTRIBUTING.md",
+      "type": "file"
+    },
+    {
+      "id": "root/README.md",
+      "label": "README.md",
+      "type": "file"
+    },
+    {
+      "id": "root/SECURITY.md",
+      "label": "SECURITY.md",
+      "type": "file"
+    },
+    {
+      "id": "root/cycle_1_report.md",
+      "label": "cycle_1_report.md",
+      "type": "file"
+    },
+    {
+      "id": "root/cycle_2_report.md",
+      "label": "cycle_2_report.md",
+      "type": "file"
+    },
+    {
+      "id": "root/cycle_3_report.md",
+      "label": "cycle_3_report.md",
+      "type": "file"
+    },
+    {
+      "id": "root/cycle_4_report.md",
+      "label": "cycle_4_report.md",
+      "type": "file"
+    },
+    {
+      "id": "root/cycle_5_report.md",
+      "label": "cycle_5_report.md",
+      "type": "file"
+    },
+    {
+      "id": "root/cycle_6_report.md",
+      "label": "cycle_6_report.md",
+      "type": "file"
+    },
+    {
+      "id": "root/cycle_7_report.md",
+      "label": "cycle_7_report.md",
+      "type": "file"
+    },
+    {
+      "id": "root/dev",
+      "label": "dev",
+      "type": "directory"
+    },
+    {
+      "id": "root/dev/plan.md",
+      "label": "plan.md",
+      "type": "file"
+    },
+    {
+      "id": "root/docs",
+      "label": "docs",
+      "type": "directory"
+    },
+    {
+      "id": "root/docs/architecture",
+      "label": "architecture",
+      "type": "directory"
+    },
+    {
+      "id": "root/docs/architecture/SERVICE_MAP.md",
+      "label": "SERVICE_MAP.md",
+      "type": "file"
+    },
+    {
+      "id": "root/docs/architecture/dependency-graph.md",
+      "label": "dependency-graph.md",
+      "type": "file"
+    },
+    {
+      "id": "root/docs/dashboard.html",
+      "label": "dashboard.html",
+      "type": "file"
+    },
+    {
+      "id": "root/eslint.config.mjs",
+      "label": "eslint.config.mjs",
+      "type": "file"
+    },
+    {
+      "id": "root/index.html",
+      "label": "index.html",
+      "type": "file"
+    },
+    {
+      "id": "root/metadata.json",
+      "label": "metadata.json",
+      "type": "file"
+    },
+    {
+      "id": "root/package-lock.json",
+      "label": "package-lock.json",
+      "type": "file"
+    },
+    {
+      "id": "root/package.json",
+      "label": "package.json",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts",
+      "label": "scripts",
+      "type": "directory"
+    },
+    {
+      "id": "root/scripts/automation",
+      "label": "automation",
+      "type": "directory"
+    },
+    {
+      "id": "root/scripts/automation/ai-issue-triager.ts",
+      "label": "ai-issue-triager.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts/automation/ai-reviewer.ts",
+      "label": "ai-reviewer.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts/automation/auto-fix.ts",
+      "label": "auto-fix.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts/automation/continuous-improvement.ts",
+      "label": "continuous-improvement.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts/automation/generate-dashboard.ts",
+      "label": "generate-dashboard.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts/automation/generate-diagrams.ts",
+      "label": "generate-diagrams.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts/automation/generate-knowledge-graph.ts",
+      "label": "generate-knowledge-graph.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts/automation/generate-readme.ts",
+      "label": "generate-readme.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/scripts/automation/repo-analyzer.ts",
+      "label": "repo-analyzer.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/server.ts",
+      "label": "server.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src",
+      "label": "src",
+      "type": "directory"
+    },
+    {
+      "id": "root/src/App.tsx",
+      "label": "App.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/__tests__",
+      "label": "__tests__",
+      "type": "directory"
+    },
+    {
+      "id": "root/src/__tests__/App.test.tsx",
+      "label": "App.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components",
+      "label": "components",
+      "type": "directory"
+    },
+    {
+      "id": "root/src/components/ActionRecommendation.tsx",
+      "label": "ActionRecommendation.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/CAMReport.tsx",
+      "label": "CAMReport.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/CompanyProfile.tsx",
+      "label": "CompanyProfile.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/DataIngestion.tsx",
+      "label": "DataIngestion.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/DecisionPanel.tsx",
+      "label": "DecisionPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/ErrorDisplay.tsx",
+      "label": "ErrorDisplay.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/FinancialMetrics.tsx",
+      "label": "FinancialMetrics.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/FiveCsAnalysis.tsx",
+      "label": "FiveCsAnalysis.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/FraudFlags.tsx",
+      "label": "FraudFlags.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/IndustryBenchmarking.tsx",
+      "label": "IndustryBenchmarking.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/IndustryBenchmarkingPanel.tsx",
+      "label": "IndustryBenchmarkingPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/IntelligenceRow.tsx",
+      "label": "IntelligenceRow.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/LoanRecommendationPanel.tsx",
+      "label": "LoanRecommendationPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/RiskDimensions.tsx",
+      "label": "RiskDimensions.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/RiskScorePanel.tsx",
+      "label": "RiskScorePanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/StressTestingModule.tsx",
+      "label": "StressTestingModule.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/StressTestingPanel.tsx",
+      "label": "StressTestingPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/VerificationEngine.tsx",
+      "label": "VerificationEngine.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__",
+      "label": "__tests__",
+      "type": "directory"
+    },
+    {
+      "id": "root/src/components/__tests__/ActionRecommendation.test.tsx",
+      "label": "ActionRecommendation.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/CAMReport.test.tsx",
+      "label": "CAMReport.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/CompanyProfile.test.tsx",
+      "label": "CompanyProfile.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/DataIngestion.test.tsx",
+      "label": "DataIngestion.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/DecisionPanel.test.tsx",
+      "label": "DecisionPanel.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/ErrorDisplay.test.tsx",
+      "label": "ErrorDisplay.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/FinancialMetrics.test.tsx",
+      "label": "FinancialMetrics.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "label": "FiveCsAnalysis.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/FraudFlags.test.tsx",
+      "label": "FraudFlags.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "label": "IndustryBenchmarking.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/IntelligenceRow.test.tsx",
+      "label": "IntelligenceRow.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/RiskDimensions.test.tsx",
+      "label": "RiskDimensions.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/RiskScorePanel.test.tsx",
+      "label": "RiskScorePanel.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/StressTestingModule.test.tsx",
+      "label": "StressTestingModule.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/components/__tests__/VerificationEngine.test.tsx",
+      "label": "VerificationEngine.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/constants.ts",
+      "label": "constants.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/index.css",
+      "label": "index.css",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib",
+      "label": "lib",
+      "type": "directory"
+    },
+    {
+      "id": "root/src/lib/__tests__",
+      "label": "__tests__",
+      "type": "directory"
+    },
+    {
+      "id": "root/src/lib/__tests__/export.test.ts",
+      "label": "export.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/__tests__/file-utils.test.ts",
+      "label": "file-utils.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/__tests__/gemini.test.ts",
+      "label": "gemini.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/export.ts",
+      "label": "export.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/file-utils.test.ts",
+      "label": "file-utils.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/file-utils.ts",
+      "label": "file-utils.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/gemini-config.ts",
+      "label": "gemini-config.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/gemini.ts",
+      "label": "gemini.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/utils.test.ts",
+      "label": "utils.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/lib/utils.ts",
+      "label": "utils.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/main.tsx",
+      "label": "main.tsx",
+      "type": "file"
+    },
+    {
+      "id": "root/src/services",
+      "label": "services",
+      "type": "directory"
+    },
+    {
+      "id": "root/src/services/__tests__",
+      "label": "__tests__",
+      "type": "directory"
+    },
+    {
+      "id": "root/src/services/__tests__/analysisService.test.ts",
+      "label": "analysisService.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/services/analysisService.ts",
+      "label": "analysisService.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/types.ts",
+      "label": "types.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/src/vite-env.d.ts",
+      "label": "vite-env.d.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/test-pdf.ts",
+      "label": "test-pdf.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/test-pdf2.ts",
+      "label": "test-pdf2.ts",
+      "type": "file"
+    },
+    {
+      "id": "root/tsconfig.json",
+      "label": "tsconfig.json",
+      "type": "file"
+    },
+    {
+      "id": "root/vercel.json",
+      "label": "vercel.json",
+      "type": "file"
+    },
+    {
+      "id": "root/vite.config.ts",
+      "label": "vite.config.ts",
+      "type": "file"
+    },
+    {
+      "id": "dep:@google/genai",
+      "label": "@google/genai",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:@tailwindcss/typography",
+      "label": "@tailwindcss/typography",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:@tailwindcss/vite",
+      "label": "@tailwindcss/vite",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:@vitejs/plugin-react",
+      "label": "@vitejs/plugin-react",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:clsx",
+      "label": "clsx",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:cors",
+      "label": "cors",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:dotenv",
+      "label": "dotenv",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:express",
+      "label": "express",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:express-rate-limit",
+      "label": "express-rate-limit",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:html-to-image",
+      "label": "html-to-image",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:html2canvas",
+      "label": "html2canvas",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:jspdf",
+      "label": "jspdf",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:lucide-react",
+      "label": "lucide-react",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:motion",
+      "label": "motion",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:multer",
+      "label": "multer",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:pdf-parse",
+      "label": "pdf-parse",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:react",
+      "label": "react",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:react-dom",
+      "label": "react-dom",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:react-dropzone",
+      "label": "react-dropzone",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:react-markdown",
+      "label": "react-markdown",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:recharts",
+      "label": "recharts",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:tailwind-merge",
+      "label": "tailwind-merge",
+      "type": "dependency"
+    },
+    {
+      "id": "dep:vite",
+      "label": "vite",
+      "type": "dependency"
+    }
+  ],
+  "edges": [
+    {
+      "source": "root",
+      "target": "root/.env.example",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/.github",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github",
+      "target": "root/.github/CODEOWNERS",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github",
+      "target": "root/.github/ISSUE_TEMPLATE",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/ISSUE_TEMPLATE",
+      "target": "root/.github/ISSUE_TEMPLATE/bug_report.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/ISSUE_TEMPLATE",
+      "target": "root/.github/ISSUE_TEMPLATE/feature_request.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github",
+      "target": "root/.github/PULL_REQUEST_TEMPLATE",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/PULL_REQUEST_TEMPLATE",
+      "target": "root/.github/PULL_REQUEST_TEMPLATE/pull_request_template.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github",
+      "target": "root/.github/dependabot.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github",
+      "target": "root/.github/labeler.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github",
+      "target": "root/.github/workflows",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/ai-documentation-agent.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/ai-issue-triage.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/auto-assign.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/auto-fix.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/autonomous-repo-analysis.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/ci-cd-automation.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/codeql.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/continuous-improvement.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/dependency-review.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/greetings.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/labeler.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/repo-health-dashboard.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/self-updating-readme.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root/.github/workflows",
+      "target": "root/.github/workflows/stale.yml",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/.gitignore",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/.prettierrc",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/CODE_OF_CONDUCT.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/CONTRIBUTING.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/README.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/SECURITY.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/cycle_1_report.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/cycle_2_report.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/cycle_3_report.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/cycle_4_report.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/cycle_5_report.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/cycle_6_report.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/cycle_7_report.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/dev",
+      "relation": "contains"
+    },
+    {
+      "source": "root/dev",
+      "target": "root/dev/plan.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/docs",
+      "relation": "contains"
+    },
+    {
+      "source": "root/docs",
+      "target": "root/docs/architecture",
+      "relation": "contains"
+    },
+    {
+      "source": "root/docs/architecture",
+      "target": "root/docs/architecture/SERVICE_MAP.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root/docs/architecture",
+      "target": "root/docs/architecture/dependency-graph.md",
+      "relation": "contains"
+    },
+    {
+      "source": "root/docs",
+      "target": "root/docs/dashboard.html",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/eslint.config.mjs",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/index.html",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/metadata.json",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/package-lock.json",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/package.json",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/scripts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts",
+      "target": "root/scripts/automation",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/ai-issue-triager.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/ai-reviewer.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/auto-fix.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/continuous-improvement.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/generate-dashboard.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/generate-diagrams.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/generate-knowledge-graph.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/generate-readme.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/scripts/automation",
+      "target": "root/scripts/automation/repo-analyzer.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/server.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/src",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/App.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/__tests__",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/__tests__",
+      "target": "root/src/__tests__/App.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/components",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/ActionRecommendation.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/CAMReport.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/CompanyProfile.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/DataIngestion.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/DecisionPanel.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/ErrorDisplay.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/FinancialMetrics.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/FiveCsAnalysis.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/FraudFlags.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/IndustryBenchmarking.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/IndustryBenchmarkingPanel.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/IntelligenceRow.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/LoanRecommendationPanel.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/RiskDimensions.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/RiskScorePanel.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/StressTestingModule.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/StressTestingPanel.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/VerificationEngine.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components",
+      "target": "root/src/components/__tests__",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/ActionRecommendation.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/CAMReport.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/CompanyProfile.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/DataIngestion.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/DecisionPanel.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/ErrorDisplay.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/FinancialMetrics.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/FraudFlags.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/IntelligenceRow.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/RiskDimensions.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/RiskScorePanel.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/StressTestingModule.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/components/__tests__",
+      "target": "root/src/components/__tests__/VerificationEngine.test.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/constants.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/index.css",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/lib",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib",
+      "target": "root/src/lib/__tests__",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib/__tests__",
+      "target": "root/src/lib/__tests__/export.test.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib/__tests__",
+      "target": "root/src/lib/__tests__/file-utils.test.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib/__tests__",
+      "target": "root/src/lib/__tests__/gemini.test.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib",
+      "target": "root/src/lib/export.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib",
+      "target": "root/src/lib/file-utils.test.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib",
+      "target": "root/src/lib/file-utils.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib",
+      "target": "root/src/lib/gemini-config.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib",
+      "target": "root/src/lib/gemini.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib",
+      "target": "root/src/lib/utils.test.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/lib",
+      "target": "root/src/lib/utils.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/main.tsx",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/services",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/services",
+      "target": "root/src/services/__tests__",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/services/__tests__",
+      "target": "root/src/services/__tests__/analysisService.test.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src/services",
+      "target": "root/src/services/analysisService.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/types.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root/src",
+      "target": "root/src/vite-env.d.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/test-pdf.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/test-pdf2.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/tsconfig.json",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/vercel.json",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "root/vite.config.ts",
+      "relation": "contains"
+    },
+    {
+      "source": "root",
+      "target": "dep:@google/genai",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:@tailwindcss/typography",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:@tailwindcss/vite",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:@vitejs/plugin-react",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:clsx",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:cors",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:dotenv",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:express",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:express-rate-limit",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:html-to-image",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:html2canvas",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:jspdf",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:lucide-react",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:motion",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:multer",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:pdf-parse",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:react",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:react-dom",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:react-dropzone",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:react-markdown",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:recharts",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:tailwind-merge",
+      "relation": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep:vite",
+      "relation": "depends_on"
+    }
+  ]
+}
