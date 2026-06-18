@@ -26,7 +26,7 @@ function getGitStats() {
       recentCommits,
       branchCount: parseInt(execSync('git branch -r | wc -l').toString().trim()) || 1,
     };
-  } catch (e) {
+  } catch (_e) {
     console.error('Error getting git stats', e);
     return { commitCount: 0, authorCount: 0, recentCommits: 0, branchCount: 1 };
   }
@@ -51,7 +51,7 @@ function getFileStats() {
       jsFiles,
       cssFiles,
     };
-  } catch (e) {
+  } catch (_e) {
     return { totalFiles: 0, tsFiles: 0, jsFiles: 0, cssFiles: 0 };
   }
 }
@@ -65,7 +65,7 @@ function getPackageStats() {
       deps: Object.keys(pkg.dependencies || {}).length,
       devDeps: Object.keys(pkg.devDependencies || {}).length,
     };
-  } catch (e) {
+  } catch (_e) {
     return { deps: 0, devDeps: 0 };
   }
 }
@@ -82,7 +82,7 @@ function getAuditStats() {
       medium: audit.metadata?.vulnerabilities?.medium || 0,
       low: audit.metadata?.vulnerabilities?.low || 0,
     };
-  } catch (e) {
+  } catch (_e) {
     console.error('Error running npm audit', e);
     return { critical: 0, high: 0, medium: 0, low: 0 };
   }
@@ -104,7 +104,7 @@ function getCoverageStats() {
       };
     }
     return { unit: 0, statements: 0, branches: 0, functions: 0 };
-  } catch (e) {
+  } catch (_e) {
     console.error('Error gathering coverage stats', e);
     return { unit: 0, statements: 0, branches: 0, functions: 0 };
   }
@@ -119,7 +119,7 @@ function getIssueStats() {
       closedIssues: parseInt(mentions) || 0,
       mergedPRs: parseInt(merges) || 0,
     };
-  } catch (e) {
+  } catch (_e) {
     return { closedIssues: 0, mergedPRs: 0 };
   }
 }
@@ -149,7 +149,7 @@ function generateMockMetrics() {
   };
 }
 
-async function getAiInsights(metrics: any) {
+async function getAiInsights(metrics: Record<string, unknown>) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return {
@@ -220,7 +220,7 @@ async function gatherData() {
 
 // --- HTML Generation ---
 
-function generateHtml(data: any) {
+function generateHtml(data: { metrics: Record<string, unknown>; insights: string }) {
   const { metrics, insights } = data;
 
   const html = `<!DOCTYPE html>

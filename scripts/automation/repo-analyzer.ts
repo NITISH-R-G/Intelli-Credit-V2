@@ -9,7 +9,7 @@ interface RepoMetadata {
   devDependencies: Record<string, string>;
   scripts: Record<string, string>;
   frameworks: string[];
-  structure: any;
+  structure: any /* eslint-disable-line @typescript-eslint/no-explicit-any */;
 }
 
 const analyzePackageJson = (): Partial<RepoMetadata> => {
@@ -38,7 +38,7 @@ const analyzePackageJson = (): Partial<RepoMetadata> => {
   return {};
 };
 
-const mapDirectory = (dir: string, depth = 0, maxDepth = 3): any => {
+const mapDirectory = (dir: string, depth = 0, maxDepth = 3): any /* eslint-disable-line @typescript-eslint/no-explicit-any */ => {
   if (depth > maxDepth) return null;
   const items = fs.readdirSync(dir);
   const structure: Record<string, any> = {};

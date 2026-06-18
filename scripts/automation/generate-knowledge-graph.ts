@@ -19,7 +19,7 @@ interface KnowledgeGraph {
 }
 
 const buildGraphFromStructure = (
-  structure: any,
+  structure: Record<string, unknown>,
   parentId: string,
   nodes: Node[],
   edges: Edge[],

@@ -16,7 +16,7 @@ const main = async () => {
   }
 
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
-  let metadata: any = {};
+  let metadata: Record<string, unknown> = {};
   if (fs.existsSync(metadataPath)) {
     metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
   }

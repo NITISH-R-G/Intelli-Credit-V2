@@ -5,7 +5,7 @@ import path from 'path';
 const sanitize = (name: string) => name.replace(/[^a-zA-Z0-9]/g, '_');
 
 const buildMermaidFromStructure = (
-  structure: any,
+  structure: Record<string, unknown>,
   parentNode: string,
   depth = 0,
   lines: string[] = [],
