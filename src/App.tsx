@@ -22,13 +22,6 @@ import { CreditAnalysis } from './types';
 import { useDropzone } from 'react-dropzone';
 import { ShieldCheck } from 'lucide-react';
 
-
-
-
-
-
-
-
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -90,10 +83,6 @@ export default function App() {
       setShowLogs,
     );
   };
-
-
-
-
 
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-mono text-xs sm:text-sm selection:bg-amber-500/30">
