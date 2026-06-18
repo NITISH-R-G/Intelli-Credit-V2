@@ -35,4 +35,3 @@ export const DecisionPanel: React.FC<DecisionPanelProps> = ({ displayAnalysis })
     </div>
   );
 };
-export default DecisionPanel;

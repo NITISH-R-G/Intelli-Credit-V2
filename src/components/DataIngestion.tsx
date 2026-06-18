@@ -141,4 +141,3 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
     </>
   );
 };
-export default DataIngestion;
