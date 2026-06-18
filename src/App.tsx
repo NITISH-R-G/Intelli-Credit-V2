@@ -1,3 +1,4 @@
+import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
 import { AppError } from './types';
 import { performAnalysis, calculateDisplayAnalysis } from './services/analysisService';
 import { DecisionPanel } from './components/DecisionPanel';
@@ -5,10 +6,7 @@ import { ErrorDisplay } from './components/ErrorDisplay';
 import { DataIngestion } from './components/DataIngestion';
 import { CompanyProfile } from './components/CompanyProfile';
 import { RiskScorePanel } from './components/RiskScorePanel';
-import { StressTestingPanel } from './components/StressTestingPanel';
-import { IndustryBenchmarkingPanel } from './components/IndustryBenchmarkingPanel';
 import { LoanRecommendationPanel } from './components/LoanRecommendationPanel';
-import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { FinancialMetrics } from './components/FinancialMetrics';
 import { VerificationEngine } from './components/VerificationEngine';
 import { IntelligenceRow } from './components/IntelligenceRow';
@@ -16,7 +14,6 @@ import { RiskDimensions } from './components/RiskDimensions';
 import { ActionRecommendation } from './components/ActionRecommendation';
 import { FraudFlags } from './components/FraudFlags';
 import { CAMReport } from './components/CAMReport';
-import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
 const StressTestingModule = React.lazy(() => import('./components/StressTestingModule'));
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
@@ -206,18 +203,7 @@ export default function App() {
               <RiskScorePanel displayAnalysis={displayAnalysis!} />
 
               <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
-            </div>
 
-            <StressTestingPanel
-              revenueShock={revenueShock}
-              setRevenueShock={setRevenueShock}
-              interestRateShock={interestRateShock}
-              setInterestRateShock={setInterestRateShock}
-              analysis={analysis}
-              displayAnalysis={displayAnalysis}
-            />
-
-            <IndustryBenchmarkingPanel analysis={analysis} />
               {/* Decision Panel */}
               <DecisionPanel displayAnalysis={displayAnalysis!} />
             </div>
