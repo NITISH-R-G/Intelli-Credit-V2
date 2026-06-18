@@ -39,8 +39,8 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v3
         with:
-          filePath: ai-review-output.md
-          comment_tag: ai_review
+          file-path: ai-review-output.md
+          comment-tag: ai_review
 
       - name: Commit AI Generated Docs
         run: |

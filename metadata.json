@@ -24,8 +24,7 @@
     "react-dropzone": "^15.0.0",
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
-    "tailwind-merge": "^3.5.0",
-    "vite": "^6.4.2"
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
@@ -48,7 +47,7 @@
     "tsx": "^4.22.4",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.60.1",
-    "vite": "^6.4.2",
+    "vite": "^6.4.3",
     "vitest": "^4.1.7"
   },
   "scripts": {
@@ -67,9 +66,16 @@
     "generate:readme": "tsx scripts/automation/generate-readme.ts",
     "ai:review": "tsx scripts/automation/ai-reviewer.ts",
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
-    "fix": "tsx scripts/automation/auto-fix.ts"
+    "fix": "tsx scripts/automation/auto-fix.ts",
+    "improve:repo": "tsx scripts/automation/improve-repo.ts",
+    "issue:manage": "tsx scripts/automation/issue-manager.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -90,16 +96,20 @@
         "autonomous-repo-analysis.yml": "file",
         "ci-cd-automation.yml": "file",
         "codeql.yml": "file",
+        "continuous-improvement.yml": "file",
         "dependency-review.yml": "file",
         "greetings.yml": "file",
+        "issue-management.yml": "file",
         "labeler.yml": "file",
         "repo-health-dashboard.yml": "file",
+        "secret-scanning.yml": "file",
         "self-updating-readme.yml": "file",
         "stale.yml": "file"
       }
     },
     ".gitignore": "file",
     ".prettierrc": "file",
+    "AGENTS.md": "file",
     "CODE_OF_CONDUCT.md": "file",
     "CONTRIBUTING.md": "file",
     "README.md": "file",
@@ -133,6 +143,8 @@
         "generate-dashboard.ts": "file",
         "generate-diagrams.ts": "file",
         "generate-readme.ts": "file",
+        "improve-repo.ts": "file",
+        "issue-manager.ts": "file",
         "repo-analyzer.ts": "file"
       }
     },

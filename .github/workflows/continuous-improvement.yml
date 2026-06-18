@@ -1,0 +1,49 @@
+name: Continuous Repository Improvement
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # Daily at 4 AM
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  improve-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Repo Analyzer
+        run: npm run analyze:repo
+
+      - name: Run Continuous Improvement Analysis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run improve:repo
+
+      - name: Commit Improvements Report
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/tech-debt-report.md || true
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "docs: Auto-generate continuous improvement report [skip ci]"
+
+            # Using standard action push trick to avoid session blocking
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "No changes to commit"
+          fi
