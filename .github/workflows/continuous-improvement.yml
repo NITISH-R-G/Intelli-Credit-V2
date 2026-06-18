@@ -1,0 +1,55 @@
+name: Continuous Improvement
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # Daily at 8 AM UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Repository Metadata
+        run: npm run analyze:repo
+        continue-on-error: true
+
+      - name: Run AI Improvement Generator
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:improve
+        continue-on-error: true
+
+      - name: Create Improvement Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -f ai-improvement-suggestion.md ]; then
+            # Extract title from the first line if it's an h2
+            TITLE=$(grep -m 1 "^## Issue Title:" ai-improvement-suggestion.md | sed 's/^## Issue Title: //')
+            if [ -z "$TITLE" ]; then
+              TITLE="AI Continuous Improvement Suggestion"
+            fi
+
+            # Remove the title line from the body to avoid duplication
+            sed -i '/^## Issue Title:/d' ai-improvement-suggestion.md
+
+            gh issue create --title "$TITLE" --body-file ai-improvement-suggestion.md --label "enhancement,AI-suggested"
+          else
+            echo "Improvement output file not found."
+          fi
