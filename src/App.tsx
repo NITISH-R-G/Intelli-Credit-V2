@@ -203,7 +203,6 @@ export default function App() {
               <RiskScorePanel displayAnalysis={displayAnalysis!} />
 
               <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
-
               {/* Decision Panel */}
               <DecisionPanel displayAnalysis={displayAnalysis!} />
             </div>
