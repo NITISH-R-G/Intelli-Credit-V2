@@ -38,7 +38,7 @@ const buildGraphFromStructure = (
 };
 
 const main = () => {
-  console.log('Generating Knowledge Graph...');
+  console.info('Generating Knowledge Graph...');
 
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
   if (!fs.existsSync(metadataPath)) {
@@ -76,7 +76,7 @@ const main = () => {
   }
 
   fs.writeFileSync(path.join(outDir, 'knowledge-graph.json'), JSON.stringify(graph, null, 2));
-  console.log('Knowledge Graph generated successfully at docs/knowledge-graph.json.');
+  console.info('Knowledge Graph generated successfully at docs/knowledge-graph.json.');
 };
 
 main();

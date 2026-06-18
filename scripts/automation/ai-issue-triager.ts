@@ -3,7 +3,7 @@ import path from 'path';
 import { GoogleGenAI } from '@google/genai';
 
 const main = async () => {
-  console.log('Running AI Issue Triager...');
+  console.info('Running AI Issue Triager...');
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -49,7 +49,7 @@ ${issueBody}
       path.resolve(process.cwd(), 'ai-issue-triage-output.md'),
       `## AI Issue Triage Report\n\n${outputText}`,
     );
-    console.log('AI Issue Triage Report generated successfully.');
+    console.info('AI Issue Triage Report generated successfully.');
   } catch (error) {
     console.error('Error generating AI issue triage:', error);
     process.exit(1);

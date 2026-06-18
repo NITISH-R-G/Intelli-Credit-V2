@@ -3,7 +3,7 @@ import path from 'path';
 import { GoogleGenAI } from '@google/genai';
 
 const main = async () => {
-  console.log('Running Continuous Improvement System...');
+  console.info('Running Continuous Improvement System...');
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -54,7 +54,7 @@ Provide the output in the following format:
     const outputText = response.text || 'No content generated.';
 
     fs.writeFileSync(path.resolve(process.cwd(), 'ai-improvement-suggestion.md'), outputText);
-    console.log('Continuous Improvement suggestion generated successfully.');
+    console.info('Continuous Improvement suggestion generated successfully.');
   } catch (error) {
     console.error('Error generating improvement suggestion:', error);
     process.exit(1);
