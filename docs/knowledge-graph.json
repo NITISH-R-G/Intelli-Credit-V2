@@ -1,0 +1,2396 @@
+{
+  "nodes": [
+    {
+      "id": "root",
+      "group": 0,
+      "label": "Repository Root"
+    },
+    {
+      "id": ".env.example",
+      "group": 2,
+      "label": ".env.example"
+    },
+    {
+      "id": ".github",
+      "group": 1,
+      "label": ".github"
+    },
+    {
+      "id": ".github/CODEOWNERS",
+      "group": 2,
+      "label": "CODEOWNERS"
+    },
+    {
+      "id": ".github/ISSUE_TEMPLATE",
+      "group": 1,
+      "label": "ISSUE_TEMPLATE"
+    },
+    {
+      "id": ".github/ISSUE_TEMPLATE/bug_report.yml",
+      "group": 2,
+      "label": "bug_report.yml"
+    },
+    {
+      "id": ".github/ISSUE_TEMPLATE/feature_request.yml",
+      "group": 2,
+      "label": "feature_request.yml"
+    },
+    {
+      "id": ".github/PULL_REQUEST_TEMPLATE",
+      "group": 1,
+      "label": "PULL_REQUEST_TEMPLATE"
+    },
+    {
+      "id": ".github/PULL_REQUEST_TEMPLATE/pull_request_template.md",
+      "group": 2,
+      "label": "pull_request_template.md"
+    },
+    {
+      "id": ".github/dependabot.yml",
+      "group": 2,
+      "label": "dependabot.yml"
+    },
+    {
+      "id": ".github/labeler.yml",
+      "group": 2,
+      "label": "labeler.yml"
+    },
+    {
+      "id": ".github/workflows",
+      "group": 1,
+      "label": "workflows"
+    },
+    {
+      "id": ".github/workflows/ai-documentation-agent.yml",
+      "group": 2,
+      "label": "ai-documentation-agent.yml"
+    },
+    {
+      "id": ".github/workflows/ai-issue-triager.yml",
+      "group": 2,
+      "label": "ai-issue-triager.yml"
+    },
+    {
+      "id": ".github/workflows/auto-assign.yml",
+      "group": 2,
+      "label": "auto-assign.yml"
+    },
+    {
+      "id": ".github/workflows/auto-fix.yml",
+      "group": 2,
+      "label": "auto-fix.yml"
+    },
+    {
+      "id": ".github/workflows/autonomous-repo-analysis.yml",
+      "group": 2,
+      "label": "autonomous-repo-analysis.yml"
+    },
+    {
+      "id": ".github/workflows/ci-cd-automation.yml",
+      "group": 2,
+      "label": "ci-cd-automation.yml"
+    },
+    {
+      "id": ".github/workflows/codeql.yml",
+      "group": 2,
+      "label": "codeql.yml"
+    },
+    {
+      "id": ".github/workflows/continuous-improvement.yml",
+      "group": 2,
+      "label": "continuous-improvement.yml"
+    },
+    {
+      "id": ".github/workflows/dependency-review.yml",
+      "group": 2,
+      "label": "dependency-review.yml"
+    },
+    {
+      "id": ".github/workflows/greetings.yml",
+      "group": 2,
+      "label": "greetings.yml"
+    },
+    {
+      "id": ".github/workflows/labeler.yml",
+      "group": 2,
+      "label": "labeler.yml"
+    },
+    {
+      "id": ".github/workflows/repo-health-dashboard.yml",
+      "group": 2,
+      "label": "repo-health-dashboard.yml"
+    },
+    {
+      "id": ".github/workflows/self-updating-readme.yml",
+      "group": 2,
+      "label": "self-updating-readme.yml"
+    },
+    {
+      "id": ".github/workflows/stale.yml",
+      "group": 2,
+      "label": "stale.yml"
+    },
+    {
+      "id": ".gitignore",
+      "group": 2,
+      "label": ".gitignore"
+    },
+    {
+      "id": ".prettierrc",
+      "group": 2,
+      "label": ".prettierrc"
+    },
+    {
+      "id": "AGENTS.md",
+      "group": 2,
+      "label": "AGENTS.md"
+    },
+    {
+      "id": "CODE_OF_CONDUCT.md",
+      "group": 2,
+      "label": "CODE_OF_CONDUCT.md"
+    },
+    {
+      "id": "CONTRIBUTING.md",
+      "group": 2,
+      "label": "CONTRIBUTING.md"
+    },
+    {
+      "id": "README.md",
+      "group": 2,
+      "label": "README.md"
+    },
+    {
+      "id": "SECURITY.md",
+      "group": 2,
+      "label": "SECURITY.md"
+    },
+    {
+      "id": "cycle_1_report.md",
+      "group": 2,
+      "label": "cycle_1_report.md"
+    },
+    {
+      "id": "cycle_2_report.md",
+      "group": 2,
+      "label": "cycle_2_report.md"
+    },
+    {
+      "id": "cycle_3_report.md",
+      "group": 2,
+      "label": "cycle_3_report.md"
+    },
+    {
+      "id": "cycle_4_report.md",
+      "group": 2,
+      "label": "cycle_4_report.md"
+    },
+    {
+      "id": "cycle_5_report.md",
+      "group": 2,
+      "label": "cycle_5_report.md"
+    },
+    {
+      "id": "cycle_6_report.md",
+      "group": 2,
+      "label": "cycle_6_report.md"
+    },
+    {
+      "id": "cycle_7_report.md",
+      "group": 2,
+      "label": "cycle_7_report.md"
+    },
+    {
+      "id": "dev",
+      "group": 1,
+      "label": "dev"
+    },
+    {
+      "id": "dev/plan.md",
+      "group": 2,
+      "label": "plan.md"
+    },
+    {
+      "id": "eslint.config.mjs",
+      "group": 2,
+      "label": "eslint.config.mjs"
+    },
+    {
+      "id": "index.html",
+      "group": 2,
+      "label": "index.html"
+    },
+    {
+      "id": "metadata.json",
+      "group": 2,
+      "label": "metadata.json"
+    },
+    {
+      "id": "package-lock.json",
+      "group": 2,
+      "label": "package-lock.json"
+    },
+    {
+      "id": "package.json",
+      "group": 2,
+      "label": "package.json"
+    },
+    {
+      "id": "scripts",
+      "group": 1,
+      "label": "scripts"
+    },
+    {
+      "id": "scripts/automation",
+      "group": 1,
+      "label": "automation"
+    },
+    {
+      "id": "scripts/automation/ai-reviewer.ts",
+      "group": 2,
+      "label": "ai-reviewer.ts"
+    },
+    {
+      "id": "ext:fs",
+      "group": 3,
+      "label": "fs"
+    },
+    {
+      "id": "ext:path",
+      "group": 3,
+      "label": "path"
+    },
+    {
+      "id": "ext:child_process",
+      "group": 3,
+      "label": "child_process"
+    },
+    {
+      "id": "ext:@google/genai",
+      "group": 3,
+      "label": "@google/genai"
+    },
+    {
+      "id": "scripts/automation/auto-fix.ts",
+      "group": 2,
+      "label": "auto-fix.ts"
+    },
+    {
+      "id": "scripts/automation/continuous-improvement.ts",
+      "group": 2,
+      "label": "continuous-improvement.ts"
+    },
+    {
+      "id": "scripts/automation/generate-dashboard.ts",
+      "group": 2,
+      "label": "generate-dashboard.ts"
+    },
+    {
+      "id": "ext:dotenv",
+      "group": 3,
+      "label": "dotenv"
+    },
+    {
+      "id": "scripts/automation/generate-diagrams.ts",
+      "group": 2,
+      "label": "generate-diagrams.ts"
+    },
+    {
+      "id": "scripts/automation/generate-knowledge-graph.ts",
+      "group": 2,
+      "label": "generate-knowledge-graph.ts"
+    },
+    {
+      "id": "scripts/automation/generate-readme.ts",
+      "group": 2,
+      "label": "generate-readme.ts"
+    },
+    {
+      "id": "scripts/automation/issue-triager.ts",
+      "group": 2,
+      "label": "issue-triager.ts"
+    },
+    {
+      "id": "scripts/automation/repo-analyzer.ts",
+      "group": 2,
+      "label": "repo-analyzer.ts"
+    },
+    {
+      "id": "server.ts",
+      "group": 2,
+      "label": "server.ts"
+    },
+    {
+      "id": "ext:express",
+      "group": 3,
+      "label": "express"
+    },
+    {
+      "id": "ext:vite",
+      "group": 3,
+      "label": "vite"
+    },
+    {
+      "id": "ext:multer",
+      "group": 3,
+      "label": "multer"
+    },
+    {
+      "id": "ext:pdf-parse",
+      "group": 3,
+      "label": "pdf-parse"
+    },
+    {
+      "id": "ext:cors",
+      "group": 3,
+      "label": "cors"
+    },
+    {
+      "id": "ext:express-rate-limit",
+      "group": 3,
+      "label": "express-rate-limit"
+    },
+    {
+      "id": "src",
+      "group": 1,
+      "label": "src"
+    },
+    {
+      "id": "src/App.tsx",
+      "group": 2,
+      "label": "App.tsx"
+    },
+    {
+      "id": "ext:react",
+      "group": 3,
+      "label": "react"
+    },
+    {
+      "id": "ext:react-dropzone",
+      "group": 3,
+      "label": "react-dropzone"
+    },
+    {
+      "id": "ext:motion/react",
+      "group": 3,
+      "label": "motion/react"
+    },
+    {
+      "id": "src/__tests__",
+      "group": 1,
+      "label": "__tests__"
+    },
+    {
+      "id": "src/__tests__/App.test.tsx",
+      "group": 2,
+      "label": "App.test.tsx"
+    },
+    {
+      "id": "ext:vitest",
+      "group": 3,
+      "label": "vitest"
+    },
+    {
+      "id": "src/components",
+      "group": 1,
+      "label": "components"
+    },
+    {
+      "id": "src/components/ActionRecommendation.tsx",
+      "group": 2,
+      "label": "ActionRecommendation.tsx"
+    },
+    {
+      "id": "ext:lucide-react",
+      "group": 3,
+      "label": "lucide-react"
+    },
+    {
+      "id": "src/components/CAMReport.tsx",
+      "group": 2,
+      "label": "CAMReport.tsx"
+    },
+    {
+      "id": "ext:react-markdown",
+      "group": 3,
+      "label": "react-markdown"
+    },
+    {
+      "id": "src/components/CompanyProfile.tsx",
+      "group": 2,
+      "label": "CompanyProfile.tsx"
+    },
+    {
+      "id": "src/components/DataIngestion.tsx",
+      "group": 2,
+      "label": "DataIngestion.tsx"
+    },
+    {
+      "id": "src/components/DecisionPanel.tsx",
+      "group": 2,
+      "label": "DecisionPanel.tsx"
+    },
+    {
+      "id": "src/components/ErrorDisplay.tsx",
+      "group": 2,
+      "label": "ErrorDisplay.tsx"
+    },
+    {
+      "id": "src/components/FinancialMetrics.tsx",
+      "group": 2,
+      "label": "FinancialMetrics.tsx"
+    },
+    {
+      "id": "src/components/FiveCsAnalysis.tsx",
+      "group": 2,
+      "label": "FiveCsAnalysis.tsx"
+    },
+    {
+      "id": "src/components/FraudFlags.tsx",
+      "group": 2,
+      "label": "FraudFlags.tsx"
+    },
+    {
+      "id": "src/components/IndustryBenchmarking.tsx",
+      "group": 2,
+      "label": "IndustryBenchmarking.tsx"
+    },
+    {
+      "id": "src/components/IntelligenceRow.tsx",
+      "group": 2,
+      "label": "IntelligenceRow.tsx"
+    },
+    {
+      "id": "src/components/RiskDimensions.tsx",
+      "group": 2,
+      "label": "RiskDimensions.tsx"
+    },
+    {
+      "id": "src/components/RiskScorePanel.tsx",
+      "group": 2,
+      "label": "RiskScorePanel.tsx"
+    },
+    {
+      "id": "src/components/StressTestingModule.tsx",
+      "group": 2,
+      "label": "StressTestingModule.tsx"
+    },
+    {
+      "id": "src/components/VerificationEngine.tsx",
+      "group": 2,
+      "label": "VerificationEngine.tsx"
+    },
+    {
+      "id": "src/components/__tests__",
+      "group": 1,
+      "label": "__tests__"
+    },
+    {
+      "id": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "group": 2,
+      "label": "ActionRecommendation.test.tsx"
+    },
+    {
+      "id": "ext:@testing-library/react",
+      "group": 3,
+      "label": "@testing-library/react"
+    },
+    {
+      "id": "src/components/__tests__/CAMReport.test.tsx",
+      "group": 2,
+      "label": "CAMReport.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/CompanyProfile.test.tsx",
+      "group": 2,
+      "label": "CompanyProfile.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/DataIngestion.test.tsx",
+      "group": 2,
+      "label": "DataIngestion.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/DecisionPanel.test.tsx",
+      "group": 2,
+      "label": "DecisionPanel.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "group": 2,
+      "label": "ErrorDisplay.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "group": 2,
+      "label": "FinancialMetrics.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "group": 2,
+      "label": "FiveCsAnalysis.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/FraudFlags.test.tsx",
+      "group": 2,
+      "label": "FraudFlags.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "group": 2,
+      "label": "IndustryBenchmarking.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "group": 2,
+      "label": "IntelligenceRow.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/RiskDimensions.test.tsx",
+      "group": 2,
+      "label": "RiskDimensions.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "group": 2,
+      "label": "RiskScorePanel.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/StressTestingModule.test.tsx",
+      "group": 2,
+      "label": "StressTestingModule.test.tsx"
+    },
+    {
+      "id": "src/components/__tests__/VerificationEngine.test.tsx",
+      "group": 2,
+      "label": "VerificationEngine.test.tsx"
+    },
+    {
+      "id": "src/constants.ts",
+      "group": 2,
+      "label": "constants.ts"
+    },
+    {
+      "id": "src/index.css",
+      "group": 2,
+      "label": "index.css"
+    },
+    {
+      "id": "src/lib",
+      "group": 1,
+      "label": "lib"
+    },
+    {
+      "id": "src/lib/__tests__",
+      "group": 1,
+      "label": "__tests__"
+    },
+    {
+      "id": "src/lib/__tests__/export.test.ts",
+      "group": 2,
+      "label": "export.test.ts"
+    },
+    {
+      "id": "ext:html-to-image",
+      "group": 3,
+      "label": "html-to-image"
+    },
+    {
+      "id": "ext:jspdf",
+      "group": 3,
+      "label": "jspdf"
+    },
+    {
+      "id": "src/lib/__tests__/file-utils.test.ts",
+      "group": 2,
+      "label": "file-utils.test.ts"
+    },
+    {
+      "id": "src/lib/__tests__/gemini.test.ts",
+      "group": 2,
+      "label": "gemini.test.ts"
+    },
+    {
+      "id": "src/lib/export.ts",
+      "group": 2,
+      "label": "export.ts"
+    },
+    {
+      "id": "src/lib/file-utils.test.ts",
+      "group": 2,
+      "label": "file-utils.test.ts"
+    },
+    {
+      "id": "src/lib/file-utils.ts",
+      "group": 2,
+      "label": "file-utils.ts"
+    },
+    {
+      "id": "src/lib/gemini-config.ts",
+      "group": 2,
+      "label": "gemini-config.ts"
+    },
+    {
+      "id": "src/lib/gemini.ts",
+      "group": 2,
+      "label": "gemini.ts"
+    },
+    {
+      "id": "src/lib/utils.test.ts",
+      "group": 2,
+      "label": "utils.test.ts"
+    },
+    {
+      "id": "src/lib/utils.ts",
+      "group": 2,
+      "label": "utils.ts"
+    },
+    {
+      "id": "ext:clsx",
+      "group": 3,
+      "label": "clsx"
+    },
+    {
+      "id": "ext:tailwind-merge",
+      "group": 3,
+      "label": "tailwind-merge"
+    },
+    {
+      "id": "src/main.tsx",
+      "group": 2,
+      "label": "main.tsx"
+    },
+    {
+      "id": "ext:react-dom/client",
+      "group": 3,
+      "label": "react-dom/client"
+    },
+    {
+      "id": "src/services",
+      "group": 1,
+      "label": "services"
+    },
+    {
+      "id": "src/services/__tests__",
+      "group": 1,
+      "label": "__tests__"
+    },
+    {
+      "id": "src/services/__tests__/analysisService.test.ts",
+      "group": 2,
+      "label": "analysisService.test.ts"
+    },
+    {
+      "id": "src/services/analysisService.ts",
+      "group": 2,
+      "label": "analysisService.ts"
+    },
+    {
+      "id": "src/types.ts",
+      "group": 2,
+      "label": "types.ts"
+    },
+    {
+      "id": "src/vite-env.d.ts",
+      "group": 2,
+      "label": "vite-env.d.ts"
+    },
+    {
+      "id": "test-pdf.ts",
+      "group": 2,
+      "label": "test-pdf.ts"
+    },
+    {
+      "id": "ext:module",
+      "group": 3,
+      "label": "module"
+    },
+    {
+      "id": "test-pdf2.ts",
+      "group": 2,
+      "label": "test-pdf2.ts"
+    },
+    {
+      "id": "tsconfig.json",
+      "group": 2,
+      "label": "tsconfig.json"
+    },
+    {
+      "id": "vercel.json",
+      "group": 2,
+      "label": "vercel.json"
+    },
+    {
+      "id": "vite.config.ts",
+      "group": 2,
+      "label": "vite.config.ts"
+    },
+    {
+      "id": "ext:@tailwindcss/vite",
+      "group": 3,
+      "label": "@tailwindcss/vite"
+    },
+    {
+      "id": "ext:@vitejs/plugin-react",
+      "group": 3,
+      "label": "@vitejs/plugin-react"
+    }
+  ],
+  "links": [
+    {
+      "source": "root",
+      "target": ".env.example",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": ".github",
+      "value": 1
+    },
+    {
+      "source": ".github",
+      "target": ".github/CODEOWNERS",
+      "value": 1
+    },
+    {
+      "source": ".github",
+      "target": ".github/ISSUE_TEMPLATE",
+      "value": 1
+    },
+    {
+      "source": ".github/ISSUE_TEMPLATE",
+      "target": ".github/ISSUE_TEMPLATE/bug_report.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/ISSUE_TEMPLATE",
+      "target": ".github/ISSUE_TEMPLATE/feature_request.yml",
+      "value": 1
+    },
+    {
+      "source": ".github",
+      "target": ".github/PULL_REQUEST_TEMPLATE",
+      "value": 1
+    },
+    {
+      "source": ".github/PULL_REQUEST_TEMPLATE",
+      "target": ".github/PULL_REQUEST_TEMPLATE/pull_request_template.md",
+      "value": 1
+    },
+    {
+      "source": ".github",
+      "target": ".github/dependabot.yml",
+      "value": 1
+    },
+    {
+      "source": ".github",
+      "target": ".github/labeler.yml",
+      "value": 1
+    },
+    {
+      "source": ".github",
+      "target": ".github/workflows",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/ai-documentation-agent.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/ai-issue-triager.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/auto-assign.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/auto-fix.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/autonomous-repo-analysis.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/ci-cd-automation.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/codeql.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/continuous-improvement.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/dependency-review.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/greetings.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/labeler.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/repo-health-dashboard.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/self-updating-readme.yml",
+      "value": 1
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/stale.yml",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": ".gitignore",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": ".prettierrc",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "AGENTS.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "CODE_OF_CONDUCT.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "CONTRIBUTING.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "README.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "SECURITY.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "cycle_1_report.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "cycle_2_report.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "cycle_3_report.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "cycle_4_report.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "cycle_5_report.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "cycle_6_report.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "cycle_7_report.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "dev",
+      "value": 1
+    },
+    {
+      "source": "dev",
+      "target": "dev/plan.md",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "eslint.config.mjs",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "index.html",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "metadata.json",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "package-lock.json",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "package.json",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "scripts",
+      "value": 1
+    },
+    {
+      "source": "scripts",
+      "target": "scripts/automation",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/ai-reviewer.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/ai-reviewer.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/ai-reviewer.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/ai-reviewer.ts",
+      "target": "ext:child_process",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/ai-reviewer.ts",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/auto-fix.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/auto-fix.ts",
+      "target": "ext:child_process",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/auto-fix.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/auto-fix.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/continuous-improvement.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/continuous-improvement.ts",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/continuous-improvement.ts",
+      "target": "ext:child_process",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/continuous-improvement.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/continuous-improvement.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/generate-dashboard.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-dashboard.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-dashboard.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-dashboard.ts",
+      "target": "ext:child_process",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-dashboard.ts",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-dashboard.ts",
+      "target": "ext:dotenv",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/generate-diagrams.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-diagrams.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-diagrams.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/generate-knowledge-graph.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-knowledge-graph.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-knowledge-graph.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/generate-readme.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-readme.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/generate-readme.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/issue-triager.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/issue-triager.ts",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/issue-triager.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/issue-triager.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/repo-analyzer.ts",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/repo-analyzer.ts",
+      "target": "ext:fs",
+      "value": 1
+    },
+    {
+      "source": "scripts/automation/repo-analyzer.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "server.ts",
+      "value": 1
+    },
+    {
+      "source": "server.ts",
+      "target": "ext:express",
+      "value": 1
+    },
+    {
+      "source": "server.ts",
+      "target": "ext:vite",
+      "value": 1
+    },
+    {
+      "source": "server.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "server.ts",
+      "target": "ext:dotenv",
+      "value": 1
+    },
+    {
+      "source": "server.ts",
+      "target": "ext:multer",
+      "value": 1
+    },
+    {
+      "source": "server.ts",
+      "target": "ext:pdf-parse",
+      "value": 1
+    },
+    {
+      "source": "server.ts",
+      "target": "ext:cors",
+      "value": 1
+    },
+    {
+      "source": "server.ts",
+      "target": "ext:express-rate-limit",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "src",
+      "value": 1
+    },
+    {
+      "source": "src",
+      "target": "src/App.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/services/analysisService.ts",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/DecisionPanel.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/ErrorDisplay.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/DataIngestion.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/CompanyProfile.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/RiskScorePanel.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/FinancialMetrics.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/VerificationEngine.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/IntelligenceRow.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/RiskDimensions.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/ActionRecommendation.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/FraudFlags.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/components/CAMReport.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/constants.ts",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "ext:react-dropzone",
+      "value": 1
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "ext:motion/react",
+      "value": 1
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/lib/utils.ts",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/lib/file-utils.ts",
+      "value": 2
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/lib/gemini.ts",
+      "value": 2
+    },
+    {
+      "source": "src",
+      "target": "src/__tests__",
+      "value": 1
+    },
+    {
+      "source": "src/__tests__",
+      "target": "src/__tests__/App.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/__tests__/App.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src",
+      "target": "src/components",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/ActionRecommendation.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/ActionRecommendation.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/ActionRecommendation.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/ActionRecommendation.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/CAMReport.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/CAMReport.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/CAMReport.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/CAMReport.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components/CAMReport.tsx",
+      "target": "src/lib/export.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/CAMReport.tsx",
+      "target": "ext:react-markdown",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/CompanyProfile.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/CompanyProfile.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/CompanyProfile.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/DataIngestion.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/DataIngestion.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/DataIngestion.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components/DataIngestion.tsx",
+      "target": "ext:react-dropzone",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/DecisionPanel.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/DecisionPanel.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/DecisionPanel.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/ErrorDisplay.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/ErrorDisplay.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/ErrorDisplay.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/ErrorDisplay.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/FinancialMetrics.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/FinancialMetrics.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/FinancialMetrics.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/FiveCsAnalysis.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/FiveCsAnalysis.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/FiveCsAnalysis.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/FiveCsAnalysis.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/FraudFlags.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/FraudFlags.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/FraudFlags.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/FraudFlags.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/IndustryBenchmarking.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/IndustryBenchmarking.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/IndustryBenchmarking.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/IndustryBenchmarking.tsx",
+      "target": "src/constants.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/IntelligenceRow.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/IntelligenceRow.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components/IntelligenceRow.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/RiskDimensions.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/RiskDimensions.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/RiskDimensions.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/RiskDimensions.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/RiskScorePanel.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/RiskScorePanel.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/RiskScorePanel.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/StressTestingModule.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/StressTestingModule.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/StressTestingModule.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/VerificationEngine.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/VerificationEngine.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/VerificationEngine.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/VerificationEngine.tsx",
+      "target": "ext:lucide-react",
+      "value": 1
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/__tests__",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "target": "src/components/ActionRecommendation.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/CAMReport.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CAMReport.test.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CAMReport.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CAMReport.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CAMReport.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CAMReport.test.tsx",
+      "target": "src/components/CAMReport.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/CAMReport.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/CAMReport.test.tsx",
+      "target": "src/lib/export.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/CompanyProfile.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CompanyProfile.test.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CompanyProfile.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CompanyProfile.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/CompanyProfile.test.tsx",
+      "target": "src/components/CompanyProfile.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/CompanyProfile.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/DataIngestion.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/DataIngestion.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/DataIngestion.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/DataIngestion.test.tsx",
+      "target": "src/components/DataIngestion.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/DecisionPanel.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/DecisionPanel.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/DecisionPanel.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/DecisionPanel.test.tsx",
+      "target": "src/components/DecisionPanel.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/DecisionPanel.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "target": "src/components/ErrorDisplay.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "target": "src/components/FinancialMetrics.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "target": "src/components/FiveCsAnalysis.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/FraudFlags.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FraudFlags.test.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FraudFlags.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FraudFlags.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FraudFlags.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/FraudFlags.test.tsx",
+      "target": "src/components/FraudFlags.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/FraudFlags.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "target": "src/components/IndustryBenchmarking.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "target": "src/components/IntelligenceRow.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/RiskDimensions.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskDimensions.test.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskDimensions.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskDimensions.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskDimensions.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskDimensions.test.tsx",
+      "target": "src/components/RiskDimensions.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/RiskDimensions.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "target": "src/components/RiskScorePanel.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/StressTestingModule.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/StressTestingModule.test.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/StressTestingModule.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/StressTestingModule.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/StressTestingModule.test.tsx",
+      "target": "src/components/StressTestingModule.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/StressTestingModule.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/VerificationEngine.test.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/VerificationEngine.test.tsx",
+      "target": "ext:@testing-library/react",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/VerificationEngine.test.tsx",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/components/__tests__/VerificationEngine.test.tsx",
+      "target": "src/components/VerificationEngine.tsx",
+      "value": 2
+    },
+    {
+      "source": "src/components/__tests__/VerificationEngine.test.tsx",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src",
+      "target": "src/constants.ts",
+      "value": 1
+    },
+    {
+      "source": "src",
+      "target": "src/index.css",
+      "value": 1
+    },
+    {
+      "source": "src",
+      "target": "src/lib",
+      "value": 1
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/__tests__",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__",
+      "target": "src/lib/__tests__/export.test.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__/export.test.ts",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__/export.test.ts",
+      "target": "src/lib/export.ts",
+      "value": 2
+    },
+    {
+      "source": "src/lib/__tests__/export.test.ts",
+      "target": "ext:html-to-image",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__/export.test.ts",
+      "target": "ext:jspdf",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__/export.test.ts",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/lib/__tests__",
+      "target": "src/lib/__tests__/file-utils.test.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__/file-utils.test.ts",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__/file-utils.test.ts",
+      "target": "src/lib/file-utils.ts",
+      "value": 2
+    },
+    {
+      "source": "src/lib/__tests__",
+      "target": "src/lib/__tests__/gemini.test.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__/gemini.test.ts",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/lib/__tests__/gemini.test.ts",
+      "target": "src/lib/gemini.ts",
+      "value": 2
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/export.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib/export.ts",
+      "target": "ext:html-to-image",
+      "value": 1
+    },
+    {
+      "source": "src/lib/export.ts",
+      "target": "ext:jspdf",
+      "value": 1
+    },
+    {
+      "source": "src/lib/export.ts",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/lib/export.ts",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/file-utils.test.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib/file-utils.test.ts",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/lib/file-utils.test.ts",
+      "target": "src/lib/file-utils.ts",
+      "value": 2
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/file-utils.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/gemini-config.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib/gemini-config.ts",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/gemini.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/utils.test.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib/utils.test.ts",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/lib/utils.test.ts",
+      "target": "src/lib/utils.ts",
+      "value": 2
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/utils.ts",
+      "value": 1
+    },
+    {
+      "source": "src/lib/utils.ts",
+      "target": "ext:clsx",
+      "value": 1
+    },
+    {
+      "source": "src/lib/utils.ts",
+      "target": "ext:tailwind-merge",
+      "value": 1
+    },
+    {
+      "source": "src",
+      "target": "src/main.tsx",
+      "value": 1
+    },
+    {
+      "source": "src/main.tsx",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/main.tsx",
+      "target": "ext:react-dom/client",
+      "value": 1
+    },
+    {
+      "source": "src/main.tsx",
+      "target": "src/App.tsx",
+      "value": 2
+    },
+    {
+      "source": "src",
+      "target": "src/services",
+      "value": 1
+    },
+    {
+      "source": "src/services",
+      "target": "src/services/__tests__",
+      "value": 1
+    },
+    {
+      "source": "src/services/__tests__",
+      "target": "src/services/__tests__/analysisService.test.ts",
+      "value": 1
+    },
+    {
+      "source": "src/services/__tests__/analysisService.test.ts",
+      "target": "ext:vitest",
+      "value": 1
+    },
+    {
+      "source": "src/services/__tests__/analysisService.test.ts",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/services/__tests__/analysisService.test.ts",
+      "target": "src/lib/file-utils.ts",
+      "value": 2
+    },
+    {
+      "source": "src/services/__tests__/analysisService.test.ts",
+      "target": "src/lib/gemini.ts",
+      "value": 2
+    },
+    {
+      "source": "src/services/__tests__/analysisService.test.ts",
+      "target": "src/lib/gemini-config.ts",
+      "value": 2
+    },
+    {
+      "source": "src/services",
+      "target": "src/services/analysisService.ts",
+      "value": 1
+    },
+    {
+      "source": "src/services/analysisService.ts",
+      "target": "ext:react",
+      "value": 1
+    },
+    {
+      "source": "src/services/analysisService.ts",
+      "target": "src/constants.ts",
+      "value": 2
+    },
+    {
+      "source": "src/services/analysisService.ts",
+      "target": "src/types.ts",
+      "value": 2
+    },
+    {
+      "source": "src/services/analysisService.ts",
+      "target": "src/lib/file-utils.ts",
+      "value": 2
+    },
+    {
+      "source": "src/services/analysisService.ts",
+      "target": "src/lib/gemini.ts",
+      "value": 2
+    },
+    {
+      "source": "src/services/analysisService.ts",
+      "target": "ext:@google/genai",
+      "value": 1
+    },
+    {
+      "source": "src",
+      "target": "src/types.ts",
+      "value": 1
+    },
+    {
+      "source": "src",
+      "target": "src/vite-env.d.ts",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "test-pdf.ts",
+      "value": 1
+    },
+    {
+      "source": "test-pdf.ts",
+      "target": "ext:module",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "test-pdf2.ts",
+      "value": 1
+    },
+    {
+      "source": "test-pdf2.ts",
+      "target": "ext:module",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "tsconfig.json",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "vercel.json",
+      "value": 1
+    },
+    {
+      "source": "root",
+      "target": "vite.config.ts",
+      "value": 1
+    },
+    {
+      "source": "vite.config.ts",
+      "target": "ext:@tailwindcss/vite",
+      "value": 1
+    },
+    {
+      "source": "vite.config.ts",
+      "target": "ext:@vitejs/plugin-react",
+      "value": 1
+    },
+    {
+      "source": "vite.config.ts",
+      "target": "ext:path",
+      "value": 1
+    },
+    {
+      "source": "vite.config.ts",
+      "target": "ext:vite",
+      "value": 1
+    }
+  ]
+}
