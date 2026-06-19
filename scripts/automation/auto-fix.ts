@@ -1,12 +1,12 @@
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-const executeCommand = (command: string, description: string) => {
-  console.log(`\n⏳ Running: ${description}`);
+const executeCommand = (executable: string, args: string[], description: string) => {
+  console.info(`\n⏳ Running: ${description}`);
   try {
-    const output = execSync(command, { encoding: 'utf8', stdio: 'inherit' });
-    console.log(`✅ Success: ${description}`);
+    execFileSync(executable, args, { encoding: 'utf8', stdio: 'inherit' });
+    console.info(`✅ Success: ${description}`);
     return true;
   } catch (error) {
     console.error(`❌ Failed: ${description}`);
@@ -18,7 +18,7 @@ const executeCommand = (command: string, description: string) => {
 };
 
 const main = () => {
-  console.log('🛠️ Starting Autonomous Repository Self-Healing Process...\n');
+  console.info('🛠️ Starting Autonomous Repository Self-Healing Process...\n');
 
   const results = [];
 
@@ -31,9 +31,9 @@ const main = () => {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     if (allDeps['eslint']) {
-      results.push(executeCommand('npm run lint:fix', 'Auto-fixing linting issues'));
+      results.push(executeCommand('npm', ['run', 'lint:fix'], 'Auto-fixing linting issues'));
     } else {
-      console.log('⏭️ ESLint not found, skipping lint:fix step.');
+      console.info('⏭️ ESLint not found, skipping lint:fix step.');
     }
   }
 
@@ -42,20 +42,22 @@ const main = () => {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     if (allDeps['prettier']) {
-      results.push(executeCommand('npx prettier --write .', 'Formatting code with Prettier'));
+      results.push(
+        executeCommand('npx', ['prettier', '--write', '.'], 'Formatting code with Prettier'),
+      );
     } else {
-      console.log('⏭️ Prettier not found in dependencies, skipping formatting step.');
+      console.info('⏭️ Prettier not found in dependencies, skipping formatting step.');
     }
   }
 
   // 3. Security Audits
-  results.push(executeCommand('npm audit fix', 'Auto-fixing security vulnerabilities'));
+  results.push(executeCommand('npm', ['audit', 'fix'], 'Auto-fixing security vulnerabilities'));
 
   // 4. Update dependencies (minor/patch only)
-  console.log('\n💡 Note: For major dependency updates, Dependabot PRs are recommended.');
+  console.info('\n💡 Note: For major dependency updates, Dependabot PRs are recommended.');
 
   const successCount = results.filter(Boolean).length;
-  console.log(`\n🎉 Self-Healing Complete. ${successCount}/${results.length} tasks succeeded.`);
+  console.info(`\n🎉 Self-Healing Complete. ${successCount}/${results.length} tasks succeeded.`);
 };
 
 main();

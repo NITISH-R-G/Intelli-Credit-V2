@@ -1,0 +1,1731 @@
+{
+  "nodes": [
+    {
+      "id": "root",
+      "label": "Repository Root",
+      "type": "module"
+    },
+    {
+      "id": ".env.example",
+      "label": ".env.example",
+      "type": "file"
+    },
+    {
+      "id": ".github",
+      "label": ".github",
+      "type": "module"
+    },
+    {
+      "id": ".github/CODEOWNERS",
+      "label": "CODEOWNERS",
+      "type": "file"
+    },
+    {
+      "id": ".github/ISSUE_TEMPLATE",
+      "label": "ISSUE_TEMPLATE",
+      "type": "module"
+    },
+    {
+      "id": ".github/ISSUE_TEMPLATE/bug_report.yml",
+      "label": "bug_report.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/ISSUE_TEMPLATE/feature_request.yml",
+      "label": "feature_request.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/PULL_REQUEST_TEMPLATE",
+      "label": "PULL_REQUEST_TEMPLATE",
+      "type": "module"
+    },
+    {
+      "id": ".github/PULL_REQUEST_TEMPLATE/pull_request_template.md",
+      "label": "pull_request_template.md",
+      "type": "file"
+    },
+    {
+      "id": ".github/dependabot.yml",
+      "label": "dependabot.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/labeler.yml",
+      "label": "labeler.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows",
+      "label": "workflows",
+      "type": "module"
+    },
+    {
+      "id": ".github/workflows/ai-documentation-agent.yml",
+      "label": "ai-documentation-agent.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/ai-issue-triager.yml",
+      "label": "ai-issue-triager.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/auto-assign.yml",
+      "label": "auto-assign.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/auto-fix.yml",
+      "label": "auto-fix.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/autonomous-repo-analysis.yml",
+      "label": "autonomous-repo-analysis.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/ci-cd-automation.yml",
+      "label": "ci-cd-automation.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/codeql.yml",
+      "label": "codeql.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/continuous-improvement.yml",
+      "label": "continuous-improvement.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/dependency-review.yml",
+      "label": "dependency-review.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/greetings.yml",
+      "label": "greetings.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/labeler.yml",
+      "label": "labeler.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/repo-health-dashboard.yml",
+      "label": "repo-health-dashboard.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/self-updating-readme.yml",
+      "label": "self-updating-readme.yml",
+      "type": "file"
+    },
+    {
+      "id": ".github/workflows/stale.yml",
+      "label": "stale.yml",
+      "type": "file"
+    },
+    {
+      "id": ".gitignore",
+      "label": ".gitignore",
+      "type": "file"
+    },
+    {
+      "id": ".prettierrc",
+      "label": ".prettierrc",
+      "type": "file"
+    },
+    {
+      "id": "AGENTS.md",
+      "label": "AGENTS.md",
+      "type": "file"
+    },
+    {
+      "id": "CODE_OF_CONDUCT.md",
+      "label": "CODE_OF_CONDUCT.md",
+      "type": "file"
+    },
+    {
+      "id": "CONTRIBUTING.md",
+      "label": "CONTRIBUTING.md",
+      "type": "file"
+    },
+    {
+      "id": "README.md",
+      "label": "README.md",
+      "type": "file"
+    },
+    {
+      "id": "SECURITY.md",
+      "label": "SECURITY.md",
+      "type": "file"
+    },
+    {
+      "id": "cycle_1_report.md",
+      "label": "cycle_1_report.md",
+      "type": "file"
+    },
+    {
+      "id": "cycle_2_report.md",
+      "label": "cycle_2_report.md",
+      "type": "file"
+    },
+    {
+      "id": "cycle_3_report.md",
+      "label": "cycle_3_report.md",
+      "type": "file"
+    },
+    {
+      "id": "cycle_4_report.md",
+      "label": "cycle_4_report.md",
+      "type": "file"
+    },
+    {
+      "id": "cycle_5_report.md",
+      "label": "cycle_5_report.md",
+      "type": "file"
+    },
+    {
+      "id": "cycle_6_report.md",
+      "label": "cycle_6_report.md",
+      "type": "file"
+    },
+    {
+      "id": "cycle_7_report.md",
+      "label": "cycle_7_report.md",
+      "type": "file"
+    },
+    {
+      "id": "dev",
+      "label": "dev",
+      "type": "module"
+    },
+    {
+      "id": "dev/plan.md",
+      "label": "plan.md",
+      "type": "file"
+    },
+    {
+      "id": "docs",
+      "label": "docs",
+      "type": "module"
+    },
+    {
+      "id": "docs/architecture",
+      "label": "architecture",
+      "type": "module"
+    },
+    {
+      "id": "docs/architecture/SERVICE_MAP.md",
+      "label": "SERVICE_MAP.md",
+      "type": "file"
+    },
+    {
+      "id": "docs/architecture/dependency-graph.md",
+      "label": "dependency-graph.md",
+      "type": "file"
+    },
+    {
+      "id": "docs/dashboard.html",
+      "label": "dashboard.html",
+      "type": "file"
+    },
+    {
+      "id": "eslint.config.mjs",
+      "label": "eslint.config.mjs",
+      "type": "file"
+    },
+    {
+      "id": "index.html",
+      "label": "index.html",
+      "type": "file"
+    },
+    {
+      "id": "metadata.json",
+      "label": "metadata.json",
+      "type": "file"
+    },
+    {
+      "id": "package-lock.json",
+      "label": "package-lock.json",
+      "type": "file"
+    },
+    {
+      "id": "package.json",
+      "label": "package.json",
+      "type": "file"
+    },
+    {
+      "id": "scripts",
+      "label": "scripts",
+      "type": "module"
+    },
+    {
+      "id": "scripts/automation",
+      "label": "automation",
+      "type": "module"
+    },
+    {
+      "id": "scripts/automation/ai-improve.ts",
+      "label": "ai-improve.ts",
+      "type": "file"
+    },
+    {
+      "id": "scripts/automation/ai-reviewer.ts",
+      "label": "ai-reviewer.ts",
+      "type": "file"
+    },
+    {
+      "id": "scripts/automation/ai-triage.ts",
+      "label": "ai-triage.ts",
+      "type": "file"
+    },
+    {
+      "id": "scripts/automation/auto-fix.ts",
+      "label": "auto-fix.ts",
+      "type": "file"
+    },
+    {
+      "id": "scripts/automation/generate-dashboard.ts",
+      "label": "generate-dashboard.ts",
+      "type": "file"
+    },
+    {
+      "id": "scripts/automation/generate-diagrams.ts",
+      "label": "generate-diagrams.ts",
+      "type": "file"
+    },
+    {
+      "id": "scripts/automation/generate-knowledge-graph.ts",
+      "label": "generate-knowledge-graph.ts",
+      "type": "file"
+    },
+    {
+      "id": "scripts/automation/generate-readme.ts",
+      "label": "generate-readme.ts",
+      "type": "file"
+    },
+    {
+      "id": "scripts/automation/repo-analyzer.ts",
+      "label": "repo-analyzer.ts",
+      "type": "file"
+    },
+    {
+      "id": "server.ts",
+      "label": "server.ts",
+      "type": "file"
+    },
+    {
+      "id": "src",
+      "label": "src",
+      "type": "module"
+    },
+    {
+      "id": "src/App.tsx",
+      "label": "App.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/__tests__",
+      "label": "__tests__",
+      "type": "module"
+    },
+    {
+      "id": "src/__tests__/App.test.tsx",
+      "label": "App.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components",
+      "label": "components",
+      "type": "module"
+    },
+    {
+      "id": "src/components/ActionRecommendation.tsx",
+      "label": "ActionRecommendation.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/CAMReport.tsx",
+      "label": "CAMReport.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/CompanyProfile.tsx",
+      "label": "CompanyProfile.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/DataIngestion.tsx",
+      "label": "DataIngestion.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/DecisionPanel.tsx",
+      "label": "DecisionPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/ErrorDisplay.tsx",
+      "label": "ErrorDisplay.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/FinancialMetrics.tsx",
+      "label": "FinancialMetrics.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/FiveCsAnalysis.tsx",
+      "label": "FiveCsAnalysis.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/FraudFlags.tsx",
+      "label": "FraudFlags.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/IndustryBenchmarking.tsx",
+      "label": "IndustryBenchmarking.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/IndustryBenchmarkingPanel.tsx",
+      "label": "IndustryBenchmarkingPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/IntelligenceRow.tsx",
+      "label": "IntelligenceRow.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/LoanRecommendationPanel.tsx",
+      "label": "LoanRecommendationPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/RiskDimensions.tsx",
+      "label": "RiskDimensions.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/RiskScorePanel.tsx",
+      "label": "RiskScorePanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/StressTestingModule.tsx",
+      "label": "StressTestingModule.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/StressTestingPanel.tsx",
+      "label": "StressTestingPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/VerificationEngine.tsx",
+      "label": "VerificationEngine.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__",
+      "label": "__tests__",
+      "type": "module"
+    },
+    {
+      "id": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "label": "ActionRecommendation.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/CAMReport.test.tsx",
+      "label": "CAMReport.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/CompanyProfile.test.tsx",
+      "label": "CompanyProfile.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/DataIngestion.test.tsx",
+      "label": "DataIngestion.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/DecisionPanel.test.tsx",
+      "label": "DecisionPanel.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "label": "ErrorDisplay.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "label": "FinancialMetrics.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "label": "FiveCsAnalysis.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/FraudFlags.test.tsx",
+      "label": "FraudFlags.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "label": "IndustryBenchmarking.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "label": "IntelligenceRow.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/RiskDimensions.test.tsx",
+      "label": "RiskDimensions.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "label": "RiskScorePanel.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/StressTestingModule.test.tsx",
+      "label": "StressTestingModule.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/VerificationEngine.test.tsx",
+      "label": "VerificationEngine.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/constants.ts",
+      "label": "constants.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/index.css",
+      "label": "index.css",
+      "type": "file"
+    },
+    {
+      "id": "src/lib",
+      "label": "lib",
+      "type": "module"
+    },
+    {
+      "id": "src/lib/__tests__",
+      "label": "__tests__",
+      "type": "module"
+    },
+    {
+      "id": "src/lib/__tests__/export.test.ts",
+      "label": "export.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/__tests__/file-utils.test.ts",
+      "label": "file-utils.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/__tests__/gemini.test.ts",
+      "label": "gemini.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/export.ts",
+      "label": "export.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/file-utils.test.ts",
+      "label": "file-utils.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/file-utils.ts",
+      "label": "file-utils.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/gemini-config.ts",
+      "label": "gemini-config.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/gemini.ts",
+      "label": "gemini.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/utils.test.ts",
+      "label": "utils.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/utils.ts",
+      "label": "utils.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/main.tsx",
+      "label": "main.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/services",
+      "label": "services",
+      "type": "module"
+    },
+    {
+      "id": "src/services/__tests__",
+      "label": "__tests__",
+      "type": "module"
+    },
+    {
+      "id": "src/services/__tests__/analysisService.test.ts",
+      "label": "analysisService.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/services/analysisService.ts",
+      "label": "analysisService.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/types.ts",
+      "label": "types.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/vite-env.d.ts",
+      "label": "vite-env.d.ts",
+      "type": "file"
+    },
+    {
+      "id": "test-pdf.ts",
+      "label": "test-pdf.ts",
+      "type": "file"
+    },
+    {
+      "id": "test-pdf2.ts",
+      "label": "test-pdf2.ts",
+      "type": "file"
+    },
+    {
+      "id": "tsconfig.json",
+      "label": "tsconfig.json",
+      "type": "file"
+    },
+    {
+      "id": "vercel.json",
+      "label": "vercel.json",
+      "type": "file"
+    },
+    {
+      "id": "vite.config.ts",
+      "label": "vite.config.ts",
+      "type": "file"
+    },
+    {
+      "id": "dep_@google/genai",
+      "label": "@google/genai",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@tailwindcss/typography",
+      "label": "@tailwindcss/typography",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@tailwindcss/vite",
+      "label": "@tailwindcss/vite",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@vitejs/plugin-react",
+      "label": "@vitejs/plugin-react",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_clsx",
+      "label": "clsx",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_cors",
+      "label": "cors",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_dotenv",
+      "label": "dotenv",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_express",
+      "label": "express",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_express-rate-limit",
+      "label": "express-rate-limit",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_html-to-image",
+      "label": "html-to-image",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_html2canvas",
+      "label": "html2canvas",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_jspdf",
+      "label": "jspdf",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_lucide-react",
+      "label": "lucide-react",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_motion",
+      "label": "motion",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_multer",
+      "label": "multer",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_pdf-parse",
+      "label": "pdf-parse",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_react",
+      "label": "react",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_react-dom",
+      "label": "react-dom",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_react-dropzone",
+      "label": "react-dropzone",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_react-markdown",
+      "label": "react-markdown",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_recharts",
+      "label": "recharts",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_tailwind-merge",
+      "label": "tailwind-merge",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_vite",
+      "label": "vite",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@testing-library/jest-dom",
+      "label": "@testing-library/jest-dom",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@testing-library/react",
+      "label": "@testing-library/react",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@types/cors",
+      "label": "@types/cors",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@types/express",
+      "label": "@types/express",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@types/express-rate-limit",
+      "label": "@types/express-rate-limit",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@types/multer",
+      "label": "@types/multer",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@types/node",
+      "label": "@types/node",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@types/pdf-parse",
+      "label": "@types/pdf-parse",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@typescript-eslint/eslint-plugin",
+      "label": "@typescript-eslint/eslint-plugin",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@typescript-eslint/parser",
+      "label": "@typescript-eslint/parser",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_@vitest/coverage-v8",
+      "label": "@vitest/coverage-v8",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_autoprefixer",
+      "label": "autoprefixer",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_eslint",
+      "label": "eslint",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_eslint-plugin-react",
+      "label": "eslint-plugin-react",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_jsdom",
+      "label": "jsdom",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_prettier",
+      "label": "prettier",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_tailwindcss",
+      "label": "tailwindcss",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_tsx",
+      "label": "tsx",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_typescript",
+      "label": "typescript",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_typescript-eslint",
+      "label": "typescript-eslint",
+      "type": "dependency"
+    },
+    {
+      "id": "dep_vitest",
+      "label": "vitest",
+      "type": "dependency"
+    }
+  ],
+  "edges": [
+    {
+      "source": "root",
+      "target": ".env.example",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": ".github",
+      "type": "contains"
+    },
+    {
+      "source": ".github",
+      "target": ".github/CODEOWNERS",
+      "type": "contains"
+    },
+    {
+      "source": ".github",
+      "target": ".github/ISSUE_TEMPLATE",
+      "type": "contains"
+    },
+    {
+      "source": ".github/ISSUE_TEMPLATE",
+      "target": ".github/ISSUE_TEMPLATE/bug_report.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/ISSUE_TEMPLATE",
+      "target": ".github/ISSUE_TEMPLATE/feature_request.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github",
+      "target": ".github/PULL_REQUEST_TEMPLATE",
+      "type": "contains"
+    },
+    {
+      "source": ".github/PULL_REQUEST_TEMPLATE",
+      "target": ".github/PULL_REQUEST_TEMPLATE/pull_request_template.md",
+      "type": "contains"
+    },
+    {
+      "source": ".github",
+      "target": ".github/dependabot.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github",
+      "target": ".github/labeler.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github",
+      "target": ".github/workflows",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/ai-documentation-agent.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/ai-issue-triager.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/auto-assign.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/auto-fix.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/autonomous-repo-analysis.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/ci-cd-automation.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/codeql.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/continuous-improvement.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/dependency-review.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/greetings.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/labeler.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/repo-health-dashboard.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/self-updating-readme.yml",
+      "type": "contains"
+    },
+    {
+      "source": ".github/workflows",
+      "target": ".github/workflows/stale.yml",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": ".gitignore",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": ".prettierrc",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "AGENTS.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "CODE_OF_CONDUCT.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "CONTRIBUTING.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "README.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "SECURITY.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "cycle_1_report.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "cycle_2_report.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "cycle_3_report.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "cycle_4_report.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "cycle_5_report.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "cycle_6_report.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "cycle_7_report.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "dev",
+      "type": "contains"
+    },
+    {
+      "source": "dev",
+      "target": "dev/plan.md",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "docs",
+      "type": "contains"
+    },
+    {
+      "source": "docs",
+      "target": "docs/architecture",
+      "type": "contains"
+    },
+    {
+      "source": "docs/architecture",
+      "target": "docs/architecture/SERVICE_MAP.md",
+      "type": "contains"
+    },
+    {
+      "source": "docs/architecture",
+      "target": "docs/architecture/dependency-graph.md",
+      "type": "contains"
+    },
+    {
+      "source": "docs",
+      "target": "docs/dashboard.html",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "eslint.config.mjs",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "index.html",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "metadata.json",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "package-lock.json",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "package.json",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "scripts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts",
+      "target": "scripts/automation",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/ai-improve.ts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/ai-reviewer.ts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/ai-triage.ts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/auto-fix.ts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/generate-dashboard.ts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/generate-diagrams.ts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/generate-knowledge-graph.ts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/generate-readme.ts",
+      "type": "contains"
+    },
+    {
+      "source": "scripts/automation",
+      "target": "scripts/automation/repo-analyzer.ts",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "server.ts",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "src",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/App.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/__tests__",
+      "type": "contains"
+    },
+    {
+      "source": "src/__tests__",
+      "target": "src/__tests__/App.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/components",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/ActionRecommendation.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/CAMReport.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/CompanyProfile.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/DataIngestion.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/DecisionPanel.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/ErrorDisplay.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/FinancialMetrics.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/FiveCsAnalysis.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/FraudFlags.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/IndustryBenchmarking.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/IndustryBenchmarkingPanel.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/IntelligenceRow.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/LoanRecommendationPanel.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/RiskDimensions.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/RiskScorePanel.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/StressTestingModule.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/StressTestingPanel.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/VerificationEngine.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components",
+      "target": "src/components/__tests__",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/CAMReport.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/CompanyProfile.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/DataIngestion.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/DecisionPanel.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/FraudFlags.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/RiskDimensions.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/StressTestingModule.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src/components/__tests__",
+      "target": "src/components/__tests__/VerificationEngine.test.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/constants.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/index.css",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/lib",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/__tests__",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib/__tests__",
+      "target": "src/lib/__tests__/export.test.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib/__tests__",
+      "target": "src/lib/__tests__/file-utils.test.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib/__tests__",
+      "target": "src/lib/__tests__/gemini.test.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/export.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/file-utils.test.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/file-utils.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/gemini-config.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/gemini.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/utils.test.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/lib",
+      "target": "src/lib/utils.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/main.tsx",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/services",
+      "type": "contains"
+    },
+    {
+      "source": "src/services",
+      "target": "src/services/__tests__",
+      "type": "contains"
+    },
+    {
+      "source": "src/services/__tests__",
+      "target": "src/services/__tests__/analysisService.test.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src/services",
+      "target": "src/services/analysisService.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/types.ts",
+      "type": "contains"
+    },
+    {
+      "source": "src",
+      "target": "src/vite-env.d.ts",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "test-pdf.ts",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "test-pdf2.ts",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "tsconfig.json",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "vercel.json",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "vite.config.ts",
+      "type": "contains"
+    },
+    {
+      "source": "root",
+      "target": "dep_@google/genai",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@tailwindcss/typography",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@tailwindcss/vite",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@vitejs/plugin-react",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_clsx",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_cors",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_dotenv",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_express",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_express-rate-limit",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_html-to-image",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_html2canvas",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_jspdf",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_lucide-react",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_motion",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_multer",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_pdf-parse",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_react",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_react-dom",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_react-dropzone",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_react-markdown",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_recharts",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_tailwind-merge",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_vite",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@testing-library/jest-dom",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@testing-library/react",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@types/cors",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@types/express",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@types/express-rate-limit",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@types/multer",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@types/node",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@types/pdf-parse",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@typescript-eslint/eslint-plugin",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@typescript-eslint/parser",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_@vitest/coverage-v8",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_autoprefixer",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_eslint",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_eslint-plugin-react",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_jsdom",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_prettier",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_tailwindcss",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_tsx",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_typescript",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_typescript-eslint",
+      "type": "depends_on"
+    },
+    {
+      "source": "root",
+      "target": "dep_vitest",
+      "type": "depends_on"
+    }
+  ]
+}

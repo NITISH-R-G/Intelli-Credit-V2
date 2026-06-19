@@ -1,0 +1,43 @@
+name: Continuous Improvement Loop
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # Run daily at 3 AM
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Continuous Improvement Loop
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:improve
+        continue-on-error: true
+
+      - name: Commit Improvement Report
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/improvements/ latest-improvement-report.md || true
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "docs(ai): Continuous Improvement Report generated [skip ci]"
+            git push
+          fi

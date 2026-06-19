@@ -32,7 +32,7 @@ const getBadges = () => {
 };
 
 const main = () => {
-  console.log('Generating Comprehensive README.md...');
+  console.info('Generating Comprehensive README.md...');
 
   const metadataPath = path.resolve(process.cwd(), 'metadata.json');
   let metadata: any = {};
@@ -126,7 +126,7 @@ ${autoGenEnd}`;
   }
 
   fs.writeFileSync(existingReadmePath, newReadme);
-  console.log('Comprehensive README.md updated successfully.');
+  console.info('Comprehensive README.md updated successfully.');
 };
 
 main();
