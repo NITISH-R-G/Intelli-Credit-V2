@@ -72,7 +72,12 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -122,8 +127,10 @@
     },
     "docs": {
       "architecture": {
+        "KNOWLEDGE_GRAPH.md": "file",
         "SERVICE_MAP.md": "file",
-        "dependency-graph.md": "file"
+        "dependency-graph.md": "file",
+        "knowledge-graph.json": "file"
       },
       "dashboard.html": "file"
     },
