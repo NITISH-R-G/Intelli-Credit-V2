@@ -8,7 +8,6 @@ import { RiskScorePanel } from './components/RiskScorePanel';
 import { StressTestingPanel } from './components/StressTestingPanel';
 import { IndustryBenchmarkingPanel } from './components/IndustryBenchmarkingPanel';
 import { LoanRecommendationPanel } from './components/LoanRecommendationPanel';
-import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { FinancialMetrics } from './components/FinancialMetrics';
 import { VerificationEngine } from './components/VerificationEngine';
 import { IntelligenceRow } from './components/IntelligenceRow';
@@ -218,7 +217,9 @@ export default function App() {
             />
 
             <IndustryBenchmarkingPanel analysis={analysis} />
-              {/* Decision Panel */}
+
+            {/* Top Row Part 2: Decision Panel */}
+            <div className="lg:col-span-12 grid grid-cols-1 gap-2">
               <DecisionPanel displayAnalysis={displayAnalysis!} />
             </div>
 
