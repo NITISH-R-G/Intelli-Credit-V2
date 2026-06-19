@@ -1,0 +1,179 @@
+# Repository Knowledge Graph
+
+## Modules and Files
+
+- **root** contains `.env.example`
+- **root** contains `.github`
+- **.github** contains `.github/CODEOWNERS`
+- **.github** contains `.github/ISSUE_TEMPLATE`
+- **.github/ISSUE_TEMPLATE** contains `.github/ISSUE_TEMPLATE/bug_report.yml`
+- **.github/ISSUE_TEMPLATE** contains `.github/ISSUE_TEMPLATE/feature_request.yml`
+- **.github** contains `.github/PULL_REQUEST_TEMPLATE`
+- **.github/PULL_REQUEST_TEMPLATE** contains `.github/PULL_REQUEST_TEMPLATE/pull_request_template.md`
+- **.github** contains `.github/dependabot.yml`
+- **.github** contains `.github/labeler.yml`
+- **.github** contains `.github/workflows`
+- **.github/workflows** contains `.github/workflows/ai-documentation-agent.yml`
+- **.github/workflows** contains `.github/workflows/ai-issue-triager.yml`
+- **.github/workflows** contains `.github/workflows/auto-assign.yml`
+- **.github/workflows** contains `.github/workflows/auto-fix.yml`
+- **.github/workflows** contains `.github/workflows/autonomous-repo-analysis.yml`
+- **.github/workflows** contains `.github/workflows/ci-cd-automation.yml`
+- **.github/workflows** contains `.github/workflows/codeql.yml`
+- **.github/workflows** contains `.github/workflows/continuous-improvement.yml`
+- **.github/workflows** contains `.github/workflows/dependency-review.yml`
+- **.github/workflows** contains `.github/workflows/greetings.yml`
+- **.github/workflows** contains `.github/workflows/labeler.yml`
+- **.github/workflows** contains `.github/workflows/repo-health-dashboard.yml`
+- **.github/workflows** contains `.github/workflows/self-updating-readme.yml`
+- **.github/workflows** contains `.github/workflows/stale.yml`
+- **root** contains `.gitignore`
+- **root** contains `.prettierrc`
+- **root** contains `AGENTS.md`
+- **root** contains `CODE_OF_CONDUCT.md`
+- **root** contains `CONTRIBUTING.md`
+- **root** contains `README.md`
+- **root** contains `SECURITY.md`
+- **root** contains `cycle_1_report.md`
+- **root** contains `cycle_2_report.md`
+- **root** contains `cycle_3_report.md`
+- **root** contains `cycle_4_report.md`
+- **root** contains `cycle_5_report.md`
+- **root** contains `cycle_6_report.md`
+- **root** contains `cycle_7_report.md`
+- **root** contains `dev`
+- **dev** contains `dev/plan.md`
+- **root** contains `docs`
+- **docs** contains `docs/architecture`
+- **docs/architecture** contains `docs/architecture/SERVICE_MAP.md`
+- **docs/architecture** contains `docs/architecture/dependency-graph.md`
+- **docs** contains `docs/dashboard.html`
+- **root** contains `eslint.config.mjs`
+- **root** contains `index.html`
+- **root** contains `metadata.json`
+- **root** contains `package-lock.json`
+- **root** contains `package.json`
+- **root** contains `scripts`
+- **scripts** contains `scripts/automation`
+- **scripts/automation** contains `scripts/automation/ai-improve.ts`
+- **scripts/automation** contains `scripts/automation/ai-reviewer.ts`
+- **scripts/automation** contains `scripts/automation/ai-triage.ts`
+- **scripts/automation** contains `scripts/automation/auto-fix.ts`
+- **scripts/automation** contains `scripts/automation/generate-dashboard.ts`
+- **scripts/automation** contains `scripts/automation/generate-diagrams.ts`
+- **scripts/automation** contains `scripts/automation/generate-knowledge-graph.ts`
+- **scripts/automation** contains `scripts/automation/generate-readme.ts`
+- **scripts/automation** contains `scripts/automation/repo-analyzer.ts`
+- **root** contains `server.ts`
+- **root** contains `src`
+- **src** contains `src/App.tsx`
+- **src** contains `src/__tests__`
+- **src/**tests**** contains `src/__tests__/App.test.tsx`
+- **src** contains `src/components`
+- **src/components** contains `src/components/ActionRecommendation.tsx`
+- **src/components** contains `src/components/CAMReport.tsx`
+- **src/components** contains `src/components/CompanyProfile.tsx`
+- **src/components** contains `src/components/DataIngestion.tsx`
+- **src/components** contains `src/components/DecisionPanel.tsx`
+- **src/components** contains `src/components/ErrorDisplay.tsx`
+- **src/components** contains `src/components/FinancialMetrics.tsx`
+- **src/components** contains `src/components/FiveCsAnalysis.tsx`
+- **src/components** contains `src/components/FraudFlags.tsx`
+- **src/components** contains `src/components/IndustryBenchmarking.tsx`
+- **src/components** contains `src/components/IndustryBenchmarkingPanel.tsx`
+- **src/components** contains `src/components/IntelligenceRow.tsx`
+- **src/components** contains `src/components/LoanRecommendationPanel.tsx`
+- **src/components** contains `src/components/RiskDimensions.tsx`
+- **src/components** contains `src/components/RiskScorePanel.tsx`
+- **src/components** contains `src/components/StressTestingModule.tsx`
+- **src/components** contains `src/components/StressTestingPanel.tsx`
+- **src/components** contains `src/components/VerificationEngine.tsx`
+- **src/components** contains `src/components/__tests__`
+- **src/components/**tests**** contains `src/components/__tests__/ActionRecommendation.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/CAMReport.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/CompanyProfile.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/DataIngestion.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/DecisionPanel.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/ErrorDisplay.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/FinancialMetrics.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/FiveCsAnalysis.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/FraudFlags.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/IndustryBenchmarking.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/IntelligenceRow.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/RiskDimensions.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/RiskScorePanel.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/StressTestingModule.test.tsx`
+- **src/components/**tests**** contains `src/components/__tests__/VerificationEngine.test.tsx`
+- **src** contains `src/constants.ts`
+- **src** contains `src/index.css`
+- **src** contains `src/lib`
+- **src/lib** contains `src/lib/__tests__`
+- **src/lib/**tests**** contains `src/lib/__tests__/export.test.ts`
+- **src/lib/**tests**** contains `src/lib/__tests__/file-utils.test.ts`
+- **src/lib/**tests**** contains `src/lib/__tests__/gemini.test.ts`
+- **src/lib** contains `src/lib/export.ts`
+- **src/lib** contains `src/lib/file-utils.test.ts`
+- **src/lib** contains `src/lib/file-utils.ts`
+- **src/lib** contains `src/lib/gemini-config.ts`
+- **src/lib** contains `src/lib/gemini.ts`
+- **src/lib** contains `src/lib/utils.test.ts`
+- **src/lib** contains `src/lib/utils.ts`
+- **src** contains `src/main.tsx`
+- **src** contains `src/services`
+- **src/services** contains `src/services/__tests__`
+- **src/services/**tests**** contains `src/services/__tests__/analysisService.test.ts`
+- **src/services** contains `src/services/analysisService.ts`
+- **src** contains `src/types.ts`
+- **src** contains `src/vite-env.d.ts`
+- **root** contains `test-pdf.ts`
+- **root** contains `test-pdf2.ts`
+- **root** contains `tsconfig.json`
+- **root** contains `vercel.json`
+- **root** contains `vite.config.ts`
+
+## Dependencies
+
+- **root** depends on `@google/genai`
+- **root** depends on `@tailwindcss/typography`
+- **root** depends on `@tailwindcss/vite`
+- **root** depends on `@vitejs/plugin-react`
+- **root** depends on `clsx`
+- **root** depends on `cors`
+- **root** depends on `dotenv`
+- **root** depends on `express`
+- **root** depends on `express-rate-limit`
+- **root** depends on `html-to-image`
+- **root** depends on `html2canvas`
+- **root** depends on `jspdf`
+- **root** depends on `lucide-react`
+- **root** depends on `motion`
+- **root** depends on `multer`
+- **root** depends on `pdf-parse`
+- **root** depends on `react`
+- **root** depends on `react-dom`
+- **root** depends on `react-dropzone`
+- **root** depends on `react-markdown`
+- **root** depends on `recharts`
+- **root** depends on `tailwind-merge`
+- **root** depends on `vite`
+- **root** depends on `@testing-library/jest-dom`
+- **root** depends on `@testing-library/react`
+- **root** depends on `@types/cors`
+- **root** depends on `@types/express`
+- **root** depends on `@types/express-rate-limit`
+- **root** depends on `@types/multer`
+- **root** depends on `@types/node`
+- **root** depends on `@types/pdf-parse`
+- **root** depends on `@typescript-eslint/eslint-plugin`
+- **root** depends on `@typescript-eslint/parser`
+- **root** depends on `@vitest/coverage-v8`
+- **root** depends on `autoprefixer`
+- **root** depends on `eslint`
+- **root** depends on `eslint-plugin-react`
+- **root** depends on `jsdom`
+- **root** depends on `prettier`
+- **root** depends on `tailwindcss`
+- **root** depends on `tsx`
+- **root** depends on `typescript`
+- **root** depends on `typescript-eslint`
+- **root** depends on `vitest`
