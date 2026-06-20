@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import { GoogleGenAI } from '@google/genai';
 import * as dotenv from 'dotenv';
 
@@ -10,21 +10,27 @@ dotenv.config();
 
 function getGitStats() {
   try {
-    const commitCount = parseInt(execSync('git rev-list --count HEAD').toString().trim());
-    const authorCount = parseInt(
-      execSync('git log --format="%aN" | sort -u | wc -l').toString().trim(),
-    );
+    const commitCountStr = execFileSync('git', ['rev-list', '--count', 'HEAD']).toString().trim();
+    const commitCount = parseInt(commitCountStr);
+
+    const authorsStr = execFileSync('git', ['log', '--format=%aN']).toString().trim();
+    const authors = authorsStr.split('\n').filter(Boolean);
+    const authorCount = new Set(authors).size;
 
     // Simulating some stats since a full git history might not be available or too complex to parse here
-    const recentCommits = parseInt(
-      execSync('git log --since="1 week ago" --oneline | wc -l').toString().trim(),
-    );
+    const recentCommitsStr = execFileSync('git', ['log', '--since=1 week ago', '--oneline'])
+      .toString()
+      .trim();
+    const recentCommits = recentCommitsStr ? recentCommitsStr.split('\n').length : 0;
+
+    const branchesStr = execFileSync('git', ['branch', '-r']).toString().trim();
+    const branchCount = branchesStr ? branchesStr.split('\n').length : 1;
 
     return {
       commitCount,
       authorCount,
       recentCommits,
-      branchCount: parseInt(execSync('git branch -r | wc -l').toString().trim()) || 1,
+      branchCount,
     };
   } catch (e) {
     console.error('Error getting git stats', e);
@@ -35,9 +41,20 @@ function getGitStats() {
 function getFileStats() {
   try {
     // Exclude node_modules, dist, .git
-    const files = execSync(
-      'find . -type f -not -path "*/node_modules/*" -not -path "*/dist/*" -not -path "*/.git/*"',
-    )
+    const files = execFileSync('find', [
+      '.',
+      '-type',
+      'f',
+      '-not',
+      '-path',
+      '*/node_modules/*',
+      '-not',
+      '-path',
+      '*/dist/*',
+      '-not',
+      '-path',
+      '*/.git/*',
+    ])
       .toString()
       .split('\n')
       .filter(Boolean);
@@ -73,8 +90,15 @@ function getPackageStats() {
 // Run npm audit
 function getAuditStats() {
   try {
-    console.log('Running npm audit...');
-    const auditOutput = execSync('npm audit --json || true', { encoding: 'utf8' });
+    console.info('Running npm audit...');
+    let auditOutput = '';
+    try {
+      auditOutput = execFileSync('npm', ['audit', '--json'], { encoding: 'utf8' });
+    } catch (e: any) {
+      if (e.stdout) {
+        auditOutput = e.stdout;
+      }
+    }
     const audit = JSON.parse(auditOutput);
     return {
       critical: audit.metadata?.vulnerabilities?.critical || 0,
@@ -91,8 +115,8 @@ function getAuditStats() {
 // Run vitest coverage
 function getCoverageStats() {
   try {
-    console.log('Running unit tests with coverage...');
-    execSync('npx vitest run --coverage', { stdio: 'ignore' });
+    console.info('Running unit tests with coverage...');
+    execFileSync('npx', ['vitest', 'run', '--coverage'], { stdio: 'ignore' });
     const covPath = path.resolve(process.cwd(), 'coverage/coverage-summary.json');
     if (fs.existsSync(covPath)) {
       const cov = JSON.parse(fs.readFileSync(covPath, 'utf8'));
@@ -113,11 +137,14 @@ function getCoverageStats() {
 function getIssueStats() {
   try {
     // Very rough proxy for issues using git commits mentioning "#" (e.g. "fixes #123")
-    const mentions = execSync('git log --grep="#" --oneline | wc -l').toString().trim();
-    const merges = execSync('git log --merges --oneline | wc -l').toString().trim();
+    const mentionsStr = execFileSync('git', ['log', '--grep=#', '--oneline']).toString().trim();
+    const mentions = mentionsStr ? mentionsStr.split('\n').length : 0;
+
+    const mergesStr = execFileSync('git', ['log', '--merges', '--oneline']).toString().trim();
+    const merges = mergesStr ? mergesStr.split('\n').length : 0;
     return {
-      closedIssues: parseInt(mentions) || 0,
-      mergedPRs: parseInt(merges) || 0,
+      closedIssues: mentions,
+      mergedPRs: merges,
     };
   } catch (e) {
     return { closedIssues: 0, mergedPRs: 0 };
@@ -490,10 +517,10 @@ function generateHtml(data: any) {
 }
 
 async function main() {
-  console.log('Gathering repository metrics...');
+  console.info('Gathering repository metrics...');
   const data = await gatherData();
 
-  console.log('Generating HTML dashboard...');
+  console.info('Generating HTML dashboard...');
   const html = generateHtml(data);
 
   const docsDir = path.resolve(process.cwd(), 'docs');
@@ -503,7 +530,7 @@ async function main() {
 
   const outPath = path.join(docsDir, 'dashboard.html');
   fs.writeFileSync(outPath, html);
-  console.log(`Dashboard generated successfully at ${outPath}`);
+  console.info(`Dashboard generated successfully at ${outPath}`);
 }
 
 main().catch(console.error);

@@ -59,7 +59,7 @@ const mapDirectory = (dir: string, depth = 0, maxDepth = 3): any => {
 };
 
 const main = () => {
-  console.log('Analyzing repository...');
+  console.info('Analyzing repository...');
 
   const pkgMeta = analyzePackageJson();
   const structure = mapDirectory(process.cwd());
@@ -76,7 +76,7 @@ const main = () => {
   };
 
   fs.writeFileSync(path.resolve(process.cwd(), 'metadata.json'), JSON.stringify(metadata, null, 2));
-  console.log('Analysis complete. Saved to metadata.json');
+  console.info('Analysis complete. Saved to metadata.json');
 };
 
 main();

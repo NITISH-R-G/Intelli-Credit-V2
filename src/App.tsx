@@ -196,28 +196,29 @@ export default function App() {
             />
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
-            {/* Top Row: Company Profile & Core Stats */}
-            <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-4 gap-2">
-              {/* Company Info Panel */}
-              <CompanyProfile analysis={analysis} />
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
+              {/* Top Row: Company Profile & Core Stats */}
+              <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-4 gap-2">
+                {/* Company Info Panel */}
+                <CompanyProfile analysis={analysis} />
 
-              {/* Risk Score Panel */}
-              <RiskScorePanel displayAnalysis={displayAnalysis!} />
+                {/* Risk Score Panel */}
+                <RiskScorePanel displayAnalysis={displayAnalysis!} />
 
-              <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
-            </div>
+                <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
+              </div>
 
-            <StressTestingPanel
-              revenueShock={revenueShock}
-              setRevenueShock={setRevenueShock}
-              interestRateShock={interestRateShock}
-              setInterestRateShock={setInterestRateShock}
-              analysis={analysis}
-              displayAnalysis={displayAnalysis}
-            />
+              <StressTestingPanel
+                revenueShock={revenueShock}
+                setRevenueShock={setRevenueShock}
+                interestRateShock={interestRateShock}
+                setInterestRateShock={setInterestRateShock}
+                analysis={analysis}
+                displayAnalysis={displayAnalysis}
+              />
 
-            <IndustryBenchmarkingPanel analysis={analysis} />
+              <IndustryBenchmarkingPanel analysis={analysis} />
               {/* Decision Panel */}
               <DecisionPanel displayAnalysis={displayAnalysis!} />
             </div>
@@ -279,7 +280,7 @@ export default function App() {
                 [ Reset Terminal ]
               </button>
             </div>
-          </div>
+          </>
         )}
       </main>
     </div>
