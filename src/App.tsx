@@ -8,7 +8,7 @@ import { RiskScorePanel } from './components/RiskScorePanel';
 import { StressTestingPanel } from './components/StressTestingPanel';
 import { IndustryBenchmarkingPanel } from './components/IndustryBenchmarkingPanel';
 import { LoanRecommendationPanel } from './components/LoanRecommendationPanel';
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
 import { FinancialMetrics } from './components/FinancialMetrics';
 import { VerificationEngine } from './components/VerificationEngine';
 import { IntelligenceRow } from './components/IntelligenceRow';
@@ -16,7 +16,6 @@ import { RiskDimensions } from './components/RiskDimensions';
 import { ActionRecommendation } from './components/ActionRecommendation';
 import { FraudFlags } from './components/FraudFlags';
 import { CAMReport } from './components/CAMReport';
-import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
 const StressTestingModule = React.lazy(() => import('./components/StressTestingModule'));
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
@@ -196,28 +195,29 @@ export default function App() {
             />
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
-            {/* Top Row: Company Profile & Core Stats */}
-            <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-4 gap-2">
-              {/* Company Info Panel */}
-              <CompanyProfile analysis={analysis} />
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
+              {/* Top Row: Company Profile & Core Stats */}
+              <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-4 gap-2">
+                {/* Company Info Panel */}
+                <CompanyProfile analysis={analysis} />
 
-              {/* Risk Score Panel */}
-              <RiskScorePanel displayAnalysis={displayAnalysis!} />
+                {/* Risk Score Panel */}
+                <RiskScorePanel displayAnalysis={displayAnalysis!} />
 
-              <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
-            </div>
+                <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
+              </div>
 
-            <StressTestingPanel
-              revenueShock={revenueShock}
-              setRevenueShock={setRevenueShock}
-              interestRateShock={interestRateShock}
-              setInterestRateShock={setInterestRateShock}
-              analysis={analysis}
-              displayAnalysis={displayAnalysis}
-            />
+              <StressTestingPanel
+                revenueShock={revenueShock}
+                setRevenueShock={setRevenueShock}
+                interestRateShock={interestRateShock}
+                setInterestRateShock={setInterestRateShock}
+                analysis={analysis}
+                displayAnalysis={displayAnalysis}
+              />
 
-            <IndustryBenchmarkingPanel analysis={analysis} />
+              <IndustryBenchmarkingPanel analysis={analysis} />
               {/* Decision Panel */}
               <DecisionPanel displayAnalysis={displayAnalysis!} />
             </div>
@@ -279,7 +279,7 @@ export default function App() {
                 [ Reset Terminal ]
               </button>
             </div>
-          </div>
+          </>
         )}
       </main>
     </div>
