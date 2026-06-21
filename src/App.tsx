@@ -21,52 +21,8 @@ const StressTestingModule = React.lazy(() => import('./components/StressTestingM
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
-import { INDUSTRY_BENCHMARKS } from './constants';
 import { useDropzone } from 'react-dropzone';
-import {
-  ShieldAlert,
-  ShieldCheck,
-  FileText,
-  Upload,
-  TrendingUp,
-  AlertTriangle,
-  CheckCircle2,
-  XCircle,
-  BarChart3,
-  Loader2,
-  Info,
-  Search,
-  Landmark,
-  BadgeAlert,
-  History,
-  Fingerprint,
-  Gavel,
-  ShieldQuestion,
-  ChevronRight,
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from 'recharts';
-import { cn } from './lib/utils';
-import { GoogleGenAI } from '@google/genai';
-import { hashFile, fileToBase64, fileToText } from './lib/file-utils';
-import { callMcpTool } from './lib/gemini';
-import {
-  searchCasesDeclaration,
-  getMcaInfoDeclaration,
-  fetchDirectorCibilDeclaration,
-  calculateLtvDeclaration,
-  EXTRACTION_PROMPT,
-  RESPONSE_SCHEMA,
-} from './lib/gemini-config';
+import { ShieldCheck } from 'lucide-react';
 
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -129,30 +85,6 @@ export default function App() {
       setShowLogs,
     );
   };
-
-  const getRiskColor = (level: string) => {
-    switch (level) {
-      case 'Low':
-        return 'text-emerald-500 bg-emerald-50 border-emerald-100';
-      case 'Medium':
-        return 'text-amber-500 bg-amber-50 border-amber-100';
-      case 'High':
-        return 'text-orange-500 bg-orange-50 border-orange-100';
-      case 'Critical':
-        return 'text-rose-500 bg-rose-50 border-rose-100';
-      default:
-        return 'text-slate-500 bg-slate-50 border-slate-100';
-    }
-  };
-
-  const chartData = analysis
-    ? [
-        { name: 'Revenue', value: analysis.structuredData.revenue },
-        { name: 'Debt', value: analysis.structuredData.debt },
-        { name: 'Profit', value: analysis.structuredData.profit },
-        { name: 'Cashflow', value: analysis.structuredData.cashflow },
-      ]
-    : [];
 
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-mono text-xs sm:text-sm selection:bg-amber-500/30">

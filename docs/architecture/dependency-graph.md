@@ -41,7 +41,6 @@ graph TD;
   Root --> Root_cycle_5_report_md["cycle_5_report.md"]
   Root --> Root_cycle_6_report_md["cycle_6_report.md"]
   Root --> Root_cycle_7_report_md["cycle_7_report.md"]
-  Root --> Root_cycle_8_report_md["cycle_8_report.md"]
   Root --> Root_dev["dev"]
   Root_dev --> Root_dev_plan_md["plan.md"]
   Root --> Root_docs["docs"]
