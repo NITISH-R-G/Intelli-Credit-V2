@@ -69,12 +69,7 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": [
-    "React",
-    "Express",
-    "Vite",
-    "TailwindCSS"
-  ],
+  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -116,7 +111,6 @@
     "cycle_5_report.md": "file",
     "cycle_6_report.md": "file",
     "cycle_7_report.md": "file",
-    "cycle_8_report.md": "file",
     "dev": {
       "plan.md": "file"
     },
