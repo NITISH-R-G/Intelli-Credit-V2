@@ -16,7 +16,7 @@ import { RiskDimensions } from './components/RiskDimensions';
 import { ActionRecommendation } from './components/ActionRecommendation';
 import { FraudFlags } from './components/FraudFlags';
 import { CAMReport } from './components/CAMReport';
-import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
+import { Suspense } from 'react';
 const StressTestingModule = React.lazy(() => import('./components/StressTestingModule'));
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
@@ -208,16 +208,18 @@ export default function App() {
               <LoanRecommendationPanel displayAnalysis={displayAnalysis!} />
             </div>
 
-            <StressTestingPanel
-              revenueShock={revenueShock}
-              setRevenueShock={setRevenueShock}
-              interestRateShock={interestRateShock}
-              setInterestRateShock={setInterestRateShock}
-              analysis={analysis}
-              displayAnalysis={displayAnalysis}
-            />
+            <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-2 gap-2">
+              <StressTestingPanel
+                revenueShock={revenueShock}
+                setRevenueShock={setRevenueShock}
+                interestRateShock={interestRateShock}
+                setInterestRateShock={setInterestRateShock}
+                analysis={analysis}
+                displayAnalysis={displayAnalysis}
+              />
 
-            <IndustryBenchmarkingPanel analysis={analysis} />
+              <IndustryBenchmarkingPanel analysis={analysis} />
+
               {/* Decision Panel */}
               <DecisionPanel displayAnalysis={displayAnalysis!} />
             </div>
