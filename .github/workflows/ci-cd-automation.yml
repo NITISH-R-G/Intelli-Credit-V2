@@ -26,14 +26,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run linting
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
         run: npm run lint
 
       - name: Run security scans (audit)
         run: npm audit --audit-level=high
 
       - name: Run tests
-        run: npm test -- --run
+        run: npm test
 
       - name: Build
         run: npm run build

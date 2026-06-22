@@ -17,7 +17,16 @@ const upload = multer({
 
 const app = express();
 
-app.use(cors());
+// Restrict CORS to known dev origins + an optional configured production
+// origin. The wildcard `cors()` was previously wide open, which would let any
+// website drive the server-held Gemini key cross-origin if this server were
+// ever exposed beyond local dev.
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  ...(process.env.PRODUCTION_ORIGIN ? [process.env.PRODUCTION_ORIGIN] : []),
+];
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 // Apply rate limiting to all requests

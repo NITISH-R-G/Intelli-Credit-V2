@@ -17,9 +17,15 @@ import {
   calculateLtvDeclaration,
 } from '../../src/lib/gemini-config';
 import { callMcpTool } from './mcp-tools';
+import { MAX_TEXT_CHARS } from './limits';
 
 const MODEL = 'gemini-3-flash-preview';
 const MAX_ITERATIONS = 10;
+/** Per-call timeout so a single hung model request can't consume the whole budget. */
+const PER_CALL_TIMEOUT_MS = 30_000;
+/** Bounded retries for transient Gemini transport errors (429/5xx). */
+const MAX_RETRIES = 2;
+const RETRY_BASE_MS = 1_000;
 
 export interface AnalyzeInputFile {
   name: string;
@@ -39,6 +45,7 @@ export interface AnalyzeError {
     | 'TOO_MANY_TOOL_CALLS'
     | 'EMPTY_RESPONSE'
     | 'INVALID_JSON'
+    | 'TIMEOUT'
     | 'INTERNAL';
   message: string;
   /** original stack/details for the client's "view logs" panel */
@@ -56,6 +63,69 @@ export class AnalysisError extends Error {
     this.rawLogs = rawLogs;
   }
 }
+
+/**
+ * Race a promise against a timeout so a hung model/tool call surfaces as a
+ * structured `TIMEOUT` error instead of silently burning the function budget.
+ */
+const withTimeout = <T>(p: Promise<T>, ms: number, label: string): Promise<T> =>
+  Promise.race([
+    p,
+    new Promise<T>((_, reject) =>
+      setTimeout(
+        () => reject(new AnalysisError('TIMEOUT', `${label} exceeded the ${ms}ms timeout.`)),
+        ms,
+      ),
+    ),
+  ]);
+
+/** True for transient errors worth a bounded retry (rate limits, server faults). */
+const isTransient = (e: unknown): boolean => {
+  const msg = e instanceof Error ? e.message.toLowerCase() : '';
+  return (
+    msg.includes('429') ||
+    msg.includes('503') ||
+    msg.includes('500') ||
+    msg.includes('service unavailable') ||
+    msg.includes('rate limit') ||
+    msg.includes('deadline exceeded')
+  );
+};
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Calls `generateContent` with per-call timeout and a bounded retry with
+ * exponential backoff for transient errors. Non-transient errors throw
+ * immediately and are mapped to `AnalysisError` by the caller.
+ */
+const generateWithResilience = async (
+  genAI: GoogleGenAI,
+  model: string,
+  currentContents: any[],
+  config: any,
+): Promise<any> => {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      return await withTimeout(
+        genAI.models.generateContent({ model, contents: currentContents, config }),
+        PER_CALL_TIMEOUT_MS,
+        'generateContent',
+      );
+    } catch (e) {
+      lastErr = e;
+      // Structured timeouts should not be retried — they indicate a stuck call.
+      if (e instanceof AnalysisError && e.code === 'TIMEOUT') throw e;
+      if (attempt < MAX_RETRIES && isTransient(e)) {
+        await sleep(RETRY_BASE_MS * 2 ** attempt);
+        continue;
+      }
+      throw e;
+    }
+  }
+  throw lastErr;
+};
 
 const buildConfig = () => ({
   tools: [
@@ -96,13 +166,13 @@ const buildContents = (files: AnalyzeInputFile[]): any[] => {
         ],
       });
     } else {
-      // Decode base64 text and apply the same 10k-char cap the client used.
+      // Decode base64 text and apply the same cap the client used.
       const text = Buffer.from(f.data, 'base64').toString('utf-8');
       contents.push({
         role: 'user',
         parts: [
           {
-            text: `Document Name: ${f.name}\n\nDocument Text:\n${text.substring(0, 10000)}`,
+            text: `Document Name: ${f.name}\n\nDocument Text:\n${text.substring(0, MAX_TEXT_CHARS)}`,
           },
         ],
       });
@@ -132,11 +202,10 @@ export const runAnalysis = async (
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    throw new AnalysisError(
-      'MISSING_API_KEY',
-      'Gemini API key is not configured on the server.',
-      'process.env.GEMINI_API_KEY is empty. Set it in Vercel → Settings → Environment Variables and redeploy.',
-    );
+    // Log the actionable hint server-side only; return a generic message so we
+    // don't reveal which env var to expect.
+    console.error('[runAnalysis] GEMINI_API_KEY is empty. Set it in the deployment environment.');
+    throw new AnalysisError('MISSING_API_KEY', 'The analysis service is not fully configured.');
   }
 
   const genAI = new GoogleGenAI({ apiKey });
@@ -144,11 +213,7 @@ export const runAnalysis = async (
   const currentContents = buildContents(files);
   const config = buildConfig();
 
-  let extractionResponse = await genAI.models.generateContent({
-    model,
-    contents: currentContents,
-    config,
-  });
+  let extractionResponse = await generateWithResilience(genAI, model, currentContents, config);
 
   let iterations = 0;
   while (
@@ -187,11 +252,7 @@ export const runAnalysis = async (
       ],
     });
 
-    extractionResponse = await genAI.models.generateContent({
-      model,
-      contents: currentContents,
-      config,
-    });
+    extractionResponse = await generateWithResilience(genAI, model, currentContents, config);
 
     iterations++;
   }

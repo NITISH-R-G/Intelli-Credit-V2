@@ -11,7 +11,8 @@ import { hashFile } from '../lib/file-utils';
 
 /**
  * Stable error codes emitted by the serverless function (`api/analyze.ts`).
- * Kept in sync with `AnalyzeError['code']` in `api/_lib/analyze-core.ts`.
+ * Kept in sync with `AnalyzeError['code']` in `api/_lib/analyze-core.ts` plus
+ * the HTTP-layer codes the function adds (`UNAUTHORIZED`, `RATE_LIMITED`, etc.).
  */
 type ServerErrorCode =
   | 'MISSING_API_KEY'
@@ -21,6 +22,13 @@ type ServerErrorCode =
   | 'TOO_MANY_TOOL_CALLS'
   | 'EMPTY_RESPONSE'
   | 'INVALID_JSON'
+  | 'TIMEOUT'
+  | 'UNAUTHORIZED'
+  | 'RATE_LIMITED'
+  | 'TOO_LARGE'
+  | 'TOO_MANY_FILES'
+  | 'UNSUPPORTED_TYPE'
+  | 'BAD_REQUEST'
   | 'INTERNAL';
 
 /**
@@ -93,6 +101,42 @@ const mapServerCodeToAppError = (
       return {
         message: 'No Files',
         details: message,
+        rawLogs,
+        type: 'FILE_ERROR',
+      };
+    case 'TIMEOUT':
+      return {
+        message: 'Analysis Timed Out',
+        details: message,
+        action: 'Try again with fewer or smaller documents.',
+        rawLogs,
+        type: 'API_ERROR',
+      };
+    case 'RATE_LIMITED':
+      return {
+        message: 'Too Many Requests',
+        details: message,
+        action: 'Wait a few minutes before analyzing again.',
+        rawLogs,
+        type: 'API_ERROR',
+      };
+    case 'UNAUTHORIZED':
+      return {
+        message: 'Unauthorized',
+        details: message,
+        action: 'This deployment requires an access secret to use the analyzer.',
+        rawLogs,
+        type: 'API_ERROR',
+      };
+    case 'TOO_LARGE':
+    case 'TOO_MANY_FILES':
+    case 'UNSUPPORTED_TYPE':
+    case 'BAD_REQUEST':
+      return {
+        message: 'Upload Not Accepted',
+        details: message,
+        action:
+          'Check the file types (PDF/PNG/JPG/CSV/JSON/TXT), size, and count limits, then try again.',
         rawLogs,
         type: 'FILE_ERROR',
       };

@@ -10,11 +10,11 @@ frontend:
       - changed-files:
           - any-glob-to-any-file: ['src/**/*', 'index.html']
 
-# Add 'backend' label to PRs touching server.ts
+# Add 'backend' label to PRs touching the serverless API or dev server
 backend:
   - any:
       - changed-files:
-          - any-glob-to-any-file: ['server.ts']
+          - any-glob-to-any-file: ['api/**/*', 'server.ts']
 
 # Add 'docs' label to PRs touching markdown files
 documentation:

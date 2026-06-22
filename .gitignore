@@ -1,8 +1,34 @@
+# Dependencies
 node_modules/
+
+# Build outputs
 build/
 dist/
+*.tsbuildinfo
+
+# Test/coverage
 coverage/
-.DS_Store
-*.log
+
+# Vercel / tooling caches
+.vercel/
+.turbo/
+.eslintcache
+.prettiercache
+
+# Environment (keep the example template)
 .env*
 !.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
