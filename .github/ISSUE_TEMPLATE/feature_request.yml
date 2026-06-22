@@ -7,25 +7,47 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this feature request!
+        Thanks for suggesting an improvement!
+        Please search [existing issues](https://github.com/NITISH-R-G/Intelli-Credit-V2/issues?q=is%3Aissue+label%3Aenhancement)
+        first to avoid duplicates.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Where should this improvement land?
+      options:
+        - Client / UI (src/)
+        - Server / API (api/, server.ts)
+        - Build / Tooling
+        - Documentation
+        - Other
+    validations:
+      required: true
   - type: textarea
     id: problem
     attributes:
-      label: Is your feature request related to a problem? Please describe.
-      description: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+      label: What problem does this solve?
+      description: A clear description of the problem. Ex. "I'm always frustrated when [...]"
     validations:
       required: true
   - type: textarea
     id: solution
     attributes:
-      label: Describe the solution you'd like
-      description: A clear and concise description of what you want to happen.
+      label: Proposed solution
+      description: What you'd like to happen. Include any API/UI sketches if relevant.
     validations:
       required: true
   - type: textarea
     id: alternatives
     attributes:
-      label: Describe alternatives you've considered
-      description: A clear and concise description of any alternative solutions or features you've considered.
+      label: Alternatives considered
+      description: Any alternative solutions or workarounds you've tried.
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else relevant — links, references, screenshots.
     validations:
       required: false

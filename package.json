@@ -3,7 +3,17 @@
   "private": true,
   "version": "1.0.0",
   "description": "AI-powered corporate credit appraisal system using Google Gemini.",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NITISH-R-G/Intelli-Credit-V2.git"
+  },
+  "homepage": "https://github.com/NITISH-R-G/Intelli-Credit-V2",
+  "bugs": {
+    "url": "https://github.com/NITISH-R-G/Intelli-Credit-V2/issues"
+  },
+  "author": "NITISH-R-G",
   "engines": {
     "node": ">=20"
   },
@@ -19,13 +29,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "analyze:repo": "tsx scripts/automation/repo-analyzer.ts",
-    "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
-    "generate:readme": "tsx scripts/automation/generate-readme.ts",
-    "ai:review": "tsx scripts/automation/ai-reviewer.ts",
-    "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
-    "fix": "tsx scripts/automation/auto-fix.ts"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

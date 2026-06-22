@@ -1,0 +1,36 @@
+# Config for release-drafter/release-drafter. Maps PR labels to changelog
+# sections and bumps the next version automatically (semver via labels).
+# See https://github.com/release-drafter/release-drafter#configuration
+
+name-template: '$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
+template: |
+  ## What changed
+
+  $CHANGES
+
+categories:
+  - title: '🚀 Features'
+    labels: ['enhancement']
+  - title: '🐛 Bug fixes'
+    labels: ['bug']
+  - title: '🔒 Security'
+    labels: ['security']
+  - title: '📚 Documentation'
+    labels: ['documentation']
+  - title: '🧹 Maintenance'
+    labels: ['dependencies', 'github-actions', 'chore']
+
+change-template: '- $TITLE (#$NUMBER)'
+change-title-escapes: '\<*_&'
+no-changes-template: 'No notable changes since the last release.'
+
+# Label-driven semantic versioning. Only the `breaking` label bumps the major.
+version-resolver:
+  major:
+    labels: ['breaking']
+  minor:
+    labels: ['enhancement']
+  patch:
+    labels: ['bug', 'security', 'documentation', 'dependencies', 'github-actions', 'chore']
+  default: patch

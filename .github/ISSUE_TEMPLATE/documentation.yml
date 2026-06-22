@@ -1,0 +1,50 @@
+name: Documentation
+description: Report a docs gap, inaccuracy, or improvement
+title: '[Docs]: '
+labels: ['documentation', 'needs-triage']
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the docs! Documentation contributions are a
+        great first contribution to the project.
+  - type: dropdown
+    id: location
+    attributes:
+      label: Where
+      description: Which documentation is affected?
+      options:
+        - README.md
+        - CONTRIBUTING.md / SECURITY.md
+        - docs/architecture/
+        - Code comments / JSDoc
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      description: What kind of documentation issue?
+      options:
+        - Inaccurate / outdated
+        - Missing
+        - Unclear / confusing
+        - Typo / formatting
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong or missing?
+      description: Describe the gap or inaccuracy. Link to the section if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix
+      description: What should it say instead? (Even a rough draft helps.)
+    validations:
+      required: false

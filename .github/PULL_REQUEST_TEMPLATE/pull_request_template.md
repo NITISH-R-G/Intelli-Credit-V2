@@ -1,29 +1,53 @@
 ## Description
 
-Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context.
+<!-- A clear summary of WHAT this changes and WHY. Reference the issue if applicable. -->
 
-Fixes # (issue)
+Fixes #
 
 ## Type of change
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] This change requires a documentation update
+<!-- Check all that apply. Keep PRs focused — one logical change each. -->
 
-## How Has This Been Tested?
+- [ ] Bug fix (non-breaking change that fixes an issue)
+- [ ] New feature (non-breaking change that adds functionality)
+- [ ] Refactor / performance (no behavior change)
+- [ ] Breaking change (would cause existing functionality to change)
+- [ ] Documentation
+- [ ] Tests / CI
 
-Please describe the tests that you ran to verify your changes.
+## Conventional Commit type
 
-- [ ] Test A
-- [ ] Test B
+<!-- The squashed commit will use this. See CONTRIBUTING.md. -->
 
-## Checklist:
+- [ ] `feat`
+- [ ] `fix`
+- [ ] `docs`
+- [ ] `refactor`
+- [ ] `perf`
+- [ ] `test`
+- [ ] `chore` / `ci`
+- [ ] `security`
 
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my own code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
+## Screenshots / output
+
+<!-- For UI or output changes, add before/after screenshots or pasted output. -->
+
+## How was this tested?
+
+<!-- Describe how you verified the change. CI runs typecheck + lint + test + build. -->
+
+- [ ] `npm run typecheck`
+- [ ] `npm run lint`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] Manually (describe below)
+
+## Checklist
+
+- [ ] I have read [CONTRIBUTING.md](../CONTRIBUTING.md)
+- [ ] This PR is focused (one logical change) and the branch is up to date with `main`
+- [ ] No secrets or API keys are introduced into client code (`src/`)
+- [ ] I added/updated tests for any behavior change
+- [ ] I updated documentation where relevant (`README.md`, `docs/`, comments)
+- [ ] The commit message follows [Conventional Commits](https://www.conventionalcommits.org/)
+- [ ] New and existing tests pass locally

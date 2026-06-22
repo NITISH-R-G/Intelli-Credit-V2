@@ -1,0 +1,11 @@
+# Issue template chooser configuration.
+# Disables free-form issues so every report goes through a structured template
+# (better triage, fewer back-and-forths). Q&A belongs in Discussions.
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Ask a question (Discussions)
+    url: https://github.com/NITISH-R-G/Intelli-Credit-V2/discussions
+    about: For usage questions, ideas, and general discussion, please use Discussions.
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/NITISH-R-G/Intelli-Credit-V2/security/advisories/new
+    about: Please report security issues privately via Security Advisories, not as a public issue.

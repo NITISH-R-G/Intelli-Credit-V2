@@ -1,5 +1,5 @@
 name: Bug Report
-description: Create a report to help us improve
+description: Report something that isn't working as documented
 title: '[Bug]: '
 labels: ['bug', 'needs-triage']
 assignees: []
@@ -7,13 +7,28 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Thanks for taking the time to file a bug report!
+        Please search [existing issues](https://github.com/NITISH-R-G/Intelli-Credit-V2/issues?q=is%3Aissue+label%3Abug)
+        first to avoid duplicates.
   - type: input
     id: version
     attributes:
       label: Version
-      description: What version of the project are you using?
+      description: Project version or commit hash (`git describe --tags` or the version in `package.json`).
       placeholder: ex. 1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Where does the bug occur?
+      options:
+        - Client / UI (src/)
+        - Server / API (api/, server.ts)
+        - Build / Tooling
+        - Documentation
+        - Other
     validations:
       required: true
   - type: textarea
@@ -26,12 +41,12 @@ body:
   - type: textarea
     id: reproduction
     attributes:
-      label: Steps To Reproduce
+      label: Steps to reproduce
       description: Steps to reproduce the behavior.
       placeholder: |
         1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
+        2. Upload '....'
+        3. Run analysis on '....'
         4. See error
     validations:
       required: true
@@ -39,6 +54,29 @@ body:
     id: expected
     attributes:
       label: Expected behavior
-      description: A clear and concise description of what you expected to happen.
+      description: What you expected to happen.
     validations:
       required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened (error message, wrong value, stack trace, etc.).
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser, Node version — anything that might be relevant.
+      placeholder: 'OS: macOS 14, Browser: Chrome 130, Node: 20.11'
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context, screenshots, or logs here.
+    validations:
+      required: false

@@ -1,247 +1,153 @@
+<div align="center">
+
 # Intelli-Credit Terminal
 
-**Production-Grade Corporate Credit Appraisal System powered by Google Gemini AI**
+**Production-grade corporate credit appraisal, powered by Google Gemini AI.**
+
+[![CI](https://github.com/NITISH-R-G/Intelli-Credit-V2/actions/workflows/ci-cd-automation.yml/badge.svg)](https://github.com/NITISH-R-G/Intelli-Credit-V2/actions/workflows/ci-cd-automation.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](package.json)
+[![Tests](https://github.com/NITISH-R-G/Intelli-Credit-V2/actions/workflows/ci-cd-automation.yml/badge.svg)](https://github.com/NITISH-R-G/Intelli-Credit-V2/actions/workflows/ci-cd-automation.yml)
+
+Ingest financial documents → verify, stress-test, and score creditworthiness → generate a bank-standard Credit Appraisal Memo.
+
+[Features](#-features) · [Quick start](#-quick-start) · [How it works](#-how-it-works) · [Deploy](#-deploy-to-vercel) · [Contributing](#-contributing)
 
 </div>
 
-## 🚀 Overview
+---
 
-Intelli-Credit Terminal is an advanced, automated corporate credit appraisal application designed to replicate and enhance professional banking workflows. Built with React, Express, and the Google GenAI SDK, it ingests financial documents, verifies data integrity, detects forensic fraud flags, and generates a comprehensive Credit Appraisal Memo (CAM).
+## 📋 What is this?
 
-## ✨ Key Features
+Intelli-Credit Terminal is an automated **corporate credit appraisal** system.
+It replicates and enhances professional banking workflows: it ingests a
+borrower's financial documents, cross-verifies the data, runs forensic fraud
+detection, scores the borrower across the Five Cs of Credit, performs
+interactive stress testing, and produces a comprehensive **Credit Appraisal
+Memo (CAM)** — the document a credit officer would write by hand.
 
-- **Automated Data Ingestion:** Upload financial documents (PDF, CSV, JSON, TXT, Images). The built-in Express server extracts text and base64 data to feed into the AI engine.
-- **Forensic Fraud Detection:** AI-powered identification of shell companies, circular transactions, asset inflation, and director/shareholder inconsistencies.
-- **The Five Cs of Credit:** Deep-dive analysis scoring across Character, Capacity, Capital, Collateral, and Conditions.
-- **Interactive Stress Testing:** Perform What-If scenarios by applying Revenue and Interest Rate shocks to instantly calculate stressed DSCR, ICR, and revised risk grades.
-- **Bureau Integrations:** Support for both simulated (mock) and real external API connections (eCourts, MCA, CIBIL, LTV calculations).
-- **Automated CAM Generation:** Instant generation of professional Credit Appraisal Memos with export options to PDF and JSON.
+## ✨ Features
 
-## 🛠 Tech Stack
+- **Document ingestion** — Upload PDF, CSV, JSON, TXT, and images. The
+  serverless API extracts and forwards them to the model.
+- **Forensic fraud detection** — AI-powered identification of shell companies,
+  circular transactions, asset inflation, and director/shareholder anomalies.
+- **The Five Cs of Credit** — Scored analysis across Character, Capacity,
+  Capital, Collateral, and Conditions.
+- **Interactive stress testing** — Apply revenue and interest-rate shocks and
+  instantly see stressed DSCR, ICR, and revised risk grades.
+- **Bureau & registry integrations** — Pluggable simulated (mock) and real
+  external calls for eCourts, MCA, CIBIL, and LTV calculations.
+- **Automated CAM generation** — A professional, exportable memo (PDF / JSON)
+  with evidence-backed findings.
 
-- **Frontend:** React 19, Vite, Tailwind CSS v4, Lucide React, Recharts, Framer Motion
-- **Backend:** Node.js, Express, Multer, PDF-Parse
-- **AI/ML:** Google Gemini 1.5 Pro/Flash (`@google/genai`)
-- **Document Generation:** jsPDF, html2canvas, html-to-image, React Markdown
+## 🏗 Tech stack
 
-## 📦 Prerequisites
+- **Client:** React 19, Vite, Tailwind CSS v4, Recharts, Framer Motion, Lucide
+- **Server:** Vercel Node.js serverless functions (Web `Request`/`Response`).
+  A local Express dev harness (`server.ts`) mirrors the same analysis core.
+- **AI:** Google Gemini (`@google/genai`, model `gemini-3-flash-preview`) with
+  function-calling tools and Google Search grounding.
+- **Document export:** jsPDF, html2canvas, html-to-image, React Markdown.
 
-- **Node.js** (v18 or higher)
-- **Google Gemini API Key** (Get one from [Google AI Studio](https://aistudio.google.com/))
+> **Security model:** the Gemini key and all third-party credentials live
+> **server-side only**. The client never sees a secret — every AI/bureau call
+> is proxied through `POST /api/analyze`. See
+> [`docs/architecture/SERVICE_MAP.md`](docs/architecture/SERVICE_MAP.md).
 
-## ⚙️ Installation & Local Setup
+## 🚀 Quick start
 
-1. **Clone the repository:**
+**Prerequisites:** [Node.js](https://nodejs.org/) **>= 20** and a free
+[Gemini API key](https://aistudio.google.com/apikey).
 
-<!-- AUTO-GENERATED-SECTION-START -->
-## 🤖 Auto-Generated Repository Analytics
+```bash
+# 1. Clone
+git clone https://github.com/NITISH-R-G/Intelli-Credit-V2.git
+cd Intelli-Credit-V2
 
+# 2. Install
+npm ci
 
-![CI/CD](https://github.com/your-org/your-repo/actions/workflows/ci-cd-automation.yml/badge.svg)
-![Repo Analysis](https://github.com/your-org/your-repo/actions/workflows/autonomous-repo-analysis.yml/badge.svg)
+# 3. Configure (add your GEMINI_API_KEY)
+cp .env.example .env
 
-
-### Project Overview
-- **Name:** intelli-credit
-- **Version:** 1.0.0
-- **Detected Frameworks:** React, Express, Vite, TailwindCSS
-
-### Technology Stack & Dependencies
-- `@google/genai`
-- `@tailwindcss/vite`
-- `clsx`
-- `cors`
-- `dotenv`
-- `express`
-- `express-rate-limit`
-- `html-to-image`
-- `html2canvas`
-- `jspdf`
-- `lucide-react`
-- `motion`
-- `multer`
-- `react`
-- `react-dom`
-- `react-dropzone`
-- `react-markdown`
-- `recharts`
-- `tailwind-merge`
-
-### Available Scripts
-| Script | Command |
-|---|---|
-| `npm run dev` | `tsx server.ts` |
-| `npm run build` | `vite build` |
-| `npm run start` | `node --experimental-strip-types server.ts` |
-| `npm run preview` | `vite preview` |
-| `npm run clean` | `node -e "import('node:fs').then(fs=>fs.rmSync('dist',{recursive:true,force:true}))"` |
-| `npm run format` | `prettier --write .` |
-| `npm run format:check` | `prettier --check .` |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm run lint` | `eslint .` |
-| `npm run lint:fix` | `eslint . --fix` |
-| `npm run test` | `vitest run` |
-| `npm run test:watch` | `vitest` |
-| `npm run analyze:repo` | `tsx scripts/automation/repo-analyzer.ts` |
-| `npm run generate:diagrams` | `tsx scripts/automation/generate-diagrams.ts` |
-| `npm run generate:readme` | `tsx scripts/automation/generate-readme.ts` |
-| `npm run ai:review` | `tsx scripts/automation/ai-reviewer.ts` |
-| `npm run generate:dashboard` | `tsx scripts/automation/generate-dashboard.ts` |
-| `npm run fix` | `tsx scripts/automation/auto-fix.ts` |
-
-### Environment Variables
-| Variable | Example Value |
-|---|---|
-| `GEMINI_API_KEY` | `` |
-| `ECOURTS_API_KEY` | `` |
-
-### Architecture & System Design
-# Architecture & Dependencies
-
-This diagram is auto-generated based on the repository structure and dependencies.
-
-```mermaid
-graph TD;
-  Root["intelli-credit"]
-  Root --> Root__env_example[".env.example"]
-  Root --> Root__github[".github"]
-  Root__github --> Root__github_CODEOWNERS["CODEOWNERS"]
-  Root__github --> Root__github_ISSUE_TEMPLATE["ISSUE_TEMPLATE"]
-  Root__github_ISSUE_TEMPLATE --> Root__github_ISSUE_TEMPLATE_bug_report_yml["bug_report.yml"]
-  Root__github_ISSUE_TEMPLATE --> Root__github_ISSUE_TEMPLATE_feature_request_yml["feature_request.yml"]
-  Root__github --> Root__github_PULL_REQUEST_TEMPLATE["PULL_REQUEST_TEMPLATE"]
-  Root__github_PULL_REQUEST_TEMPLATE --> Root__github_PULL_REQUEST_TEMPLATE_pull_request_template_md["pull_request_template.md"]
-  Root__github --> Root__github_dependabot_yml["dependabot.yml"]
-  Root__github --> Root__github_labeler_yml["labeler.yml"]
-  Root__github --> Root__github_workflows["workflows"]
-  Root__github_workflows --> Root__github_workflows_ai_documentation_agent_yml["ai-documentation-agent.yml"]
-  Root__github_workflows --> Root__github_workflows_auto_assign_yml["auto-assign.yml"]
-  Root__github_workflows --> Root__github_workflows_auto_fix_yml["auto-fix.yml"]
-  Root__github_workflows --> Root__github_workflows_autonomous_repo_analysis_yml["autonomous-repo-analysis.yml"]
-  Root__github_workflows --> Root__github_workflows_ci_cd_automation_yml["ci-cd-automation.yml"]
-  Root__github_workflows --> Root__github_workflows_codeql_yml["codeql.yml"]
-  Root__github_workflows --> Root__github_workflows_dependency_review_yml["dependency-review.yml"]
-  Root__github_workflows --> Root__github_workflows_greetings_yml["greetings.yml"]
-  Root__github_workflows --> Root__github_workflows_labeler_yml["labeler.yml"]
-  Root__github_workflows --> Root__github_workflows_repo_health_dashboard_yml["repo-health-dashboard.yml"]
-  Root__github_workflows --> Root__github_workflows_self_updating_readme_yml["self-updating-readme.yml"]
-  Root__github_workflows --> Root__github_workflows_stale_yml["stale.yml"]
-  Root --> Root__gitignore[".gitignore"]
-  Root --> Root__prettierrc[".prettierrc"]
-  Root --> Root_CODE_OF_CONDUCT_md["CODE_OF_CONDUCT.md"]
-  Root --> Root_CONTRIBUTING_md["CONTRIBUTING.md"]
-  Root --> Root_README_md["README.md"]
-  Root --> Root_SECURITY_md["SECURITY.md"]
-  Root --> Root_api["api"]
-  Root_api --> Root_api__lib["_lib"]
-  Root_api__lib --> Root_api__lib___tests__["__tests__"]
-  Root_api__lib --> Root_api__lib_analyze_core_ts["analyze-core.ts"]
-  Root_api__lib --> Root_api__lib_limits_ts["limits.ts"]
-  Root_api__lib --> Root_api__lib_mcp_tools_ts["mcp-tools.ts"]
-  Root_api --> Root_api_analyze_ts["analyze.ts"]
-  Root --> Root_cycle_1_report_md["cycle_1_report.md"]
-  Root --> Root_cycle_2_report_md["cycle_2_report.md"]
-  Root --> Root_cycle_3_report_md["cycle_3_report.md"]
-  Root --> Root_cycle_4_report_md["cycle_4_report.md"]
-  Root --> Root_cycle_5_report_md["cycle_5_report.md"]
-  Root --> Root_cycle_6_report_md["cycle_6_report.md"]
-  Root --> Root_cycle_7_report_md["cycle_7_report.md"]
-  Root --> Root_dev["dev"]
-  Root_dev --> Root_dev_plan_md["plan.md"]
-  Root --> Root_docs["docs"]
-  Root_docs --> Root_docs_architecture["architecture"]
-  Root_docs_architecture --> Root_docs_architecture_SERVICE_MAP_md["SERVICE_MAP.md"]
-  Root_docs_architecture --> Root_docs_architecture_dependency_graph_md["dependency-graph.md"]
-  Root_docs --> Root_docs_dashboard_html["dashboard.html"]
-  Root --> Root_eslint_config_mjs["eslint.config.mjs"]
-  Root --> Root_index_html["index.html"]
-  Root --> Root_metadata_json["metadata.json"]
-  Root --> Root_package_lock_json["package-lock.json"]
-  Root --> Root_package_json["package.json"]
-  Root --> Root_scripts["scripts"]
-  Root_scripts --> Root_scripts_automation["automation"]
-  Root_scripts_automation --> Root_scripts_automation_ai_reviewer_ts["ai-reviewer.ts"]
-  Root_scripts_automation --> Root_scripts_automation_auto_fix_ts["auto-fix.ts"]
-  Root_scripts_automation --> Root_scripts_automation_generate_dashboard_ts["generate-dashboard.ts"]
-  Root_scripts_automation --> Root_scripts_automation_generate_diagrams_ts["generate-diagrams.ts"]
-  Root_scripts_automation --> Root_scripts_automation_generate_readme_ts["generate-readme.ts"]
-  Root_scripts_automation --> Root_scripts_automation_repo_analyzer_ts["repo-analyzer.ts"]
-  Root --> Root_server_ts["server.ts"]
-  Root --> Root_src["src"]
-  Root_src --> Root_src_App_tsx["App.tsx"]
-  Root_src --> Root_src___tests__["__tests__"]
-  Root_src___tests__ --> Root_src___tests___App_test_tsx["App.test.tsx"]
-  Root_src --> Root_src_components["components"]
-  Root_src_components --> Root_src_components_ActionRecommendation_tsx["ActionRecommendation.tsx"]
-  Root_src_components --> Root_src_components_CAMReport_tsx["CAMReport.tsx"]
-  Root_src_components --> Root_src_components_CompanyProfile_tsx["CompanyProfile.tsx"]
-  Root_src_components --> Root_src_components_DataIngestion_tsx["DataIngestion.tsx"]
-  Root_src_components --> Root_src_components_DecisionPanel_tsx["DecisionPanel.tsx"]
-  Root_src_components --> Root_src_components_ErrorDisplay_tsx["ErrorDisplay.tsx"]
-  Root_src_components --> Root_src_components_FinancialMetrics_tsx["FinancialMetrics.tsx"]
-  Root_src_components --> Root_src_components_FiveCsAnalysis_tsx["FiveCsAnalysis.tsx"]
-  Root_src_components --> Root_src_components_FraudFlags_tsx["FraudFlags.tsx"]
-  Root_src_components --> Root_src_components_IndustryBenchmarking_tsx["IndustryBenchmarking.tsx"]
-  Root_src_components --> Root_src_components_IndustryBenchmarkingPanel_tsx["IndustryBenchmarkingPanel.tsx"]
-  Root_src_components --> Root_src_components_IntelligenceRow_tsx["IntelligenceRow.tsx"]
-  Root_src_components --> Root_src_components_LoanRecommendationPanel_tsx["LoanRecommendationPanel.tsx"]
-  Root_src_components --> Root_src_components_RiskDimensions_tsx["RiskDimensions.tsx"]
-  Root_src_components --> Root_src_components_RiskScorePanel_tsx["RiskScorePanel.tsx"]
-  Root_src_components --> Root_src_components_StressTestingModule_tsx["StressTestingModule.tsx"]
-  Root_src_components --> Root_src_components_StressTestingPanel_tsx["StressTestingPanel.tsx"]
-  Root_src_components --> Root_src_components_VerificationEngine_tsx["VerificationEngine.tsx"]
-  Root_src_components --> Root_src_components___tests__["__tests__"]
-  Root_src --> Root_src_constants_ts["constants.ts"]
-  Root_src --> Root_src_index_css["index.css"]
-  Root_src --> Root_src_lib["lib"]
-  Root_src_lib --> Root_src_lib___tests__["__tests__"]
-  Root_src_lib --> Root_src_lib_export_ts["export.ts"]
-  Root_src_lib --> Root_src_lib_file_utils_ts["file-utils.ts"]
-  Root_src_lib --> Root_src_lib_gemini_config_ts["gemini-config.ts"]
-  Root_src_lib --> Root_src_lib_utils_test_ts["utils.test.ts"]
-  Root_src_lib --> Root_src_lib_utils_ts["utils.ts"]
-  Root_src --> Root_src_main_tsx["main.tsx"]
-  Root_src --> Root_src_services["services"]
-  Root_src_services --> Root_src_services___tests__["__tests__"]
-  Root_src_services --> Root_src_services_analysisService_ts["analysisService.ts"]
-  Root_src --> Root_src_types_ts["types.ts"]
-  Root_src --> Root_src_vite_env_d_ts["vite-env.d.ts"]
-  Root --> Root_tsconfig_json["tsconfig.json"]
-  Root --> Root_vercel_json["vercel.json"]
-  Root --> Root_vite_config_ts["vite.config.ts"]
-  subgraph Dependencies
-    Root --> Dep__google_genai["@google/genai"]
-    Root --> Dep__tailwindcss_vite["@tailwindcss/vite"]
-    Root --> Dep_clsx["clsx"]
-    Root --> Dep_cors["cors"]
-    Root --> Dep_dotenv["dotenv"]
-    Root --> Dep_express["express"]
-    Root --> Dep_express_rate_limit["express-rate-limit"]
-    Root --> Dep_html_to_image["html-to-image"]
-    Root --> Dep_html2canvas["html2canvas"]
-    Root --> Dep_jspdf["jspdf"]
-    Root --> Dep_More["...and 9 more"]
-  end
+# 4. Run the dev server (Vite SPA + local /api/analyze on http://localhost:3000)
+npm run dev
 ```
 
-### Setup & Deployment Instructions
-1. **Install Dependencies:**
-   ```bash
-   npm ci
-   ```
-2. **Set Environment Variables:**
-   Copy `.env.example` to `.env` and configure appropriately.
-3. **Run Application:**
-   ```bash
-   npm run dev
-   ```
-4. **Deployment:**
-   Configure your deployment target (e.g., Vercel, Node server) to run the `build` script and serve the output directory.
+Open <http://localhost:3000>, upload a financial document, and run an analysis.
 
-### AI Automated Maintenance
-This repository is self-maintaining:
-- **CI/CD Automation:** Runs tests, linting, and security audits automatically.
-- **Repository Analysis:** Weekly scheduled tasks map the codebase structure.
-- **AI Documentation Agent:** An AI automatically reviews PRs and updates documentation based on detected architectural changes.
+## 🔧 How it works
 
-<!-- AUTO-GENERATED-SECTION-END -->
+```
+Browser ──POST /api/analyze (files + settings)──▶ api/analyze.ts
+                                                        │
+                                                        ▼
+                              api/_lib/analyze-core.ts  (agentic loop:
+                              up to 10 Gemini calls + tool dispatch)
+                                                        │
+                              api/_lib/mcp-tools.ts ◀───┘ (bureau / MCA / eCourts)
+                                                        │
+                              Google Gemini  ◀──────────┘
+                                                        │
+                              { analysis }  ◀───────────┘
+Browser ◀──────── JSON ──────────────────────────────┘
+   │
+   └─▶ calculateRiskAndFraud() (pure client math) ──▶ UI
+```
+
+The same `runAnalysis` core is used by **both** the Vercel function and the
+local dev server, so dev and prod behavior are identical. The browser keeps the
+cheap post-processing (risk scoring, stress testing, export) and never holds a
+key. Full details in
+[`docs/architecture/SERVICE_MAP.md`](docs/architecture/SERVICE_MAP.md).
+
+## ☁️ Deploy to Vercel
+
+1. Push the repo to GitHub.
+2. Import it into [Vercel](https://vercel.com/) — the included `vercel.json`
+   is detected automatically (Vite framework, `/api` functions, security
+   headers, 60s `maxDuration`).
+3. In **Settings → Environment Variables**, add:
+   - `GEMINI_API_KEY` — **required** (your Gemini key)
+   - `ECOURTS_API_KEY` — optional (enables the eCourts `search_cases` tool)
+   - `ANALYZE_SECRET` — optional (if set, callers must send it in the
+     `x-analyze-secret` header; gates the public endpoint)
+4. Deploy. The API key never reaches the client bundle.
+
+## 🧪 Development
+
+```bash
+npm run typecheck   # tsc --noEmit
+npm run lint        # eslint .
+npm run test        # vitest run
+npm run build       # vite build
+npm run format      # prettier --write .
+```
+
+CI runs `typecheck`, `lint`, `test`, and `build` on every pull request.
+
+## 🤝 Contributing
+
+Contributions are welcome! Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup,
+coding standards, commit conventions, and the label/triage process. Good first
+steps: issues labeled
+[`good first issue`](https://github.com/NITISH-R-G/Intelli-Credit-V2/labels/good%20first%20issue)
+and
+[`help wanted`](https://github.com/NITISH-R-G/Intelli-Credit-V2/labels/help%20wanted).
+
+## 🔒 Security
+
+Found a vulnerability? Please report it privately via
+[GitHub Security Advisories](https://github.com/NITISH-R-G/Intelli-Credit-V2/security/advisories/new) —
+**do not** open a public issue. See [`SECURITY.md`](SECURITY.md) for the full
+policy and response SLA.
+
+## 📄 License
+
+[MIT](LICENSE) © NITISH-R-G.
+
+## 🙏 Acknowledgements
+
+Built with [Google Gemini](https://ai.google.dev/), [React](https://react.dev/),
+[Vite](https://vite.dev/), and [Tailwind CSS](https://tailwindcss.com/).
