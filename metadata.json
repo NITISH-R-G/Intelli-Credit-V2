@@ -1,12 +1,10 @@
 {
-  "name": "react-example",
-  "description": "",
-  "version": "0.0.0",
+  "name": "intelli-credit",
+  "description": "AI-powered corporate credit appraisal system using Google Gemini.",
+  "version": "1.0.0",
   "dependencies": {
     "@google/genai": "^1.29.0",
-    "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.14",
-    "@vitejs/plugin-react": "^5.0.4",
     "clsx": "^2.1.1",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
@@ -18,26 +16,24 @@
     "lucide-react": "^0.546.0",
     "motion": "^12.38.0",
     "multer": "^2.1.1",
-    "pdf-parse": "^2.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^15.0.0",
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
-    "tailwind-merge": "^3.5.0",
-    "vite": "^6.4.2"
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^4.17.21",
-    "@types/express-rate-limit": "^5.1.3",
     "@types/multer": "^2.1.0",
     "@types/node": "^22.14.0",
-    "@types/pdf-parse": "^1.1.5",
     "@typescript-eslint/eslint-plugin": "^8.60.1",
     "@typescript-eslint/parser": "^8.60.1",
+    "@vitejs/plugin-react": "^5.0.4",
     "@vitest/coverage-v8": "^4.1.7",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.39.4",
@@ -56,9 +52,11 @@
     "build": "vite build",
     "start": "node --experimental-strip-types server.ts",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('dist',{recursive:true,force:true}))\"",
     "format": "prettier --write .",
-    "lint": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -69,7 +67,12 @@
     "generate:dashboard": "tsx scripts/automation/generate-dashboard.ts",
     "fix": "tsx scripts/automation/auto-fix.ts"
   },
-  "frameworks": ["React", "Express", "Vite", "TailwindCSS"],
+  "frameworks": [
+    "React",
+    "Express",
+    "Vite",
+    "TailwindCSS"
+  ],
   "structure": {
     ".env.example": "file",
     ".github": {
@@ -104,6 +107,19 @@
     "CONTRIBUTING.md": "file",
     "README.md": "file",
     "SECURITY.md": "file",
+    "api": {
+      "_lib": {
+        "__tests__": {
+          "analyze-core.test.ts": "file",
+          "limits.test.ts": "file",
+          "mcp-tools.test.ts": "file"
+        },
+        "analyze-core.ts": "file",
+        "limits.ts": "file",
+        "mcp-tools.ts": "file"
+      },
+      "analyze.ts": "file"
+    },
     "cycle_1_report.md": "file",
     "cycle_2_report.md": "file",
     "cycle_3_report.md": "file",
@@ -184,14 +200,11 @@
       "lib": {
         "__tests__": {
           "export.test.ts": "file",
-          "file-utils.test.ts": "file",
-          "gemini.test.ts": "file"
+          "file-utils.test.ts": "file"
         },
         "export.ts": "file",
-        "file-utils.test.ts": "file",
         "file-utils.ts": "file",
         "gemini-config.ts": "file",
-        "gemini.ts": "file",
         "utils.test.ts": "file",
         "utils.ts": "file"
       },
@@ -205,8 +218,6 @@
       "types.ts": "file",
       "vite-env.d.ts": "file"
     },
-    "test-pdf.ts": "file",
-    "test-pdf2.ts": "file",
     "tsconfig.json": "file",
     "vercel.json": "file",
     "vite.config.ts": "file"
