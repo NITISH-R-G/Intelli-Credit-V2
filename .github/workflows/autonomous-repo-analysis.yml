@@ -1,12 +1,11 @@
 name: Autonomous Repository Analysis
 
+# Manual-only. Previously this ran on push/PR/weekly and auto-committed
+# regenerated metadata.json + architecture docs to main — which produced
+# stale snapshots that reverted intentional refactors. Run this manually
+# (Actions tab → "Run workflow") after intentional structural changes.
 on:
-  schedule:
-    - cron: '0 0 * * 0' # Run weekly on Sundays
-  push:
-    branches: ['main']
-  pull_request:
-    branches: ['main']
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,8 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -43,6 +40,6 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add docs/architecture/ metadata.json || true
           if ! git diff-index --quiet HEAD; then
-            git commit -m "docs(architecture): Update autonomous repository analysis and knowledge graph [skip ci]"
+            git commit -m "docs(architecture): refresh repository analysis and knowledge graph [skip ci]"
             git push
           fi

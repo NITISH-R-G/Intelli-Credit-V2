@@ -1,20 +1,14 @@
 name: Repository Health Dashboard
 
+# Manual-only. Previously this ran on push/PR/release/daily and auto-committed
+# docs/dashboard.html to main. It also requested `pages: write` +
+# `id-token: write` but never deployed to Pages (over-broad). Run it manually
+# (Actions tab → "Run workflow") when you want a refreshed health dashboard.
 on:
-  push:
-    branches: ['main', 'master']
-  pull_request:
-    branches: ['main', 'master']
-  release:
-    types: [published]
-  schedule:
-    - cron: '0 0 * * *' # Daily at midnight UTC
   workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   generate-dashboard:
@@ -40,12 +34,11 @@ jobs:
         run: npm run generate:dashboard
 
       - name: Commit Dashboard Updates
-        if: github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'schedule'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs/dashboard.html
           if ! git diff-index --quiet HEAD; then
-            git commit -m "docs: Auto-update Repository Health Dashboard [skip ci]"
+            git commit -m "docs: refresh Repository Health Dashboard [skip ci]"
             git push
           fi

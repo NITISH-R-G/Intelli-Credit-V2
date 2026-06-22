@@ -1,11 +1,15 @@
 name: AI Documentation Agent
 
+# Runs on PRs and posts an AI review as a PR comment. It does NOT commit.
+# (The previous version auto-committed generated docs to the PR branch, which
+# created noise and could race with other automation.)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
 
 jobs:
@@ -42,12 +46,3 @@ jobs:
           filePath: ai-review-output.md
           comment_tag: ai_review
 
-      - name: Commit AI Generated Docs
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add docs/ || true
-          if ! git diff-index --quiet HEAD; then
-            git commit -m "docs(ai): Generated documentation and summaries from PR [skip ci]"
-            git push origin HEAD:${{ github.head_ref }}
-          fi

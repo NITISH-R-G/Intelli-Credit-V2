@@ -1,6 +1,9 @@
 name: 'Pull Request Labeler'
+# Uses the safe `pull_request` trigger (not `pull_request_target`). Labeling
+# does not need the target's write token, and `pull_request` avoids running
+# fork PR code with the repo's own secrets.
 on:
-  - pull_request_target
+  - pull_request
 
 jobs:
   triage:

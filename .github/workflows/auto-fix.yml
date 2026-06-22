@@ -1,12 +1,11 @@
 name: Repository Self-Healing
 
+# Manual-only. Previously this ran on every push/PR + daily, auto-committing
+# formatting/lint fixes directly to the branch — which raced with contributor
+# work and reverted intentional changes. CI now *reports* lint failures
+# instead of rewriting branches. Run this manually when you want a format
+# pass applied to the current default branch.
 on:
-  push:
-    branches: ['main']
-  pull_request:
-    branches: ['main']
-  schedule:
-    - cron: '0 2 * * *' # Daily at 2 AM
   workflow_dispatch:
 
 permissions:
@@ -18,8 +17,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -45,7 +42,7 @@ jobs:
           git add -u
           if ! git diff-index --quiet HEAD; then
             git commit -m "chore(auto-fix): self-healing repository formatting and lint fixes [skip ci]"
-            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+            git push
           else
             echo "No changes to commit"
           fi

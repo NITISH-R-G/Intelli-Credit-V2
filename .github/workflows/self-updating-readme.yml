@@ -1,12 +1,12 @@
 name: Self-Updating README
 
+# Manual-only. Previously this ran on every push to main AND on completion of
+# "Autonomous Repository Analysis" (workflow_run), auto-committing a rewritten
+# README + docs/. This is what produced stale-snapshot commits that reverted
+# intentional refactors. Run it manually (Actions tab → "Run workflow") after
+# intentional structural changes; review the diff before pushing.
 on:
-  push:
-    branches: ['main']
-  workflow_run:
-    workflows: ['Autonomous Repository Analysis']
-    types:
-      - completed
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -18,8 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0 # Need full history for changelog/commit history
+          fetch-depth: 0
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -40,6 +39,6 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add README.md docs/ || true
           if ! git diff-index --quiet HEAD; then
-            git commit -m "docs: Auto-update README and Documentation [skip ci]"
+            git commit -m "docs: refresh README and documentation [skip ci]"
             git push
           fi
