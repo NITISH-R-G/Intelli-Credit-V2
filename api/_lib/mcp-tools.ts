@@ -1,10 +1,21 @@
+/**
+ * Server-side port of the MCP tool dispatcher.
+ *
+ * Originally `src/lib/gemini.ts` ran in the browser and read the eCourts key
+ * from `import.meta.env.VITE_ECOURTS_API_KEY`. Now that the agentic loop lives
+ * on the server, this logic runs in a Vercel serverless function / dev server
+ * and reads the key from `process.env` instead — so it never ships to clients.
+ *
+ * The mock/API-mode branches and return shapes are identical to the original,
+ * keeping the relocated tests (`api/_lib/__tests__/mcp-tools.test.ts`) green.
+ */
 export const callMcpTool = async (
   toolName: string,
   args: any,
   apiMode: boolean,
   bureauApiKey: string,
 ) => {
-  const apiKey = import.meta.env.VITE_ECOURTS_API_KEY;
+  const apiKey = process.env.ECOURTS_API_KEY;
 
   try {
     // Simulate latency
@@ -14,7 +25,7 @@ export const callMcpTool = async (
       if (!apiKey) {
         return {
           error:
-            'eCourts API key not configured. Please set VITE_ECOURTS_API_KEY in your environment.',
+            'eCourts API key not configured. Please set ECOURTS_API_KEY in your environment.',
         };
       }
       return {
@@ -113,7 +124,7 @@ export const callMcpTool = async (
     if (toolName === 'get_mca_info') {
       if (apiMode && bureauApiKey) {
         try {
-          const res = await fetch('/resource/4dbe5667-7b6b-41d7-82af-211562424d9a', {
+          const res = await fetch('https://api.mca.gov.in/resource/4dbe5667-7b6b-41d7-82af-211562424d9a', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ companyName: args.companyName }),
@@ -121,7 +132,7 @@ export const callMcpTool = async (
           if (res.ok) return await res.json();
 
           const getRes = await fetch(
-            `/resource/4dbe5667-7b6b-41d7-82af-211562424d9a?companyName=${encodeURIComponent(args.companyName as string)}`,
+            `https://api.mca.gov.in/resource/4dbe5667-7b6b-41d7-82af-211562424d9a?companyName=${encodeURIComponent(args.companyName as string)}`,
           );
           if (getRes.ok) return await getRes.json();
 

@@ -2,14 +2,10 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import {
   calculateDisplayAnalysis,
   calculateRiskAndFraud,
-  prepareDocumentContents,
-  executeAIExtractionLoop,
   performAnalysis,
 } from '../analysisService';
 import { CreditAnalysis } from '../../types';
 import * as fileUtils from '../../lib/file-utils';
-import * as gemini from '../../lib/gemini';
-import { EXTRACTION_PROMPT } from '../../lib/gemini-config';
 
 describe('calculateRiskAndFraud', () => {
   const getBaseMockParsedData = (): any => ({
@@ -471,167 +467,13 @@ describe('calculateDisplayAnalysis', () => {
   });
 });
 
-describe('prepareDocumentContents', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it('throws error if no valid documents provided', async () => {
-    await expect(prepareDocumentContents([])).rejects.toThrow(
-      'No valid documents found for analysis.',
-    );
-  });
-
-  it('processes image and pdf files as inlineData', async () => {
-    vi.spyOn(fileUtils, 'fileToBase64').mockResolvedValue('base64DataString');
-    const mockFile1 = new File([''], 'test.pdf', { type: 'application/pdf' });
-    const mockFile2 = new File([''], 'test.png', { type: 'image/png' });
-
-    const result = await prepareDocumentContents([mockFile1, mockFile2]);
-
-    expect(result).toHaveLength(2); // 2 files
-    expect(result[0].parts[0].inlineData).toEqual({
-      mimeType: 'application/pdf',
-      data: 'base64DataString',
-    });
-    expect(result[1].parts[0].inlineData).toEqual({
-      mimeType: 'image/png',
-      data: 'base64DataString',
-    });
-
-    // Checks if prompt is appended to the last part
-    expect(result[1].parts[1]).toEqual({ text: EXTRACTION_PROMPT });
-  });
-
-  it('processes text/other files as text', async () => {
-    vi.spyOn(fileUtils, 'fileToText').mockResolvedValue('sample document text content');
-    const mockFile1 = new File([''], 'test.txt', { type: 'text/plain' });
-
-    const result = await prepareDocumentContents([mockFile1]);
-
-    expect(result).toHaveLength(1);
-    expect(result[0].parts[0].text).toContain('Document Name: test.txt');
-    expect(result[0].parts[0].text).toContain('sample document text content');
-    expect(result[0].parts[1]).toEqual({ text: EXTRACTION_PROMPT });
-  });
-});
-
-describe('executeAIExtractionLoop', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it('throws an error if extraction finishes with SAFETY reason', async () => {
-    const mockGenAI = {
-      models: {
-        generateContent: vi.fn().mockResolvedValue({
-          text: null,
-          functionCalls: [],
-          candidates: [{ finishReason: 'SAFETY' }],
-        }),
-      },
-    };
-
-    await expect(
-      executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''),
-    ).rejects.toThrow('Analysis Failed: The document content was flagged by safety filters.');
-  });
-
-  it('throws an error if text is null and no function calls', async () => {
-    const mockGenAI = {
-      models: {
-        generateContent: vi.fn().mockResolvedValue({
-          text: null,
-          functionCalls: [],
-          candidates: [{ finishReason: 'STOP' }],
-        }),
-      },
-    };
-
-    await expect(
-      executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''),
-    ).rejects.toThrow('Failed to extract data from document');
-  });
-
-  it('executes a tool call and iterates', async () => {
-    const mockGenAI = {
-      models: {
-        generateContent: vi
-          .fn()
-          .mockResolvedValueOnce({
-            text: null,
-            functionCalls: [{ name: 'search_cases', args: { query: 'test' } }],
-            candidates: [{ content: { role: 'model', parts: [] } }],
-          })
-          .mockResolvedValueOnce({
-            text: JSON.stringify({ mockData: 'success' }),
-            functionCalls: [],
-          }),
-      },
-    };
-
-    vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ cases: [] });
-
-    const result = await executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, '');
-
-    expect(result).toEqual({ mockData: 'success' });
-    expect(gemini.callMcpTool).toHaveBeenCalledWith('search_cases', { query: 'test' }, false, '');
-    expect(mockGenAI.models.generateContent).toHaveBeenCalledTimes(2);
-  });
-
-  it('throws an error if tool call returns an error', async () => {
-    const mockGenAI = {
-      models: {
-        generateContent: vi.fn().mockResolvedValueOnce({
-          text: null,
-          functionCalls: [{ name: 'search_cases', args: {} }],
-          candidates: [{ content: { role: 'model', parts: [] } }],
-        }),
-      },
-    };
-
-    vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ error: 'API limits reached' });
-
-    await expect(
-      executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''),
-    ).rejects.toThrow('TOOL_ERROR: API limits reached');
-  });
-
-  it('handles unknown tool call', async () => {
-    const mockGenAI = {
-      models: {
-        generateContent: vi.fn().mockResolvedValueOnce({
-          text: null,
-          functionCalls: [{ name: 'unknown_tool', args: {} }],
-          candidates: [{ content: { role: 'model', parts: [] } }],
-        }),
-      },
-    };
-
-    await expect(
-      executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''),
-    ).rejects.toThrow('TOOL_ERROR: Unknown tool');
-  });
-
-  it('throws error if max iterations reached', async () => {
-    const mockGenAI = {
-      models: {
-        generateContent: vi.fn().mockResolvedValue({
-          text: null,
-          functionCalls: [{ name: 'search_cases', args: {} }],
-          candidates: [{ content: { role: 'model', parts: [] } }],
-        }),
-      },
-    };
-
-    vi.spyOn(gemini, 'callMcpTool').mockResolvedValue({ cases: [] });
-
-    await expect(
-      executeAIExtractionLoop(mockGenAI, 'test-model', [], {}, false, ''),
-    ).rejects.toThrow('Analysis stopped: Too many tool calls required');
-  });
-});
-
+/**
+ * The Gemini model call + agentic tool loop (formerly
+ * `prepareDocumentContents` and `executeAIExtractionLoop`) now live
+ * server-side in `/api/analyze`. Their tests moved to
+ * `api/_lib/__tests__/`. Only `performAnalysis`'s client-side behavior
+ * (caching, fetch, error mapping) is unit-tested here.
+ */
 describe('performAnalysis', () => {
   let mockSetLoading: any;
   let mockSetError: any;
@@ -645,16 +487,19 @@ describe('performAnalysis', () => {
     mockSetAnalysis = vi.fn();
     mockSetShowLogs = vi.fn();
     mockFileCache = { current: new Map() };
-    vi.stubEnv('GEMINI_API_KEY', 'test-key');
+    // jsdom doesn't provide fetch; stub it as a spy so the cached-path test
+    // can assert it was NOT called, and the network tests can override it.
+    vi.stubGlobal('fetch', vi.fn());
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
   });
 
-  it('returns early if files array is empty', async () => {
-    await performAnalysis(
-      [],
+  const callPerformAnalysis = (files: File[]) =>
+    performAnalysis(
+      files,
       mockFileCache,
       false,
       '',
@@ -663,6 +508,9 @@ describe('performAnalysis', () => {
       mockSetAnalysis,
       mockSetShowLogs,
     );
+
+  it('returns early if files array is empty', async () => {
+    await callPerformAnalysis([]);
     expect(mockSetLoading).not.toHaveBeenCalled();
   });
 
@@ -671,152 +519,137 @@ describe('performAnalysis', () => {
     mockFileCache.current.set('testhash', { riskScore: 50 });
 
     const mockFile = new File([''], 'test.pdf');
-    await performAnalysis(
-      [mockFile],
-      mockFileCache,
-      false,
-      '',
-      mockSetLoading,
-      mockSetError,
-      mockSetAnalysis,
-      mockSetShowLogs,
-    );
+    await callPerformAnalysis([mockFile]);
 
     expect(mockSetAnalysis).toHaveBeenCalledWith({ riskScore: 50 });
     expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 
-  it('handles general errors during execution', async () => {
-    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('Hash failed'));
+  const mockOkResponse = (body: unknown) =>
+    ({
+      ok: true,
+      json: async () => body,
+    }) as Response;
 
-    const mockFile = new File([''], 'test.pdf');
-    await performAnalysis(
-      [mockFile],
-      mockFileCache,
-      false,
-      '',
-      mockSetLoading,
-      mockSetError,
-      mockSetAnalysis,
-      mockSetShowLogs,
+  it('POSTs files to /api/analyze, runs risk calc, caches and sets analysis', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockResolvedValue('uniquemhash');
+    // Minimal shape that survives calculateRiskAndFraud post-processing.
+    // Complete CreditAnalysis shape — the server always returns one that
+    // satisfies RESPONSE_SCHEMA, and calculateRiskAndFraud reads many fields.
+    const serverAnalysis = {
+      companyInfo: { name: 'Co', establishedYear: 2020, industry: 'IT', registrationNumber: 'r', employees: '10' },
+      structuredData: {
+        revenue: [{ year: '2023', value: 1000000 }],
+        debt: [{ year: '2023', value: 100000 }],
+        cashflow: [{ year: '2023', value: 100000 }],
+        profit: [{ year: '2023', value: 100000 }],
+        assets: [{ year: '2023', value: 500000 }],
+        liabilities: [{ year: '2023', value: 200000 }],
+      },
+      verificationLayer: [],
+      fraudDetection: [],
+      unstructuredInsights: { boardMeetingNotes: [], ratingAgencyReports: '', shareholdingPattern: '' },
+      externalIntelligence: { mcaStatus: 'Active', legalDisputes: [], newsSectorTrends: [] },
+      primaryInsights: { siteVisitObservations: [], managementInterviews: [] },
+      fiveCs: {
+        character: { score: 70, insights: [], redFlags: [], positiveSignals: [] },
+        capacity: { score: 70, insights: [], redFlags: [], positiveSignals: [] },
+        capital: { score: 70, insights: [], redFlags: [], positiveSignals: [] },
+        collateral: { score: 70, insights: [], redFlags: [], positiveSignals: [] },
+        conditions: { score: 70, insights: [], redFlags: [], positiveSignals: [] },
+      },
+    };
+    const fetchSpy = vi
+      .spyOn(global, 'fetch')
+      .mockResolvedValue(mockOkResponse({ analysis: serverAnalysis }));
+
+    const mockFile = new File(['hello'], 'test.pdf', { type: 'application/pdf' });
+    await callPerformAnalysis([mockFile]);
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/api/analyze',
+      expect.objectContaining({ method: 'POST' }),
     );
+    // Files + settings were sent as multipart form data.
+    const sentBody = fetchSpy.mock.calls[0][1].body as FormData;
+    expect(sentBody.get('files')).toBeInstanceOf(File);
+    expect(sentBody.get('apiMode')).toBe('false');
+    expect(sentBody.get('bureauApiKey')).toBe('');
+
+    expect(mockSetAnalysis).toHaveBeenCalledTimes(1);
+    expect(mockFileCache.current.has('uniquemhash')).toBe(true);
+    expect(mockSetLoading).toHaveBeenLastCalledWith(false);
+  });
+
+  it('maps a server MISSING_API_KEY error to a Configuration Required AppError', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockResolvedValue('h');
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: false,
+      status: 400,
+      json: async () => ({ error: 'no key', code: 'MISSING_API_KEY' }),
+    } as Response);
+
+    await callPerformAnalysis([new File([''], 't.pdf')]);
 
     expect(mockSetError).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: 'Analysis Failed',
-        details: 'Hash failed',
+        message: 'Configuration Required',
+        type: 'API_ERROR',
       }),
     );
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(mockSetShowLogs).toHaveBeenCalledWith(true);
   });
 
-  it('handles authentication API errors', async () => {
-    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('API_KEY missing'));
+  it('maps a server SAFETY_BLOCKED error to a Content Blocked AppError', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockResolvedValue('h');
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({ error: 'flagged', code: 'SAFETY_BLOCKED' }),
+    } as Response);
 
-    const mockFile = new File([''], 'test.pdf');
-    await performAnalysis(
-      [mockFile],
-      mockFileCache,
-      false,
-      '',
-      mockSetLoading,
-      mockSetError,
-      mockSetAnalysis,
-      mockSetShowLogs,
-    );
+    await callPerformAnalysis([new File([''], 't.pdf')]);
 
     expect(mockSetError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'Authentication Error',
-      }),
+      expect.objectContaining({ message: 'Content Blocked', type: 'API_ERROR' }),
     );
   });
 
-  it('handles parsing JSON errors', async () => {
-    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('Invalid JSON format'));
+  it('maps a server INVALID_JSON error to a Data Parsing AppError', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockResolvedValue('h');
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({ error: 'bad json', code: 'INVALID_JSON' }),
+    } as Response);
 
-    const mockFile = new File([''], 'test.pdf');
-    await performAnalysis(
-      [mockFile],
-      mockFileCache,
-      false,
-      '',
-      mockSetLoading,
-      mockSetError,
-      mockSetAnalysis,
-      mockSetShowLogs,
-    );
+    await callPerformAnalysis([new File([''], 't.pdf')]);
 
     expect(mockSetError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'Data Parsing Error',
-      }),
+      expect.objectContaining({ message: 'Data Parsing Error', type: 'PARSING_ERROR' }),
     );
   });
 
-  it('handles network fetch errors', async () => {
-    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('fetch failed'));
+  it('maps a network/fetch failure to a NetworkError AppError', async () => {
+    vi.spyOn(fileUtils, 'hashFile').mockResolvedValue('h');
+    vi.spyOn(global, 'fetch').mockRejectedValue(new TypeError('Failed to fetch'));
 
-    const mockFile = new File([''], 'test.pdf');
-    await performAnalysis(
-      [mockFile],
-      mockFileCache,
-      false,
-      '',
-      mockSetLoading,
-      mockSetError,
-      mockSetAnalysis,
-      mockSetShowLogs,
-    );
+    await callPerformAnalysis([new File([''], 't.pdf')]);
 
     expect(mockSetError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'Network Error',
-      }),
+      expect.objectContaining({ message: 'Network Error', type: 'API_ERROR' }),
     );
+    expect(mockSetLoading).toHaveBeenLastCalledWith(false);
   });
 
-  it('handles Tool errors', async () => {
-    vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('TOOL_ERROR: limits'));
-
-    const mockFile = new File([''], 'test.pdf');
-    await performAnalysis(
-      [mockFile],
-      mockFileCache,
-      false,
-      '',
-      mockSetLoading,
-      mockSetError,
-      mockSetAnalysis,
-      mockSetShowLogs,
-    );
-
-    expect(mockSetError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'Integration Tool Error',
-      }),
-    );
-  });
-
-  it('handles File errors', async () => {
+  it('maps a FILE_ERROR to a File Processing AppError', async () => {
     vi.spyOn(fileUtils, 'hashFile').mockRejectedValue(new Error('FILE_ERROR: corruption'));
 
-    const mockFile = new File([''], 'test.pdf');
-    await performAnalysis(
-      [mockFile],
-      mockFileCache,
-      false,
-      '',
-      mockSetLoading,
-      mockSetError,
-      mockSetAnalysis,
-      mockSetShowLogs,
-    );
+    await callPerformAnalysis([new File([''], 't.pdf')]);
 
     expect(mockSetError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'File Processing Error',
-      }),
+      expect.objectContaining({ message: 'File Processing Error', type: 'FILE_ERROR' }),
     );
   });
 });

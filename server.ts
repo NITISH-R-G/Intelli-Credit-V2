@@ -3,15 +3,16 @@ import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import dotenv from 'dotenv';
 import multer from 'multer';
-import * as pdf from 'pdf-parse';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import { runAnalysis, AnalysisError } from './api/_lib/analyze-core';
+import type { AnalyzeInputFile } from './api/_lib/analyze-core';
 
 dotenv.config();
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit to prevent DoS
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB per file to prevent DoS
 });
 
 const app = express();
@@ -34,26 +35,46 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.post('/api/extract-text', upload.single('file'), async (req, res) => {
+/**
+ * Local-dev mirror of the Vercel serverless function `api/analyze.ts`.
+ * `npm run dev` (tsx server.ts) serves the SPA and routes /api/analyze
+ * here, so prod and dev run the identical `runAnalysis` core. The Gemini
+ * key is read from process.env.GEMINI_API_KEY server-side only.
+ *
+ * Accepts multipart/form-data with one or more `files`, plus `apiMode`
+ * ("true"|"false") and `bureauApiKey` (string).
+ */
+app.post('/api/analyze', upload.array('files', 20), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
+    const uploaded = (req.files as Express.Multer.File[] | undefined) ?? [];
+    if (uploaded.length === 0) {
+      return res.status(400).json({ error: 'No files were uploaded.', code: 'NO_FILES' });
     }
-    const fileBuffer = req.file.buffer;
-    const fileType = req.file.mimetype;
-    if (fileType === 'application/pdf') {
-      const pdfParser = (pdf as any).default || pdf;
-      const data = await pdfParser(fileBuffer);
-      return res.json({ text: data.text });
-    } else if (fileType.startsWith('image/')) {
-      const base64Data = fileBuffer.toString('base64');
-      return res.json({ base64: base64Data, mimeType: fileType });
-    } else {
-      return res.status(400).json({ error: 'Unsupported file type' });
-    }
+
+    const apiMode = (req.body.apiMode as string) === 'true';
+    const bureauApiKey = (req.body.bureauApiKey as string) ?? '';
+
+    const files: AnalyzeInputFile[] = uploaded.map((f) => ({
+      name: f.originalname,
+      mimeType: f.mimetype || 'application/octet-stream',
+      data: f.buffer.toString('base64'),
+    }));
+
+    const analysis = await runAnalysis(files, apiMode, bureauApiKey);
+    return res.json({ analysis });
   } catch (error) {
-    console.error('Error extracting text:', error);
-    res.status(500).json({ error: 'Failed to process file' });
+    if (error instanceof AnalysisError) {
+      const status = error.code === 'NO_FILES' || error.code === 'MISSING_API_KEY' ? 400 : 500;
+      return res
+        .status(status)
+        .json({ error: error.message, code: error.code, rawLogs: error.rawLogs });
+    }
+    console.error('[/api/analyze] unexpected error:', error);
+    return res.status(500).json({
+      error: 'An unexpected error occurred during analysis.',
+      code: 'INTERNAL',
+      rawLogs: (error as Error)?.message ?? String(error),
+    });
   }
 });
 

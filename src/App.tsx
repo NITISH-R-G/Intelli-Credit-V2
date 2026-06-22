@@ -8,7 +8,7 @@ import { RiskScorePanel } from './components/RiskScorePanel';
 import { StressTestingPanel } from './components/StressTestingPanel';
 import { IndustryBenchmarkingPanel } from './components/IndustryBenchmarkingPanel';
 import { LoanRecommendationPanel } from './components/LoanRecommendationPanel';
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
 import { FinancialMetrics } from './components/FinancialMetrics';
 import { VerificationEngine } from './components/VerificationEngine';
 import { IntelligenceRow } from './components/IntelligenceRow';
@@ -16,7 +16,6 @@ import { RiskDimensions } from './components/RiskDimensions';
 import { ActionRecommendation } from './components/ActionRecommendation';
 import { FraudFlags } from './components/FraudFlags';
 import { CAMReport } from './components/CAMReport';
-import React, { useState, useCallback, useMemo, useRef, Suspense } from 'react';
 const StressTestingModule = React.lazy(() => import('./components/StressTestingModule'));
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
@@ -56,17 +55,7 @@ import {
   Legend,
 } from 'recharts';
 import { cn } from './lib/utils';
-import { GoogleGenAI } from '@google/genai';
-import { hashFile, fileToBase64, fileToText } from './lib/file-utils';
-import { callMcpTool } from './lib/gemini';
-import {
-  searchCasesDeclaration,
-  getMcaInfoDeclaration,
-  fetchDirectorCibilDeclaration,
-  calculateLtvDeclaration,
-  EXTRACTION_PROMPT,
-  RESPONSE_SCHEMA,
-} from './lib/gemini-config';
+
 
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -218,9 +207,9 @@ export default function App() {
             />
 
             <IndustryBenchmarkingPanel analysis={analysis} />
-              {/* Decision Panel */}
-              <DecisionPanel displayAnalysis={displayAnalysis!} />
-            </div>
+
+            {/* Decision Panel */}
+            <DecisionPanel displayAnalysis={displayAnalysis!} />
 
             <Suspense
               fallback={

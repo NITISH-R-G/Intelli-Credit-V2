@@ -1,10 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { callMcpTool } from '../gemini';
+import { callMcpTool } from '../mcp-tools';
 
+/**
+ * Relocated from `src/lib/__tests__/gemini.test.ts`. The tool dispatcher
+ * moved server-side (`api/_lib/mcp-tools.ts`) and now reads the eCourts
+ * key from `process.env.ECOURTS_API_KEY` instead of the client-exposed
+ * `import.meta.env.VITE_ECOURTS_API_KEY`.
+ */
 describe('callMcpTool', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn());
-    vi.stubEnv('VITE_ECOURTS_API_KEY', 'test_key');
+    vi.stubEnv('ECOURTS_API_KEY', 'test_key');
   });
 
   afterEach(() => {
@@ -20,13 +26,13 @@ describe('callMcpTool', () => {
 
   describe('search_cases', () => {
     it('returns error if API key is not configured', async () => {
-      vi.unstubAllEnvs(); // this removes VITE_ECOURTS_API_KEY
+      vi.unstubAllEnvs(); // this removes ECOURTS_API_KEY
       const result = await callMcpTool('search_cases', { query: 'Test Company' }, false, '');
       expect(result.error).toContain('eCourts API key not configured');
     });
 
     it('returns cases if API key is configured', async () => {
-      // VITE_ECOURTS_API_KEY is mocked in beforeEach
+      // ECOURTS_API_KEY is mocked in beforeEach
       const result = await callMcpTool('search_cases', { query: 'Test Company' }, false, '');
       expect(result).toEqual({
         cases: [

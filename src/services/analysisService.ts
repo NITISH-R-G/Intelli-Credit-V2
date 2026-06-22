@@ -7,17 +7,106 @@ import {
 } from '../types';
 import { INDUSTRY_BENCHMARKS } from '../constants';
 import { AppError } from '../types';
-import { hashFile, fileToBase64, fileToText } from '../lib/file-utils';
-import { callMcpTool } from '../lib/gemini';
-import {
-  searchCasesDeclaration,
-  getMcaInfoDeclaration,
-  fetchDirectorCibilDeclaration,
-  calculateLtvDeclaration,
-  EXTRACTION_PROMPT,
-  RESPONSE_SCHEMA,
-} from '../lib/gemini-config';
-import { GoogleGenAI } from '@google/genai';
+import { hashFile } from '../lib/file-utils';
+
+/**
+ * Stable error codes emitted by the serverless function (`api/analyze.ts`).
+ * Kept in sync with `AnalyzeError['code']` in `api/_lib/analyze-core.ts`.
+ */
+type ServerErrorCode =
+  | 'MISSING_API_KEY'
+  | 'NO_FILES'
+  | 'TOOL_ERROR'
+  | 'SAFETY_BLOCKED'
+  | 'TOO_MANY_TOOL_CALLS'
+  | 'EMPTY_RESPONSE'
+  | 'INVALID_JSON'
+  | 'INTERNAL';
+
+/**
+ * Error thrown locally when the `/api/analyze` request fails. Carries the
+ * server's stable `code` so the catch block can map it to a precise `AppError`
+ * instead of pattern-matching on message text.
+ */
+class ServerAnalysisError extends Error {
+  code: ServerErrorCode;
+  rawLogs?: string;
+
+  constructor(code: ServerErrorCode, message: string, rawLogs?: string) {
+    super(message);
+    this.name = 'ServerAnalysisError';
+    this.code = code;
+    this.rawLogs = rawLogs;
+  }
+}
+
+/** Maps a server error code to the user-facing `AppError` shape. */
+const mapServerCodeToAppError = (
+  code: ServerErrorCode,
+  message: string,
+  rawLogs: string,
+): AppError => {
+  switch (code) {
+    case 'MISSING_API_KEY':
+      return {
+        message: 'Configuration Required',
+        details: 'The server has no Gemini API key configured.',
+        action:
+          'Set GEMINI_API_KEY in Vercel → Settings → Environment Variables, then redeploy. For local dev, add it to a .env file.',
+        rawLogs,
+        type: 'API_ERROR',
+      };
+    case 'SAFETY_BLOCKED':
+      return {
+        message: 'Content Blocked',
+        details: message,
+        action: 'The document was flagged by safety filters. Try a different document.',
+        rawLogs,
+        type: 'API_ERROR',
+      };
+    case 'TOOL_ERROR':
+      return {
+        message: 'Integration Tool Error',
+        details: message,
+        action: 'Verify your API keys and integration settings in the Bureau panel.',
+        rawLogs,
+        type: 'API_ERROR',
+      };
+    case 'INVALID_JSON':
+      return {
+        message: 'Data Parsing Error',
+        details: 'The AI model returned an invalid data format that could not be processed.',
+        action: 'Try re-running the analysis or using a clearer document scan.',
+        rawLogs,
+        type: 'PARSING_ERROR',
+      };
+    case 'TOO_MANY_TOOL_CALLS':
+    case 'EMPTY_RESPONSE':
+      return {
+        message: 'Analysis Incomplete',
+        details: message,
+        action: 'The model could not complete the analysis. Try again or use clearer documents.',
+        rawLogs,
+        type: 'API_ERROR',
+      };
+    case 'NO_FILES':
+      return {
+        message: 'No Files',
+        details: message,
+        rawLogs,
+        type: 'FILE_ERROR',
+      };
+    case 'INTERNAL':
+    default:
+      return {
+        message: 'Analysis Failed',
+        details: message,
+        rawLogs,
+        type: 'UNKNOWN',
+      };
+  }
+};
+
 
 interface StressedFinancials {
   stressedRevenue: number;
@@ -532,127 +621,6 @@ export const calculateRiskAndFraud = (parsedData: CreditAnalysis): CreditAnalysi
   return result;
 };
 
-export const executeAIExtractionLoop = async (
-  genAI: any,
-  model: string,
-  currentContents: any[],
-  config: any,
-  apiMode: boolean,
-  bureauApiKey: string,
-): Promise<CreditAnalysis> => {
-  let extractionResponse = await genAI.models.generateContent({
-    model,
-    contents: currentContents,
-    config,
-  });
-
-  let iterations = 0;
-  const MAX_ITERATIONS = 10;
-  while (
-    extractionResponse.functionCalls &&
-    extractionResponse.functionCalls.length > 0 &&
-    iterations < MAX_ITERATIONS
-  ) {
-    const call = extractionResponse.functionCalls[0];
-
-    let toolResult;
-    if (
-      call.name === 'search_cases' ||
-      call.name === 'fetch_director_cibil' ||
-      call.name === 'calculate_ltv' ||
-      call.name === 'get_mca_info'
-    ) {
-      toolResult = await callMcpTool(call.name, call.args, apiMode, bureauApiKey);
-    } else {
-      toolResult = { error: 'Unknown tool' };
-    }
-
-    if (toolResult && toolResult.error) {
-      throw new Error(`TOOL_ERROR: ${toolResult.error}`);
-    }
-
-    currentContents.push(extractionResponse.candidates![0].content);
-    currentContents.push({
-      role: 'user',
-      parts: [
-        {
-          functionResponse: {
-            name: call.name,
-            response: { result: toolResult },
-          },
-        },
-      ],
-    });
-
-    extractionResponse = await genAI.models.generateContent({
-      model,
-      contents: currentContents,
-      config,
-    });
-
-    iterations++;
-  }
-
-  if (!extractionResponse.text) {
-    if (extractionResponse.functionCalls && extractionResponse.functionCalls.length > 0) {
-      throw new Error(
-        'Analysis stopped: Too many tool calls required. The model is still trying to gather information.',
-      );
-    }
-
-    const finishReason = extractionResponse.candidates?.[0]?.finishReason;
-    if (finishReason === 'SAFETY') {
-      throw new Error('Analysis Failed: The document content was flagged by safety filters.');
-    }
-
-    throw new Error(
-      'Failed to extract data from document: The model returned an empty response. This can happen if the document is too complex or the prompt is too restrictive.',
-    );
-  }
-
-  const parsedData = JSON.parse(extractionResponse.text);
-  return parsedData;
-};
-
-export const prepareDocumentContents = async (files: File[]): Promise<any[]> => {
-  const currentContents: any[] = [];
-
-  for (const f of files) {
-    if (f.type === 'application/pdf' || f.type.startsWith('image/')) {
-      const base64Data = await fileToBase64(f);
-      currentContents.push({
-        role: 'user',
-        parts: [
-          {
-            inlineData: {
-              data: base64Data,
-              mimeType: f.type,
-            },
-          },
-        ],
-      });
-    } else {
-      const text = await fileToText(f);
-      currentContents.push({
-        role: 'user',
-        parts: [
-          {
-            text: `Document Name: ${f.name}\n\nDocument Text:\n${text.substring(0, 10000)}`,
-          },
-        ],
-      });
-    }
-  }
-
-  // Add the extraction prompt to the last content part
-  if (currentContents.length > 0) {
-    currentContents[currentContents.length - 1].parts.push({ text: EXTRACTION_PROMPT });
-  } else {
-    throw new Error('No valid documents found for analysis.');
-  }
-  return currentContents;
-};
-
 export const performAnalysis = async (
   files: File[],
   fileCache: React.MutableRefObject<Map<string, CreditAnalysis>>,
@@ -678,59 +646,49 @@ export const performAnalysis = async (
       return;
     }
 
-    const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    const model = 'gemini-3-flash-preview';
+    // The entire Gemini model call + agentic tool loop now runs server-side
+    // in /api/analyze (see api/_lib/analyze-core.ts) so the key never ships
+    // in the client bundle. Here we just upload the files and settings,
+    // then run the pure client-side risk/fraud post-processing on the result.
+    const formData = new FormData();
+    for (const f of files) {
+      formData.append('files', f, f.name);
+    }
+    formData.append('apiMode', String(apiMode));
+    formData.append('bureauApiKey', bureauApiKey);
 
-    // Convert files to parts
-    const fileParts = await Promise.all(
-      files.map(async (f) => {
-        const buffer = await f.arrayBuffer();
-        const base64 = btoa(
-          new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''),
-        );
-        return {
-          inlineData: {
-            mimeType: f.type,
-            data: base64,
-          },
-        };
-      }),
-    );
+    const response = await fetch('/api/analyze', {
+      method: 'POST',
+      body: formData,
+    });
 
-    const config = {
-      tools: [
-        { googleSearch: {} },
-        {
-          functionDeclarations: [
-            searchCasesDeclaration,
-            getMcaInfoDeclaration,
-            fetchDirectorCibilDeclaration,
-            calculateLtvDeclaration,
-          ],
-        },
-      ],
-      toolConfig: { includeServerSideToolInvocations: true },
-      responseMimeType: 'application/json',
-      responseSchema: RESPONSE_SCHEMA as any,
-    };
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      throw new ServerAnalysisError(
+        body?.code ?? 'INTERNAL',
+        body?.error ?? `Analysis request failed with status ${response.status}.`,
+        body?.rawLogs,
+      );
+    }
 
-    const currentContents = await prepareDocumentContents(files);
-
-    const parsedData = await executeAIExtractionLoop(
-      genAI,
-      model,
-      currentContents,
-      config,
-      apiMode,
-      bureauApiKey,
-    );
-
+    const { analysis: parsedData } = (await response.json()) as { analysis: any };
     const result = calculateRiskAndFraud(parsedData);
 
     fileCache.current.set(combinedHash, result);
     setAnalysis(result);
   } catch (err) {
     const rawLogs = err instanceof Error ? err.stack || err.message : String(err);
+
+    // Structured errors from the server carry a stable `code`.
+    if (err instanceof ServerAnalysisError) {
+      const appError = mapServerCodeToAppError(err.code, err.message, err.rawLogs ?? rawLogs);
+      setShowLogs(appError.type === 'API_ERROR');
+      setError(appError);
+      return;
+    }
+
+    // Local-only fallbacks (file read failures, network blips before the
+    // request reached the server, JSON decode errors, etc.).
     let appError: AppError = {
       message: 'Analysis Failed',
       details:
@@ -742,35 +700,11 @@ export const performAnalysis = async (
     };
 
     if (err instanceof Error) {
-      if (err.message.includes('API_KEY')) {
-        appError = {
-          message: 'Authentication Error',
-          details: 'The Gemini API key is missing or invalid.',
-          action: 'Ensure the GEMINI_API_KEY is properly configured in the environment.',
-          rawLogs,
-          type: 'API_ERROR',
-        };
-      } else if (err.message.includes('JSON')) {
-        appError = {
-          message: 'Data Parsing Error',
-          details: 'The AI model returned an invalid data format that could not be processed.',
-          action: 'Try re-running the analysis or using a clearer document scan.',
-          rawLogs,
-          type: 'PARSING_ERROR',
-        };
-      } else if (err.message.includes('fetch')) {
+      if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
         appError = {
           message: 'Network Error',
-          details: 'Failed to communicate with external bureau services or the AI model.',
-          action: 'Check your internet connection and verify the API key.',
-          rawLogs,
-          type: 'API_ERROR',
-        };
-      } else if (err.message.includes('TOOL_ERROR')) {
-        appError = {
-          message: 'Integration Tool Error',
-          details: err.message.replace('TOOL_ERROR: ', ''),
-          action: 'Verify your API keys and integration settings in the Bureau panel.',
+          details: 'Could not reach the analysis service.',
+          action: 'Check your internet connection and try again.',
           rawLogs,
           type: 'API_ERROR',
         };

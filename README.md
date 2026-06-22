@@ -95,9 +95,20 @@ Intelli-Credit Terminal is an advanced, automated corporate credit appraisal app
 
 ### Environment Variables
 
-| Variable               | Example Value |
-| ---------------------- | ------------- |
-| `VITE_ECOURTS_API_KEY` | ``            |
+All keys are **server-side only** — the client never sees them. Every Gemini
+and bureau call goes through the `/api/analyze` serverless function.
+
+| Variable          | Required | Description                                                                                |
+| ----------------- | -------- | ------------------------------------------------------------------------------------------ |
+| `GEMINI_API_KEY`  | Yes      | Google Gemini API key. Get one at https://aistudio.google.com/apikey                       |
+| `ECOURTS_API_KEY` | No       | eCourts key for the `search_cases` tool. When unset, that tool returns a helpful error.    |
+
+**Local dev:** copy `.env.example` to `.env` and fill in the values. `server.ts`
+loads `.env` via dotenv and exposes them to the dev `/api/analyze` route.
+
+**Vercel:** add each value under **Settings → Environment Variables** (no `VITE_`
+prefix). They are injected into the serverless function at runtime and never
+reach the browser bundle.
 
 ### Architecture & System Design
 
