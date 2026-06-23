@@ -391,10 +391,10 @@ export const calculateRiskAndFraud = (parsedData: CreditAnalysis): CreditAnalysi
   if (latestCashflow < 0) riskScore += 15;
 
   // Penalize for unverified or mismatched data
-  const unverifiedCount = parsedData.verificationLayer.filter(
+  const unverifiedCount = (parsedData.verificationLayer || []).filter(
     (v: VerificationDataPoint) => v.status === 'Unverified',
   ).length;
-  const mismatchCount = parsedData.verificationLayer.filter(
+  const mismatchCount = (parsedData.verificationLayer || []).filter(
     (v: VerificationDataPoint) => v.status === 'Mismatch',
   ).length;
   riskScore += unverifiedCount * 5;
