@@ -35,8 +35,8 @@ jobs:
             const fs = require('fs');
             if (fs.existsSync('improvement_suggestions.txt')) {
                const content = fs.readFileSync('improvement_suggestions.txt', 'utf8').trim();
-               if (content && !content.includes('Error')) {
-                  github.rest.issues.create({
+               if (content && !content.startsWith('Error querying Gemini') && !content.includes('GEMINI_API_KEY is not set')) {
+                  await github.rest.issues.create({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     title: 'Automated AI Code Improvement Suggestion',

@@ -34,13 +34,15 @@ jobs:
             const fs = require('fs');
             if (fs.existsSync('ai_label.txt')) {
                const labelText = fs.readFileSync('ai_label.txt', 'utf8').trim();
-               const label = labelText.split('Suggested label: ').pop();
-               if (label && label !== 'triage' && !label.includes('Error')) {
-                  github.rest.issues.addLabels({
-                    issue_number: context.issue.number,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    labels: [label]
-                  });
-               }
+               const extractedLabel = labelText.split('Suggested label: ').pop()?.trim().toLowerCase();
+
+               const allowedLabels = ['bug', 'enhancement', 'documentation', 'question', 'feature'];
+               const label = allowedLabels.includes(extractedLabel) ? extractedLabel : 'needs-triage';
+
+               await github.rest.issues.addLabels({
+                 issue_number: context.issue.number,
+                 owner: context.repo.owner,
+                 repo: context.repo.repo,
+                 labels: [label]
+               });
             }
