@@ -7,6 +7,7 @@ async function reviewPR() {
 
   if (!process.env.GEMINI_API_KEY) {
     console.error('GEMINI_API_KEY is not set.');
+    fs.writeFileSync('pr_review_output.txt', 'Error: GEMINI_API_KEY is not set.');
     return;
   }
 
@@ -21,6 +22,7 @@ async function reviewPR() {
       diff = outputFallback.toString();
     } catch (fallbackError) {
       console.error('Error getting fallback git diff:', fallbackError);
+      fs.writeFileSync('pr_review_output.txt', 'Error: Could not retrieve git diff.');
       return;
     }
   }

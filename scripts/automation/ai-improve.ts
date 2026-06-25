@@ -1,22 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import * as fs from 'fs';
-import * as path from 'path';
-
-function getAllFiles(dirPath: string, arrayOfFiles: string[] = []) {
-  const files = fs.readdirSync(dirPath);
-
-  files.forEach((file) => {
-    if (fs.statSync(dirPath + '/' + file).isDirectory()) {
-      arrayOfFiles = getAllFiles(dirPath + '/' + file, arrayOfFiles);
-    } else {
-      if (file.endsWith('.ts') || file.endsWith('.tsx')) {
-        arrayOfFiles.push(path.join(dirPath, '/', file));
-      }
-    }
-  });
-
-  return arrayOfFiles;
-}
+import { getAllFiles } from './utils.js';
 
 async function improveCode() {
   if (!process.env.GEMINI_API_KEY) {
