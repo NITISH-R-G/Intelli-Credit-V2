@@ -1,0 +1,43 @@
+name: Self-Healing
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Self-Healing
+        run: npm run fix
+
+      - name: Commit Fixes
+        if: github.event_name == 'pull_request'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add src/ api/ scripts/ docs/ .github/ package.json
+          git commit -m "chore: auto-fix formatting and linting issues" || echo "No changes to commit"
+          git push

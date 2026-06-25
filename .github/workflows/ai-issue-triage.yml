@@ -1,0 +1,46 @@
+name: AI Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run AI Triage
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+        run: npm run ai:triage
+
+      - name: Add Label
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const fs = require('fs');
+            if (fs.existsSync('ai_label.txt')) {
+               const labelText = fs.readFileSync('ai_label.txt', 'utf8').trim();
+               const allowedLabels = ['bug', 'enhancement', 'documentation', 'question', 'feature'];
+               const label = allowedLabels.includes(labelText) ? labelText : 'needs-triage';
+
+               await github.rest.issues.addLabels({
+                 issue_number: context.issue.number,
+                 owner: context.repo.owner,
+                 repo: context.repo.repo,
+                 labels: [label]
+               });
+            }
