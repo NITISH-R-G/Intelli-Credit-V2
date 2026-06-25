@@ -7,7 +7,7 @@ interface FiveCsAnalysisProps {
   displayAnalysis: CreditAnalysis;
 }
 
-export const FiveCsAnalysis: React.FC<FiveCsAnalysisProps> = ({ analysis, displayAnalysis }) => {
+export const FiveCsAnalysis = ({ analysis, displayAnalysis }: FiveCsAnalysisProps) => {
   return (
     <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-5 gap-2">
       {[
