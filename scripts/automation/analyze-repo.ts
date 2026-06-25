@@ -22,6 +22,7 @@ function analyzeRepo() {
     console.info('Repository analysis generated at docs/repo-health.md');
   } catch (error) {
     console.error('Failed to analyze package.json:', error);
+    process.exitCode = 1;
   }
 }
 

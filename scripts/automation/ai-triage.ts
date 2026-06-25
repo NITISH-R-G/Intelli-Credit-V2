@@ -30,10 +30,16 @@ async function triageIssue() {
       model: 'gemini-2.5-flash',
       contents: prompt,
     });
-    const label = response.text?.trim() || 'triage';
-    console.info(`Suggested label: ${label}`);
+    const suggestedLabel = response.text?.trim().toLowerCase() || 'needs-triage';
+
+    const allowedLabels = ['bug', 'enhancement', 'documentation', 'question', 'feature'];
+    const label = allowedLabels.includes(suggestedLabel) ? suggestedLabel : 'needs-triage';
+
+    fs.writeFileSync('ai_label.txt', label);
+    console.info(`Saved label to file: ${label}`);
   } catch (error) {
     console.error('Error querying Gemini:', error);
+    fs.writeFileSync('ai_label.txt', 'needs-triage');
   }
 }
 
