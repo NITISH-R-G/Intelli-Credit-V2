@@ -9,7 +9,11 @@ function runSelfHeal() {
     execFileSync('npm', ['run', 'format'], { stdio: 'inherit', cwd: resolve(process.cwd()) });
     console.info('Formatter completed successfully.');
   } catch (error) {
-    console.error('Formatter encountered an error:', error.message);
+    if (error instanceof Error) {
+      console.error('Formatter encountered an error:', error.message);
+    } else {
+      console.error('Formatter encountered an error');
+    }
   }
 
   try {
@@ -17,7 +21,11 @@ function runSelfHeal() {
     execFileSync('npm', ['run', 'lint:fix'], { stdio: 'inherit', cwd: resolve(process.cwd()) });
     console.info('Linter auto-fix completed successfully.');
   } catch (error) {
-    console.error('Linter auto-fix encountered an error:', error.message);
+    if (error instanceof Error) {
+      console.error('Linter auto-fix encountered an error:', error.message);
+    } else {
+      console.error('Linter auto-fix encountered an error');
+    }
   }
 
   console.info('Self-healing process finished.');

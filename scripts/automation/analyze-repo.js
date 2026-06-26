@@ -8,8 +8,13 @@ async function runRepoAnalysis() {
   try {
     mkdirSync(dirname(docPath), { recursive: true });
   } catch (error) {
-    if (error.code !== 'EEXIST') {
-      console.error('Failed to create docs directory:', error.message);
+    if (error instanceof Error) {
+      if ('code' in error && error.code !== 'EEXIST') {
+        console.error('Failed to create docs directory:', error.message);
+        process.exit(1);
+      }
+    } else {
+      console.error('Failed to create docs directory');
       process.exit(1);
     }
   }
@@ -19,7 +24,7 @@ async function runRepoAnalysis() {
   try {
     execFileSync('npm', ['test'], { stdio: 'ignore' });
     testStatus = 'Passing';
-  } catch (_error) {
+  } catch {
     //
   }
 
@@ -32,7 +37,11 @@ async function runRepoAnalysis() {
     writeFileSync(docPath, content, 'utf8');
     console.info('Repository analysis saved to ' + docPath);
   } catch (error) {
-    console.error('Failed to write repository analysis:', error.message);
+    if (error instanceof Error) {
+      console.error('Failed to write repository analysis:', error.message);
+    } else {
+      console.error('Failed to write repository analysis');
+    }
   }
 }
 
