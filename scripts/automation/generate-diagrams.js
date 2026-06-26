@@ -14,11 +14,12 @@ function runGenerateDiagrams() {
     }
   }
 
-  const content = "# System Architecture\n\n```mermaid\ngraph TD\n    A[Client] -->|HTTP POST| B(Serverless API)\n    B --> C{Core Logic}\n    C -->|Mocks/Tools| D[External APIs]\n    C -->|Prompts| E[Gemini AI]\n```\n";
+  const content =
+    '# System Architecture\n\n```mermaid\ngraph TD\n    A[Client] -->|HTTP POST| B(Serverless API)\n    B --> C{Core Logic}\n    C -->|Mocks/Tools| D[External APIs]\n    C -->|Prompts| E[Gemini AI]\n```\n';
 
   try {
     writeFileSync(diagramPath, content, 'utf8');
-    console.info("Architecture diagram saved to " + diagramPath);
+    console.info('Architecture diagram saved to ' + diagramPath);
   } catch (error) {
     console.error('Failed to write architecture diagram:', error.message);
   }
