@@ -1,0 +1,21 @@
+{
+  "nodes": [
+    {
+      "id": "api",
+      "type": "module",
+      "description": "Backend functions"
+    },
+    {
+      "id": "src",
+      "type": "module",
+      "description": "Frontend code"
+    }
+  ],
+  "edges": [
+    {
+      "source": "src",
+      "target": "api",
+      "relation": "calls"
+    }
+  ]
+}

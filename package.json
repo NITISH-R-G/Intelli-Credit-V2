@@ -29,7 +29,13 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "fix": "node scripts/automation/self-heal.js",
+    "ai:triage": "node scripts/automation/ai-triage.js",
+    "ai:improve": "node scripts/automation/ai-improve.js",
+    "analyze:repo": "node scripts/automation/analyze-repo.js",
+    "generate:diagrams": "node scripts/automation/generate-diagrams.js",
+    "generate:knowledge-graph": "node scripts/automation/generate-knowledge-graph.js"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -53,6 +59,7 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.15.0",
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -77,4 +84,3 @@
     "vitest": "^4.1.7"
   }
 }
-
