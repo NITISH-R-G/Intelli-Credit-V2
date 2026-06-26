@@ -14,7 +14,7 @@ async function runRepoAnalysis() {
         process.exit(1);
       }
     } else {
-      console.error('Failed to create docs directory');
+      console.error('Failed to create docs directory:', String(error));
       process.exit(1);
     }
   }
@@ -40,9 +40,15 @@ async function runRepoAnalysis() {
     if (error instanceof Error) {
       console.error('Failed to write repository analysis:', error.message);
     } else {
-      console.error('Failed to write repository analysis');
+      console.error('Failed to write repository analysis:', String(error));
     }
   }
 }
 
-runRepoAnalysis();
+runRepoAnalysis().catch((error) => {
+  if (error instanceof Error) {
+    console.error('Unhandled error in runRepoAnalysis:', error.message);
+  } else {
+    console.error('Unhandled error in runRepoAnalysis:', String(error));
+  }
+});

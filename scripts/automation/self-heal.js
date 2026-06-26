@@ -12,7 +12,7 @@ function runSelfHeal() {
     if (error instanceof Error) {
       console.error('Formatter encountered an error:', error.message);
     } else {
-      console.error('Formatter encountered an error');
+      console.error('Formatter encountered an error:', String(error));
     }
   }
 
@@ -24,7 +24,7 @@ function runSelfHeal() {
     if (error instanceof Error) {
       console.error('Linter auto-fix encountered an error:', error.message);
     } else {
-      console.error('Linter auto-fix encountered an error');
+      console.error('Linter auto-fix encountered an error:', String(error));
     }
   }
 
