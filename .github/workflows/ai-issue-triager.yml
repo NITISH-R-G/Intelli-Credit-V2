@@ -1,0 +1,42 @@
+name: AI Issue Triager
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run AI Triage
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          npm run ai:triage
+
+      - name: Add comment
+        if: success()
+        run: |
+          # The ai:triage script writes to triage-result.json
+          if [ -f triage-result.json ]; then
+            COMMENT=$(jq -r '.comment' triage-result.json)
+            gh issue comment ${{ github.event.issue.number }} --body "$COMMENT"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
