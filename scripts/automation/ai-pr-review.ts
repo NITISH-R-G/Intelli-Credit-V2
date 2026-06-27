@@ -3,8 +3,9 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 async function main() {
   if (!process.env.GEMINI_API_KEY) {
-    console.error('GEMINI_API_KEY is not set');
-    process.exit(1);
+    console.warn('GEMINI_API_KEY is not set. Skipping AI PR Review.');
+    writeFileSync('ai_review.md', 'AI PR Review skipped: `GEMINI_API_KEY` is not configured in this environment.');
+    process.exit(0);
   }
 
   let diffContent = '';
