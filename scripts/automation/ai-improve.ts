@@ -10,8 +10,13 @@ async function main() {
 
   try {
     // Get list of typescript files
-    const output = execFileSync('find', ['src', 'api', '-name', '*.ts'], { encoding: 'utf-8' });
-    const files = output.trim().split('\n').slice(0, 5); // Just a sample for analysis to stay within token limits
+    let output = '';
+    try {
+      output = execFileSync('find', ['src', 'api', '-name', '*.ts'], { encoding: 'utf-8' });
+    } catch {
+       console.warn('Could not run find command on src and api directories');
+    }
+    const files = output.trim().split('\n').filter(Boolean).slice(0, 5); // Just a sample for analysis to stay within token limits
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const prompt = `Analyze this project's structure and suggest improvements for technical debt, performance, and security.

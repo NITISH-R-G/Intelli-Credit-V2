@@ -3,9 +3,12 @@ import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 
 function main() {
   try {
-    const treeOutput = execFileSync('tree', ['-J', '-L', '3', 'src', 'api', 'docs'], {
-      encoding: 'utf-8',
-    });
+    // Check if tree is installed
+    try {
+      execFileSync('tree', ['--version']);
+    } catch {
+      throw new Error('Tree command not found');
+    }
 
     // Simplistic text representation
     const treeText = execFileSync('tree', ['-L', '3', 'src', 'api', 'docs'], { encoding: 'utf-8' });

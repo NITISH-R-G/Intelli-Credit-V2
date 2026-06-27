@@ -40,3 +40,5 @@ jobs:
         with:
           commit_message: 'docs: Auto-update knowledge graph and diagrams'
           file_pattern: 'docs/**'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
