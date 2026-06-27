@@ -36,8 +36,8 @@ Generate a concise markdown response for a GitHub comment.`;
     // Save report
     writeFileSync('ai_review.md', report);
     console.info('AI review generated at ai_review.md');
-  } catch (error) {
-    console.error('Error in AI PR Review:', error);
+  } catch {
+    console.error('Error in AI PR Review.');
     process.exit(1);
   }
 }

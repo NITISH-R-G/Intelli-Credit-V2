@@ -12,7 +12,7 @@ async function main() {
     let packageJson = '';
     try {
       packageJson = execFileSync('cat', ['package.json'], { encoding: 'utf-8' });
-    } catch (e) {
+    } catch {
       console.error('Could not read package.json');
     }
 
@@ -32,8 +32,8 @@ Generate a concise Markdown report on the repository health.`;
 
     writeFileSync('docs/repo-health.md', report);
     console.info('Repo health report generated at docs/repo-health.md');
-  } catch (error) {
-    console.error('Error in analyze-repo:', error);
+  } catch {
+    console.error('Error in analyze-repo.');
     process.exit(1);
   }
 }

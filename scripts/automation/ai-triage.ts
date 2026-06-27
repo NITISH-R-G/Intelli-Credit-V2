@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 
 async function main() {
   const issueTitle = process.env.ISSUE_TITLE || 'Unknown Issue';
@@ -37,8 +37,8 @@ Output JSON format:
 
     // Can save to a file for GitHub Actions to read
     writeFileSync('triage-result.json', JSON.stringify(data, null, 2));
-  } catch (error) {
-    console.error('Error in AI triage:', error);
+  } catch {
+    console.error('Error in AI triage.');
     process.exit(1);
   }
 }

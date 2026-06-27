@@ -35,8 +35,8 @@ Generate a comprehensive markdown report.`;
     // Save report
     writeFileSync('improvement-report.md', report);
     console.info('Improvement report generated at improvement-report.md');
-  } catch (error) {
-    console.error('Error in AI improvement loop:', error);
+  } catch {
+    console.error('Error in AI improvement loop.');
     process.exit(1);
   }
 }

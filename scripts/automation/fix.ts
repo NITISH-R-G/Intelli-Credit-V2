@@ -4,7 +4,7 @@ function runCommand(command: string, args: string[]) {
   console.info(`Running: ${command} ${args.join(' ')}`);
   try {
     execFileSync(command, args, { stdio: 'inherit' });
-  } catch (error) {
+  } catch {
     console.error(`Error running ${command} ${args.join(' ')}`);
     // Depending on strictness, we might throw or continue. Continuing for self-healing.
   }

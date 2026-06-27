@@ -16,7 +16,7 @@ function main() {
     const content = `# Repository Knowledge Graph
 
 ## Structure
-\`\`\`
+\`\`\`text
 ${treeText}
 \`\`\`
 
@@ -29,7 +29,7 @@ ${treeText}
 
     writeFileSync('docs/knowledge-graph/repo-graph.md', content);
     console.info('Knowledge graph generated at docs/knowledge-graph/repo-graph.md');
-  } catch (error) {
+  } catch {
     console.warn('Tree command might not be installed, falling back to find.');
     const findOutput = execFileSync(
       'find',
@@ -40,7 +40,7 @@ ${treeText}
     const content = `# Repository Knowledge Graph
 
 ## Files and Directories
-\`\`\`
+\`\`\`text
 ${findOutput}
 \`\`\`
 
