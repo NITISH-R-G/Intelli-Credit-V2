@@ -39,6 +39,7 @@
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "express-rate-limit": "^8.5.2",
+    "file-type": "^22.0.1",
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
@@ -77,4 +78,3 @@
     "vitest": "^4.1.7"
   }
 }
-

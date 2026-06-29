@@ -22,6 +22,7 @@
  */
 import { runAnalysis, AnalysisError, type AnalyzeInputFile } from './_lib/analyze-core';
 import { isAllowedMimeType, MAX_FILE_COUNT, MAX_TOTAL_BYTES } from './_lib/limits';
+import { fileTypeFromBuffer } from 'file-type';
 
 export const config = {
   runtime: 'nodejs',
@@ -159,7 +160,8 @@ export default async function handler(req: Request): Promise<Response> {
           requestId,
         });
       }
-      const mimeType = (f.type || 'application/octet-stream').toLowerCase();
+      const detectedType = await fileTypeFromBuffer(bytes);
+      const mimeType = (detectedType?.mime || f.type || 'application/octet-stream').toLowerCase();
       if (!isAllowedMimeType(mimeType)) {
         return json(415, {
           error: `Unsupported file type "${mimeType}" for "${f.name}". Allowed: PDF, PNG/JPG, CSV, JSON, TXT.`,

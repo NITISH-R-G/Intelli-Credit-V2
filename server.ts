@@ -7,6 +7,7 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { runAnalysis, AnalysisError } from './api/_lib/analyze-core';
 import type { AnalyzeInputFile } from './api/_lib/analyze-core';
+import { fileTypeFromBuffer } from 'file-type';
 
 dotenv.config();
 
@@ -63,11 +64,16 @@ app.post('/api/analyze', upload.array('files', 20), async (req, res) => {
     const apiMode = (req.body.apiMode as string) === 'true';
     const bureauApiKey = (req.body.bureauApiKey as string) ?? '';
 
-    const files: AnalyzeInputFile[] = uploaded.map((f) => ({
-      name: f.originalname,
-      mimeType: f.mimetype || 'application/octet-stream',
-      data: f.buffer.toString('base64'),
-    }));
+    const files: AnalyzeInputFile[] = await Promise.all(
+      uploaded.map(async (f) => {
+        const detectedType = await fileTypeFromBuffer(f.buffer);
+        return {
+          name: f.originalname,
+          mimeType: (detectedType?.mime || f.mimetype || 'application/octet-stream').toLowerCase(),
+          data: f.buffer.toString('base64'),
+        };
+      })
+    );
 
     const analysis = await runAnalysis(files, apiMode, bureauApiKey);
     return res.json({ analysis });
