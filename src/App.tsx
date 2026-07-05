@@ -23,7 +23,6 @@ import { CreditAnalysis } from './types';
 import { useDropzone } from 'react-dropzone';
 import { ShieldCheck } from 'lucide-react';
 
-import {} from 'recharts';
 
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
