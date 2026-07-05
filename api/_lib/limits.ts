@@ -28,4 +28,5 @@ const ALLOWED_MIME_EXACT = new Set([
 ]);
 
 export const isAllowedMimeType = (mimeType: string): boolean =>
-  ALLOWED_MIME_EXACT.has(mimeType) || ALLOWED_MIME_PREFIXES.some((p) => mimeType.startsWith(p));
+  ALLOWED_MIME_EXACT.has(mimeType) ||
+  ALLOWED_MIME_PREFIXES.some((p) => mimeType.startsWith(p));

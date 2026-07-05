@@ -21,7 +21,31 @@ const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBench
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
 import { useDropzone } from 'react-dropzone';
-import { ShieldCheck } from 'lucide-react';
+import {
+
+  ShieldCheck,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+} from 'lucide-react';
+
+import {
+} from 'recharts';
+
 
 
 export default function App() {
@@ -85,6 +109,8 @@ export default function App() {
       setShowLogs,
     );
   };
+
+
 
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-mono text-xs sm:text-sm selection:bg-amber-500/30">

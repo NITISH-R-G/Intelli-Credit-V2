@@ -26,7 +26,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --rule '@typescript-eslint/no-explicit-any: off'",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest"

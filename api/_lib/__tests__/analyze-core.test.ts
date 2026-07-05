@@ -66,9 +66,7 @@ describe('runAnalysis resilience (per-call timeout + retry)', () => {
   });
 
   it('retries a transient (429) error, then succeeds', async () => {
-    gc.mockImplementationOnce(() =>
-      Promise.reject(new Error('429 rate limit')),
-    ).mockResolvedValueOnce({
+    gc.mockImplementationOnce(() => Promise.reject(new Error('429 rate limit'))).mockResolvedValueOnce({
       text: JSON.stringify({ ok: true }),
       functionCalls: [],
     });
