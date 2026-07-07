@@ -1,6 +1,4 @@
 import { GoogleGenAI } from '@google/genai';
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -26,7 +24,6 @@ async function run() {
     });
     if (!diff.trim()) {
       console.info('No changes found in PR.');
-      console.log('No changes found.');
       return;
     }
 
@@ -37,7 +34,7 @@ async function run() {
       contents: prompt,
     });
 
-    console.log(response.text || 'No review generated.');
+    console.info(response.text || 'No review generated.');
   } catch (error) {
     console.error('Error during AI PR Review:', error);
   }

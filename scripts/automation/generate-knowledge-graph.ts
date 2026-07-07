@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process';
 import { writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -17,7 +16,7 @@ function run() {
 
     if (existsSync(srcDir)) {
       const files = readdirSync(srcDir, { recursive: true });
-      files.forEach((file: any) => {
+      files.forEach((file: unknown) => {
         if (typeof file === 'string' && (file.endsWith('.ts') || file.endsWith('.tsx'))) {
           nodes.push({ id: file, label: file, type: 'file' });
         }
