@@ -14,7 +14,12 @@ async function runPRReview() {
   }
 
   if (!apiKey) {
-    console.error('GEMINI_API_KEY environment variable is missing.');
+    console.warn('GEMINI_API_KEY environment variable is missing. Skipping PR review.');
+    process.exit(0);
+  }
+
+  if (!/^\d+$/.test(prNumber)) {
+    console.error('PR_NUMBER is not a valid number.');
     process.exit(1);
   }
 

@@ -33,6 +33,7 @@ jobs:
         run: npm run ai:pr-review
 
       - name: Post AI Review as Comment
+        if: hashFiles('pr_review.md') != ''
         uses: thollander/actions-comment-pull-request@v3
         with:
           file-path: pr_review.md
