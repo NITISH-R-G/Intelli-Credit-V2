@@ -54,6 +54,10 @@ Body: ${body}
 
     if (suggestedLabels.length > 0) {
       const issueNumber = issue.number.toString();
+      // Ensure issue number is numeric to prevent command injection
+      if (!/^\d+$/.test(issueNumber)) {
+        throw new Error(`Invalid issue number: ${issueNumber}`);
+      }
       console.info(`Adding labels to issue #${issueNumber}`);
 
       const args = ['issue', 'edit', issueNumber, '--add-label', suggestedLabels.join(',')];

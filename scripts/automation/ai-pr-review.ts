@@ -30,6 +30,8 @@ async function main() {
 
     // We get diff relative to origin/baseRef since GitHub Actions checkout might be detached
     let diff = '';
+    // SonarCloud: Make sure that executing this OS command is safe here.
+    // The baseRef is provided by GitHub Actions environment variables and is considered safe.
     try {
       diff = execFileSync('git', ['diff', `origin/${baseRef}...HEAD`]).toString();
     } catch {
