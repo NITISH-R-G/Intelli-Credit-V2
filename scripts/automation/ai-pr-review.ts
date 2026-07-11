@@ -71,4 +71,7 @@ ${diff}
   }
 }
 
-main().catch(console.error);
+void main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

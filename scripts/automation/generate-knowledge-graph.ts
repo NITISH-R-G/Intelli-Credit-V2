@@ -8,7 +8,7 @@ function findImports(filePath: string): string[] {
     const imports: string[] = [];
 
     // Naive regex to match import statements
-    const importRegex = /import\s+.*?from\s+['"]([^'"]+)['"]/g;
+    const importRegex = /import\s+(?:[^'"]+)\s+from\s+['"]([^'"]+)['"]/g;
     let match;
     while ((match = importRegex.exec(content)) !== null) {
       imports.push(match[1]);
@@ -93,4 +93,7 @@ ${rawData}
   }
 }
 
-main().catch(console.error);
+void main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
