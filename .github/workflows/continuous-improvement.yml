@@ -1,0 +1,52 @@
+name: Continuous Improvement
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run daily at midnight
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Continuous Improvement Script
+        run: npm run ai:improve
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.git-check.outputs.has_changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          BRANCH_NAME="chore/continuous-improvement-$(date +%s)"
+          git checkout -b $BRANCH_NAME
+          git add .
+          git commit -m "chore: automated continuous improvements"
+          git push -u origin $BRANCH_NAME
+          gh pr create --title "chore: automated continuous improvements" --body "Automated self-healing changes (formatting, linting)." --base main --head $BRANCH_NAME
