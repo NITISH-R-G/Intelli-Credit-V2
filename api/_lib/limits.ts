@@ -1,3 +1,5 @@
+import { fileTypeFromBuffer } from 'file-type';
+
 /**
  * Shared upload limits and validation, used by both the production Vercel
  * function (`api/analyze.ts`) and the local-dev mirror (`server.ts`) so the
@@ -30,3 +32,16 @@ const ALLOWED_MIME_EXACT = new Set([
 export const isAllowedMimeType = (mimeType: string): boolean =>
   ALLOWED_MIME_EXACT.has(mimeType) ||
   ALLOWED_MIME_PREFIXES.some((p) => mimeType.startsWith(p));
+
+export const detectMimeType = async (buffer: Uint8Array | Buffer, fallbackMimeType: string): Promise<string> => {
+  const result = await fileTypeFromBuffer(buffer);
+  if (result && result.mime) {
+    return result.mime;
+  }
+
+  if (fallbackMimeType.startsWith('text/') || fallbackMimeType === 'application/json') {
+    return fallbackMimeType;
+  }
+
+  return 'application/octet-stream';
+};
