@@ -7,13 +7,15 @@ async function main() {
 
   if (!process.env.GEMINI_API_KEY) {
     console.error('GEMINI_API_KEY is missing.');
-    throw new Error('Fatal Error');
+    console.error('Fatal Error');
+    process.exitCode = 1;
   }
 
   const baseRef = process.env.BASE_REF;
   if (!baseRef) {
     console.error('BASE_REF environment variable is missing.');
-    throw new Error('Fatal Error');
+    console.error('Fatal Error');
+    process.exitCode = 1;
   }
 
   let diff = '';
@@ -21,7 +23,8 @@ async function main() {
     diff = execFileSync('git', ['diff', `origin/${baseRef}...HEAD`], { encoding: 'utf-8' });
   } catch (e) {
     console.error('Could not compute git diff', e);
-    throw new Error('Fatal Error');
+    console.error('Fatal Error');
+    process.exitCode = 1;
   }
 
   if (!diff) {
@@ -55,7 +58,8 @@ async function main() {
     fs.writeFileSync('pr-review.md', response.text || 'No review generated.');
   } catch (error) {
     console.error('Failed to run AI PR review:', error);
-    throw new Error('Fatal Error');
+    console.error('Fatal Error');
+    process.exitCode = 1;
   }
 }
 

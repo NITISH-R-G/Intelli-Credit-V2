@@ -6,7 +6,8 @@ function runCommand(command: string, args: string[]) {
     execFileSync(command, args, { stdio: 'inherit' });
   } catch (error) {
     console.error(`Command failed: ${command} ${args.join(' ')}`, error);
-    throw new Error('Fatal Error');
+    console.error('Fatal Error');
+    process.exitCode = 1;
   }
 }
 

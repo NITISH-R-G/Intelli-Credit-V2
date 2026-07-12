@@ -7,7 +7,8 @@ async function main() {
 
   if (!process.env.GEMINI_API_KEY) {
     console.error('GEMINI_API_KEY is missing.');
-    throw new Error('Fatal Error');
+    console.error('Fatal Error');
+    process.exitCode = 1;
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -40,7 +41,8 @@ async function main() {
     console.info('Knowledge graph generation complete.');
   } catch (error) {
     console.error('Failed to generate knowledge graph:', error);
-    throw new Error('Fatal Error');
+    console.error('Fatal Error');
+    process.exitCode = 1;
   }
 }
 
