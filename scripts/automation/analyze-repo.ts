@@ -6,7 +6,7 @@ async function main() {
 
   if (!process.env.GEMINI_API_KEY) {
     console.error('GEMINI_API_KEY is missing.');
-    process.exit(1);
+    throw new Error('Fatal Error');
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -40,7 +40,7 @@ async function main() {
     console.info('Architecture analysis complete.');
   } catch (error) {
     console.error('Failed to generate architecture analysis:', error);
-    process.exit(1);
+    throw new Error('Fatal Error');
   }
 }
 
