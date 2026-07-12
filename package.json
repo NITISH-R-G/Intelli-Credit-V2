@@ -72,7 +72,7 @@
     "@vitejs/plugin-react": "^5.0.4",
     "@vitest/coverage-v8": "^4.1.7",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9.39.4",
+    "eslint": "^9.39.5",
     "eslint-plugin-react": "^7.37.5",
     "jsdom": "^29.1.1",
     "prettier": "^3.8.3",
