@@ -3,14 +3,20 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({});
-
 async function reviewPR() {
   console.info('Starting AI PR review...');
 
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    console.warn('GEMINI_API_KEY environment variable is not set. Skipping AI review generation.');
+    return;
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
+
   const baseRef = process.env.BASE_REF;
   if (!baseRef) {
-    console.error('BASE_REF environment variable is not set. Cannot determine diff base.');
+    console.warn('BASE_REF environment variable is not set. Cannot determine diff base.');
     process.exit(1);
   }
 
