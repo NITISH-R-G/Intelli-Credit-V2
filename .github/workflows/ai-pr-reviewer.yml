@@ -1,0 +1,40 @@
+name: AI PR Reviewer
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run AI PR Review
+        run: npm run ai:pr-review
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BASE_REF: ${{ github.base_ref }}
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        if: success()
+        with:
+          file-path: pr-review-comment.md
+          comment-tag: ai-pr-review
