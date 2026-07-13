@@ -1,8 +1,7 @@
-import { execFileSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-function generateKnowledgeGraph() {
+function generateKnowledgeGraph(): void {
   console.info('Generating repository knowledge graph...');
 
   const dir = path.join(process.cwd(), 'docs', 'knowledge-graph');

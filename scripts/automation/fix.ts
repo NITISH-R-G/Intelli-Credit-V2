@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 
-function runFixes() {
+function runFixes(): void {
   console.info('Starting self-healing processes...');
   try {
     console.info('Running ESLint fix...');
