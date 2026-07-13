@@ -32,18 +32,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           BASE_REF: ${{ github.base_ref }}
 
-      - name: Check if PR review comment exists
-        id: check_file
-        run: |
-          if [ -f pr-review-comment.md ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
-
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
-        if: success() && steps.check_file.outputs.exists == 'true'
+        if: success()
         with:
           file-path: pr-review-comment.md
           comment-tag: ai-pr-review

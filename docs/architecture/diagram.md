@@ -1,4 +1,3 @@
-
 # Architecture Diagram
 
 ```mermaid

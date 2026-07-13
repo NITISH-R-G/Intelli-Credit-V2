@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 
-function runImprovementLoop(): void {
+function runImprovementLoop() {
   console.info('Starting continuous improvement loop...');
   try {
     // Check if audit has vulnerabilities
@@ -12,8 +12,8 @@ function runImprovementLoop(): void {
 
     console.info('Running tests to ensure health...');
     execFileSync('npm', ['test'], { stdio: 'inherit' });
-  } catch (error) {
-    console.warn('Improvement loop detected issues that may need attention.', error);
+  } catch (e) {
+    console.warn('Improvement loop detected issues that may need attention.');
   }
   console.info('Continuous improvement loop complete.');
 }

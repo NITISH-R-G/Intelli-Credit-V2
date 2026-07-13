@@ -1,7 +1,8 @@
+import { execFileSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-function generateDiagrams(): void {
+function generateDiagrams() {
   console.info('Generating architecture diagrams...');
 
   const dir = path.join(process.cwd(), 'docs', 'architecture');

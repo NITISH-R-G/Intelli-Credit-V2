@@ -475,11 +475,11 @@ describe('calculateDisplayAnalysis', () => {
  * (caching, fetch, error mapping) is unit-tested here.
  */
 describe('performAnalysis', () => {
-  let mockSetLoading: ReturnType<typeof vi.fn>;
-  let mockSetError: ReturnType<typeof vi.fn>;
-  let mockSetAnalysis: ReturnType<typeof vi.fn>;
-  let mockSetShowLogs: ReturnType<typeof vi.fn>;
-  let mockFileCache: { current: Map<string, string> };
+  let mockSetLoading: any;
+  let mockSetError: any;
+  let mockSetAnalysis: any;
+  let mockSetShowLogs: any;
+  let mockFileCache: { current: Map<string, any> };
 
   beforeEach(() => {
     mockSetLoading = vi.fn();

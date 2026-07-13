@@ -1,4 +1,6 @@
-function runTriage(): void {
+import { execFileSync } from 'node:child_process';
+
+function runTriage() {
   console.info('Starting AI issue triage...');
   // Logic utilizing GitHub CLI or REST to apply labels based on issue text
   const githubToken = process.env.GITHUB_TOKEN;
