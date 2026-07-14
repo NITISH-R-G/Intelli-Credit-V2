@@ -29,7 +29,7 @@ function runContinuousImprovement() {
   // Mocking AI analysis for continuous improvement
   console.info('Analyzing package.json and audit results...');
 
-  if (auditOutput && auditOutput.includes('vulnerabilities')) {
+  if (auditOutput?.includes('vulnerabilities')) {
     console.warn(
       'AI Suggestion: Detected vulnerabilities in dependencies. Consider running `npm audit fix` or updating vulnerable packages.',
     );
@@ -37,7 +37,7 @@ function runContinuousImprovement() {
     console.info('AI Suggestion: Dependencies look secure.');
   }
 
-  if (packageJson && packageJson.includes('express')) {
+  if (packageJson?.includes('express')) {
     console.info(
       'AI Suggestion: Express is used. Ensure you have proper rate limiting and security headers enabled.',
     );
