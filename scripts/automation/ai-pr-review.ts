@@ -6,12 +6,20 @@ async function reviewPR() {
   const baseRef = process.env.BASE_REF;
   if (!baseRef) {
     console.warn('No BASE_REF environment variable provided. Skipping PR review.');
+    writeFileSync('pr_review.md', 'No BASE_REF provided, skipping review.');
+    return;
+  }
+
+  if (!/^[a-zA-Z0-9_.-]+$/.test(baseRef)) {
+    console.warn('Invalid BASE_REF format.');
+    writeFileSync('pr_review.md', 'Invalid BASE_REF format.');
     return;
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('No GEMINI_API_KEY provided. Skipping PR review.');
+    writeFileSync('pr_review.md', 'No GEMINI_API_KEY provided. Skipping PR review.');
     return;
   }
 

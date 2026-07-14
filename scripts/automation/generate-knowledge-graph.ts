@@ -4,7 +4,10 @@ import { join } from 'node:path';
 function generateKnowledgeGraph() {
   console.info('Generating knowledge graph...');
 
-  const graph: { nodes: any[]; edges: any[] } = { nodes: [], edges: [] };
+  const graph: {
+    nodes: Array<{ id: number; label: string; path: string; type: string }>;
+    edges: Array<{ from: number; to: number; type: string }>;
+  } = { nodes: [], edges: [] };
   let nodeId = 1;
 
   function walkDir(dir: string, parentId: number | null) {

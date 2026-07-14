@@ -38,4 +38,4 @@ Output format: JSON with "labels" (array of strings) and "priority" (string).`;
   }
 }
 
-triageIssue();
+triageIssue().catch(console.error);

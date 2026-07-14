@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Dependencies
@@ -35,6 +35,7 @@ jobs:
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
+        if: always()
         with:
           file-path: 'pr_review.md'
           comment-tag: 'ai-pr-review'

@@ -10,10 +10,10 @@ function runContinuousImprovement() {
       encoding: 'utf-8',
       stdio: ['pipe', 'pipe', 'ignore'],
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     // npm audit returns non-zero exit code if vulnerabilities are found, capture the output
-    if (error.stdout) {
-      auditOutput = error.stdout;
+    if (error instanceof Error && 'stdout' in error) {
+      auditOutput = String(error.stdout);
     } else {
       console.error('Failed to run npm audit:', error);
     }
