@@ -1,53 +1,24 @@
 name: Feature Request
 description: Suggest an idea for this project
-title: '[Feature]: '
-labels: ['enhancement', 'needs-triage']
-assignees: []
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for suggesting an improvement!
-        Please search [existing issues](https://github.com/NITISH-R-G/Intelli-Credit-V2/issues?q=is%3Aissue+label%3Aenhancement)
-        first to avoid duplicates.
-  - type: dropdown
-    id: area
-    attributes:
-      label: Area
-      description: Where should this improvement land?
-      options:
-        - Client / UI (src/)
-        - Server / API (api/, server.ts)
-        - Build / Tooling
-        - Documentation
-        - Other
-    validations:
-      required: true
+        Thanks for taking the time to suggest a feature!
   - type: textarea
-    id: problem
+    id: description
     attributes:
-      label: What problem does this solve?
-      description: A clear description of the problem. Ex. "I'm always frustrated when [...]"
+      label: Description
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: A clear and concise description...
     validations:
       required: true
   - type: textarea
     id: solution
     attributes:
-      label: Proposed solution
-      description: What you'd like to happen. Include any API/UI sketches if relevant.
+      label: Proposed Solution
+      description: Describe the solution you'd like.
+      placeholder: A clear and concise description of what you want to happen.
     validations:
       required: true
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Alternatives considered
-      description: Any alternative solutions or workarounds you've tried.
-    validations:
-      required: false
-  - type: textarea
-    id: context
-    attributes:
-      label: Additional context
-      description: Anything else relevant — links, references, screenshots.
-    validations:
-      required: false
