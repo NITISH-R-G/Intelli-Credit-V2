@@ -1,0 +1,41 @@
+name: Repository Intelligence
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight
+
+permissions:
+  contents: write
+
+jobs:
+  generate-intelligence:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Repo Analysis
+        run: npm run analyze:repo
+
+      - name: Generate Diagrams
+        run: npm run generate:diagrams
+
+      - name: Generate Knowledge Graph
+        run: npm run generate:knowledge-graph
+
+      - name: Commit Intelligence
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: update repository intelligence"
+          file_pattern: "docs/architecture/*"

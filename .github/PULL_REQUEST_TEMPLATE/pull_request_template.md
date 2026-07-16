@@ -1,53 +1,27 @@
 ## Description
 
-<!-- A clear summary of WHAT this changes and WHY. Reference the issue if applicable. -->
+<!-- Describe your changes in detail -->
 
-Fixes #
+## Related Issue
 
-## Type of change
+<!-- This project accepts pull requests related to open issues -->
+<!-- If suggesting a new feature or change, please discuss it in an issue first -->
+<!-- If fixing a bug, there should be an issue describing it with steps to reproduce -->
+<!-- Please link to the issue here: -->
 
-<!-- Check all that apply. Keep PRs focused — one logical change each. -->
+## Motivation and Context
 
-- [ ] Bug fix (non-breaking change that fixes an issue)
-- [ ] New feature (non-breaking change that adds functionality)
-- [ ] Refactor / performance (no behavior change)
-- [ ] Breaking change (would cause existing functionality to change)
-- [ ] Documentation
-- [ ] Tests / CI
+<!-- Why is this change required? What problem does it solve? -->
 
-## Conventional Commit type
+## How Has This Been Tested?
 
-<!-- The squashed commit will use this. See CONTRIBUTING.md. -->
-
-- [ ] `feat`
-- [ ] `fix`
-- [ ] `docs`
-- [ ] `refactor`
-- [ ] `perf`
-- [ ] `test`
-- [ ] `chore` / `ci`
-- [ ] `security`
-
-## Screenshots / output
-
-<!-- For UI or output changes, add before/after screenshots or pasted output. -->
-
-## How was this tested?
-
-<!-- Describe how you verified the change. CI runs typecheck + lint + test + build. -->
-
-- [ ] `npm run typecheck`
-- [ ] `npm run lint`
-- [ ] `npm test`
-- [ ] `npm run build`
-- [ ] Manually (describe below)
+<!-- Please describe in detail how you tested your changes. -->
+<!-- Include details of your testing environment, and the tests you ran to -->
+<!-- see how your change affects other areas of the code, etc. -->
 
 ## Checklist
 
-- [ ] I have read [CONTRIBUTING.md](../CONTRIBUTING.md)
-- [ ] This PR is focused (one logical change) and the branch is up to date with `main`
-- [ ] No secrets or API keys are introduced into client code (`src/`)
-- [ ] I added/updated tests for any behavior change
-- [ ] I updated documentation where relevant (`README.md`, `docs/`, comments)
-- [ ] The commit message follows [Conventional Commits](https://www.conventionalcommits.org/)
-- [ ] New and existing tests pass locally
+- [ ] My code follows the code style of this project.
+- [ ] My changes pass `npm run lint` and `npm run format`.
+- [ ] My changes pass `npm test`.
+- [ ] I have updated the documentation accordingly (if applicable).

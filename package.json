@@ -29,7 +29,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "fix": "npm run format && npm run lint:fix && npm audit fix || true",
+    "ai:triage": "tsx scripts/automation/triage-issues.ts",
+    "ai:improve": "tsx scripts/automation/continuous-improvement.ts",
+    "ai:pr-review": "tsx scripts/automation/pr-review.ts",
+    "analyze:repo": "tsx scripts/automation/analyze-repo.ts",
+    "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
+    "generate:knowledge-graph": "tsx scripts/automation/generate-knowledge-graph.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
