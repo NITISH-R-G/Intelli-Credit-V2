@@ -1,5 +1,4 @@
 import { GoogleGenAI } from '@google/genai';
-import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -39,7 +38,7 @@ async function triageIssue() {
       }
     }
   } catch (error) {
-    console.error('Error classifying issue with Gemini:', error);
+    console.error('Error classifying issue with Gemini:', error instanceof Error ? error.message : error);
   }
 
   console.info(`Suggested label: ${label}`);
@@ -47,4 +46,4 @@ async function triageIssue() {
   fs.writeFileSync('issue_label.txt', label);
 }
 
-triageIssue().catch(console.error);
+triageIssue().catch((err) => console.error(err instanceof Error ? err.message : err));

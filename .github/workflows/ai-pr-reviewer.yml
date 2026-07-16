@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize]
 
+permissions:
+  pull-requests: write
+
 jobs:
   review:
     runs-on: ubuntu-latest
@@ -34,3 +37,4 @@ jobs:
         with:
           file-path: pr_review.txt
           comment-tag: AI_PR_REVIEW
+          github-token: ${{ secrets.GITHUB_TOKEN }}

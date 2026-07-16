@@ -12,6 +12,7 @@ function generateKnowledgeGraph() {
 
   try {
     const files = execFileSync('git', ['ls-files'], { encoding: 'utf-8' })
+      .toString()
       .split('\n')
       .filter(f => f.trim() !== '')
       .map(f => `- ${f}`)

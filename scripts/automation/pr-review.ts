@@ -14,9 +14,9 @@ async function reviewPR() {
 
   let diff = '';
   try {
-    diff = execFileSync('git', ['diff', `origin/${baseRef}...HEAD`], { encoding: 'utf-8' });
+    diff = execFileSync('git', ['diff', `origin/${baseRef}...HEAD`], { encoding: 'utf-8' }).toString();
   } catch (error) {
-    console.error('Error generating diff:', error);
+    console.error('Error generating diff:', error instanceof Error ? error.message : error);
     fs.writeFileSync('pr_review.txt', 'Failed to generate git diff for review.');
     return;
   }
@@ -54,9 +54,9 @@ async function reviewPR() {
     fs.writeFileSync('pr_review.txt', reviewText);
     console.info('PR review generated successfully.');
   } catch (error) {
-    console.error('Error during AI PR review:', error);
+    console.error('Error during AI PR review:', error instanceof Error ? error.message : error);
     fs.writeFileSync('pr_review.txt', 'An error occurred while generating the AI PR review.');
   }
 }
 
-reviewPR().catch(console.error);
+reviewPR().catch((err) => console.error(err instanceof Error ? err.message : err));

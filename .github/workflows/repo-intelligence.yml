@@ -39,3 +39,5 @@ jobs:
         with:
           commit_message: "docs: update repository intelligence"
           file_pattern: "docs/architecture/*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
