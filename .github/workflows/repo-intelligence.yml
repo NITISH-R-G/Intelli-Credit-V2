@@ -1,0 +1,50 @@
+name: Repository Intelligence
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Analyze Repository
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run analyze:repo
+
+      - name: Generate Architecture Diagrams
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run generate:diagrams
+
+      - name: Generate Knowledge Graph
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run generate:knowledge-graph
+
+      - name: Create Pull Request for Documentation
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'docs: Update repository intelligence and diagrams'
+          title: 'Automated Repository Intelligence Update'
+          body: 'This PR updates the repository analysis, architecture diagrams, and knowledge graph based on recent changes.'
+          branch: 'automation/repo-intelligence'
+          base: main
