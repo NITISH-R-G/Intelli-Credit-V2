@@ -32,6 +32,7 @@ jobs:
         run: npm run ai:triage
 
       - name: Create Issue Comment
+        if: hashFiles('triage-comment.txt') != ''
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.issue.number }}
