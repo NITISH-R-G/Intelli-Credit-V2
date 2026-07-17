@@ -34,7 +34,10 @@ jobs:
         run: npm run ai:pr-review
 
       - name: Comment on PR
+        if: env.GEMINI_API_KEY != ''
         uses: thollander/actions-comment-pull-request@v3
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         with:
           file-path: pr-review-comment.txt
           comment-tag: ai-pr-review
