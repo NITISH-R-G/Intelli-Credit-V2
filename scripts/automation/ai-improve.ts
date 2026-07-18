@@ -8,12 +8,19 @@ async function main() {
   }
 
   let codeContext = '';
+  const filesToRead = [
+    'package.json',
+    'server.ts',
+    'vite.config.ts',
+    'api/analyze.ts',
+    'src/App.tsx',
+  ];
+
   try {
-    if (fs.existsSync('package.json')) {
-      codeContext += `\n\n--- package.json ---\n${fs.readFileSync('package.json', 'utf-8')}`;
-    }
-    if (fs.existsSync('server.ts')) {
-      codeContext += `\n\n--- server.ts ---\n${fs.readFileSync('server.ts', 'utf-8')}`;
+    for (const file of filesToRead) {
+      if (fs.existsSync(file)) {
+        codeContext += `\n\n--- ${file} ---\n${fs.readFileSync(file, 'utf-8')}`;
+      }
     }
   } catch (error) {
     console.warn('Could not read context files:', error);

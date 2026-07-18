@@ -12,12 +12,15 @@ Ensure the diagram includes components for React, Express, and any other relevan
   });
 
   fs.mkdirSync('docs/architecture', { recursive: true });
-  fs.writeFileSync('docs/architecture/architecture-diagram.md', response.text || 'No diagram generated.');
+  fs.writeFileSync(
+    'docs/architecture/architecture-diagram.md',
+    response.text || 'No diagram generated.',
+  );
   console.info('Successfully generated architecture diagram.');
 }
 
 async function generateGraph(ai: GoogleGenAI, packageJson: string) {
-    const prompt = `Generate a JSON knowledge graph of the repository's modules and services based on these dependencies. Output ONLY valid JSON:
+  const prompt = `Generate a JSON knowledge graph of the repository's modules and services based on these dependencies. Output ONLY valid JSON:
 ${packageJson}
 `;
 
@@ -28,16 +31,21 @@ ${packageJson}
 
   let jsonText = response.text || '{}';
   if (jsonText.startsWith('```json')) {
-      jsonText = jsonText.replace(/^```json/, '').replace(/```$/, '').trim();
+    jsonText = jsonText
+      .replace(/^```json\n?/, '')
+      .replace(/\n?```\n?$/, '')
+      .trim();
   } else if (jsonText.startsWith('```')) {
-      jsonText = jsonText.replace(/^```/, '').replace(/```$/, '').trim();
+    jsonText = jsonText
+      .replace(/^```\n?/, '')
+      .replace(/\n?```\n?$/, '')
+      .trim();
   }
 
   fs.mkdirSync('docs/architecture', { recursive: true });
   fs.writeFileSync('docs/architecture/knowledge-graph.json', jsonText);
   console.info('Successfully generated knowledge graph.');
 }
-
 
 async function main() {
   if (!process.env.GEMINI_API_KEY) {
@@ -50,23 +58,21 @@ async function main() {
 
   let packageJson = '';
   try {
-      packageJson = fs.readFileSync('package.json', 'utf-8');
+    packageJson = fs.readFileSync('package.json', 'utf-8');
   } catch (error) {
-      console.warn('Could not read package.json');
+    console.warn('Could not read package.json');
   }
-
-  fs.mkdirSync('docs/history', { recursive: true });
 
   try {
     if (action === 'diagrams') {
-        await generateDiagrams(ai, packageJson);
+      await generateDiagrams(ai, packageJson);
     } else if (action === 'graph') {
-        await generateGraph(ai, packageJson);
+      await generateGraph(ai, packageJson);
     } else if (action === 'analyze') {
-        await generateDiagrams(ai, packageJson);
-        await generateGraph(ai, packageJson);
+      await generateDiagrams(ai, packageJson);
+      await generateGraph(ai, packageJson);
     } else {
-        console.warn('Unknown action. Use "diagrams", "graph", or "analyze".');
+      console.warn('Unknown action. Use "diagrams", "graph", or "analyze".');
     }
   } catch (error) {
     console.error('Error during repo analysis:', error);

@@ -20,8 +20,8 @@ async function main() {
     const diff = execFileSync('git', ['diff', `origin/${baseRef}...HEAD`], { encoding: 'utf-8' });
 
     if (!diff) {
-        console.info('No differences found.');
-        process.exit(0);
+      console.info('No differences found.');
+      process.exit(0);
     }
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
