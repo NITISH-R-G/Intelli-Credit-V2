@@ -38,10 +38,13 @@ ${diff}
     const comment = response.text;
     fs.writeFileSync('pr-review-comment.txt', comment || 'No feedback generated.');
     console.info('Successfully generated PR review comment.');
-  } catch (error) {
-    console.error('Error in PR review:', error);
+  } catch (err) {
+    console.error('Error in PR review:', err);
     process.exit(1);
   }
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

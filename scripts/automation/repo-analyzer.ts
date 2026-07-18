@@ -74,10 +74,13 @@ async function main() {
     } else {
       console.warn('Unknown action. Use "diagrams", "graph", or "analyze".');
     }
-  } catch (error) {
-    console.error('Error during repo analysis:', error);
+  } catch (err) {
+    console.error('Error during repo analysis:', err);
     process.exit(1);
   }
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

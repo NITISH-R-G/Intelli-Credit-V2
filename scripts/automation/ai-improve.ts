@@ -44,10 +44,13 @@ ${codeContext}
     fs.mkdirSync('docs/architecture', { recursive: true });
     fs.writeFileSync('docs/architecture/improvement-report.md', report || 'No report generated.');
     console.info('Successfully generated improvement report.');
-  } catch (error) {
-    console.error('Error generating improvement report:', error);
+  } catch (err) {
+    console.error('Error generating improvement report:', err);
     process.exit(1);
   }
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

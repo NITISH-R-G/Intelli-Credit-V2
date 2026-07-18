@@ -29,10 +29,13 @@ Identify the core problem, ask clarifying questions if needed, and suggest initi
     const comment = response.text;
     fs.writeFileSync('triage-comment.txt', comment || 'No feedback generated.');
     console.info('Successfully generated triage comment.');
-  } catch (error) {
-    console.error('Error generating AI response:', error);
+  } catch (err) {
+    console.error('Error generating AI response:', err);
     process.exit(1);
   }
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
