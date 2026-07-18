@@ -59,8 +59,8 @@ async function main() {
   let packageJson = '';
   try {
     packageJson = fs.readFileSync('package.json', 'utf-8');
-  } catch (error) {
-    console.warn('Could not read package.json');
+  } catch (err) {
+    console.warn('Could not read package.json', err);
   }
 
   try {
