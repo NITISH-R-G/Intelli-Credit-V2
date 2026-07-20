@@ -1,0 +1,47 @@
+name: AI Continuous Improvement
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Run daily at 2am
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Self-Healing Fixes
+        run: npm run fix
+
+      - name: Run AI Improvement Loop
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:improve
+
+      - name: Open Issue for AI Improvements
+        if: hashFiles('ai-improvement-report.md') != ''
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Automated AI Improvement Recommendations"
+          content-filepath: ./ai-improvement-report.md
+          labels: "ai, improvement"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(auto): self-healing and improvements"
+          title: "Automated Self-Healing Fixes"
+          body: "Automated self-healing formatting applied via GitHub Actions."
+          branch: "auto-improve-patch"

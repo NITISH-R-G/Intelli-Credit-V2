@@ -1,0 +1,39 @@
+name: Repository Intelligence
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 3 * * *' # Daily at 3 AM
+
+jobs:
+  intelligence:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Repository Analysis
+        run: npm run analyze:repo
+
+      - name: Generate Architecture Diagrams
+        run: npm run generate:diagrams
+
+      - name: Generate Knowledge Graph
+        run: npm run generate:knowledge-graph
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'docs: auto-generate repository intelligence artifacts'
+          file_pattern: 'docs/architecture/* docs/history/*'
