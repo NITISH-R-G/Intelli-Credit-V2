@@ -33,4 +33,4 @@ function analyzeRepo() {
   }
 }
 
-void analyzeRepo();
+analyzeRepo();
