@@ -57,4 +57,4 @@ Provide a triage response. Be polite, welcome the user, categorize the issue (e.
   }
 }
 
-triage();
+void triage();

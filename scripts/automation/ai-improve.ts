@@ -34,4 +34,4 @@ Generate a Markdown report detailing 3 actionable recommendations for improving 
   }
 }
 
-improveRepo();
+void improveRepo();
