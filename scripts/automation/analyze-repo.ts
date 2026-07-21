@@ -12,7 +12,7 @@ function analyzeRepo() {
     console.info('Starting repository analysis...');
 
     // Example logic: Count files by extension
-    const allFilesOutput = execFileSync('git', ['ls-files'], { encoding: 'utf-8' });
+    const allFilesOutput = execFileSync('git', ['ls-files'], { encoding: 'utf-8' }) as string;
     const files = allFilesOutput.split('\n').filter(Boolean);
 
     const stats = {
@@ -33,4 +33,4 @@ function analyzeRepo() {
   }
 }
 
-analyzeRepo();
+void analyzeRepo();

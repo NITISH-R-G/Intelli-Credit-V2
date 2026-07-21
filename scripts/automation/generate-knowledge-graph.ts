@@ -11,7 +11,7 @@ function generateKnowledgeGraph() {
   try {
     console.info('Generating repository knowledge graph...');
 
-    const allFilesOutput = execFileSync('git', ['ls-files'], { encoding: 'utf-8' });
+    const allFilesOutput = execFileSync('git', ['ls-files'], { encoding: 'utf-8' }) as string;
     const files = allFilesOutput.split('\n').filter(Boolean);
 
     const graph = {
@@ -29,4 +29,4 @@ function generateKnowledgeGraph() {
   }
 }
 
-generateKnowledgeGraph();
+void generateKnowledgeGraph();

@@ -26,4 +26,4 @@ function generateDiagrams() {
   }
 }
 
-generateDiagrams();
+void generateDiagrams();
