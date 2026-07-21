@@ -291,7 +291,7 @@ describe('calculateDisplayAnalysis', () => {
       mock.suggestedLoanAmount = '150000';
       const result = calculateDisplayAnalysis(mock, -20, 0);
       // Using replace to remove narrow no-break space which might be added by toLocaleString in some environments
-      const formatted = result?.suggestedLoanAmount.replace(/\u202F/g, ' ');
+      const formatted = result?.suggestedLoanAmount?.replace(/\u202F/g, ' ');
       const expected = (135000)
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
         .replace(/\u202F/g, ' ');
@@ -302,7 +302,7 @@ describe('calculateDisplayAnalysis', () => {
       const mock = getBaseMockAnalysis();
       mock.suggestedLoanAmount = '150000';
       const result = calculateDisplayAnalysis(mock, -20, 0);
-      const formatted = result?.suggestedLoanAmount.replace(/\u202F/g, ' ');
+      const formatted = result?.suggestedLoanAmount?.replace(/\u202F/g, ' ');
       const expected = (135000)
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
         .replace(/\u202F/g, ' ');
@@ -316,7 +316,7 @@ describe('calculateDisplayAnalysis', () => {
       const result = calculateDisplayAnalysis(mock, -20, 0);
       // Base: 2.5 * 10,000,000 = 25,000,000
       // Shock: -20% -> 25,000,000 * (1 - 20/200) = 25,000,000 * 0.9 = 22,500,000
-      const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
+      const formatted = result?.suggestedLoanAmount?.replace(/\s/g, '');
       const expected = (22500000)
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
         .replace(/\s/g, '');
@@ -329,7 +329,7 @@ describe('calculateDisplayAnalysis', () => {
       const result = calculateDisplayAnalysis(mock, -20, 0);
       // Base: 15 * 100,000 = 1,500,000
       // Shock: -20% -> 1,500,000 * 0.9 = 1,350,000
-      const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
+      const formatted = result?.suggestedLoanAmount?.replace(/\s/g, '');
       const expected = (1350000)
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
         .replace(/\s/g, '');
@@ -342,7 +342,7 @@ describe('calculateDisplayAnalysis', () => {
       const result = calculateDisplayAnalysis(mock, -20, 0);
       // Base: 10 * 100,000 = 1,000,000
       // Shock: -20% -> 1,000,000 * 0.9 = 900,000
-      const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
+      const formatted = result?.suggestedLoanAmount?.replace(/\s/g, '');
       const expected = (900000)
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
         .replace(/\s/g, '');
@@ -353,7 +353,7 @@ describe('calculateDisplayAnalysis', () => {
       const mock = getBaseMockAnalysis();
       mock.suggestedLoanAmount = 'Unspecified';
       const result = calculateDisplayAnalysis(mock, -20, 0);
-      const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
+      const formatted = result?.suggestedLoanAmount?.replace(/\s/g, '');
       const expected = (0)
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
         .replace(/\s/g, '');
@@ -538,7 +538,13 @@ describe('performAnalysis', () => {
     // Complete CreditAnalysis shape — the server always returns one that
     // satisfies RESPONSE_SCHEMA, and calculateRiskAndFraud reads many fields.
     const serverAnalysis = {
-      companyInfo: { name: 'Co', establishedYear: 2020, industry: 'IT', registrationNumber: 'r', employees: '10' },
+      companyInfo: {
+        name: 'Co',
+        establishedYear: 2020,
+        industry: 'IT',
+        registrationNumber: 'r',
+        employees: '10',
+      },
       structuredData: {
         revenue: [{ year: '2023', value: 1000000 }],
         debt: [{ year: '2023', value: 100000 }],
@@ -549,7 +555,11 @@ describe('performAnalysis', () => {
       },
       verificationLayer: [],
       fraudDetection: [],
-      unstructuredInsights: { boardMeetingNotes: [], ratingAgencyReports: '', shareholdingPattern: '' },
+      unstructuredInsights: {
+        boardMeetingNotes: [],
+        ratingAgencyReports: '',
+        shareholdingPattern: '',
+      },
       externalIntelligence: { mcaStatus: 'Active', legalDisputes: [], newsSectorTrends: [] },
       primaryInsights: { siteVisitObservations: [], managementInterviews: [] },
       fiveCs: {
