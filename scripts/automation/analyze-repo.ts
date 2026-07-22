@@ -1,7 +1,6 @@
 import { execFileSync } from 'node:child_process';
-import * as fs from 'node:fs';
 
-function analyzeRepo() {
+function analyzeRepo(): void {
   console.info('Starting repository analysis...');
 
   try {
@@ -16,7 +15,7 @@ function analyzeRepo() {
     execFileSync('npx', ['--yes', 'vitest', 'run'], { stdio: 'inherit' });
 
     console.info('Repository analysis completed successfully. Codebase is healthy.');
-  } catch (error) {
+  } catch (_error) {
     console.error('Repository analysis failed. Please fix the underlying issues.');
     process.exit(1);
   }
