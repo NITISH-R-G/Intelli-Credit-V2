@@ -1,0 +1,42 @@
+name: AI PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  ai-pr-review:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+        with:
+          fetch-depth: 0
+
+      - name: Generate PR Diff
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff origin/${{ github.base_ref }}...HEAD > pr-diff.txt
+
+      - name: Setup Node
+        uses: actions/setup-node@32f57ac043e003bc1b07edcb2b9102bbbf3e92f1
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run AI PR Review
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:pr-review
+
+      - name: Post PR Review Comment
+        if: hashFiles('pr-review-comment.txt') != ''
+        uses: thollander/actions-comment-pull-request@e4a76dd2b0a3c2027c3fd84147a67c22ee4c90fa
+        with:
+          file-path: pr-review-comment.txt
+          comment-tag: ai-pr-review
