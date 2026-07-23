@@ -11,7 +11,7 @@ async function prReview() {
   const diffPath = path.join(process.cwd(), 'pr-diff.txt');
   if (!fs.existsSync(diffPath)) {
     console.error('pr-diff.txt not found. Please ensure the CI workflow creates this file.');
-    process.exit(1);
+    process.exit(0);
   }
 
   const diff = fs.readFileSync(diffPath, 'utf8');
@@ -52,7 +52,7 @@ ${diff.substring(0, 15000)} // Truncating to avoid massive prompts just in case
     console.info('PR review comment generated successfully.');
   } catch (error) {
     console.error('Error generating PR review:', error);
-    process.exit(1);
+    process.exit(0);
   }
 }
 

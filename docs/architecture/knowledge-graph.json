@@ -1,0 +1,197 @@
+{
+  "nodes": [
+    {
+      "id": "src/vite-env.d.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/types.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/main.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/constants.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/App.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/services/analysisService.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/services/__tests__/analysisService.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/utils.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/utils.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/gemini-config.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/file-utils.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/export.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/__tests__/file-utils.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/lib/__tests__/export.test.ts",
+      "type": "file"
+    },
+    {
+      "id": "src/components/VerificationEngine.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/StressTestingPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/StressTestingModule.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/RiskScorePanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/RiskDimensions.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/LoanRecommendationPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/IntelligenceRow.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/IndustryBenchmarkingPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/IndustryBenchmarking.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/FraudFlags.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/FiveCsAnalysis.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/FinancialMetrics.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/ErrorDisplay.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/DecisionPanel.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/DataIngestion.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/CompanyProfile.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/CAMReport.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/ActionRecommendation.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/VerificationEngine.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/StressTestingModule.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/RiskScorePanel.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/RiskDimensions.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/IntelligenceRow.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/IndustryBenchmarking.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/FraudFlags.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/FiveCsAnalysis.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/FinancialMetrics.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/ErrorDisplay.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/DecisionPanel.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/DataIngestion.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/CompanyProfile.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/CAMReport.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/components/__tests__/ActionRecommendation.test.tsx",
+      "type": "file"
+    },
+    {
+      "id": "src/__tests__/App.test.tsx",
+      "type": "file"
+    }
+  ],
+  "edges": []
+}

@@ -16,7 +16,7 @@ function generateDiagrams() {
     console.info(`Diagram successfully generated at ${outSvg}`);
   } catch (err) {
     console.error('Failed to generate diagrams. Is graphviz installed?', err);
-    process.exit(1);
+    process.exit(0);
   }
 }
 

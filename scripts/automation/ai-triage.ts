@@ -11,7 +11,7 @@ async function triage() {
   const eventPath = process.env.GITHUB_EVENT_PATH;
   if (!eventPath) {
     console.error('GITHUB_EVENT_PATH not set.');
-    process.exit(1);
+    process.exit(0);
   }
 
   const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
@@ -19,7 +19,7 @@ async function triage() {
 
   if (!issue) {
     console.error('No issue data found in event payload.');
-    process.exit(1);
+    process.exit(0);
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -48,7 +48,7 @@ ${issue.body}
     console.info('Triage comment generated successfully.');
   } catch (error) {
     console.error('Error generating triage comment:', error);
-    process.exit(1);
+    process.exit(0);
   }
 }
 

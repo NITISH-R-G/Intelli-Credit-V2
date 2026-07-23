@@ -19,7 +19,7 @@ function selfHeal() {
       console.error((error as { stdout: string }).stdout);
     }
     // We exit 0 because self-heal shouldn't break CI, it's just best effort
-    process.exit(0);
+    ;
   }
 }
 

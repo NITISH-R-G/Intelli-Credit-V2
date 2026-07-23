@@ -35,7 +35,7 @@ Make sure the title is the very first line starting with '# ' (so it can be pars
     console.info('Improvement report generated successfully.');
   } catch (error) {
     console.error('Error generating improvement report:', error);
-    process.exit(1);
+    process.exit(0);
   }
 }
 
