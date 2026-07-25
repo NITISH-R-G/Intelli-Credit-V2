@@ -1,0 +1,56 @@
+name: 'AI Continuous Improvement'
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@32f57ac043e003bc1b07edcb2b9102bbbf3e92f1
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Run Architecture Analysis
+        run: |
+          npm run generate:diagrams
+          npm run generate:knowledge-graph
+
+      - name: Run AI Improvement Loop
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:improve
+
+      - name: Commit Updated Architecture Docs
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/architecture/ docs/history/
+          git commit -m "docs: auto-generate architecture diagrams and knowledge graph" || true
+          git push || true
+
+      - name: Create Issue for Report
+        if: hashFiles('ai-improvement-report.md') != ''
+        uses: peter-evans/create-issue-from-file@4cc9c29572c7ca311b7124c0cd962e2a43a4d8c8
+        with:
+          title: 'Daily AI Continuous Improvement Report'
+          content-filepath: ai-improvement-report.md
+          labels: 'ai, continuous-improvement, documentation'
