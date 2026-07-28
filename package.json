@@ -29,7 +29,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "fix": "npm-run-all --sequential format lint:fix",
+    "ai:triage": "tsx scripts/automation/triage-issue.ts",
+    "ai:improve": "tsx scripts/automation/improve-repo.ts",
+    "ai:pr-review": "tsx scripts/automation/pr-review.ts",
+    "analyze:repo": "tsx scripts/automation/analyze-repo.ts",
+    "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
+    "generate:knowledge-graph": "tsx scripts/automation/generate-knowledge-graph.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -68,6 +75,8 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
     "jsdom": "^29.1.1",
+    "madge": "^8.0.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.22.4",
@@ -77,4 +86,3 @@
     "vitest": "^4.1.7"
   }
 }
-
