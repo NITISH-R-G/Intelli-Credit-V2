@@ -2,7 +2,7 @@ import { GoogleGenAI } from '@google/genai';
 import * as fs from 'fs';
 import { execFileSync } from 'child_process';
 
-async function improveRepo() {
+async function improveRepo(): Promise<void> {
   if (!process.env.GEMINI_API_KEY) {
     console.warn('GEMINI_API_KEY not found. Skipping repo improvement analysis.');
     process.exit(0);
@@ -13,7 +13,7 @@ async function improveRepo() {
   try {
     // get a high level tree structure
     tree = (execFileSync('find', ['.', '-maxdepth', '3', '-not', '-path', '*/node_modules/*', '-not', '-path', '*/.git/*']) as unknown as Buffer).toString().trim();
-  } catch (e) {
+  } catch (e: unknown) {
     console.error('Error fetching tree', e);
   }
 
@@ -44,7 +44,7 @@ ${text}`;
 
     fs.writeFileSync('ai-improvement-report.md', issueContent);
     console.info('Improvement report generated and saved to ai-improvement-report.md.');
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error generating improvement report:', error);
     process.exit(1);
   }

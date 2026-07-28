@@ -1,8 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 import * as fs from 'fs';
-import * as path from 'path';
 
-async function reviewPR() {
+async function reviewPR(): Promise<void> {
   if (!process.env.GEMINI_API_KEY) {
     console.warn('GEMINI_API_KEY not found. Skipping PR review.');
     process.exit(0);
@@ -43,7 +42,7 @@ async function reviewPR() {
 
     fs.writeFileSync('pr-comment.txt', text);
     console.info('PR review comment generated and saved to pr-comment.txt.');
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error generating PR review:', error);
     process.exit(1);
   }

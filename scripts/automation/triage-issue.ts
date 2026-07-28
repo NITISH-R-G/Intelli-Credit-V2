@@ -1,8 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 import * as fs from 'fs';
-import * as path from 'path';
 
-async function triage() {
+async function triage(): Promise<void> {
   if (!process.env.GEMINI_API_KEY) {
     console.warn('GEMINI_API_KEY not found. Skipping issue triage.');
     process.exit(0);
@@ -44,7 +43,7 @@ async function triage() {
 
     fs.writeFileSync('triage-comment.txt', text);
     console.info('Triage comment generated and saved to triage-comment.txt.');
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error generating triage comment:', error);
     process.exit(1);
   }
