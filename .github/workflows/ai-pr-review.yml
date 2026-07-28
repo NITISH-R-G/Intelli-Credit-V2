@@ -37,7 +37,7 @@ jobs:
 
       - name: Post PR Review Comment
         if: hashFiles('pr-comment.txt') != ''
-        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0d56e21d # v2.5.0
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
         with:
           file-path: pr-comment.txt
           comment-tag: ai-pr-review
