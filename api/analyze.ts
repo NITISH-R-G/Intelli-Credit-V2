@@ -42,7 +42,7 @@ const toArrayBuffer = async (b: Blob): Promise<ArrayBuffer> => {
     return (b as { arrayBuffer: () => Promise<ArrayBuffer> }).arrayBuffer();
   }
   // Node 18/20 Web polyfill fallback
-  const buf = await (b as { buffer: Promise<ArrayBuffer> }).buffer;
+  const buf = await (b as unknown as { buffer: Promise<ArrayBuffer> }).buffer;
   return buf as ArrayBuffer;
 };
 

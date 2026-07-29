@@ -213,7 +213,18 @@ export const runAnalysis = async (
   const currentContents = buildContents(files);
   const config = buildConfig();
 
-  let extractionResponse = await generateWithResilience(genAI, model, currentContents, config);
+  type GeminiResponse = {
+    functionCalls?: { name: string; args: Record<string, unknown> }[];
+    candidates?: { content: unknown; finishReason: string }[];
+    text?: string;
+  };
+
+  let extractionResponse = (await generateWithResilience(
+    genAI,
+    model,
+    currentContents,
+    config,
+  )) as GeminiResponse;
 
   let iterations = 0;
   while (
@@ -239,7 +250,9 @@ export const runAnalysis = async (
       throw new AnalysisError('TOOL_ERROR', `Tool error: ${toolResult.error}`);
     }
 
-    currentContents.push(extractionResponse.candidates![0].content);
+    if (extractionResponse.candidates && extractionResponse.candidates.length > 0) {
+      currentContents.push(extractionResponse.candidates[0].content);
+    }
     currentContents.push({
       role: 'user',
       parts: [
@@ -252,7 +265,12 @@ export const runAnalysis = async (
       ],
     });
 
-    extractionResponse = await generateWithResilience(genAI, model, currentContents, config);
+    extractionResponse = (await generateWithResilience(
+      genAI,
+      model,
+      currentContents,
+      config,
+    )) as GeminiResponse;
 
     iterations++;
   }

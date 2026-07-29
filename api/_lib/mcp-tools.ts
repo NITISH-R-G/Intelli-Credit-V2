@@ -111,9 +111,9 @@ export const callMcpTool = async (
           Machinery: 0.5,
           Inventory: 0.4,
         };
-        const ratio = ltvRatios[args.assetType] || 0.5;
+        const ratio = ltvRatios[String(args.assetType)] || 0.5;
         return {
-          estimatedValue: args.marketValue * ratio,
+          estimatedValue: Number(args.marketValue) * ratio,
           ltvRatio: ratio,
           remarks: `Standard LTV applied for ${args.assetType}.`,
         };
