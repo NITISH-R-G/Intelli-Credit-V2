@@ -1,4 +1,3 @@
-import { execFileSync } from 'child_process';
 import * as fs from 'fs';
 import { GoogleGenAI } from '@google/genai';
 

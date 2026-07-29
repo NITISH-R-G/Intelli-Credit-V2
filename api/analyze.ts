@@ -38,11 +38,11 @@ const json = (status: number, body: unknown) =>
   });
 
 const toArrayBuffer = async (b: Blob): Promise<ArrayBuffer> => {
-  if (typeof (b as any).arrayBuffer === 'function') {
-    return (b as any).arrayBuffer();
+  if (typeof (b as { arrayBuffer?: () => Promise<ArrayBuffer> }).arrayBuffer === 'function') {
+    return (b as { arrayBuffer: () => Promise<ArrayBuffer> }).arrayBuffer();
   }
   // Node 18/20 Web polyfill fallback
-  const buf = await (b as any).buffer;
+  const buf = await (b as { buffer: Promise<ArrayBuffer> }).buffer;
   return buf as ArrayBuffer;
 };
 
@@ -188,9 +188,10 @@ export default async function handler(req: Request): Promise<Response> {
   try {
     const analysis = await Promise.race([analysisPromise, timeoutPromise]);
     return json(200, { analysis, requestId });
-  } catch (e: any) {
+  } catch (e: unknown) {
     // Always log the real error server-side, keyed by requestId.
-    console.error(`[/api/analyze:${requestId}]`, e?.stack ?? e);
+    const err = e as Error;
+    console.error(`[/api/analyze:${requestId}]`, err?.stack ?? e);
 
     if (e instanceof AnalysisError) {
       const status = e.code === 'MISSING_API_KEY' || e.code === 'NO_FILES' ? 400 : 500;
