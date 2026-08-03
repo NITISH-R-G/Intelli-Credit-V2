@@ -72,7 +72,7 @@ labels: ["enhancement", "ai-suggestion"]
           'utf-8',
         );
         console.info('Successfully generated AI improvement report from lint error.');
-      } catch (e) {
+      } catch (_e) {
         process.exit(1);
       }
     } else {
