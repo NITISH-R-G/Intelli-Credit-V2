@@ -57,7 +57,11 @@ labels: ["enhancement", "ai-suggestion"]
     if (error && typeof error === 'object' && 'stdout' in error) {
       try {
         const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-        const prompt = `You are an AI Continuous Improvement Agent. The linter found issues. Suggest an improvement based on this output: ${(error as any).stdout.substring(0, 1000)}`;
+        const stdoutStr =
+          typeof (error as { stdout?: string | Buffer }).stdout === 'string'
+            ? (error as { stdout: string }).stdout
+            : (error as { stdout?: Buffer }).stdout?.toString() || '';
+        const prompt = `You are an AI Continuous Improvement Agent. The linter found issues. Suggest an improvement based on this output: ${stdoutStr.substring(0, 1000)}`;
         const response = await ai.models.generateContent({
           model: 'gemini-2.0-flash',
           contents: prompt,
