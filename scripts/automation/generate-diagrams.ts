@@ -1,5 +1,5 @@
-import { execFileSync } from 'child_process';
-import * as fs from 'fs';
+import { execFileSync } from 'node:child_process';
+import * as fs from 'node:fs';
 
 function generateDiagrams(): void {
   console.info('Generating architecture diagrams using madge...');

@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 
 async function reviewPR(): Promise<void> {
   if (!process.env.GEMINI_API_KEY) {

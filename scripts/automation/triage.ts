@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 async function triage(): Promise<void> {
   if (!process.env.GEMINI_API_KEY) {

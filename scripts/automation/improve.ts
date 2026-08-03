@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
-import * as fs from 'fs';
-import { execFileSync } from 'child_process';
+import * as fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
 async function improve(): Promise<void> {
   if (!process.env.GEMINI_API_KEY) {
