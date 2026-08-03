@@ -1,0 +1,49 @@
+name: Repository Intelligence & Auto-Fixes
+
+on:
+  push:
+    branches: ['main']
+  schedule:
+    - cron: '0 2 * * 0' # Run weekly
+
+jobs:
+  repo-intelligence:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Self-Healing (Format & Lint Fix)
+        run: npm run fix || true
+
+      - name: Analyze Repo
+        run: npm run analyze:repo
+
+      - name: Generate Architecture Diagrams
+        run: npm run generate:diagrams
+
+      - name: Generate Knowledge Graph
+        run: npm run generate:knowledge-graph
+
+      - name: Commit Intelligence Assets
+        uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403
+        with:
+          commit_message: 'chore(intelligence): auto-update repository knowledge base, diagrams, and auto-fixes'
+          branch: main
+          file_pattern: docs/architecture/* docs/history/* src/*
