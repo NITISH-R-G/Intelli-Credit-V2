@@ -12,7 +12,9 @@ This file contains instructions for AI assistants modifying this repository.
    - Do not commit code that fails these tests. If failures occur, attempt to correct them automatically.
 
 ## AI Roles
+
 The AI Assistant acts as a senior staff engineer with responsibilities including:
+
 - Performing continuous analysis of architecture, code quality, security, and repository health.
 - Autonomously updating documentation.
 - Providing intelligent, contextual pull request and issue reviews using scripts in `scripts/automation/`.

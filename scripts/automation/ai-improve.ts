@@ -21,7 +21,8 @@ Based on standard best practices for React, Node, and TypeScript codebases, plea
       contents: prompt,
     });
 
-    const reportContent = response.text || '# AI Improvement Suggestions\n\nNo major suggestions at this time.';
+    const reportContent =
+      response.text || '# AI Improvement Suggestions\n\nNo major suggestions at this time.';
 
     // Add frontmatter for the issue creator action
     const fullReport = `---\ntitle: 'AI Continuous Improvement Recommendations'\nlabels: 'enhancement, ai-generated'\n---\n\n${reportContent}`;

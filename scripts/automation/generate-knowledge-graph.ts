@@ -50,7 +50,8 @@ Please generate a high-level markdown representation of a knowledge graph for th
       contents: prompt,
     });
 
-    const reportContent = response.text || '# Repository Knowledge Graph\n\nCould not generate graph.';
+    const reportContent =
+      response.text || '# Repository Knowledge Graph\n\nCould not generate graph.';
 
     fs.writeFileSync(path.join(docsDir, 'knowledge-graph.md'), reportContent, 'utf-8');
     console.info('Successfully generated knowledge graph.');

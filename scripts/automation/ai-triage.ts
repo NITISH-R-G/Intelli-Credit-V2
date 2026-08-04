@@ -36,7 +36,8 @@ Please provide a helpful, welcoming triage response. Categorize the issue, menti
       contents: prompt,
     });
 
-    const responseText = response.text || 'Thank you for opening this issue! A maintainer will review it shortly.';
+    const responseText =
+      response.text || 'Thank you for opening this issue! A maintainer will review it shortly.';
 
     fs.writeFileSync('triage-comment.txt', responseText, 'utf-8');
     console.info('Successfully generated AI triage response.');

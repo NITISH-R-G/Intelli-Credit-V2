@@ -35,7 +35,8 @@ Please review the code changes. Highlight any potential bugs, security issues, p
       contents: prompt,
     });
 
-    const responseText = response.text || 'Review complete. No major issues found by the AI reviewer.';
+    const responseText =
+      response.text || 'Review complete. No major issues found by the AI reviewer.';
 
     fs.writeFileSync('pr-comment.txt', responseText, 'utf-8');
     console.info('Successfully generated AI PR review.');

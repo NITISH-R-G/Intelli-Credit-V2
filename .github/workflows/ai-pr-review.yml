@@ -23,7 +23,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Generate PR Diff
         run: |
@@ -37,7 +37,7 @@ jobs:
 
       - name: Comment PR
         if: hashFiles('pr-comment.txt') != ''
-        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd9ce3f # v2
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2
         with:
           file-path: 'pr-comment.txt'
           comment-tag: 'ai-review'
