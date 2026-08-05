@@ -1,27 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import * as fs from 'node:fs';
-import * as path from 'node:path';
-
-function getFilesRecursively(directory: string): string[] {
-  let files: string[] = [];
-  try {
-    const items = fs.readdirSync(directory, { withFileTypes: true });
-    for (const item of items) {
-      if (item.name === 'node_modules' || item.name === '.git' || item.name === 'dist') {
-        continue;
-      }
-      const fullPath = path.join(directory, item.name);
-      if (item.isDirectory()) {
-        files = files.concat(getFilesRecursively(fullPath));
-      } else {
-        files.push(fullPath);
-      }
-    }
-  } catch (err) {
-    console.error(`Error reading directory ${directory}:`, err);
-  }
-  return files;
-}
+import { getRepositoryContext } from './utils';
 
 async function analyzeRepo() {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -30,29 +9,7 @@ async function analyzeRepo() {
     process.exit(0);
   }
 
-  const allFiles = getFilesRecursively('.');
-  const fileTree = allFiles.join('\n');
-
-  let packageJsonStr = '';
-  try {
-    packageJsonStr = fs.readFileSync('package.json', 'utf8');
-  } catch (err) {
-    console.warn('Could not read package.json:', err);
-  }
-
-  let codeContext = '';
-  for (const file of allFiles) {
-    if (file.startsWith('src/') || file.startsWith('api/') || file.startsWith('scripts/')) {
-      if (file.endsWith('.ts') || file.endsWith('.tsx')) {
-        try {
-          const content = fs.readFileSync(file, 'utf8');
-          codeContext += `\n--- ${file} ---\n${content}\n`;
-        } catch {
-          // ignore
-        }
-      }
-    }
-  }
+  const { fileTree, codeContext, packageJsonStr } = getRepositoryContext();
 
   const ai = new GoogleGenAI({ apiKey });
 
