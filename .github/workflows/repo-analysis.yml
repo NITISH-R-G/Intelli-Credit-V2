@@ -1,0 +1,51 @@
+name: Repository Analysis & Intelligence
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Analyze Repo Architecture
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run analyze:repo
+
+      - name: Generate Knowledge Graph
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run generate:knowledge-graph
+
+      - name: Generate Architecture Diagrams
+        run: npm run generate:diagrams
+
+      - name: Create Pull Request for Updated Architecture Docs
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        with:
+          commit-message: 'docs: update architecture intelligence and knowledge graph'
+          title: 'docs: Update Architecture Intelligence & Knowledge Graph'
+          body: 'This PR automatically updates the repository architecture diagrams, intelligence reports, and knowledge graph based on the latest codebase.'
+          branch: 'automation/update-architecture'
+          labels: 'documentation, automation'
