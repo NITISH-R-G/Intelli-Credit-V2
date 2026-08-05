@@ -40,7 +40,7 @@ async function improveRepo() {
         try {
           const content = fs.readFileSync(file, 'utf8');
           codeContext += `\n--- ${file} ---\n${content}\n`;
-        } catch (err) {
+        } catch {
           // ignore
         }
       }
