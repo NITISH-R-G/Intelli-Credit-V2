@@ -1,0 +1,44 @@
+name: Self-Healing & Automation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Self-Healing Fixes
+        run: npm run fix
+
+      - name: Run audit fix
+        run: npm audit fix || true
+
+      - name: Create Pull Request if changes exist
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        with:
+          commit-message: 'chore: auto-heal formatting and linting issues'
+          title: '🤖 Auto-heal formatting and security issues'
+          body: 'This PR automatically fixes linting, formatting, or minor security issues discovered in the recent push to main.'
+          branch: 'auto-heal'
+          labels: 'automated-pr, formatting'
