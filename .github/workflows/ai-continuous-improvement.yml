@@ -32,7 +32,7 @@ jobs:
 
       - name: Create Improvement Issue
         if: hashFiles('ai-improvement-report.md') != ''
-        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e470eea31ce6f1a0f0b
+        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd
         with:
           title: '🤖 AI Continuous Improvement Report'
           content-filepath: ./ai-improvement-report.md

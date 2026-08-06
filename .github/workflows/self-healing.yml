@@ -35,7 +35,7 @@ jobs:
 
       - name: Create Pull Request if changes exist
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
         with:
           commit-message: 'chore: auto-heal formatting and linting issues'
           title: '🤖 Auto-heal formatting and security issues'
