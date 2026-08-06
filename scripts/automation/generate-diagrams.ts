@@ -23,8 +23,8 @@ function generateDiagrams(): void {
         'src/',
       ],
       { encoding: 'utf-8' },
-    ) as unknown as string;
-    console.info('Diagram generation output:', result);
+    );
+    console.info('Diagram generation output:', result as string);
   } catch (error) {
     console.error('Failed to generate diagrams:', error);
   }

@@ -11,9 +11,9 @@ function generateKnowledgeGraph(): void {
     console.info('Generating repository knowledge graph...');
     const result = execFileSync('npx', ['--yes', 'madge', '--json', 'src/'], {
       encoding: 'utf-8',
-    }) as unknown as string;
+    });
 
-    fs.writeFileSync(`${outDir}/knowledge-graph.json`, result, 'utf-8');
+    fs.writeFileSync(`${outDir}/knowledge-graph.json`, result as string, 'utf-8');
     console.info('Knowledge graph generated at docs/architecture/knowledge-graph.json');
   } catch (error) {
     console.error('Failed to generate knowledge graph:', error);
