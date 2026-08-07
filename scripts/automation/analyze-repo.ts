@@ -1,24 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import * as fs from 'fs';
-import * as path from 'path';
-
-function getFilesRecursively(directory: string): string[] {
-  let files: string[] = [];
-  if (!fs.existsSync(directory)) return files;
-
-  const items = fs.readdirSync(directory, { withFileTypes: true });
-
-  for (const item of items) {
-    const fullPath = path.join(directory, item.name);
-    if (item.isDirectory()) {
-      files = files.concat(getFilesRecursively(fullPath));
-    } else if (item.isFile() && (fullPath.endsWith('.ts') || fullPath.endsWith('.tsx'))) {
-      files.push(fullPath);
-    }
-  }
-
-  return files;
-}
+import { getAllCodeFilesContent } from './utils.js';
 
 async function analyzeRepo() {
   if (!process.env.GEMINI_API_KEY) {
@@ -28,16 +10,7 @@ async function analyzeRepo() {
 
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-  const directories = ['src', 'api', 'scripts'];
-  let allCode = '';
-
-  for (const dir of directories) {
-    const files = getFilesRecursively(dir);
-    for (const file of files) {
-      allCode += `\n\n--- ${file} ---\n`;
-      allCode += fs.readFileSync(file, 'utf8');
-    }
-  }
+  const allCode = getAllCodeFilesContent();
 
   const prompt = `You are a software architect. Analyze the provided source code and provide a text-based architecture overview, including main components, technologies used, data flow, and potential areas for improvement. Format the output in Markdown.
 
