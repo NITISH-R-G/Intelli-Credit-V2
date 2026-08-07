@@ -1,0 +1,51 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'api/**'
+      - 'package.json'
+      - 'tsconfig.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Setup Node.js
+        uses: actions/setup-node@e51e5fe84fc33b4c73ebe40526b2694712b5b858
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Analyze Repo & Generate Graphs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          npm run analyze:repo
+          npm run generate:knowledge-graph
+          npm run generate:diagrams
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@11fa467881691ac900904a2eea702c5ea848ad13
+        with:
+          commit-message: 'docs(architecture): autogenerate architecture diagrams & analysis'
+          title: '🤖 Auto-Update Architecture Documentation'
+          body: 'This PR automatically updates the repository architecture diagrams and analysis based on recent codebase changes.'
+          branch: 'chore/auto-update-architecture'
+          delete-branch: true
