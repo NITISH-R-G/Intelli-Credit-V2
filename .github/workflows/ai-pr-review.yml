@@ -32,11 +32,12 @@ jobs:
         run: git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-head || true
 
       - name: Generate PR Diff
-        run: git diff origin/${{ github.event.pull_request.base.ref }}...HEAD > pr-diff.txt || true
+        run: git diff HEAD...pr-head > pr-diff.txt || true
 
       - name: Run AI PR Review
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        # Install tsx globally or simply use npx to run without compiling the entire project. This solves missing script and module resolution issues.
         run: npx --yes tsx scripts/automation/ai-pr-review.ts
 
       - name: Comment on PR
