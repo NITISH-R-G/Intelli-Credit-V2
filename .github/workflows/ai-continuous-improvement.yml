@@ -31,20 +31,20 @@ jobs:
       - name: Run AI Improve
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: npm run ai:improve
+        run: npx --yes tsx scripts/automation/ai-improve.ts
 
       - name: Run Repo Analysis
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: npm run analyze:repo
+        run: npx --yes tsx scripts/automation/analyze-repo.ts
 
       - name: Generate Diagrams
-        run: npm run generate:diagrams
+        run: npx --yes tsx scripts/automation/generate-diagrams.ts
 
       - name: Generate Knowledge Graph
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: npm run generate:knowledge-graph
+        run: npx --yes tsx scripts/automation/generate-knowledge-graph.ts
 
       - name: Create Issue from Report
         if: hashFiles('ai-improvement-report.md') != ''

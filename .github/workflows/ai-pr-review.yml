@@ -29,15 +29,15 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Fetch PR branch for diff
-        run: git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-head
+        run: git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-head || true
 
       - name: Generate PR Diff
-        run: git diff HEAD...pr-head > pr-diff.txt
+        run: git diff origin/${{ github.event.pull_request.base.ref }}...HEAD > pr-diff.txt || true
 
       - name: Run AI PR Review
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: npm run ai:pr-review
+        run: npx --yes tsx scripts/automation/ai-pr-review.ts
 
       - name: Comment on PR
         if: hashFiles('pr-comment.txt') != ''

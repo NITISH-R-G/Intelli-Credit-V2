@@ -26,7 +26,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
-        run: npm run ai:triage
+        run: npx --yes tsx scripts/automation/ai-triage.ts
 
       - name: Comment on Issue
         if: hashFiles('triage-comment.txt') != ''
