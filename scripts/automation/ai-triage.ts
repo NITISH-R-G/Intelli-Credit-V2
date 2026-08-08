@@ -14,11 +14,17 @@ async function triage() {
   try {
     const eventPath = process.env.GITHUB_EVENT_PATH;
     if (!eventPath) {
-      console.error('GITHUB_EVENT_PATH not set, not running inside GitHub Actions context');
+      console.error(
+        'GITHUB_EVENT_PATH not set, not running inside GitHub Actions context'
+      );
       process.exit(0);
     }
 
-    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8'));
+    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as {
+      action?: string;
+      issue?: { title?: string; body?: string };
+      pull_request?: { title?: string; body?: string };
+    };
 
     if (eventData.action !== 'opened') {
       process.exit(0);
@@ -46,12 +52,17 @@ async function triage() {
     });
 
     const reply =
-      response.text || 'Thank you for your submission. A maintainer will review it shortly.';
+      response.text ||
+      'Thank you for your submission. A maintainer will review it shortly.';
 
     fs.writeFileSync('triage-comment.txt', reply, 'utf-8');
     console.info('Successfully generated triage comment.');
   } catch (e) {
-    console.error('Error during triage:', e);
+    if (e instanceof Error) {
+      console.error('Error during triage:', e.message);
+    } else {
+      console.error('Error during triage:', e);
+    }
     process.exit(1);
   }
 }

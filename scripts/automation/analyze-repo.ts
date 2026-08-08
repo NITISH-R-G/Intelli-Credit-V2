@@ -74,7 +74,11 @@ async function analyze() {
     fs.writeFileSync('docs/architecture/REPO_ANALYSIS.md', report, 'utf-8');
     console.info('Successfully generated repo analysis.');
   } catch (e) {
-    console.error('Error during repo analysis:', e);
+    if (e instanceof Error) {
+        console.error('Error during repo analysis:', e.message);
+    } else {
+        console.error('Error during repo analysis:', e);
+    }
     process.exit(1);
   }
 }

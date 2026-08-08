@@ -74,7 +74,11 @@ async function improve() {
     fs.writeFileSync('ai-improvement-report.md', report, 'utf-8');
     console.info('Successfully generated improvement report.');
   } catch (e) {
-    console.error('Error during improvement analysis:', e);
+    if (e instanceof Error) {
+        console.error('Error during improvement analysis:', e.message);
+    } else {
+        console.error('Error during improvement analysis:', e);
+    }
     process.exit(1);
   }
 }

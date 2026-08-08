@@ -79,7 +79,11 @@ async function generate() {
     fs.writeFileSync('docs/architecture/KNOWLEDGE_GRAPH.md', report, 'utf-8');
     console.info('Successfully generated knowledge graph.');
   } catch (e) {
-    console.error('Error during knowledge graph generation:', e);
+    if (e instanceof Error) {
+        console.error('Error during knowledge graph generation:', e.message);
+    } else {
+        console.error('Error during knowledge graph generation:', e);
+    }
     process.exit(1);
   }
 }

@@ -18,7 +18,7 @@ async function review() {
       diff = fs.readFileSync('pr-diff.txt', 'utf-8');
     } else {
       // fallback for local testing
-      diff = (execFileSync('git', ['diff', 'HEAD~1...HEAD']) as unknown as Buffer).toString();
+      diff = (execFileSync('git', ['diff', 'HEAD~1...HEAD']) as unknown as Buffer).toString('utf-8');
     }
 
     if (!diff || diff.trim() === '') {
@@ -56,7 +56,11 @@ async function review() {
     fs.writeFileSync('pr-comment.txt', feedback, 'utf-8');
     console.info('Successfully generated PR review comment.');
   } catch (e) {
-    console.error('Error during PR review:', e);
+    if (e instanceof Error) {
+        console.error('Error during PR review:', e.message);
+    } else {
+        console.error('Error during PR review:', e);
+    }
     process.exit(1);
   }
 }
