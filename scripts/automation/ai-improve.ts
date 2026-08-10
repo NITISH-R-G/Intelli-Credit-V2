@@ -16,7 +16,7 @@ function getFiles(dirPath: string): string[] {
       }
     }
   } catch (e) {
-    // ignore
+    console.error(`Failed to read directory: ${dirPath}`, e);
   }
   return files;
 }
@@ -37,8 +37,8 @@ async function improve() {
       try {
         const content = fs.readFileSync(file, 'utf8');
         repoContext += `\n--- File: ${file} ---\n${content}\n`;
-      } catch (e) {
-        console.error(`Failed to read ${file}`, e);
+      } catch (err) {
+        console.warn(`Could not read file for context: ${file}`, err);
       }
     }
   }

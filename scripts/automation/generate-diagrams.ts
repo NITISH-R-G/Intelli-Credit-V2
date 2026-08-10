@@ -18,9 +18,8 @@ function generateDiagrams() {
     }) as string;
 
     console.info('Diagram generated successfully:', output);
-  } catch (err: any) {
-    console.warn('Failed to generate diagram. Ensure graphviz is installed.');
-    console.error(err.message || err);
+  } catch (err) {
+    console.warn('Failed to generate diagram. Ensure graphviz is installed.', err);
   }
 }
 

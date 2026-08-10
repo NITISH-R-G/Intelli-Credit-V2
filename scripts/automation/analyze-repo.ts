@@ -5,11 +5,12 @@ function analyze() {
   console.info('Starting repository analysis...');
   fs.mkdirSync('docs/architecture', { recursive: true });
 
-  let packageJson: any = {};
+  let packageJson: { dependencies?: Record<string, string>; devDependencies?: Record<string, string>; scripts?: Record<string, string> } = {};
   try {
-    packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-  } catch (e) {
-    console.error('Failed to read package.json');
+    const fileContent = fs.readFileSync('package.json', 'utf8');
+    packageJson = JSON.parse(fileContent) as { dependencies?: Record<string, string>; devDependencies?: Record<string, string>; scripts?: Record<string, string> };
+  } catch (err) {
+    console.error('Failed to read package.json', err);
   }
 
   const dependencies = Object.keys(packageJson.dependencies || {}).length;

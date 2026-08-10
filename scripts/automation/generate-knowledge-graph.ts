@@ -15,8 +15,8 @@ function getFiles(dirPath: string): string[] {
         files.push(fullPath);
       }
     }
-  } catch (e) {
-    // ignore
+  } catch (err) {
+    console.warn(`Could not read directory: ${dirPath}`, err);
   }
   return files;
 }
@@ -40,8 +40,8 @@ async function generateKnowledgeGraph() {
       try {
         const content = fs.readFileSync(file, 'utf8');
         repoContext += `\n--- File: ${file} ---\n${content}\n`;
-      } catch (e) {
-        console.error(`Failed to read ${file}`, e);
+      } catch (err) {
+        console.error(`Failed to read ${file}`, err);
       }
     }
   }

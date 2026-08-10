@@ -15,7 +15,8 @@ async function triage() {
   }
 
   try {
-    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
+    const fileContent = fs.readFileSync(eventPath, 'utf8');
+    const eventData = JSON.parse(fileContent) as { issue?: { title: string; body?: string; user: { login: string } } };
     const issue = eventData.issue;
     if (!issue) {
       console.info('No issue data found in event payload.');

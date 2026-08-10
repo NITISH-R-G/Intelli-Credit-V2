@@ -15,8 +15,8 @@ function getFiles(dirPath: string): string[] {
         files.push(fullPath);
       }
     }
-  } catch (e) {
-    // ignore
+  } catch (err) {
+    console.warn(`Could not read directory: ${dirPath}`, err);
   }
   return files;
 }
@@ -35,7 +35,8 @@ async function reviewPR() {
   }
 
   try {
-    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
+    const fileContent = fs.readFileSync(eventPath, 'utf8');
+    const eventData = JSON.parse(fileContent) as { pull_request?: { title: string; body?: string } };
     const pr = eventData.pull_request;
     if (!pr) {
       console.info('No pull_request data found in event payload.');
