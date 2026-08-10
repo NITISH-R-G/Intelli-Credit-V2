@@ -12,14 +12,10 @@ function generateDiagrams() {
     if (fs.existsSync('server.ts')) {
       args.push('server.ts');
     }
-    const output = execFileSync(
-      'npx',
-      args,
-      {
-        encoding: 'utf-8',
-        stdio: 'pipe',
-      },
-    ) as string;
+    const output = execFileSync('npx', args, {
+      encoding: 'utf-8',
+      stdio: 'pipe',
+    }) as string;
 
     console.info('Diagram generated successfully:', output);
   } catch (err: any) {

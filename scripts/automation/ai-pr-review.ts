@@ -59,9 +59,9 @@ async function reviewPR() {
     for (const file of srcFiles) {
       try {
         repoContext += `\n--- ${file} ---\n${fs.readFileSync(file, 'utf8').substring(0, 500)}`;
-       } catch (err) {
-         console.warn(`Could not read file for context: ${file}`, err);
-       }
+      } catch (err) {
+        console.warn(`Could not read file for context: ${file}`, err);
+      }
     }
 
     const prompt = `You are a senior staff engineer performing an automated PR review.
