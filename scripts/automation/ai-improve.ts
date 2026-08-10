@@ -15,8 +15,8 @@ function getFiles(dirPath: string): string[] {
         files.push(fullPath);
       }
     }
-  } catch (e) {
-    console.error(`Failed to read directory: ${dirPath}`, e);
+  } catch (err) {
+    console.error(`Failed to read directory: ${dirPath}`, err);
   }
   return files;
 }

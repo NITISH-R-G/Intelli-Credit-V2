@@ -1,14 +1,21 @@
 import fs from 'node:fs';
-import path from 'node:path';
 
 function analyze() {
   console.info('Starting repository analysis...');
   fs.mkdirSync('docs/architecture', { recursive: true });
 
-  let packageJson: { dependencies?: Record<string, string>; devDependencies?: Record<string, string>; scripts?: Record<string, string> } = {};
+  let packageJson: {
+    dependencies?: Record<string, string>;
+    devDependencies?: Record<string, string>;
+    scripts?: Record<string, string>;
+  } = {};
   try {
     const fileContent = fs.readFileSync('package.json', 'utf8');
-    packageJson = JSON.parse(fileContent) as { dependencies?: Record<string, string>; devDependencies?: Record<string, string>; scripts?: Record<string, string> };
+    packageJson = JSON.parse(fileContent) as {
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
+      scripts?: Record<string, string>;
+    };
   } catch (err) {
     console.error('Failed to read package.json', err);
   }

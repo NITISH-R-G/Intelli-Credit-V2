@@ -36,7 +36,9 @@ async function reviewPR() {
 
   try {
     const fileContent = fs.readFileSync(eventPath, 'utf8');
-    const eventData = JSON.parse(fileContent) as { pull_request?: { title: string; body?: string } };
+    const eventData = JSON.parse(fileContent) as {
+      pull_request?: { title: string; body?: string };
+    };
     const pr = eventData.pull_request;
     if (!pr) {
       console.info('No pull_request data found in event payload.');
