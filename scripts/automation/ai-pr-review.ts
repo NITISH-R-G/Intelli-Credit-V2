@@ -48,8 +48,8 @@ async function reviewPR() {
     let diffText = '';
     try {
       diffText = fs.readFileSync('pr-diff.txt', 'utf8');
-    } catch (e) {
-      console.warn('pr-diff.txt not found. Cannot review diff.');
+    } catch (err) {
+      console.warn('pr-diff.txt not found. Cannot review diff.', err);
       process.exit(0);
     }
 
