@@ -20,7 +20,6 @@ const StressTestingModule = React.lazy(() => import('./components/StressTestingM
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
-import { INDUSTRY_BENCHMARKS } from './constants';
 import { useDropzone } from 'react-dropzone';
 import {
   ShieldAlert,
@@ -132,15 +131,6 @@ export default function App() {
         return 'text-slate-500 bg-slate-50 border-slate-100';
     }
   };
-
-  const chartData = analysis
-    ? [
-        { name: 'Revenue', value: analysis.structuredData.revenue },
-        { name: 'Debt', value: analysis.structuredData.debt },
-        { name: 'Profit', value: analysis.structuredData.profit },
-        { name: 'Cashflow', value: analysis.structuredData.cashflow },
-      ]
-    : [];
 
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-mono text-xs sm:text-sm selection:bg-amber-500/30">
