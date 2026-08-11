@@ -7,6 +7,8 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { runAnalysis, AnalysisError } from './api/_lib/analyze-core';
 import type { AnalyzeInputFile } from './api/_lib/analyze-core';
+import { fileTypeFromBuffer } from 'file-type';
+import { isAllowedMimeType } from './api/_lib/limits';
 
 dotenv.config();
 
@@ -63,11 +65,32 @@ app.post('/api/analyze', upload.array('files', 20), async (req, res) => {
     const apiMode = (req.body.apiMode as string) === 'true';
     const bureauApiKey = (req.body.bureauApiKey as string) ?? '';
 
-    const files: AnalyzeInputFile[] = uploaded.map((f) => ({
-      name: f.originalname,
-      mimeType: f.mimetype || 'application/octet-stream',
-      data: f.buffer.toString('base64'),
-    }));
+    const files: AnalyzeInputFile[] = [];
+    for (const f of uploaded) {
+      let mimeType = (f.mimetype || 'application/octet-stream').toLowerCase();
+      const typeInfo = await fileTypeFromBuffer(f.buffer);
+
+      if (typeInfo) {
+        mimeType = typeInfo.mime;
+      } else {
+        if (mimeType.startsWith('image/') || mimeType === 'application/pdf') {
+          mimeType = 'application/octet-stream';
+        }
+      }
+
+      if (!isAllowedMimeType(mimeType)) {
+        return res.status(415).json({
+          error: `Unsupported file type "${mimeType}" for "${f.originalname}". Allowed: PDF, PNG/JPG, CSV, JSON, TXT.`,
+          code: 'UNSUPPORTED_TYPE',
+        });
+      }
+
+      files.push({
+        name: f.originalname,
+        mimeType,
+        data: f.buffer.toString('base64'),
+      });
+    }
 
     const analysis = await runAnalysis(files, apiMode, bureauApiKey);
     return res.json({ analysis });
