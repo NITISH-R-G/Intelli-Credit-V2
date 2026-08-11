@@ -17,7 +17,14 @@ function generateKnowledgeGraph(): void {
       return;
     }
 
-    const outputBuffer = execFileSync('npx', ['--yes', 'madge', '--json', ...dirsToScan]);
+    const outputBuffer = execFileSync('npx', [
+      '--yes',
+      'madge',
+      '--extensions',
+      'ts,tsx',
+      '--json',
+      ...dirsToScan,
+    ]);
     const outputString = (outputBuffer as unknown as Buffer).toString();
 
     fs.writeFileSync(outputPath, outputString);

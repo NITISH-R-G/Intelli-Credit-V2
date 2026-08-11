@@ -12,18 +12,26 @@ function generateDiagrams(): void {
     const srcPath = 'src';
     if (fs.existsSync(srcPath)) {
       const outputPath = path.join(dir, 'src-architecture.svg');
-      execFileSync('npx', ['--yes', 'madge', '--image', outputPath, srcPath], {
-        stdio: 'inherit',
-      });
+      execFileSync(
+        'npx',
+        ['--yes', 'madge', '--extensions', 'ts,tsx', '--image', outputPath, srcPath],
+        {
+          stdio: 'inherit',
+        },
+      );
       console.info(`Generated ${outputPath}`);
     }
 
     const apiPath = 'api';
     if (fs.existsSync(apiPath)) {
       const outputPath = path.join(dir, 'api-architecture.svg');
-      execFileSync('npx', ['--yes', 'madge', '--image', outputPath, apiPath], {
-        stdio: 'inherit',
-      });
+      execFileSync(
+        'npx',
+        ['--yes', 'madge', '--extensions', 'ts,tsx', '--image', outputPath, apiPath],
+        {
+          stdio: 'inherit',
+        },
+      );
       console.info(`Generated ${outputPath}`);
     }
   } catch (error) {
