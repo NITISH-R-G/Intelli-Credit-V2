@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Dependencies securely
@@ -41,7 +41,7 @@ jobs:
 
       - name: Post PR Review Comment
         if: hashFiles('pr-comment.txt') != ''
-        uses: thollander/actions-comment-pull-request@66f28dfafbcf4a7b744ce55a6d5dcb846f407b46
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
         with:
           file-path: 'pr-comment.txt'
           comment-tag: 'ai-pr-review'

@@ -14,9 +14,9 @@ async function triage(): Promise<void> {
     process.exit(0);
   }
 
-  let eventData: any;
+  let eventData: { issue?: { title?: string; body?: string } } = {};
   try {
-    eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8'));
+    eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as { issue?: { title?: string; body?: string } };
   } catch (error) {
     console.error('Failed to parse GITHUB_EVENT_PATH:', error);
     process.exit(1);

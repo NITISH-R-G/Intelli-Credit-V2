@@ -62,7 +62,7 @@ export const callMcpTool = async (
             };
           }
           return await response.json();
-        } catch (error) {
+        } catch (_error) {
           return {
             error: 'Network error: Failed to reach the Bureau API endpoint. Check your connection.',
           };
@@ -99,7 +99,7 @@ export const callMcpTool = async (
             };
           }
           return await response.json();
-        } catch (error) {
+        } catch (_error) {
           return {
             error: 'Network error: Failed to reach the LTV Calculation API. Check your connection.',
           };
@@ -157,7 +157,7 @@ export const callMcpTool = async (
     }
 
     return { error: 'Unknown tool' };
-  } catch (error) {
+  } catch (_error) {
     return { error: 'Tool execution failed' };
   }
 };

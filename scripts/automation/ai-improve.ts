@@ -39,7 +39,7 @@ async function improve(): Promise<void> {
     try {
       const content = fs.readFileSync(file, 'utf-8');
       codeSamples += `\n--- File: ${file} ---\n${content}\n`;
-    } catch (e) {
+    } catch (_e) {
       console.warn(`Could not read ${file}`);
     }
   }
