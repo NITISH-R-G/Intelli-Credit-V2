@@ -141,7 +141,7 @@ const buildConfig = () => ({
   ],
   toolConfig: { includeServerSideToolInvocations: true },
   responseMimeType: 'application/json',
-  responseSchema: RESPONSE_SCHEMA as any,
+  responseSchema: RESPONSE_SCHEMA as never,
 });
 
 /**
