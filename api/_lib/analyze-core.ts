@@ -102,9 +102,9 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const generateWithResilience = async (
   genAI: GoogleGenAI,
   model: string,
-  currentContents: unknown[],
-  config: unknown,
-): Promise<unknown> => {
+  currentContents: any[],
+  config: any,
+): Promise<any> => {
   let lastErr: unknown;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
@@ -149,8 +149,8 @@ const buildConfig = () => ({
  * array from already-base64-encoded file inputs (files never hit the model
  * directly — they are passed as `inlineData` parts or as inline text).
  */
-const buildContents = (files: AnalyzeInputFile[]): unknown[] => {
-  const contents: unknown[] = [];
+const buildContents = (files: AnalyzeInputFile[]): any[] => {
+  const contents: any[] = [];
 
   for (const f of files) {
     if (f.mimeType === 'application/pdf' || f.mimeType.startsWith('image/')) {
@@ -195,7 +195,7 @@ export const runAnalysis = async (
   files: AnalyzeInputFile[],
   apiMode: boolean,
   bureauApiKey: string,
-): Promise<unknown> => {
+): Promise<any> => {
   if (!files || files.length === 0) {
     throw new AnalysisError('NO_FILES', 'No files were provided for analysis.');
   }
