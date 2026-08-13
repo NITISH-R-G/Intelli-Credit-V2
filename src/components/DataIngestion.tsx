@@ -55,7 +55,7 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
             >
               Gemini Generated (Mock)
             </span>
-            <button type="button"
+            <button
               onClick={() => setApiMode(!apiMode)}
               className={`relative inline-flex h-4 w-8 items-center rounded-full transition-colors focus:outline-none ${
                 apiMode ? 'bg-amber-600' : 'bg-zinc-800'
@@ -130,7 +130,7 @@ export const DataIngestion: React.FC<DataIngestionProps> = ({
       )}
 
       {files.length > 0 && !loading && (
-        <button type="button"
+        <button
           onClick={handleAnalyze}
           className="mt-6 border border-amber-500 bg-amber-500/10 text-amber-500 hover:bg-amber-500 hover:text-black px-8 py-3 uppercase tracking-widest font-bold transition-colors flex items-center gap-2"
         >

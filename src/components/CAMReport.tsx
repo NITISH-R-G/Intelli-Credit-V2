@@ -20,13 +20,13 @@ export function CAMReport({ analysis, isExporting, setIsExporting, setError }: C
           <span className="text-sm font-bold tracking-widest">Credit Appraisal Memo (CAM)</span>
         </div>
         <div className="flex items-center gap-2">
-          <button type="button"
+          <button
             onClick={() => downloadJSON(analysis, setError)}
             className="flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1 text-[10px] transition-colors"
           >
             <Download className="w-3 h-3" /> EXPORT JSON
           </button>
-          <button type="button"
+          <button
             onClick={() => downloadPDF('cam-report', setIsExporting, setError)}
             disabled={isExporting}
             className="flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 px-3 py-1 text-[10px] transition-colors disabled:opacity-50"
