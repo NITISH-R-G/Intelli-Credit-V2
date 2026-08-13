@@ -68,6 +68,7 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
     "jsdom": "^29.1.1",
+    "node-domexception": "^2.0.2",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.22.4",
@@ -77,4 +78,3 @@
     "vitest": "^4.1.7"
   }
 }
-
