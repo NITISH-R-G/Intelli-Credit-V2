@@ -1,0 +1,45 @@
+name: AI PR Reviewer
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Base Branch
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@3d7870f6218881292d183093179901ae8dc2ef85 # v4.2.0
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies securely
+        run: npm ci --ignore-scripts
+
+      - name: Fetch PR Diff
+        run: |
+          curl -s -L \
+            -H "Accept: application/vnd.github.v3.diff" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            ${{ github.event.pull_request.url }} > pr-diff.txt
+
+      - name: Run AI PR Review
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:pr-review
+
+      - name: Post PR Comment
+        if: hashFiles('pr-comment.txt') != ''
+        uses: thollander/actions-comment-pull-request@e4a76dd2b0a3c2027c3fd84147a67c22ee4c90fa # v3.0.1
+        with:
+          file-path: 'pr-comment.txt'
+          comment-tag: 'ai-pr-review'
