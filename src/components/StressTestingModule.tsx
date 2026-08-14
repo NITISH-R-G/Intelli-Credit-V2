@@ -10,14 +10,14 @@ interface StressTestingModuleProps {
   displayAnalysis: CreditAnalysis;
 }
 
-export const StressTestingModule: React.FC<StressTestingModuleProps> = ({
+export function StressTestingModule({
   revenueShock,
   setRevenueShock,
   interestRateShock,
   setInterestRateShock,
   analysis,
   displayAnalysis,
-}) => {
+}: StressTestingModuleProps) {
   return (
     <div className="lg:col-span-12 border border-zinc-800 bg-[#0a0a0a] p-4">
       <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-2 mb-4 flex justify-between">
@@ -81,5 +81,5 @@ export const StressTestingModule: React.FC<StressTestingModuleProps> = ({
       </div>
     </div>
   );
-};
+}
 export default StressTestingModule;
