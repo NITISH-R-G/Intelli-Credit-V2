@@ -6,7 +6,7 @@ interface IndustryBenchmarkingProps {
   analysis: CreditAnalysis;
 }
 
-export const IndustryBenchmarking: React.FC<IndustryBenchmarkingProps> = ({ analysis }) => {
+export function IndustryBenchmarking({ analysis }: IndustryBenchmarkingProps) {
   return (
     <div className="lg:col-span-12 border border-zinc-800 bg-[#0a0a0a] p-4">
       <div className="text-xs uppercase text-zinc-500 border-b border-zinc-800 pb-2 mb-4 flex justify-between">
@@ -54,5 +54,5 @@ export const IndustryBenchmarking: React.FC<IndustryBenchmarkingProps> = ({ anal
       </div>
     </div>
   );
-};
+}
 export default IndustryBenchmarking;
