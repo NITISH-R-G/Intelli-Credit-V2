@@ -65,4 +65,4 @@ ${codebaseContext.substring(0, 500000)} // truncate to avoid token limits if ext
     }
 }
 
-void improve();
+improve().catch((err) => { console.error(err); process.exit(1); });

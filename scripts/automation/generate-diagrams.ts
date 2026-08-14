@@ -7,7 +7,7 @@ function generateDiagrams(): void {
     fs.mkdirSync('docs/architecture', { recursive: true });
 
     try {
-        const output = (execFileSync('npx', ['--yes', 'madge', '--image', 'docs/architecture/dependency-graph.svg', 'src/']) as unknown as Buffer).toString();
+        const output = (execFileSync('npx', ['--yes', 'madge', '--image', 'docs/architecture/dependency-graph.svg', 'src/'], { encoding: 'utf-8' }) as string);
         console.info('Madge output:', output);
         console.info('Diagram generated successfully at docs/architecture/dependency-graph.svg');
     } catch (err) {

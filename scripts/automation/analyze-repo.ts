@@ -66,4 +66,4 @@ ${codebaseContext.substring(0, 500000)} // truncate to avoid token limits
     }
 }
 
-void analyze();
+analyze().catch((err) => { console.error(err); process.exit(1); });

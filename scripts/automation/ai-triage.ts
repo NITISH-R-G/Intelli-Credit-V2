@@ -43,4 +43,4 @@ Body: ${issue.body}`
     }
 }
 
-void triage();
+triage().catch((err) => { console.error(err); process.exit(1); });
