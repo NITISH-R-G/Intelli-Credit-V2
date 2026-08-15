@@ -78,4 +78,7 @@ const analyze = async (): Promise<void> => {
   }
 };
 
-void analyze();
+analyze().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

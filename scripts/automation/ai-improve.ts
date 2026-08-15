@@ -70,4 +70,7 @@ const improve = async (): Promise<void> => {
   }
 };
 
-void improve();
+improve().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

@@ -46,7 +46,7 @@ jobs:
 
       - name: Post PR Comment
         if: steps.check-comment.outputs.has_comment == 'true'
-        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd9ce3f
+        uses: thollander/actions-comment-pull-request@v3
         with:
           file-path: pr-comment.txt
           comment-tag: ai-pr-review

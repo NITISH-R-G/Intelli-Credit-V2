@@ -73,4 +73,7 @@ const generateGraph = async (): Promise<void> => {
   }
 };
 
-void generateGraph();
+generateGraph().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

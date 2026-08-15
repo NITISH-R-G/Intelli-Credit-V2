@@ -84,4 +84,7 @@ const reviewPr = async (): Promise<void> => {
   }
 };
 
-void reviewPr();
+reviewPr().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
