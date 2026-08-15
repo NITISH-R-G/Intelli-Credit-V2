@@ -57,13 +57,12 @@ const improve = async (): Promise<void> => {
       contents: prompt,
     });
 
-    const reportContent =
-      response.text ||
-      '# AI Improvement Loop Recommendations\nNo significant improvements identified at this time.';
+    const reportContent = response.text || '# AI Improvement Loop Recommendations\nNo significant improvements identified at this time.';
 
     // Write report to file to be picked up by issue creation action
     fs.writeFileSync('ai-improvement-report.md', reportContent);
     console.info('Successfully generated AI improvement report.');
+
   } catch (error) {
     console.error('Error during AI improvement analysis:', error);
     process.exit(1);

@@ -23,8 +23,8 @@ const generateDiagrams = (): void => {
         'ts,tsx',
         'src',
         'api',
-      ]) as unknown as Buffer
-    ).toString('utf-8');
+      ], { encoding: 'utf-8' }) as string
+    );
     console.info(svgOutput);
 
     // Generate JSON structure for other uses
@@ -37,8 +37,8 @@ const generateDiagrams = (): void => {
         'ts,tsx',
         'src',
         'api',
-      ]) as unknown as Buffer
-    ).toString('utf-8');
+      ], { encoding: 'utf-8' }) as string
+    );
     fs.writeFileSync('docs/architecture/DEPENDENCIES.json', jsonOutput);
 
     console.info('Successfully generated architecture diagrams and dependency JSON.');

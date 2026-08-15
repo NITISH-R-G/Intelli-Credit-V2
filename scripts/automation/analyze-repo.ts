@@ -26,20 +26,15 @@ const analyze = async (): Promise<void> => {
           const stat = fs.statSync(filePath);
           if (stat.isDirectory()) {
             readDirRecursive(filePath);
-          } else if (
-            file.endsWith('.ts') ||
-            file.endsWith('.tsx') ||
-            file.endsWith('.json') ||
-            file.endsWith('.md')
-          ) {
-            if (!filePath.includes('node_modules') && !filePath.includes('dist')) {
-              const content = fs.readFileSync(filePath, 'utf8');
-              // Avoid reading huge files fully for context length
-              if (content.length < 50000) {
-                context += `\n--- ${filePath} ---\n`;
-                context += content;
-              }
-            }
+          } else if (file.endsWith('.ts') || file.endsWith('.tsx') || file.endsWith('.json') || file.endsWith('.md')) {
+             if (!filePath.includes('node_modules') && !filePath.includes('dist')) {
+                const content = fs.readFileSync(filePath, 'utf8');
+                // Avoid reading huge files fully for context length
+                if (content.length < 50000) {
+                   context += `\n--- ${filePath} ---\n`;
+                   context += content;
+                }
+             }
           }
         }
       };
@@ -67,11 +62,11 @@ const analyze = async (): Promise<void> => {
       contents: prompt,
     });
 
-    const reportContent =
-      response.text || '# Architecture Overview\nAnalysis failed or returned empty.';
+    const reportContent = response.text || '# Architecture Overview\nAnalysis failed or returned empty.';
 
     fs.writeFileSync('docs/architecture/ARCHITECTURE.md', reportContent);
     console.info('Successfully generated architecture documentation.');
+
   } catch (error) {
     console.error('Error during AI repository analysis:', error);
     process.exit(1);

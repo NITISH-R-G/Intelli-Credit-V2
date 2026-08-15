@@ -75,12 +75,12 @@ const triage = async (): Promise<void> => {
       contents: prompt,
     });
 
-    const comment =
-      response.text || 'Thank you for opening this issue! Our team will look into it shortly.';
+    const comment = response.text || 'Thank you for opening this issue! Our team will look into it shortly.';
 
     // Write comment to file for github actions
     fs.writeFileSync('triage-comment.txt', comment);
     console.info('Successfully generated triage comment.');
+
   } catch (error) {
     console.error('Error during AI triage:', error);
     process.exit(1);

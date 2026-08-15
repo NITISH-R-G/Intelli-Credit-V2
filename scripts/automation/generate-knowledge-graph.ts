@@ -23,12 +23,12 @@ const generateGraph = async (): Promise<void> => {
           const filePath = path.join(currentDir, file);
           const stat = fs.statSync(filePath);
           if (stat.isDirectory()) {
-            if (file !== 'node_modules' && file !== 'dist' && file !== '.git') {
-              readDirRecursive(filePath);
-            }
+             if (file !== 'node_modules' && file !== 'dist' && file !== '.git') {
+                readDirRecursive(filePath);
+             }
           } else if (file.endsWith('.ts') || file.endsWith('.tsx')) {
-            context += `\n--- ${filePath} ---\n`;
-            context += fs.readFileSync(filePath, 'utf8');
+             context += `\n--- ${filePath} ---\n`;
+             context += fs.readFileSync(filePath, 'utf8');
           }
         }
       };
@@ -62,11 +62,11 @@ const generateGraph = async (): Promise<void> => {
       contents: prompt,
     });
 
-    const reportContent =
-      response.text || '# Repository Knowledge Graph\nCould not generate graph.';
+    const reportContent = response.text || '# Repository Knowledge Graph\nCould not generate graph.';
 
     fs.writeFileSync('docs/architecture/KNOWLEDGE_GRAPH.md', reportContent);
     console.info('Successfully generated knowledge graph documentation.');
+
   } catch (error) {
     console.error('Error during AI knowledge graph generation:', error);
     process.exit(1);

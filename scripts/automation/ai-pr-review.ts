@@ -32,25 +32,21 @@ const reviewPr = async (): Promise<void> => {
     let prDiff = '';
 
     try {
-      prDiff = (
-        execFileSync('curl', [
-          '-s',
-          '-H',
-          `Authorization: token ${process.env.GITHUB_TOKEN || ''}`,
-          '-H',
-          'Accept: application/vnd.github.v3.diff',
-          prUrl,
-        ]) as unknown as Buffer
-      ).toString('utf-8');
+       prDiff = (execFileSync('curl', [
+        '-s',
+        '-H', `Authorization: token ${process.env.GITHUB_TOKEN || ''}`,
+        '-H', 'Accept: application/vnd.github.v3.diff',
+        prUrl
+      ], { encoding: 'utf-8' }) as string);
     } catch (e) {
-      console.error('Failed to fetch diff via curl', e);
-      process.exit(1);
+       console.error('Failed to fetch diff via curl', e);
+       process.exit(1);
     }
 
     if (!prDiff) {
-      console.warn('Empty diff returned, nothing to review.');
-      fs.writeFileSync('pr-comment.txt', 'No meaningful changes found in the PR diff.');
-      process.exit(0);
+       console.warn('Empty diff returned, nothing to review.');
+       fs.writeFileSync('pr-comment.txt', 'No meaningful changes found in the PR diff.');
+       process.exit(0);
     }
 
     const ai = new GoogleGenAI({ apiKey });
@@ -78,6 +74,7 @@ const reviewPr = async (): Promise<void> => {
     // Write comment to file for github actions
     fs.writeFileSync('pr-comment.txt', comment);
     console.info('Successfully generated PR review comment.');
+
   } catch (error) {
     console.error('Error during AI PR review:', error);
     process.exit(1);
