@@ -1,0 +1,52 @@
+name: AI PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  ai-review:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Checkout base branch securely
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies securely
+        run: npm ci --ignore-scripts
+
+      - name: Run AI PR Review
+        run: npm run ai:pr-review
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+
+      - name: Check if comment exists
+        id: check-comment
+        run: |
+          if [ -f pr-comment.txt ] && [ -s pr-comment.txt ]; then
+            echo "has_comment=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_comment=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post PR Comment
+        if: steps.check-comment.outputs.has_comment == 'true'
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd9ce3f
+        with:
+          file-path: pr-comment.txt
+          comment-tag: ai-pr-review

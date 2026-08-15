@@ -1,0 +1,49 @@
+name: AI Improvement Loop
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run daily at midnight
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  ai-improve:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run AI Improvement Analysis
+        run: npm run ai:improve
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Check if report exists
+        id: check-report
+        run: |
+          if [ -f ai-improvement-report.md ] && [ -s ai-improvement-report.md ]; then
+            echo "has_report=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_report=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Issue from Report
+        if: steps.check-report.outputs.has_report == 'true'
+        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460efa1b6271c89f5a
+        with:
+          title: '🤖 Daily AI Improvement Recommendations'
+          content-filepath: ./ai-improvement-report.md
+          labels: ai-recommendation, enhancement
