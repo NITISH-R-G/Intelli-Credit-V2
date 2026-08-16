@@ -16,7 +16,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: release-drafter/release-drafter@v6
+      - uses: release-drafter/release-drafter@c03148ea43699a98f338dbb64b0d4dd5b07ae447
         with:
           config-name: release-drafter.yml
         env:
