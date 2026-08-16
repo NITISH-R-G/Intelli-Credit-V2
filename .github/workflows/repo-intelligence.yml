@@ -1,0 +1,52 @@
+name: Repository Intelligence
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+
+      - name: Setup Node.js
+        uses: actions/setup-node@3d7870f6218881292d183093179901ae8dc2ef85
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install Graphviz for madge
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Generate Architecture Docs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run analyze:repo
+
+      - name: Generate Knowledge Graph
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run generate:knowledge-graph
+
+      - name: Generate Architecture Diagrams
+        run: npm run generate:diagrams
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@11fa467881691ac900904a2eea702c5ea848ad13
+        with:
+          commit-message: 'docs(architecture): autonomous update of architecture and knowledge graph'
+          title: '[AI] Autonomous Architecture Documentation Update'
+          body: 'This PR updates the repository architecture documentation, knowledge graph, and dependency diagrams based on recent changes to the `main` branch.'
+          branch: auto-update-architecture
+          delete-branch: true
+          labels: documentation, automated pr
