@@ -61,4 +61,4 @@ ${structure}
   }
 }
 
-void analyzeRepo();
+analyzeRepo().catch(console.error);

@@ -68,4 +68,4 @@ Format your response as a Markdown report suitable for a GitHub issue body. Incl
   }
 }
 
-void improveRepo();
+improveRepo().catch(console.error);

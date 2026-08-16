@@ -61,4 +61,4 @@ Be helpful, concise, and encourage best practices.
   }
 }
 
-void reviewPR();
+reviewPR().catch(console.error);

@@ -60,4 +60,4 @@ ${structure}
   }
 }
 
-void generateKnowledgeGraph();
+generateKnowledgeGraph().catch(console.error);

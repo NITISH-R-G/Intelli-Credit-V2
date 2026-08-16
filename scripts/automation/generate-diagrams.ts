@@ -16,7 +16,7 @@ function generateDiagrams(): void {
       stdio: 'inherit',
       encoding: 'utf-8',
     });
-    console.info(\`Diagram successfully generated at \${outputFile}\`);
+    console.info(`Diagram successfully generated at ${outputFile}`);
   } catch (error) {
     console.error('Failed to generate architecture diagrams with madge:', error);
     process.exit(1);
