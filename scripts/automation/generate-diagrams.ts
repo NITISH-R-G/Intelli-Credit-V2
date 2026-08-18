@@ -15,7 +15,7 @@ function generateDiagrams(): void {
     execFileSync('npx', ['--yes', 'madge', '--image', outputPath, 'src/']);
     console.info(`Diagram generated at ${outputPath}`);
   } catch (error) {
-    console.error('Error generating diagrams:', error);
+    console.error(error);
     process.exit(1);
   }
 }

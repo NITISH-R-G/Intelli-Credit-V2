@@ -39,7 +39,7 @@ Body: ${issue.body}`;
       console.info('Triage comment written to triage-comment.txt');
     }
   } catch (error) {
-    console.error('Error during triage:', error);
+    console.error(error);
     process.exit(1);
   }
 }

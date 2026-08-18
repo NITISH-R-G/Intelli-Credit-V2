@@ -69,7 +69,7 @@ ${codeSamples}
       console.info('Improvement report written to ai-improvement-report.md');
     }
   } catch (error) {
-    console.error('Error during AI improvement analysis:', error);
+    console.error(error);
     process.exit(1);
   }
 }

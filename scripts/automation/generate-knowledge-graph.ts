@@ -16,7 +16,7 @@ function generateKnowledgeGraph(): void {
     fs.writeFileSync(outputPath, madgeOutput);
     console.info(`Knowledge graph generated at ${outputPath}`);
   } catch (error) {
-    console.error('Error generating knowledge graph:', error);
+    console.error(error);
     process.exit(1);
   }
 }

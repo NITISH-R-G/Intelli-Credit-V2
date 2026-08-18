@@ -44,7 +44,7 @@ ${diffContent.substring(0, 50000)} // Truncating to avoid massive prompts if hug
       console.info('PR review written to pr-comment.txt');
     }
   } catch (error) {
-    console.error('Error during PR review:', error);
+    console.error(error);
     process.exit(1);
   }
 }

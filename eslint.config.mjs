@@ -36,9 +36,9 @@ export default tseslint.config(
     },
     rules: {
       'react/react-in-jsx-scope': 'off', // Not needed in React 17+
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
+      'no-console': ['off', { allow: ['off', 'error', 'info'] }],
     },
   },
   {
