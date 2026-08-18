@@ -1,0 +1,38 @@
+name: AI Continuous Improvement
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run AI Improve
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:improve
+
+      - name: Create Improvement Issue
+        if: hashFiles('ai-improvement-report.md') != ''
+        uses: peter-evans/create-issue-from-file@24452a72d85239eacf1468b0f1982a9f3fec4c94
+        with:
+          title: "AI Analysis: Continuous Improvement Recommendations"
+          content-filepath: ai-improvement-report.md
+          labels: "enhancement, ai-generated"

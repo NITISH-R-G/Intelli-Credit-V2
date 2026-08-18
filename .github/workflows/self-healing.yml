@@ -1,0 +1,39 @@
+name: Self-Healing Maintenance
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Run daily at 2am
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run Self-Healing Fixes
+        run: |
+          npm audit fix || true
+          npm run fix
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@6d6857d36972b65feb161a90e484f2984215f83e
+        with:
+          title: "chore: Automated Self-Healing Fixes"
+          body: "This is an automated PR applying formatting, linting fixes, and secure dependency updates via `npm run fix` and `npm audit fix`."
+          branch: "automation/self-healing"
+          commit-message: "chore: automated self-healing formatting and audit fixes"
+          labels: "maintenance, automated-pr"

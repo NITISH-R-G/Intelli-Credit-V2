@@ -29,7 +29,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "fix": "npm run lint:fix && npm run format",
+    "ai:triage": "npx --yes tsx scripts/automation/ai-triage.ts",
+    "ai:improve": "npx --yes tsx scripts/automation/ai-improve.ts",
+    "ai:pr-review": "npx --yes tsx scripts/automation/ai-pr-review.ts",
+    "analyze:repo": "npx --yes tsx scripts/automation/analyze-repo.ts",
+    "generate:diagrams": "npx --yes tsx scripts/automation/generate-diagrams.ts",
+    "generate:knowledge-graph": "npx --yes tsx scripts/automation/generate-knowledge-graph.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -58,6 +65,7 @@
     "@testing-library/react": "^16.3.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^4.17.21",
+    "@types/madge": "^5.0.3",
     "@types/multer": "^2.1.0",
     "@types/node": "^22.14.0",
     "@typescript-eslint/eslint-plugin": "^8.60.1",
@@ -65,9 +73,11 @@
     "@vitejs/plugin-react": "^5.0.4",
     "@vitest/coverage-v8": "^4.1.7",
     "autoprefixer": "^10.4.21",
+    "esbuild": "^0.28.2",
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
     "jsdom": "^29.1.1",
+    "madge": "^8.0.0",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.22.4",
@@ -77,4 +87,3 @@
     "vitest": "^4.1.7"
   }
 }
-

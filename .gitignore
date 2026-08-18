@@ -32,3 +32,5 @@ desktop.ini
 
 # Logs
 *.log
+docs/architecture/knowledge-graph.json
+docs/architecture/repo-analysis.md
