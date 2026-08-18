@@ -35,7 +35,7 @@ Body: ${issue.body}`;
     });
 
     if (response.text) {
-      fs.writeFileSync('triage-comment.txt', response.text);
+      fs.writeFileSync('triage-comment.txt', response.text as string);
       console.info('Triage comment written to triage-comment.txt');
     }
   } catch (error) {

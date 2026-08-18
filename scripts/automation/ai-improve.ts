@@ -65,7 +65,7 @@ ${codeSamples}
     });
 
     if (response.text) {
-      fs.writeFileSync('ai-improvement-report.md', response.text);
+      fs.writeFileSync('ai-improvement-report.md', response.text as string);
       console.info('Improvement report written to ai-improvement-report.md');
     }
   } catch (error) {

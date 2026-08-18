@@ -40,7 +40,7 @@ ${diffContent.substring(0, 50000)} // Truncating to avoid massive prompts if hug
     });
 
     if (response.text) {
-      fs.writeFileSync('pr-comment.txt', response.text);
+      fs.writeFileSync('pr-comment.txt', response.text as string);
       console.info('PR review written to pr-comment.txt');
     }
   } catch (error) {
