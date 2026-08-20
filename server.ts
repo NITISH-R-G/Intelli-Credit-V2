@@ -110,6 +110,7 @@ if (!process.env.VERCEL) {
   setupVite().then(() => {
     const PORT = 3000;
     app.listen(PORT, '0.0.0.0', () => {
+      // eslint-disable-next-line no-console
       console.log(`Server running on http://localhost:${PORT}`);
     });
   });
