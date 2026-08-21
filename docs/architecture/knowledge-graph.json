@@ -1,0 +1,528 @@
+{
+  "timestamp": "2026-08-21T17:32:00.707Z",
+  "structure": {
+    "type": "directory",
+    "children": {
+      ".env.example": {
+        "type": "file",
+        "size": 1460
+      },
+      ".github": {
+        "type": "directory",
+        "children": {
+          "CODEOWNERS": {
+            "type": "file",
+            "size": 86
+          },
+          "ISSUE_TEMPLATE": {
+            "type": "directory",
+            "children": {
+              "bug_report.yml": {
+                "type": "file",
+                "size": 2304
+              },
+              "config.yml": {
+                "type": "file",
+                "size": 659
+              },
+              "documentation.yml": {
+                "type": "file",
+                "size": 1335
+              },
+              "feature_request.yml": {
+                "type": "file",
+                "size": 1559
+              }
+            }
+          },
+          "PULL_REQUEST_TEMPLATE": {
+            "type": "directory",
+            "children": {
+              "pull_request_template.md": {
+                "type": "file",
+                "size": 1539
+              }
+            }
+          },
+          "dependabot.yml": {
+            "type": "file",
+            "size": 385
+          },
+          "labeler.yml": {
+            "type": "file",
+            "size": 849
+          },
+          "release-drafter.yml": {
+            "type": "file",
+            "size": 1069
+          },
+          "workflows": {
+            "type": "directory",
+            "children": {
+              "auto-assign.yml": {
+                "type": "file",
+                "size": 976
+              },
+              "ci-cd-automation.yml": {
+                "type": "file",
+                "size": 775
+              },
+              "codeql.yml": {
+                "type": "file",
+                "size": 887
+              },
+              "dependency-review.yml": {
+                "type": "file",
+                "size": 296
+              },
+              "greetings.yml": {
+                "type": "file",
+                "size": 698
+              },
+              "labeler.yml": {
+                "type": "file",
+                "size": 494
+              },
+              "release.yml": {
+                "type": "file",
+                "size": 604
+              },
+              "stale.yml": {
+                "type": "file",
+                "size": 732
+              }
+            }
+          }
+        }
+      },
+      ".gitignore": {
+        "type": "file",
+        "size": 337
+      },
+      ".prettierrc": {
+        "type": "file",
+        "size": 106
+      },
+      "AGENTS.md": {
+        "type": "file",
+        "size": 3649
+      },
+      "CHANGELOG.md": {
+        "type": "file",
+        "size": 2635
+      },
+      "CODE_OF_CONDUCT.md": {
+        "type": "file",
+        "size": 1801
+      },
+      "CONTRIBUTING.md": {
+        "type": "file",
+        "size": 7259
+      },
+      "LICENSE": {
+        "type": "file",
+        "size": 1067
+      },
+      "README.md": {
+        "type": "file",
+        "size": 6660
+      },
+      "SECURITY.md": {
+        "type": "file",
+        "size": 2078
+      },
+      "api": {
+        "type": "directory",
+        "children": {
+          "_lib": {
+            "type": "directory",
+            "children": {
+              "__tests__": {
+                "type": "directory",
+                "children": {
+                  "analyze-core.test.ts": {
+                    "type": "file",
+                    "size": 3497
+                  },
+                  "limits.test.ts": {
+                    "type": "file",
+                    "size": 1634
+                  },
+                  "mcp-tools.test.ts": {
+                    "type": "file",
+                    "size": 8325
+                  }
+                }
+              },
+              "analyze-core.ts": {
+                "type": "file",
+                "size": 8505
+              },
+              "limits.ts": {
+                "type": "file",
+                "size": 1182
+              },
+              "mcp-tools.ts": {
+                "type": "file",
+                "size": 5271
+              }
+            }
+          },
+          "analyze.ts": {
+            "type": "file",
+            "size": 7919
+          }
+        }
+      },
+      "docs": {
+        "type": "directory",
+        "children": {
+          "architecture": {
+            "type": "directory",
+            "children": {
+              "SERVICE_MAP.md": {
+                "type": "file",
+                "size": 2101
+              }
+            }
+          },
+          "history": {
+            "type": "directory",
+            "children": {
+              "cycle_1_report.md": {
+                "type": "file",
+                "size": 3341
+              },
+              "cycle_2_report.md": {
+                "type": "file",
+                "size": 3202
+              },
+              "cycle_3_report.md": {
+                "type": "file",
+                "size": 3335
+              },
+              "cycle_4_report.md": {
+                "type": "file",
+                "size": 3685
+              },
+              "cycle_5_report.md": {
+                "type": "file",
+                "size": 3986
+              },
+              "cycle_6_report.md": {
+                "type": "file",
+                "size": 3765
+              },
+              "cycle_7_report.md": {
+                "type": "file",
+                "size": 3268
+              }
+            }
+          }
+        }
+      },
+      "eslint.config.mjs": {
+        "type": "file",
+        "size": 1194
+      },
+      "index.html": {
+        "type": "file",
+        "size": 462
+      },
+      "package-lock.json": {
+        "type": "file",
+        "size": 432055
+      },
+      "package.json": {
+        "type": "file",
+        "size": 2859
+      },
+      "scripts": {
+        "type": "directory",
+        "children": {
+          "automation": {
+            "type": "directory",
+            "children": {
+              "ai-improve.ts": {
+                "type": "file",
+                "size": 2546
+              },
+              "ai-pr-review.ts": {
+                "type": "file",
+                "size": 1760
+              },
+              "ai-triage.ts": {
+                "type": "file",
+                "size": 1957
+              },
+              "analyze-repo.ts": {
+                "type": "file",
+                "size": 2827
+              },
+              "generate-diagrams.ts": {
+                "type": "file",
+                "size": 1063
+              },
+              "generate-knowledge-graph.ts": {
+                "type": "file",
+                "size": 1587
+              }
+            }
+          }
+        }
+      },
+      "server.ts": {
+        "type": "file",
+        "size": 3897
+      },
+      "src": {
+        "type": "directory",
+        "children": {
+          "App.tsx": {
+            "type": "file",
+            "size": 9902
+          },
+          "__tests__": {
+            "type": "directory",
+            "children": {
+              "App.test.tsx": {
+                "type": "file",
+                "size": 147
+              }
+            }
+          },
+          "components": {
+            "type": "directory",
+            "children": {
+              "ActionRecommendation.tsx": {
+                "type": "file",
+                "size": 2747
+              },
+              "CAMReport.tsx": {
+                "type": "file",
+                "size": 2076
+              },
+              "CompanyProfile.tsx": {
+                "type": "file",
+                "size": 1716
+              },
+              "DataIngestion.tsx": {
+                "type": "file",
+                "size": 5381
+              },
+              "DecisionPanel.tsx": {
+                "type": "file",
+                "size": 1299
+              },
+              "ErrorDisplay.tsx": {
+                "type": "file",
+                "size": 2908
+              },
+              "FinancialMetrics.tsx": {
+                "type": "file",
+                "size": 1758
+              },
+              "FiveCsAnalysis.tsx": {
+                "type": "file",
+                "size": 5588
+              },
+              "FraudFlags.tsx": {
+                "type": "file",
+                "size": 1061
+              },
+              "IndustryBenchmarking.tsx": {
+                "type": "file",
+                "size": 2247
+              },
+              "IndustryBenchmarkingPanel.tsx": {
+                "type": "file",
+                "size": 2215
+              },
+              "IntelligenceRow.tsx": {
+                "type": "file",
+                "size": 4480
+              },
+              "LoanRecommendationPanel.tsx": {
+                "type": "file",
+                "size": 1289
+              },
+              "RiskDimensions.tsx": {
+                "type": "file",
+                "size": 2291
+              },
+              "RiskScorePanel.tsx": {
+                "type": "file",
+                "size": 1420
+              },
+              "StressTestingModule.tsx": {
+                "type": "file",
+                "size": 3068
+              },
+              "StressTestingPanel.tsx": {
+                "type": "file",
+                "size": 3146
+              },
+              "VerificationEngine.tsx": {
+                "type": "file",
+                "size": 15423
+              },
+              "__tests__": {
+                "type": "directory",
+                "children": {
+                  "ActionRecommendation.test.tsx": {
+                    "type": "file",
+                    "size": 3151
+                  },
+                  "CAMReport.test.tsx": {
+                    "type": "file",
+                    "size": 2907
+                  },
+                  "CompanyProfile.test.tsx": {
+                    "type": "file",
+                    "size": 1018
+                  },
+                  "DataIngestion.test.tsx": {
+                    "type": "file",
+                    "size": 2929
+                  },
+                  "DecisionPanel.test.tsx": {
+                    "type": "file",
+                    "size": 3032
+                  },
+                  "ErrorDisplay.test.tsx": {
+                    "type": "file",
+                    "size": 2577
+                  },
+                  "FinancialMetrics.test.tsx": {
+                    "type": "file",
+                    "size": 3394
+                  },
+                  "FiveCsAnalysis.test.tsx": {
+                    "type": "file",
+                    "size": 4418
+                  },
+                  "FraudFlags.test.tsx": {
+                    "type": "file",
+                    "size": 1429
+                  },
+                  "IndustryBenchmarking.test.tsx": {
+                    "type": "file",
+                    "size": 2721
+                  },
+                  "IntelligenceRow.test.tsx": {
+                    "type": "file",
+                    "size": 1977
+                  },
+                  "RiskDimensions.test.tsx": {
+                    "type": "file",
+                    "size": 2841
+                  },
+                  "RiskScorePanel.test.tsx": {
+                    "type": "file",
+                    "size": 1606
+                  },
+                  "StressTestingModule.test.tsx": {
+                    "type": "file",
+                    "size": 1825
+                  },
+                  "VerificationEngine.test.tsx": {
+                    "type": "file",
+                    "size": 5195
+                  }
+                }
+              }
+            }
+          },
+          "constants.ts": {
+            "type": "file",
+            "size": 507
+          },
+          "index.css": {
+            "type": "file",
+            "size": 687
+          },
+          "lib": {
+            "type": "directory",
+            "children": {
+              "__tests__": {
+                "type": "directory",
+                "children": {
+                  "export.test.ts": {
+                    "type": "file",
+                    "size": 7723
+                  },
+                  "file-utils.test.ts": {
+                    "type": "file",
+                    "size": 4132
+                  }
+                }
+              },
+              "export.ts": {
+                "type": "file",
+                "size": 2658
+              },
+              "file-utils.ts": {
+                "type": "file",
+                "size": 1571
+              },
+              "gemini-config.ts": {
+                "type": "file",
+                "size": 23479
+              },
+              "utils.test.ts": {
+                "type": "file",
+                "size": 1379
+              },
+              "utils.ts": {
+                "type": "file",
+                "size": 169
+              }
+            }
+          },
+          "main.tsx": {
+            "type": "file",
+            "size": 235
+          },
+          "services": {
+            "type": "directory",
+            "children": {
+              "__tests__": {
+                "type": "directory",
+                "children": {
+                  "analysisService.test.ts": {
+                    "type": "file",
+                    "size": 25427
+                  }
+                }
+              },
+              "analysisService.ts": {
+                "type": "file",
+                "size": 25541
+              }
+            }
+          },
+          "types.ts": {
+            "type": "file",
+            "size": 4263
+          },
+          "vite-env.d.ts": {
+            "type": "file",
+            "size": 38
+          }
+        }
+      },
+      "tsconfig.json": {
+        "type": "file",
+        "size": 468
+      },
+      "vercel.json": {
+        "type": "file",
+        "size": 1124
+      },
+      "vite.config.ts": {
+        "type": "file",
+        "size": 1150
+      }
+    }
+  }
+}
