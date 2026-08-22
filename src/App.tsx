@@ -56,7 +56,6 @@ import {
 } from 'recharts';
 import { cn } from './lib/utils';
 
-
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -261,7 +260,7 @@ export default function App() {
             />
 
             <div className="lg:col-span-12 flex justify-end mt-4">
-              <button
+              <button type="button"
                 onClick={() => setAnalysis(null)}
                 className="border border-zinc-700 hover:border-zinc-500 bg-black text-zinc-400 hover:text-zinc-200 px-6 py-2 text-xs uppercase tracking-widest transition-colors"
               >
