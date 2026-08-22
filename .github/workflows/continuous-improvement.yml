@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Setup Node
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
           node-version: 20
           cache: 'npm'
@@ -36,7 +36,7 @@ jobs:
 
       - name: Create Issue from AI Report
         if: hashFiles('docs/history/ai-improvement-report.md') != ''
-        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd
+        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd # v5
         with:
           title: 'Automated AI Codebase Improvement Recommendations'
           content-filepath: 'docs/history/ai-improvement-report.md'
@@ -51,7 +51,7 @@ jobs:
           npm run format || true
 
       - name: Create Pull Request for Fixes and Docs
-        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c
+        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c # v6
         with:
           commit-message: 'chore: autonomous repository maintenance and documentation updates'
           title: 'Autonomous Repository Maintenance & Intelligence Updates'

@@ -17,16 +17,16 @@ jobs:
     steps:
       - name: Checkout base branch (for PRs)
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Checkout repo (for issues)
         if: github.event_name == 'issues'
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Setup Node
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
           node-version: 20
           cache: 'npm'
@@ -47,7 +47,7 @@ jobs:
 
       - name: Post Triage Comment
         if: github.event_name == 'issues' && env.has_triage_comment == 'true'
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
         with:
           issue-number: ${{ github.event.issue.number }}
           body-path: 'triage-comment.txt'
@@ -66,7 +66,7 @@ jobs:
 
       - name: Post PR Review Comment
         if: github.event_name == 'pull_request' && env.has_pr_comment == 'true'
-        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3
         with:
           file-path: 'pr-comment.txt'
           comment-tag: ai-review

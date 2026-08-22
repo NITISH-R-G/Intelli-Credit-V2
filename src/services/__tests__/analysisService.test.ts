@@ -561,6 +561,7 @@ describe('performAnalysis', () => {
         shareholdingPattern: '',
       },
       externalIntelligence: { mcaStatus: 'Active', legalDisputes: [], newsSectorTrends: [] },
+      mcpData: { },
       primaryInsights: { siteVisitObservations: [], managementInterviews: [] },
       fiveCs: {
         character: { score: 70, insights: [], redFlags: [], positiveSignals: [] },

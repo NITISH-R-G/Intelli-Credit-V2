@@ -1,6 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
 import * as fs from 'fs';
-import { execFileSync } from 'child_process';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) {
@@ -14,7 +13,7 @@ if (!eventPath) {
   process.exit(0);
 }
 
-const eventPayload = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
+const eventPayload = JSON.parse(fs.readFileSync(eventPath, 'utf8')) ;
 const issueBody = eventPayload.issue?.body || '';
 const issueTitle = eventPayload.issue?.title || '';
 

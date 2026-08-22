@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import * as fs from 'fs';
-import { execFileSync } from 'child_process';
+
 import * as path from 'path';
 
 const apiKey = process.env.GEMINI_API_KEY;

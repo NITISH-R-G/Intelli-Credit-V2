@@ -14,7 +14,7 @@ if (!eventPath) {
   process.exit(0);
 }
 
-const eventPayload = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
+const eventPayload = JSON.parse(fs.readFileSync(eventPath, 'utf8')) ;
 const prUrl = eventPayload.pull_request?.url;
 if (!prUrl) {
   console.info('PR URL missing.');

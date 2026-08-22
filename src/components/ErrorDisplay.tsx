@@ -44,7 +44,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 
           {error.rawLogs && (
             <div className="mt-4 border-t border-rose-900/30 pt-3">
-              <button
+              <button type="button"
                 onClick={() => setShowLogs(!showLogs)}
                 className="flex items-center gap-2 text-[10px] text-rose-400/60 hover:text-rose-400 uppercase tracking-widest transition-colors"
               >
@@ -65,7 +65,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
           )}
         </div>
       </div>
-      <button
+      <button type="button"
         onClick={() => {
           setError(null);
           setShowLogs(false);

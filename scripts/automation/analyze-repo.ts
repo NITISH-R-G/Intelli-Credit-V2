@@ -14,15 +14,17 @@ function generateDiagrams(): void {
       '--extensions',
       'ts,tsx',
     ]);
-    const jsonOutput = (execFileSync('npx', [
-      '--yes',
-      'madge',
-      '--json',
-      './src',
-      './api',
-      '--extensions',
-      'ts,tsx',
-    ]) as unknown as Buffer).toString('utf-8');
+    const jsonOutput = (
+      execFileSync('npx', [
+        '--yes',
+        'madge',
+        '--json',
+        './src',
+        './api',
+        '--extensions',
+        'ts,tsx',
+      ]) as unknown as Buffer
+    ).toString('utf-8');
     fs.writeFileSync('docs/architecture/knowledge-graph.json', jsonOutput);
   } catch (e) {
     console.error('Error generating diagrams with madge', e);
