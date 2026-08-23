@@ -5,13 +5,13 @@ async function triage(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('No GEMINI_API_KEY found, skipping AI Triage.');
-    process.exit(0);
+    return;
   }
 
   const eventPath = process.env.GITHUB_EVENT_PATH;
   if (!eventPath || !fs.existsSync(eventPath)) {
     console.error('No GITHUB_EVENT_PATH found.');
-    process.exit(1);
+    throw new Error("Missing config or event data");
   }
 
   const event = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
@@ -19,7 +19,7 @@ async function triage(): Promise<void> {
 
   if (!issue) {
     console.error('No issue data found in event.');
-    process.exit(1);
+    throw new Error("Missing config or event data");
   }
 
   const prompt = `
@@ -44,8 +44,8 @@ Provide a short, professional response that:
     console.info('Triage comment generated successfully.');
   } catch (error) {
     console.error('Error during AI Triage:', error);
-    process.exit(1);
+    throw new Error("Missing config or event data");
   }
 }
 
-void triage();
+triage().catch(console.error);

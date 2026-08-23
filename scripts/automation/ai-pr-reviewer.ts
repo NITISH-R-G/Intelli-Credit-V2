@@ -5,19 +5,19 @@ async function reviewPR(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('No GEMINI_API_KEY found, skipping AI PR Review.');
-    process.exit(0);
+    return;
   }
 
   const diffPath = 'pr-diff.txt';
   if (!fs.existsSync(diffPath)) {
     console.warn('No pr-diff.txt found, skipping review.');
-    process.exit(0);
+    return;
   }
 
   const diff = fs.readFileSync(diffPath, 'utf8');
   if (!diff.trim()) {
     console.info('Diff is empty, skipping review.');
-    process.exit(0);
+    return;
   }
 
   const prompt = `
@@ -40,8 +40,8 @@ ${diff.substring(0, 15000)} // Truncate if too long
     console.info('PR review comment generated successfully.');
   } catch (error) {
     console.error('Error during AI PR Review:', error);
-    process.exit(1);
+    throw new Error("Missing diff or config data");
   }
 }
 
-void reviewPR();
+reviewPR().catch(console.error);

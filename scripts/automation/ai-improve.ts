@@ -24,7 +24,7 @@ async function runImprovementLoop(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('No GEMINI_API_KEY found, skipping AI Improvement Loop.');
-    process.exit(0);
+    return;
   }
 
   const dirsToScan = ['src', 'api', 'scripts'];
@@ -41,7 +41,7 @@ async function runImprovementLoop(): Promise<void> {
 
   if (!combinedCode) {
     console.info('No relevant code files found to analyze.');
-    process.exit(0);
+    return;
   }
 
   const prompt = `
@@ -74,8 +74,8 @@ Format your response as a Markdown document outlining the issues and providing a
     console.info('Improvement report generated successfully.');
   } catch (error) {
     console.error('Error during AI Improvement Loop:', error);
-    process.exit(1);
+    throw error;
   }
 }
 
-void runImprovementLoop();
+runImprovementLoop().catch(console.error);

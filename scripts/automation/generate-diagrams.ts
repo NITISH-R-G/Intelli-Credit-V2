@@ -15,7 +15,7 @@ function generateDiagrams(): void {
     console.info(`Diagram generated successfully at ${outputFile}`);
   } catch (error) {
     console.error('Error generating diagrams:', error);
-    process.exit(1);
+    throw error;
   }
 }
 

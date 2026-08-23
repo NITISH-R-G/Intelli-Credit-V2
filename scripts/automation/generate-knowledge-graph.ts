@@ -14,7 +14,7 @@ function generateKnowledgeGraph(): void {
     console.info(`Knowledge graph generated successfully at ${outputFile}`);
   } catch (error) {
     console.error('Error generating knowledge graph:', error);
-    process.exit(1);
+    throw error;
   }
 }
 

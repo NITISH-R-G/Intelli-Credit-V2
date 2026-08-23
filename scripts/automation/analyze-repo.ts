@@ -18,7 +18,7 @@ function runAnalysis(): void {
     console.info('Repository analysis complete.');
   } catch (error) {
     console.error('Error during repository analysis:', error);
-    process.exit(1);
+    throw error;
   }
 }
 
