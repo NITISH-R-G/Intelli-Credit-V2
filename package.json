@@ -28,8 +28,15 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "fix": "npm run format && npm run lint:fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "ai:triage": "npx --yes tsx scripts/automation/ai-triage.ts",
+    "ai:improve": "npx --yes tsx scripts/automation/ai-improve.ts",
+    "ai:pr-review": "npx --yes tsx scripts/automation/ai-pr-reviewer.ts",
+    "analyze:repo": "npx --yes tsx scripts/automation/analyze-repo.ts",
+    "generate:diagrams": "npx --yes tsx scripts/automation/generate-diagrams.ts",
+    "generate:knowledge-graph": "npx --yes tsx scripts/automation/generate-knowledge-graph.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -68,6 +75,7 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
     "jsdom": "^29.1.1",
+    "madge": "^8.0.0",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.22.4",
@@ -77,4 +85,3 @@
     "vitest": "^4.1.7"
   }
 }
-
