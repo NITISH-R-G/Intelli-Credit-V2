@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-function runAnalysis() {
+function runAnalysis(): void {
   console.info('Starting full repository analysis...');
 
   const outDir = path.resolve(process.cwd(), 'docs/architecture');

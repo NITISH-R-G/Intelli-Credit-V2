@@ -20,7 +20,7 @@ function getFilesRecursively(dir: string, ext: string[]): string[] {
   return results;
 }
 
-async function runImprovementLoop() {
+async function runImprovementLoop(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('No GEMINI_API_KEY found, skipping AI Improvement Loop.');

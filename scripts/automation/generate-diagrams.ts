@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-function generateDiagrams() {
+function generateDiagrams(): void {
   console.info('Generating architecture diagrams using madge...');
   const outDir = path.resolve(process.cwd(), 'docs/architecture');
   fs.mkdirSync(outDir, { recursive: true });

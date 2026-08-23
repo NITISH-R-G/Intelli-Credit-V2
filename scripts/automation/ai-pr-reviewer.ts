@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { GoogleGenAI } from '@google/genai';
 
-async function reviewPR() {
+async function reviewPR(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('No GEMINI_API_KEY found, skipping AI PR Review.');

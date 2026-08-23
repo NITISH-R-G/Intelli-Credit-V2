@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-function generateKnowledgeGraph() {
+function generateKnowledgeGraph(): void {
   console.info('Generating repository knowledge graph using madge...');
   const outDir = path.resolve(process.cwd(), 'docs/architecture');
   fs.mkdirSync(outDir, { recursive: true });
