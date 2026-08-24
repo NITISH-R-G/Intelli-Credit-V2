@@ -1,0 +1,57 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'api/**'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11d596041c226fccbfa87a53c613c31405e3a8fa
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Setup directories
+        run: mkdir -p docs/architecture
+
+      - name: Generate architecture summary
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run analyze:repo
+
+      - name: Generate dependency diagrams
+        run: npm run generate:diagrams
+
+      - name: Generate knowledge graph
+        run: npm run generate:knowledge-graph
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        with:
+          commit-message: 'docs(architecture): auto-update architecture intelligence'
+          title: 'Update Architecture Intelligence Artifacts'
+          body: 'This PR automatically updates the dependency graph, knowledge graph, and architecture summary based on recent changes.'
+          branch: 'auto/architecture-update'
+          labels: documentation
