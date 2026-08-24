@@ -538,13 +538,7 @@ describe('performAnalysis', () => {
     // Complete CreditAnalysis shape — the server always returns one that
     // satisfies RESPONSE_SCHEMA, and calculateRiskAndFraud reads many fields.
     const serverAnalysis = {
-      companyInfo: {
-        name: 'Co',
-        establishedYear: 2020,
-        industry: 'IT',
-        registrationNumber: 'r',
-        employees: '10',
-      },
+      companyInfo: { name: 'Co', establishedYear: 2020, industry: 'IT', registrationNumber: 'r', employees: '10' },
       structuredData: {
         revenue: [{ year: '2023', value: 1000000 }],
         debt: [{ year: '2023', value: 100000 }],
@@ -555,11 +549,7 @@ describe('performAnalysis', () => {
       },
       verificationLayer: [],
       fraudDetection: [],
-      unstructuredInsights: {
-        boardMeetingNotes: [],
-        ratingAgencyReports: '',
-        shareholdingPattern: '',
-      },
+      unstructuredInsights: { boardMeetingNotes: [], ratingAgencyReports: '', shareholdingPattern: '' },
       externalIntelligence: { mcaStatus: 'Active', legalDisputes: [], newsSectorTrends: [] },
       primaryInsights: { siteVisitObservations: [], managementInterviews: [] },
       fiveCs: {
