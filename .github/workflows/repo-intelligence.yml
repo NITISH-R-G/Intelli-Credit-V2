@@ -1,0 +1,46 @@
+name: Repository Intelligence
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Generate Knowledge Graph
+        run: npm run generate:knowledge-graph
+
+      - name: Generate Dependency Diagrams
+        run: npm run generate:diagrams
+
+      - name: Create Pull Request for Architecture Updates
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.5
+        with:
+          title: 'docs(architecture): autonomous update of repository diagrams and graphs'
+          body: 'Automated PR to update repository knowledge graph and architecture diagrams based on latest changes.'
+          branch: 'chore/update-architecture'
+          commit-message: 'docs(architecture): autonomous update of diagrams and graphs'
+          labels: 'documentation, automation'

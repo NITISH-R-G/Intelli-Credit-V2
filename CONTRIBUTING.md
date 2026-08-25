@@ -147,19 +147,19 @@ and consistency — please treat feedback as collaborative.
 New issues get `needs-triage` automatically. A maintainer will then apply the
 appropriate label(s). Canonical set:
 
-| Label | Meaning |
-| --- | --- |
-| `bug` | Something isn't working as documented |
-| `enhancement` | A feature request or improvement |
-| `documentation` | Docs gaps or inaccuracies |
-| `good first issue` | Small, scoped, beginner-friendly — great first contribution |
-| `help wanted` | Welcome community help; design is agreed |
-| `needs-triage` | Awaiting maintainer review |
-| `needs-design` | Needs discussion before work can start |
-| `security` | Security-relevant (use [SECURITY.md](SECURITY.md) to report!) |
-| `frontend` / `backend` | Affected area (auto-applied from changed paths) |
-| `dependencies` / `github-actions` | Dependency or CI updates |
-| `duplicate` / `wontfix` / `question` | Resolution states |
+| Label                                | Meaning                                                       |
+| ------------------------------------ | ------------------------------------------------------------- |
+| `bug`                                | Something isn't working as documented                         |
+| `enhancement`                        | A feature request or improvement                              |
+| `documentation`                      | Docs gaps or inaccuracies                                     |
+| `good first issue`                   | Small, scoped, beginner-friendly — great first contribution   |
+| `help wanted`                        | Welcome community help; design is agreed                      |
+| `needs-triage`                       | Awaiting maintainer review                                    |
+| `needs-design`                       | Needs discussion before work can start                        |
+| `security`                           | Security-relevant (use [SECURITY.md](SECURITY.md) to report!) |
+| `frontend` / `backend`               | Affected area (auto-applied from changed paths)               |
+| `dependencies` / `github-actions`    | Dependency or CI updates                                      |
+| `duplicate` / `wontfix` / `question` | Resolution states                                             |
 
 The path-based labels (`frontend`, `backend`, `documentation`, `dependencies`,
 `github-actions`) are applied automatically by the **Pull Request Labeler**.
