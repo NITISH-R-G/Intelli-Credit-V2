@@ -51,4 +51,7 @@ ${diffText}
   }
 }
 
-void reviewPR();
+reviewPR().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

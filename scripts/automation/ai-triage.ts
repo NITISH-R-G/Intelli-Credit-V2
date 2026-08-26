@@ -46,4 +46,7 @@ Please provide a helpful, welcoming, and technical automated response to the iss
   }
 }
 
-void triage();
+triage().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

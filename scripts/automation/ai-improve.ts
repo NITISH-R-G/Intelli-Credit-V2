@@ -33,7 +33,7 @@ async function improve(): Promise<void> {
           const content = fs.readFileSync(file, 'utf-8');
           // simple truncate to not overload token limit
           repoContext += `\n--- File: ${file} ---\n${content.substring(0, 500)}...\n`;
-        } catch (e) {
+        } catch {
           console.warn(`Could not read ${file}`);
         }
       }
@@ -73,4 +73,7 @@ Provide a detailed report in Markdown format with actionable recommendations.
   }
 }
 
-void improve();
+improve().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
