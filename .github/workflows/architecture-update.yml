@@ -1,0 +1,44 @@
+name: Architecture Intelligence Update
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-architecture:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Generate Architecture Reports
+        run: |
+          npm run analyze:repo
+          npm run generate:knowledge-graph
+          npm run generate:diagrams
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        with:
+          commit-message: 'docs: autonomous architecture intelligence update'
+          title: 'Automated Architecture Intelligence Update'
+          body: 'This PR contains the latest autonomous updates to the architecture dependency graphs, knowledge graph, and circular dependencies.'
+          branch: 'chore/autonomous-architecture-update'
+          delete-branch: true
