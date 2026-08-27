@@ -1,0 +1,48 @@
+name: Autonomous Intelligence
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Generate Diagrams
+        run: npm run generate:diagrams
+
+      - name: Generate Knowledge Graph
+        run: npm run generate:knowledge-graph
+
+      - name: Analyze Repo
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run analyze:repo
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f
+        with:
+          commit-message: 'docs: autonomous update of architecture and knowledge graphs'
+          title: 'docs: autonomous update of architecture and knowledge graphs'
+          branch: 'automation/update-docs'
+          body: 'Automated updates to architecture diagrams, knowledge graph, and repository analysis.'
