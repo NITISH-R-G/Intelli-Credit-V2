@@ -36,7 +36,7 @@ async function analyzeRepo(): Promise<void> {
     try {
       const content = fs.readFileSync(file, { encoding: 'utf-8' });
       codeContext += `\n--- File: ${file} ---\n${content}\n`;
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(`Failed to read file ${file}:`, e);
     }
   }
@@ -71,7 +71,7 @@ ${codeContext}`;
       console.error('Empty response from GenAI.');
       process.exit(1);
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Failed to generate architectural analysis:', error);
     process.exit(1);
   }

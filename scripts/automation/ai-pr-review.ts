@@ -11,7 +11,7 @@ async function prReview(): Promise<void> {
   let diffContent = '';
   try {
     diffContent = fs.readFileSync('pr-diff.txt', { encoding: 'utf-8' });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Failed to read pr-diff.txt:', error);
     process.exit(1);
   }
@@ -43,7 +43,7 @@ ${diffContent}`;
       console.error('Empty response from GenAI.');
       process.exit(1);
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Failed to generate PR review:', error);
     process.exit(1);
   }

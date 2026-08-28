@@ -30,7 +30,7 @@ function generateKnowledgeGraph(): void {
     const imageArgs = ['--yes', 'madge', '--image', imageOutputPath, ...existingDirs];
     execFileSync('npx', imageArgs, { encoding: 'utf-8' });
     console.info(`Successfully generated ${imageOutputPath}`);
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Failed to generate knowledge graph or diagram:', error);
     process.exit(1);
   }

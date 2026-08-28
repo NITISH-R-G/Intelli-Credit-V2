@@ -14,16 +14,16 @@ async function triage(): Promise<void> {
     process.exit(1);
   }
 
-  let eventPayload: any;
+  let eventPayload: Record<string, unknown>;
   try {
     const rawPayload = fs.readFileSync(eventPath, { encoding: 'utf-8' });
     eventPayload = JSON.parse(rawPayload);
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Failed to read or parse GITHUB_EVENT_PATH:', error);
     process.exit(1);
   }
 
-  const issue = eventPayload.issue;
+  const issue = eventPayload.issue as Record<string, unknown>;
   if (!issue) {
     console.error('No issue data found in event payload.');
     process.exit(1);
@@ -53,7 +53,7 @@ Provide a polite acknowledgment to the user, categorize the issue (e.g., Bug, Fe
       console.error('Empty response from GenAI.');
       process.exit(1);
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Failed to generate content:', error);
     process.exit(1);
   }
