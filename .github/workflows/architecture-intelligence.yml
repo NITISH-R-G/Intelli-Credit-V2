@@ -1,0 +1,48 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install System Dependencies
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Architecture Analysis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run analyze:repo
+
+      - name: Generate Knowledge Graph and Diagrams
+        run: |
+          npm run generate:knowledge-graph
+
+      - name: Create Pull Request with Updates
+        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f
+        with:
+          commit-message: 'docs(architecture): autonomous update of architecture analysis and diagrams'
+          title: '🤖 Autonomous Architecture Intelligence Update'
+          body: 'This pull request was generated automatically to keep the architecture documentation and dependency graphs synchronized with reality.'
+          branch: 'auto/arch-update'
+          labels: documentation, architecture
