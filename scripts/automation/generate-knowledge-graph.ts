@@ -10,8 +10,8 @@ function generateKnowledgeGraph(): void {
 
   try {
     const stdout = (
-      execFileSync('npx', ['--yes', 'madge', '--json', 'src/']) as unknown as Buffer
-    ).toString();
+      execFileSync('npx', ['--yes', 'madge', '--json', 'src/'], { encoding: 'utf-8' }) as string
+    );
     fs.writeFileSync(outputFile, stdout);
     console.info(`Knowledge graph generated at ${outputFile}`);
   } catch (err) {
@@ -20,4 +20,4 @@ function generateKnowledgeGraph(): void {
   }
 }
 
-void generateKnowledgeGraph();
+generateKnowledgeGraph();

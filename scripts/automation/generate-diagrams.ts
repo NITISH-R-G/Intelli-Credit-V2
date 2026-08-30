@@ -19,4 +19,4 @@ function generateDiagrams(): void {
   }
 }
 
-void generateDiagrams();
+generateDiagrams();

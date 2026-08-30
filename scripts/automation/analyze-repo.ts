@@ -21,4 +21,4 @@ function analyzeRepo(): void {
   }
 }
 
-void analyzeRepo();
+analyzeRepo();
