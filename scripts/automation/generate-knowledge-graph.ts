@@ -9,9 +9,9 @@ function generateKnowledgeGraph(): void {
   const outputFile = path.join(outDir, 'knowledge-graph.json');
 
   try {
-    const stdout = (
-      execFileSync('npx', ['--yes', 'madge', '--json', 'src/'], { encoding: 'utf-8' }) as string
-    );
+    const stdout = execFileSync('npx', ['--yes', 'madge', '--json', 'src/'], {
+      encoding: 'utf-8',
+    }) as string;
     fs.writeFileSync(outputFile, stdout);
     console.info(`Knowledge graph generated at ${outputFile}`);
   } catch (err) {
