@@ -29,10 +29,17 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "fix": "npm run lint:fix && npm run format",
+    "ai:triage": "npx --yes tsx scripts/automation/ai-issue-triage.ts",
+    "ai:improve": "npx --yes tsx scripts/automation/ai-improve.ts",
+    "ai:pr-review": "npx --yes tsx scripts/automation/ai-pr-review.ts",
+    "analyze:repo": "npx --yes tsx scripts/automation/analyze-repo.ts",
+    "generate:diagrams": "npx --yes tsx scripts/automation/generate-diagrams.ts",
+    "generate:knowledge-graph": "npx --yes tsx scripts/automation/generate-knowledge-graph.ts"
   },
   "dependencies": {
-    "@google/genai": "^1.29.0",
+    "@google/genai": "^2.19.0",
     "@tailwindcss/vite": "^4.1.14",
     "clsx": "^2.1.1",
     "cors": "^2.8.6",
@@ -77,4 +84,3 @@
     "vitest": "^4.1.7"
   }
 }
-
