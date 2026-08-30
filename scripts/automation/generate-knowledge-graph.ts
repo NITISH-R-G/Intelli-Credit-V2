@@ -6,14 +6,13 @@ function generateKnowledgeGraph(): void {
   const outDir = 'docs/architecture';
   fs.mkdirSync(outDir, { recursive: true });
 
-  const outputFile = path.join(outDir, 'knowledge-graph.json');
 
   try {
     const stdout = execFileSync('npx', ['--yes', 'madge', '--json', 'src/'], {
       encoding: 'utf-8',
     }) as string;
-    fs.writeFileSync(outputFile, stdout);
-    console.info(`Knowledge graph generated at ${outputFile}`);
+    fs.writeFileSync('docs/architecture/knowledge-graph.json', stdout);
+    console.info(`Knowledge graph generated at ${'docs/architecture/knowledge-graph.json'}`);
   } catch (err) {
     console.error('Failed to generate knowledge graph:', err);
     process.exit(1);

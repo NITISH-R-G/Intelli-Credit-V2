@@ -14,16 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup Node.js
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
         with:
           node-version: 20
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Generate Improvement Report
         env:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Create Issue from Report
         if: hashFiles('docs/history/ai-improvement-report.md') != ''
-        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e470eea31ce6a14a560 # v5.0.1
+        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e470eea31ce6a14a560
         with:
           title: 'AI Continuous Improvement Report - ${{ github.run_id }}'
           content-filepath: docs/history/ai-improvement-report.md
