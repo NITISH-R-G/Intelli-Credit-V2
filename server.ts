@@ -1,6 +1,6 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
-import path from 'path';
+import * as path from 'node:path';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import cors from 'cors';
@@ -110,7 +110,7 @@ if (!process.env.VERCEL) {
   setupVite().then(() => {
     const PORT = 3000;
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.info(`Server running on http://localhost:${PORT}`);
     });
   });
 } else {

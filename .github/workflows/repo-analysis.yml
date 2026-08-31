@@ -1,0 +1,45 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'api/**'
+      - 'package.json'
+      - 'tsconfig.json'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+
+      - name: Setup Node.js
+        uses: actions/setup-node@94196ee1d15439c1b6651cd87ef14e88ec435966
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install System Dependencies (Graphviz)
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Repo Analysis
+        run: npm run analyze:repo
+
+      - name: Create Pull Request for updated architecture diagrams
+        uses: peter-evans/create-pull-request@b99c9ae23bcf83f0f5aa571c2f0093de8aa85036
+        with:
+          title: 'docs: Update architecture diagrams and knowledge graph'
+          branch: 'docs/update-architecture'
+          commit-message: 'docs: update architecture diagrams'
+          body: 'Automated changes to sync architecture documentation with source code.'
