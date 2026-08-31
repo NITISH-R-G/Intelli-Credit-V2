@@ -79,4 +79,7 @@ Please review the diff for code quality, security, and potential bugs. Provide c
   }
 }
 
-void reviewPR();
+reviewPR().catch((error) => {
+  console.error('Unhandled error in reviewPR:', error);
+  process.exit(1);
+});

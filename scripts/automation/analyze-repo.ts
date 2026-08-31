@@ -15,8 +15,10 @@ function analyzeRepo(): void {
 
   console.info('Generating dependency graph SVG...');
   try {
-    execFileSync('npx', ['--yes', 'madge', './src', './api', '--image', 'docs/architecture/dependency-graph.svg']);
-    console.info('Dependency graph saved to docs/architecture/dependency-graph.svg');
+    const svgOutput = (execFileSync('npx', ['--yes', 'madge', './src', './api', '--image', 'docs/architecture/dependency-graph.svg']) as unknown as Buffer).toString('utf-8');
+    if (svgOutput) {
+      console.info('Dependency graph saved to docs/architecture/dependency-graph.svg');
+    }
   } catch (error) {
     console.error('Failed to generate dependency graph SVG:', error);
   }

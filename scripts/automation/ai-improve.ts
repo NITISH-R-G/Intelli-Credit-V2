@@ -66,4 +66,7 @@ ${allCode}
   }
 }
 
-void improve();
+improve().catch((error) => {
+  console.error('Unhandled error in improve:', error);
+  process.exit(1);
+});

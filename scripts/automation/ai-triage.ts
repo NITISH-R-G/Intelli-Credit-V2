@@ -52,4 +52,7 @@ Provide a helpful, welcoming, and technical response. If more information is nee
   }
 }
 
-void triage();
+triage().catch((error) => {
+  console.error('Unhandled error in triage:', error);
+  process.exit(1);
+});
