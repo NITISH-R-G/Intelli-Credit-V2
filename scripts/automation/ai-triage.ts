@@ -47,4 +47,4 @@ Provide a helpful, polite, and actionable response for the contributor.`;
   }
 }
 
-void triage();
+triage().catch(console.error);

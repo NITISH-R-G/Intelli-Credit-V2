@@ -66,4 +66,4 @@ Provide your recommendations in Markdown format.`;
   }
 }
 
-void improve();
+improve().catch(console.error);

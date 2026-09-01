@@ -59,4 +59,4 @@ Provide constructive feedback, identify potential issues, and suggest improvemen
   }
 }
 
-void reviewPR();
+reviewPR().catch(console.error);
