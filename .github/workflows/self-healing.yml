@@ -1,0 +1,37 @@
+name: Self Healing
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Run daily at 2am
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Auto-Fix (Format & Lint)
+        run: npm run fix
+
+      - name: Create Pull Request for Fixes
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        with:
+          commit-message: 'style: Autonomous self-healing (format & lint)'
+          title: '🤖 Auto-Fix: Code style and linting issues'
+          body: 'This PR automatically fixes formatting and linting issues using `npm run fix`.'
+          branch: 'auto-self-heal'
