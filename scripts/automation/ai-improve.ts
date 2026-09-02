@@ -36,19 +36,20 @@ async function improve(): Promise<void> {
   }
 
   // Instead of an arbitrary 15-file limit, prioritize core app files and random sample others to fit prompt sizes
-  const prioritizedFiles = allFiles.filter(f =>
-    f.includes('api/analyze.ts') ||
-    f.includes('api/_lib/analyze-core.ts') ||
-    f.includes('src/services/analysisService.ts') ||
-    f.includes('src/App.tsx')
+  const prioritizedFiles = allFiles.filter(
+    (f) =>
+      f.includes('api/analyze.ts') ||
+      f.includes('api/_lib/analyze-core.ts') ||
+      f.includes('src/services/analysisService.ts') ||
+      f.includes('src/App.tsx'),
   );
 
   // Randomly add up to 10 more files to provide broad coverage across cycles
-  const otherFiles = allFiles.filter(f => !prioritizedFiles.includes(f));
+  const otherFiles = allFiles.filter((f) => !prioritizedFiles.includes(f));
   const sampledFiles = [...prioritizedFiles];
-  for(let i=0; i<10 && otherFiles.length > 0; i++) {
-     const idx = Math.floor(Math.random() * otherFiles.length);
-     sampledFiles.push(otherFiles.splice(idx, 1)[0]);
+  for (let i = 0; i < 10 && otherFiles.length > 0; i++) {
+    const idx = Math.floor(Math.random() * otherFiles.length);
+    sampledFiles.push(otherFiles.splice(idx, 1)[0]);
   }
 
   let codeContext = '';

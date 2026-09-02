@@ -41,7 +41,7 @@ async function reviewPR(): Promise<void> {
       'Accept: application/vnd.github.v3.diff',
       pr.url,
     ]);
-    diff = diffBuffer.toString('utf-8');
+    diff = (diffBuffer as unknown as Buffer).toString('utf-8');
   } catch (err) {
     console.error('Failed to fetch PR diff', err);
     process.exit(1);
