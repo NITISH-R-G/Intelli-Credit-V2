@@ -1,0 +1,46 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'api/**'
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Architecture Analysis
+        run: npm run analyze:repo
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7
+        with:
+          commit-message: "docs(architecture): Autogenerate diagrams and analysis"
+          title: "docs(architecture): Update architectural intelligence"
+          body: "Automated updates to dependency graph and AI architectural analysis."
+          branch: "ai/architecture-update"

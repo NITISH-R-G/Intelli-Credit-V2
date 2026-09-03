@@ -1,0 +1,49 @@
+name: Continuous Improvement
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Every day at midnight
+  workflow_dispatch:
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run AI Improvement Analysis
+        run: npm run ai:improve
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Create Issue from Report
+        if: hashFiles('docs/history/ai-improvement-report.md') != ''
+        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e470beb3fd8dc1317e6 # v5
+        with:
+          title: "Automated AI Improvement Recommendations"
+          content-filepath: docs/history/ai-improvement-report.md
+          labels: enhancement, ai-generated
+
+      - name: Create Pull Request with History
+        if: hashFiles('docs/history/ai-improvement-report.md') != ''
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7
+        with:
+          commit-message: "docs: Add AI continuous improvement report"
+          title: "docs: AI continuous improvement report"
+          body: "Automated continuous improvement analysis."
+          branch: "ai/continuous-improvement"
