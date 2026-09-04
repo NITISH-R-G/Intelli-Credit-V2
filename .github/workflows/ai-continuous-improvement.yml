@@ -33,6 +33,6 @@ jobs:
         if: hashFiles('docs/history/ai-improvement-report.md') != ''
         uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd
         with:
-          title: "🤖 Daily AI Continuous Improvement Report"
+          title: '🤖 Daily AI Continuous Improvement Report'
           content-filepath: docs/history/ai-improvement-report.md
           labels: ai-enhancement, automation

@@ -36,8 +36,8 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
         with:
-          commit-message: "docs: update architecture diagrams and knowledge graph"
-          title: "🤖 Automated Architecture Updates"
-          body: "This PR automatically updates the architecture diagrams and knowledge graph based on recent codebase changes."
-          branch: "bot/auto-arch-update"
-          labels: "documentation, automation"
+          commit-message: 'docs: update architecture diagrams and knowledge graph'
+          title: '🤖 Automated Architecture Updates'
+          body: 'This PR automatically updates the architecture diagrams and knowledge graph based on recent codebase changes.'
+          branch: 'bot/auto-arch-update'
+          labels: 'documentation, automation'

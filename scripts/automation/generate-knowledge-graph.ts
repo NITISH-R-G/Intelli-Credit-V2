@@ -4,7 +4,6 @@ import * as path from 'node:path';
 
 function generateKnowledgeGraph(): void {
   try {
-
     console.info('Generating repository knowledge graph using madge...');
     const outDir = 'docs/architecture';
     fs.mkdirSync(outDir, { recursive: true });
@@ -16,10 +15,8 @@ function generateKnowledgeGraph(): void {
 
     fs.writeFileSync(outPath, output);
 
-
     console.info(`Successfully generated knowledge graph to ${outPath}`);
   } catch (error) {
-
     console.error('Error generating knowledge graph:', error);
     process.exit(1);
   }

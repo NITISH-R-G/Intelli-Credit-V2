@@ -22,7 +22,6 @@ function getFilesRecursively(dir: string, fileList: string[] = []): string[] {
 async function improveRepo(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-
     console.warn('GEMINI_API_KEY is not set. Exiting ai-improve successfully.');
     process.exit(0);
   }
@@ -45,7 +44,6 @@ async function improveRepo(): Promise<void> {
       const content = fs.readFileSync(file, 'utf8');
       contextStr += `\n\n--- File: ${file} ---\n${content.substring(0, 5000)}`; // Limit file size
     } catch (err) {
-
       console.warn(`Could not read file ${file}`, err);
     }
   }
@@ -73,10 +71,8 @@ ${contextStr}
 
     fs.mkdirSync('docs/history', { recursive: true });
     fs.writeFileSync('docs/history/ai-improvement-report.md', reportFullText);
-
     console.info('Successfully generated AI improvement report to docs/history/ai-improvement-report.md');
   } catch (error) {
-
     console.error('Error calling Google GenAI:', error);
     process.exit(1);
   }

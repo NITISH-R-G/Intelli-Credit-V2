@@ -30,8 +30,8 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
         with:
-          commit-message: "chore: auto-fix linting and formatting issues"
-          title: "🛠️ Automated Self-Healing Fixes"
-          body: "This PR automatically fixes linting and formatting issues using `npm run fix`."
-          branch: "bot/auto-fix"
-          labels: "maintenance, automation"
+          commit-message: 'chore: auto-fix linting and formatting issues'
+          title: '🛠️ Automated Self-Healing Fixes'
+          body: 'This PR automatically fixes linting and formatting issues using `npm run fix`.'
+          branch: 'bot/auto-fix'
+          labels: 'maintenance, automation'

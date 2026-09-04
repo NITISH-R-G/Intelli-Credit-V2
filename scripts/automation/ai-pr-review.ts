@@ -4,7 +4,6 @@ import { GoogleGenAI } from '@google/genai';
 async function reviewPR(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-
     console.warn('GEMINI_API_KEY is not set. Exiting ai-pr-review successfully.');
     process.exit(0);
   }
@@ -13,13 +12,11 @@ async function reviewPR(): Promise<void> {
   try {
     diffContent = fs.readFileSync('pr-diff.txt', 'utf8');
   } catch {
-
     console.warn('Could not read pr-diff.txt (possibly empty PR or error fetching diff). Exiting.');
     process.exit(0);
   }
 
   if (!diffContent.trim()) {
-
     console.info('Empty diff found, nothing to review.');
     process.exit(0);
   }
@@ -48,10 +45,8 @@ ${diffContent.substring(0, 50000)} // Limiting to 50k characters to avoid token 
 
     const outputText = `### 🤖 AI PR Reviewer\n\n${reply}`;
     fs.writeFileSync('pr-comment.txt', outputText);
-
     console.info('Successfully generated PR review comment to pr-comment.txt');
   } catch (error) {
-
     console.error('Error calling Google GenAI:', error);
     process.exit(1);
   }
