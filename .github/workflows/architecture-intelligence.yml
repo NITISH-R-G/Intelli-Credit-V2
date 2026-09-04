@@ -1,0 +1,43 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 2 * * 0' # Run weekly on Sunday
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Generate Architecture Diagrams and Graph
+        run: npm run analyze:repo
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        with:
+          commit-message: 'docs: update architecture diagrams and knowledge graph'
+          title: '🤖 Automated Architecture Updates'
+          body: 'This PR automatically updates the architecture diagrams and knowledge graph based on recent codebase changes.'
+          branch: 'bot/auto-arch-update'
+          labels: 'documentation, automation'
