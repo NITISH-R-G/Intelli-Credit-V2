@@ -52,4 +52,4 @@ ${diffContent.substring(0, 50000)} // Limiting to 50k characters to avoid token 
   }
 }
 
-void reviewPR();
+reviewPR().catch(console.error);

@@ -65,4 +65,4 @@ Issue Body: ${body}
   }
 }
 
-void triage();
+triage().catch(console.error);

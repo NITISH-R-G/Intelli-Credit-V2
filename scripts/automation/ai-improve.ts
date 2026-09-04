@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { randomBytes } from 'node:crypto';
 import { GoogleGenAI } from '@google/genai';
 
 function getFilesRecursively(dir: string, fileList: string[] = []): string[] {
@@ -10,13 +11,16 @@ function getFilesRecursively(dir: string, fileList: string[] = []): string[] {
       if (!filePath.includes('node_modules') && !filePath.includes('dist') && !filePath.includes('.git')) {
         getFilesRecursively(filePath, fileList);
       }
-    } else {
-      if (filePath.endsWith('.ts') || filePath.endsWith('.tsx') || filePath.endsWith('.md')) {
-        fileList.push(filePath);
-      }
+    } else if (filePath.endsWith('.ts') || filePath.endsWith('.tsx') || filePath.endsWith('.md')) {
+      fileList.push(filePath);
     }
   }
   return fileList;
+}
+
+// Generate crypto-secure random values to resolve Math.random Sonar issues
+function getSecureRandom(): number {
+  return randomBytes(4).readUInt32LE() / 0xffffffff;
 }
 
 async function improveRepo(): Promise<void> {
@@ -30,11 +34,11 @@ async function improveRepo(): Promise<void> {
   const coreFiles = allFiles.filter(f => f.includes('src/') || f.includes('api/') || f.includes('scripts/') || f === 'README.md');
   const otherFiles = allFiles.filter(f => !coreFiles.includes(f));
 
-  // Randomly sample up to 5 non-core files to stay within context limits
-  const sampledOtherFiles = otherFiles.sort(() => 0.5 - Math.random()).slice(0, 5);
+  // Randomly sample up to 5 non-core files to stay within context limits using secure random
+  const sampledOtherFiles = otherFiles.sort(() => 0.5 - getSecureRandom()).slice(0, 5);
 
   // Also limit core files if there are too many (e.g. max 15)
-  const sampledCoreFiles = coreFiles.sort(() => 0.5 - Math.random()).slice(0, 15);
+  const sampledCoreFiles = coreFiles.sort(() => 0.5 - getSecureRandom()).slice(0, 15);
 
   const filesToAnalyze = [...sampledCoreFiles, ...sampledOtherFiles];
   let contextStr = '';
@@ -78,4 +82,4 @@ ${contextStr}
   }
 }
 
-void improveRepo();
+improveRepo().catch(console.error);
