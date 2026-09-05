@@ -1,0 +1,39 @@
+name: Self-Healing Automation
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  self-heal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Self-Healing Tasks
+        run: npm run fix
+
+      - name: Create Pull Request for Fixes
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.5
+        with:
+          commit-message: 'chore: Auto-fix linting and formatting issues'
+          title: 'Automated Code Quality Fixes'
+          body: 'This PR automatically fixes linting and formatting issues discovered by the self-healing workflow.'
+          branch: 'auto/self-healing'
+          labels: 'maintenance, auto-fixed'
