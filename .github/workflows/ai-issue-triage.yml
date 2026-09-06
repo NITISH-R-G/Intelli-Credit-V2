@@ -1,0 +1,37 @@
+name: AI Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960
+
+      - name: Setup Node.js
+        uses: actions/setup-node@1d0ff46
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run AI Triage
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+        run: npm run ai:triage
+
+      - name: Post Triage Comment
+        if: hashFiles('triage-comment.txt') != ''
+        uses: peter-evans/create-or-update-comment@71345be
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body-path: triage-comment.txt

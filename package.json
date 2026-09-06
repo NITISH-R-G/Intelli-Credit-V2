@@ -29,15 +29,23 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "ai:triage": "tsx scripts/automation/ai-triage.ts",
+    "ai:improve": "tsx scripts/automation/ai-improve.ts",
+    "ai:pr-review": "tsx scripts/automation/ai-pr-review.ts",
+    "analyze:repo": "tsx scripts/automation/analyze-repo.ts",
+    "generate:diagrams": "tsx scripts/automation/generate-diagrams.ts",
+    "generate:knowledge-graph": "tsx scripts/automation/generate-knowledge-graph.ts",
+    "fix": "eslint . --fix && prettier --write ."
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
     "@tailwindcss/vite": "^4.1.14",
+    "body-parser": "^2.3.0",
     "clsx": "^2.1.1",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
-    "express": "^4.21.2",
+    "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
@@ -45,6 +53,7 @@
     "lucide-react": "^0.546.0",
     "motion": "^12.38.0",
     "multer": "^2.1.1",
+    "qs": "^6.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^15.0.0",
@@ -53,6 +62,7 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -68,6 +78,7 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
     "jsdom": "^29.1.1",
+    "madge": "^8.0.0",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.22.4",
@@ -77,4 +88,3 @@
     "vitest": "^4.1.7"
   }
 }
-
