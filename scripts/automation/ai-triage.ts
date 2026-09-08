@@ -57,4 +57,7 @@ Provide your response in Markdown format.`;
   }
 }
 
-void main();
+main().catch((error) => {
+  console.error('Unhandled error in issue triage:', error);
+  process.exit(1);
+});

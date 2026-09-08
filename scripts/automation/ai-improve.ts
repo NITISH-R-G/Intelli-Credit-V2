@@ -77,4 +77,7 @@ Format the report as Markdown. Include a summary at the top.`;
   }
 }
 
-void main();
+main().catch((error) => {
+  console.error('Unhandled error in continuous improvement:', error);
+  process.exit(1);
+});

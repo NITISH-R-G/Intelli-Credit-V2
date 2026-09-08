@@ -47,4 +47,7 @@ Provide your feedback in Markdown format, prioritizing actionable suggestions.`;
   }
 }
 
-void main();
+main().catch((error) => {
+  console.error('Unhandled error in PR review:', error);
+  process.exit(1);
+});
