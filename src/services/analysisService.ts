@@ -151,7 +151,6 @@ const mapServerCodeToAppError = (
   }
 };
 
-
 interface StressedFinancials {
   stressedRevenue: number;
   stressedProfit: number;
