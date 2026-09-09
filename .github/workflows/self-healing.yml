@@ -1,0 +1,40 @@
+name: Autonomous Self-Healing
+
+on:
+  schedule:
+    - cron: '0 4 * * 1' # Run early Monday morning
+  workflow_dispatch:
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run Self-Healing Automation (Fix Formatting, Linting)
+        run: npm run fix
+
+      - name: Run Security Audit Fix (Safe fixes)
+        run: npm audit fix --audit-level=high
+
+      - name: Create Pull Request for Fixes
+        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
+        with:
+          commit-message: 'chore(auto): apply self-healing fixes'
+          title: 'chore: Autonomous Self-Healing Fixes'
+          body: 'Automated self-healing changes including linting, formatting, and safe security dependency updates.'
+          branch: 'automation/self-healing'
