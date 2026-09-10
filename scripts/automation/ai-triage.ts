@@ -54,4 +54,7 @@ Provide a polite and helpful response that:
   }
 }
 
-void triage();
+triage().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

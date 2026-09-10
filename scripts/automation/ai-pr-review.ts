@@ -62,4 +62,7 @@ Provide the review in markdown format suitable for a GitHub comment.
   }
 }
 
-void reviewPR();
+reviewPR().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

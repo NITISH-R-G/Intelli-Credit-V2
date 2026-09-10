@@ -82,4 +82,7 @@ Output your recommendations as a markdown report suitable for creating a GitHub 
   }
 }
 
-void improve();
+improve().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
