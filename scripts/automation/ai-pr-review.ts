@@ -11,7 +11,7 @@ if (!apiKey) {
 
 const ai = new GoogleGenAI({ apiKey });
 
-async function reviewPR() {
+async function reviewPR(): Promise<void> {
   try {
     let diff = '';
     if (fs.existsSync('pr-diff.txt')) {

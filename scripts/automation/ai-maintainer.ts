@@ -29,7 +29,7 @@ function getAllFiles(dirPath: string, arrayOfFiles: string[] = []) {
   return arrayOfFiles;
 }
 
-async function analyzeRepo() {
+async function analyzeRepo(): Promise<void> {
   try {
     console.info('Starting repo analysis...');
     const files = [

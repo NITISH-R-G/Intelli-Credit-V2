@@ -10,7 +10,7 @@ if (!apiKey) {
 
 const ai = new GoogleGenAI({ apiKey });
 
-async function triage() {
+async function triage(): Promise<void> {
   try {
     const eventPath = process.env.GITHUB_EVENT_PATH;
     if (!eventPath) {
