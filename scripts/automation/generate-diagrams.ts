@@ -10,7 +10,7 @@ function generateDiagrams() {
     console.info('Generating SVG dependency graph...');
     execFileSync(
       'npx',
-      ['--yes', 'madge', '--image', `${outDir}/dependency-graph.svg`, 'src/', 'api/', 'server.ts'],
+      ['--yes', 'madge', '--image', `${outDir}/dependency-graph.svg`, 'src/', 'api/'],
       { stdio: 'inherit' },
     );
     console.info('Diagram generated successfully.');

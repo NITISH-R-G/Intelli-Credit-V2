@@ -8,7 +8,7 @@ function runAnalysis() {
 
   try {
     console.info('Generating JSON knowledge graph...');
-    const output = execFileSync('npx', ['--yes', 'madge', '--json', 'src/', 'api/', 'server.ts'], {
+    const output = execFileSync('npx', ['--yes', 'madge', '--json', 'src/', 'api/'], {
       encoding: 'utf-8',
     }) as string;
     fs.writeFileSync(`${outDir}/knowledge-graph.json`, output);

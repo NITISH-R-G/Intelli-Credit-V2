@@ -2,7 +2,7 @@ name: Continuous Improvement
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -34,6 +34,6 @@ jobs:
         if: hashFiles('docs/history/ai-improvement-report.md') != ''
         uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e470eea31ce6f1a07e7
         with:
-          title: 'Daily AI Improvement Report'
+          title: 'Weekly AI Improvement Report'
           content-filepath: docs/history/ai-improvement-report.md
           labels: 'ai-report, improvement'
