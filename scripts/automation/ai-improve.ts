@@ -79,4 +79,4 @@ async function runImprovementLoop() {
   }
 }
 
-void runImprovementLoop();
+runImprovementLoop().catch(console.error);

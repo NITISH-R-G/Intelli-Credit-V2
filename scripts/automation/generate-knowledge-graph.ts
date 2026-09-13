@@ -17,4 +17,4 @@ function generateKnowledgeGraph() {
   }
 }
 
-void generateKnowledgeGraph();
+generateKnowledgeGraph();

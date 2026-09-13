@@ -66,4 +66,4 @@ async function reviewPR() {
   }
 }
 
-void reviewPR();
+reviewPR().catch(console.error);

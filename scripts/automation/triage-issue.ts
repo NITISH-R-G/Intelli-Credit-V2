@@ -53,4 +53,4 @@ async function triage() {
   }
 }
 
-void triage();
+triage().catch(console.error);
