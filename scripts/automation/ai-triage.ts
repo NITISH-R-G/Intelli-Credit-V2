@@ -16,11 +16,13 @@ async function triage() {
     return;
   }
 
-  let event;
+  let event: { issue?: { title?: string; body?: string } } | undefined;
   try {
-    event = JSON.parse(fs.readFileSync(eventPath, 'utf-8'));
+    event = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as {
+      issue?: { title?: string; body?: string };
+    };
   } catch (e) {
-    console.error('Error parsing event payload');
+    console.error('Error parsing event payload', e);
     return;
   }
 
@@ -60,3 +62,4 @@ async function triage() {
 }
 
 void triage();
+export {};

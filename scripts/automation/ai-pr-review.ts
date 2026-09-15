@@ -49,3 +49,4 @@ async function reviewPR() {
 }
 
 void reviewPR();
+export {};

@@ -61,3 +61,4 @@ async function analyzeRepo() {
 }
 
 void analyzeRepo();
+export {};

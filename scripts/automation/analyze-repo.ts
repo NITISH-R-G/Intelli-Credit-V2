@@ -7,9 +7,11 @@ function generateDiagrams() {
     fs.mkdirSync('docs/architecture', { recursive: true });
 
     // Generate JSON structure for knowledge graph
-    const madgeJson = execFileSync('npx', ['--yes', 'madge', '--json', 'src'], {
-      encoding: 'utf-8',
-    });
+    const madgeJson = (
+      execFileSync('npx', ['--yes', 'madge', '--json', 'src'], {
+        encoding: 'utf-8',
+      }) as unknown as Buffer
+    ).toString();
     fs.writeFileSync('docs/architecture/knowledge-graph.json', madgeJson);
 
     // Attempt SVG generation if graphviz is installed (often handled in CI)
@@ -29,3 +31,4 @@ function generateDiagrams() {
 }
 
 generateDiagrams();
+export {};

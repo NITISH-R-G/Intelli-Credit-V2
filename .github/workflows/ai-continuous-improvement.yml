@@ -33,6 +33,7 @@ jobs:
 
       - name: Run AI Maintainer Analysis
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: npx --yes tsx scripts/automation/ai-maintainer.ts
 

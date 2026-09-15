@@ -29,7 +29,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >
-          curl -s -H "Authorization: Bearer $GITHUB_TOKEN"
+          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
           -H "Accept: application/vnd.github.v3.diff"
           ${{ github.event.pull_request.url }} > pr-diff.txt
 
