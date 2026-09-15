@@ -20,7 +20,7 @@ async function analyzeRepo() {
 
   const files = execFileSync('git', ['ls-tree', '-r', 'HEAD', '--name-only'], { encoding: 'utf-8' })
     .split('\n')
-    .filter((f) => f.endsWith('.ts') || f.endsWith('.tsx'));
+    .filter((f: string) => f.endsWith('.ts') || f.endsWith('.tsx'));
 
   let context = 'Repository Files:\n';
   for (const file of files.slice(0, 20)) {
