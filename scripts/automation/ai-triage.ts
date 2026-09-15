@@ -61,5 +61,5 @@ async function triage() {
   }
 }
 
-void triage();
+triage().catch((e) => console.error(e));
 export {};

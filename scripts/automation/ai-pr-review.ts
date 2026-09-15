@@ -48,5 +48,5 @@ async function reviewPR() {
   }
 }
 
-void reviewPR();
+reviewPR().catch((e) => console.error(e));
 export {};

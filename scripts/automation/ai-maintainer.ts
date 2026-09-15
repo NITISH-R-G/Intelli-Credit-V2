@@ -60,5 +60,5 @@ async function analyzeRepo() {
   }
 }
 
-void analyzeRepo();
+analyzeRepo().catch((e) => console.error(e));
 export {};
