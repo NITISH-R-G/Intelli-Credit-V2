@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { execFileSync } from 'node:child_process';
+
 import { GoogleGenAI } from '@google/genai';
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -70,4 +70,4 @@ async function improve() {
   }
 }
 
-void improve();
+improve().catch(console.error);

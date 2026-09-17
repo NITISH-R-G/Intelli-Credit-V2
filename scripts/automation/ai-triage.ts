@@ -55,4 +55,4 @@ Format the response in Markdown.`;
   }
 }
 
-void triage();
+triage().catch(console.error);

@@ -1,5 +1,5 @@
 import * as fs from 'node:fs';
-import { execFileSync } from 'node:child_process';
+
 import { GoogleGenAI } from '@google/genai';
 import * as path from 'node:path';
 
@@ -68,4 +68,4 @@ async function analyze() {
   }
 }
 
-void analyze();
+analyze().catch(console.error);

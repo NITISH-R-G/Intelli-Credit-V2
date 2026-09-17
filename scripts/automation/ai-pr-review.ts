@@ -1,5 +1,5 @@
 import * as fs from 'node:fs';
-import { execFileSync } from 'node:child_process';
+
 import { GoogleGenAI } from '@google/genai';
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -46,4 +46,4 @@ Format your response in Markdown. Point out specific lines or files if necessary
   }
 }
 
-void reviewPR();
+reviewPR().catch(console.error);
