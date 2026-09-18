@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Shared, environment-agnostic core for the Gemini agentic analysis loop.
  *

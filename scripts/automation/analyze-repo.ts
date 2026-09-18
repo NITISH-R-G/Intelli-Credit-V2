@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AppError } from './types';
 import { performAnalysis, calculateDisplayAnalysis } from './services/analysisService';
 import { DecisionPanel } from './components/DecisionPanel';

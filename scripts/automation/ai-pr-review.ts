@@ -53,4 +53,7 @@ Provide a concise, constructive review. If the code looks good, say so.
   }
 }
 
-void reviewPR();
+reviewPR().catch((err) => {
+  console.error('Unhandled error in reviewPR:', err);
+  process.exit(1);
+});

@@ -51,4 +51,7 @@ Limit your response to a concise, professional comment.
   }
 }
 
-void triage();
+triage().catch((err) => {
+  console.error('Unhandled error in triage:', err);
+  process.exit(1);
+});

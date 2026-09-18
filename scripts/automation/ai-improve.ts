@@ -49,4 +49,7 @@ Output the suggestions as a markdown report.
   }
 }
 
-void improve();
+improve().catch((err) => {
+  console.error('Unhandled error in improve:', err);
+  process.exit(1);
+});

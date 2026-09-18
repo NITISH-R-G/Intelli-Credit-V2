@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';

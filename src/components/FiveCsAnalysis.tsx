@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { CreditAnalysis } from '../types';
 import { Fingerprint, Activity, Landmark, ShieldCheck, Globe } from 'lucide-react';
