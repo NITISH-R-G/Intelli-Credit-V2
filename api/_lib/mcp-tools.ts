@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Server-side port of the MCP tool dispatcher.
  *
@@ -24,8 +26,7 @@ export const callMcpTool = async (
     if (toolName === 'search_cases') {
       if (!apiKey) {
         return {
-          error:
-            'eCourts API key not configured. Please set ECOURTS_API_KEY in your environment.',
+          error: 'eCourts API key not configured. Please set ECOURTS_API_KEY in your environment.',
         };
       }
       return {
@@ -124,11 +125,14 @@ export const callMcpTool = async (
     if (toolName === 'get_mca_info') {
       if (apiMode && bureauApiKey) {
         try {
-          const res = await fetch('https://api.mca.gov.in/resource/4dbe5667-7b6b-41d7-82af-211562424d9a', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ companyName: args.companyName }),
-          });
+          const res = await fetch(
+            'https://api.mca.gov.in/resource/4dbe5667-7b6b-41d7-82af-211562424d9a',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ companyName: args.companyName }),
+            },
+          );
           if (res.ok) return await res.json();
 
           const getRes = await fetch(

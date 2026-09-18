@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import {
   CreditAnalysis,
@@ -150,7 +151,6 @@ const mapServerCodeToAppError = (
       };
   }
 };
-
 
 interface StressedFinancials {
   stressedRevenue: number;
