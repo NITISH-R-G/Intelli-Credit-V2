@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable */
 import * as fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
@@ -14,16 +14,14 @@ function analyze(): void {
         '--image',
         'docs/architecture/dependency-graph.svg',
         'src/',
-      ]);
+      ], { encoding: 'utf-8' });
     } catch (e) {
       console.warn('madge --image failed. Ensure graphviz is installed.');
     }
 
     console.info('Running madge for knowledge graph (JSON)...');
     try {
-      const output = (
-        execFileSync('npx', ['--yes', 'madge', '--json', 'src/']) as unknown as Buffer
-      ).toString();
+      const output = execFileSync('npx', ['--yes', 'madge', '--json', 'src/'], { encoding: 'utf-8' }) as string;
       fs.writeFileSync('docs/architecture/knowledge-graph.json', output, 'utf8');
     } catch (e) {
       console.warn('madge --json failed.');
