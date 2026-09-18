@@ -1,0 +1,37 @@
+name: AI Continuous Improvement
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run daily
+  workflow_dispatch:
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+
+      - name: Setup Node.js
+        uses: actions/setup-node@db0fb3a98ed314b69026b6e8c9be26a7e2fe65a8
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run AI Improve
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run ai:improve
+
+      - name: Create Issue from Report
+        if: hashFiles('docs/history/ai-improvement-report.md') != ''
+        uses: peter-evans/create-issue-from-file@e73bcd7bab1f508c534cb06729318cabb9632a17
+        with:
+          title: 'Automated AI Repository Improvement Suggestions'
+          content-filepath: 'docs/history/ai-improvement-report.md'
+          labels: 'enhancement, ai-suggestion'
