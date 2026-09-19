@@ -15,7 +15,7 @@ function getFilesRecursively(dir: string, ext: string): string[] {
         results.push(filePath);
       }
     }
-  } catch (error) {
+  } catch {
     console.warn(`Could not read directory ${dir}`);
   }
   return results;
@@ -38,14 +38,15 @@ async function improveRepo(): Promise<void> {
   ].filter(f => fs.existsSync(f));
 
   // Randomly sample up to 10 files to avoid exceeding token limits
-  const sampledFiles = tsFiles.sort(() => 0.5 - Math.random()).slice(0, 10);
+  const crypto = await import('node:crypto');
+  const sampledFiles = tsFiles.sort(() => 0.5 - (crypto.randomBytes(1)[0] / 255)).slice(0, 10);
 
   let codeContext = '';
   for (const file of sampledFiles) {
       try {
           const content = fs.readFileSync(file, 'utf-8');
           codeContext += `\n--- File: ${file} ---\n${content}\n`;
-      } catch(e) {
+      } catch {
           console.warn(`Could not read file ${file}`);
       }
   }
@@ -74,8 +75,8 @@ ${codeContext}
     } else {
       console.warn('AI generated an empty report.');
     }
-  } catch (error) {
-    console.error('Error generating content with Gemini:', error);
+  } catch {
+    console.error('Error generating content with Gemini');
     process.exit(1);
   }
 }

@@ -14,12 +14,12 @@ async function triage(): Promise<void> {
     process.exit(1);
   }
 
-  let eventPayload: any;
+  let eventPayload: Record<string, any>;
   try {
     const eventData = fs.readFileSync(eventPath, 'utf-8');
     eventPayload = JSON.parse(eventData);
-  } catch (error) {
-    console.error('Failed to read or parse GITHUB_EVENT_PATH:', error);
+  } catch {
+    console.error('Failed to read or parse GITHUB_EVENT_PATH');
     process.exit(1);
   }
 
@@ -52,8 +52,8 @@ Issue Body: ${body}`;
         console.warn('AI generated an empty response.');
     }
 
-  } catch (error) {
-    console.error('Error generating content with Gemini:', error);
+  } catch {
+    console.error('Error generating content with Gemini');
     process.exit(1);
   }
 }

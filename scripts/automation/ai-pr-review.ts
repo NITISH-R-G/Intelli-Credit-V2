@@ -11,7 +11,7 @@ async function reviewPR(): Promise<void> {
   let prDiff: string;
   try {
     prDiff = fs.readFileSync('pr-diff.txt', 'utf-8');
-  } catch (error) {
+  } catch {
     console.warn('pr-diff.txt not found. Cannot perform PR review.');
     process.exit(0);
   }
@@ -44,8 +44,8 @@ ${prDiff}
     } else {
         console.warn('AI generated an empty response.');
     }
-  } catch (error) {
-    console.error('Error generating content with Gemini:', error);
+  } catch {
+    console.error('Error generating content with Gemini');
     process.exit(1);
   }
 }

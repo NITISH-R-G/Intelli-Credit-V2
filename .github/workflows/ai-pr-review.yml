@@ -29,11 +29,12 @@ jobs:
       - name: Fetch PR Diff
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.url }}
         run: >
           curl -s -L
           -H "Accept: application/vnd.github.v3.diff"
           -H "Authorization: Bearer ${GITHUB_TOKEN}"
-          ${{ github.event.pull_request.url }} > pr-diff.txt
+          "${PR_URL}" > pr-diff.txt
 
       - name: Run AI PR Review
         env:
