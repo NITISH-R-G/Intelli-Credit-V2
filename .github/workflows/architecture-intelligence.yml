@@ -1,0 +1,48 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'api/**'
+      - 'package.json'
+      - 'server.ts'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Graphviz
+        run: sudo apt-get install -y graphviz
+
+      - name: Generate Architecture Intelligence
+        run: npm run analyze:repo
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@153407881ce5f5b28cb37d288bde1ce6a5d487f9
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs: autonomously update architecture diagrams and knowledge graph"
+          title: "Autonomously updated architecture intelligence"
+          body: "This PR contains automatically generated updates to the repository architecture diagrams and knowledge graph."
+          branch: "auto-arch-update"
+          labels: "documentation,architecture"
