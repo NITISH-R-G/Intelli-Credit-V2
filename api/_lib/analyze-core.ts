@@ -102,8 +102,8 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const generateWithResilience = async (
   genAI: GoogleGenAI,
   model: string,
-  currentContents: any[],
-  config: any,
+  currentContents: unknown[],
+  config: unknown,
 ): Promise<any> => {
   let lastErr: unknown;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
@@ -141,7 +141,7 @@ const buildConfig = () => ({
   ],
   toolConfig: { includeServerSideToolInvocations: true },
   responseMimeType: 'application/json',
-  responseSchema: RESPONSE_SCHEMA as any,
+  responseSchema: RESPONSE_SCHEMA as unknown,
 });
 
 /**
@@ -149,8 +149,8 @@ const buildConfig = () => ({
  * array from already-base64-encoded file inputs (files never hit the model
  * directly — they are passed as `inlineData` parts or as inline text).
  */
-const buildContents = (files: AnalyzeInputFile[]): any[] => {
-  const contents: any[] = [];
+const buildContents = (files: AnalyzeInputFile[]): unknown[] => {
+  const contents: Record<string, unknown>[] = [];
 
   for (const f of files) {
     if (f.mimeType === 'application/pdf' || f.mimeType.startsWith('image/')) {
@@ -180,7 +180,8 @@ const buildContents = (files: AnalyzeInputFile[]): any[] => {
   }
 
   if (contents.length > 0) {
-    contents[contents.length - 1].parts.push({ text: EXTRACTION_PROMPT });
+    const lastContent = contents[contents.length - 1] as { parts: { text: string }[] };
+    lastContent.parts.push({ text: EXTRACTION_PROMPT });
   }
 
   return contents;
