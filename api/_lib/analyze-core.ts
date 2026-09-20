@@ -195,7 +195,7 @@ export const runAnalysis = async (
   files: AnalyzeInputFile[],
   apiMode: boolean,
   bureauApiKey: string,
-): Promise<any> => {
+): Promise<Record<string, unknown>> => {
   if (!files || files.length === 0) {
     throw new AnalysisError('NO_FILES', 'No files were provided for analysis.');
   }
