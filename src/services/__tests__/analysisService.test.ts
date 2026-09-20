@@ -286,67 +286,21 @@ describe('calculateDisplayAnalysis', () => {
   });
 
   describe('suggestedLoanAmount parsing', () => {
-    it('handles numeric loan amount', () => {
+    it.each([
+      ['numeric loan amount', '150000', 135000],
+      ['string loan amount without units', '150000', 135000],
+      ['string loan amount with "Cr" (Crores)', '2.5 Cr', 22500000],
+      ['string loan amount with "Lakh"', '15 Lakh', 1350000],
+      ['string loan amount as a range', '10-20 Lakhs', 900000],
+    ])('handles %s', (_, input, expectedNumber) => {
       const mock = getBaseMockAnalysis();
-      mock.suggestedLoanAmount = '150000';
+      mock.suggestedLoanAmount = input;
       const result = calculateDisplayAnalysis(mock, -20, 0);
-      // Using replace to remove narrow no-break space which might be added by toLocaleString in some environments
-      const formatted = result?.suggestedLoanAmount.replace(/\u202F/g, ' ');
-      const expected = (135000)
+      const formatted = result?.suggestedLoanAmount.replace(/\s|\u202F/g, '');
+      const expectedStr = expectedNumber
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
-        .replace(/\u202F/g, ' ');
-      expect(formatted).toBe(expected);
-    });
-
-    it('handles string loan amount without units', () => {
-      const mock = getBaseMockAnalysis();
-      mock.suggestedLoanAmount = '150000';
-      const result = calculateDisplayAnalysis(mock, -20, 0);
-      const formatted = result?.suggestedLoanAmount.replace(/\u202F/g, ' ');
-      const expected = (135000)
-        .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
-        .replace(/\u202F/g, ' ');
-      expect(formatted).toBe(expected);
-    });
-
-    it('handles string loan amount with "Cr" (Crores)', () => {
-      const mock = getBaseMockAnalysis();
-      mock.suggestedLoanAmount = '2.5 Cr';
-      // Need a shock to trigger recalculation, otherwise it just returns the original string
-      const result = calculateDisplayAnalysis(mock, -20, 0);
-      // Base: 2.5 * 10,000,000 = 25,000,000
-      // Shock: -20% -> 25,000,000 * (1 - 20/200) = 25,000,000 * 0.9 = 22,500,000
-      const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
-      const expected = (22500000)
-        .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
-        .replace(/\s/g, '');
-      expect(formatted).toBe(expected);
-    });
-
-    it('handles string loan amount with "Lakh"', () => {
-      const mock = getBaseMockAnalysis();
-      mock.suggestedLoanAmount = '15 Lakh';
-      const result = calculateDisplayAnalysis(mock, -20, 0);
-      // Base: 15 * 100,000 = 1,500,000
-      // Shock: -20% -> 1,500,000 * 0.9 = 1,350,000
-      const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
-      const expected = (1350000)
-        .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
-        .replace(/\s/g, '');
-      expect(formatted).toBe(expected);
-    });
-
-    it('handles string loan amount as a range', () => {
-      const mock = getBaseMockAnalysis();
-      mock.suggestedLoanAmount = '10-20 Lakhs';
-      const result = calculateDisplayAnalysis(mock, -20, 0);
-      // Base: 10 * 100,000 = 1,000,000
-      // Shock: -20% -> 1,000,000 * 0.9 = 900,000
-      const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
-      const expected = (900000)
-        .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
-        .replace(/\s/g, '');
-      expect(formatted).toBe(expected);
+        .replace(/\s|\u202F/g, '');
+      expect(formatted).toBe(expectedStr);
     });
 
     it('handles non-matching string gracefully', () => {
@@ -538,7 +492,13 @@ describe('performAnalysis', () => {
     // Complete CreditAnalysis shape — the server always returns one that
     // satisfies RESPONSE_SCHEMA, and calculateRiskAndFraud reads many fields.
     const serverAnalysis = {
-      companyInfo: { name: 'Co', establishedYear: 2020, industry: 'IT', registrationNumber: 'r', employees: '10' },
+      companyInfo: {
+        name: 'Co',
+        establishedYear: 2020,
+        industry: 'IT',
+        registrationNumber: 'r',
+        employees: '10',
+      },
       structuredData: {
         revenue: [{ year: '2023', value: 1000000 }],
         debt: [{ year: '2023', value: 100000 }],
@@ -549,7 +509,11 @@ describe('performAnalysis', () => {
       },
       verificationLayer: [],
       fraudDetection: [],
-      unstructuredInsights: { boardMeetingNotes: [], ratingAgencyReports: '', shareholdingPattern: '' },
+      unstructuredInsights: {
+        boardMeetingNotes: [],
+        ratingAgencyReports: '',
+        shareholdingPattern: '',
+      },
       externalIntelligence: { mcaStatus: 'Active', legalDisputes: [], newsSectorTrends: [] },
       primaryInsights: { siteVisitObservations: [], managementInterviews: [] },
       fiveCs: {
