@@ -43,7 +43,8 @@ async function improve(): Promise<void> {
     const otherFiles = allFiles.filter((f) => !coreFiles.includes(f));
 
     // Simple random sampling for non-core files to keep prompt manageable
-    const sampledOthers = otherFiles.sort(() => 0.5 - crypto.randomBytes(1)[0] / 255).slice(0, 10);
+    const sortedOthers = otherFiles.sort(() => 0.5 - crypto.randomBytes(1)[0] / 255);
+    const sampledOthers = sortedOthers.slice(0, 10);
     const selectedFiles = [...coreFiles, ...sampledOthers];
 
     let codeContext = '';

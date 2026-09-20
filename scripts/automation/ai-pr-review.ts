@@ -23,7 +23,7 @@ async function review(): Promise<void> {
 
   try {
     // Fetch PR diff using curl securely via execFileSync
-    execFileSync('curl', [
+    execFileSync('/usr/bin/curl', [
       '-s',
       '-H',
       `Authorization: Bearer ${githubToken}`,
