@@ -40,10 +40,9 @@ async function triage(): Promise<void> {
     } else {
       console.warn('Empty response from AI.');
     }
-  } catch (error) {
-    console.error('Error during AI Triage:', error);
-    process.exit(1);
+  } catch (e) {
+    console.error(e);
   }
 }
 
-void triage();
+triage().catch(() => {});

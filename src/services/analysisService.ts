@@ -245,11 +245,14 @@ const getRiskGradeAndRecommendation = (
 };
 
 const parseBaseLoanAmount = (analysis: CreditAnalysis): number => {
-  if (typeof analysis.suggestedLoanAmount === 'string') {
-    const numbers = analysis.suggestedLoanAmount.match(/\d+(\.\d+)?/g);
+  if (
+    typeof analysis.suggestedLoanAmount === 'string' ||
+    typeof analysis.suggestedLoanAmount === 'number'
+  ) {
+    const numbers = analysis.suggestedLoanAmount.toString().match(/\d+(\.\d+)?/g);
     if (numbers && numbers.length > 0) {
       let baseLoanAmount = parseFloat(numbers[0]);
-      const lowerStr = analysis.suggestedLoanAmount.toLowerCase();
+      const lowerStr = analysis.suggestedLoanAmount.toString().toLowerCase();
       if (lowerStr.includes('cr') || lowerStr.includes('crore')) baseLoanAmount *= 10000000;
       else if (lowerStr.includes('lakh')) baseLoanAmount *= 100000;
       return baseLoanAmount;

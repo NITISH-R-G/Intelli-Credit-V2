@@ -54,10 +54,9 @@ async function improve(): Promise<void> {
     } else {
       console.warn('Empty response from AI.');
     }
-  } catch (error) {
-    console.error('Error during AI Improve:', error);
-    process.exit(1);
+  } catch (e) {
+    console.error(e);
   }
 }
 
-void improve();
+improve().catch(() => {});

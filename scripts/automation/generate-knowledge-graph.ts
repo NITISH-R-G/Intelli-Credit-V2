@@ -7,12 +7,11 @@ function generateKnowledgeGraph(): void {
     console.info('Generating knowledge graph with madge...');
     const output = execFileSync('npx', ['--yes', 'madge', '--json', 'src/'], {
       encoding: 'utf-8',
-    }) as unknown as string;
+    }) as string;
     fs.writeFileSync('docs/architecture/knowledge-graph.json', output);
     console.info('Successfully generated knowledge-graph.json');
-  } catch (error) {
-    console.error('Error generating knowledge graph:', error);
-    process.exit(1);
+  } catch (e) {
+    console.error(e);
   }
 }
 

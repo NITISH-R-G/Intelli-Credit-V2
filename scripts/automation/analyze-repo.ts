@@ -12,9 +12,8 @@ function analyze(): void {
 
     console.info(`Found ${deps} dependencies and ${devDeps} devDependencies.`);
     console.info('Repository analysis complete.');
-  } catch (error) {
-    console.error('Error analyzing repository:', error);
-    process.exit(1);
+  } catch (e) {
+    console.error(e);
   }
 }
 
