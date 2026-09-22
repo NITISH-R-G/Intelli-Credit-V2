@@ -5,27 +5,29 @@ async function triage(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is missing. Skipping AI triage.');
-    process.exit(0);
+    return;
   }
 
   const eventPath = process.env.GITHUB_EVENT_PATH;
   if (!eventPath || !fs.existsSync(eventPath)) {
     console.error('GITHUB_EVENT_PATH is missing or invalid.');
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
-  let eventPayload: Record<string, any>;
+  let eventPayload: Record<string, unknown>;
   try {
-    eventPayload = JSON.parse(fs.readFileSync(eventPath, 'utf-8'));
+    eventPayload = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as Record<string, unknown>;
   } catch {
     console.error('Failed to parse event payload.');
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
-  const issue = eventPayload.issue;
+  const issue = eventPayload.issue as Record<string, unknown> | undefined;
   if (!issue) {
     console.warn('No issue found in event payload.');
-    process.exit(0);
+    return;
   }
 
   const ai = new GoogleGenAI({ apiKey });
@@ -34,9 +36,9 @@ async function triage(): Promise<void> {
 A new issue has been opened.
 Please provide a polite, helpful triage response. Acknowledge the issue, suggest potential first steps or areas in the codebase to look at if applicable, and assign appropriate labels in your mind (just tell them what kind of issue this seems to be). Keep it concise.
 
-Issue Title: ${issue.title}
+Issue Title: ${String(issue.title)}
 Issue Body:
-${issue.body}
+${String(issue.body)}
 `;
 
   try {
@@ -53,7 +55,8 @@ ${issue.body}
     }
   } catch (error) {
     console.error('Error generating AI response:', error);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 }
 
