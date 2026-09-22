@@ -193,8 +193,7 @@ export default async function handler(req: Request): Promise<Response> {
     console.error(`[/api/analyze:${requestId}]`, e?.stack ?? e);
 
     if (e instanceof AnalysisError) {
-      const status =
-        e.code === 'MISSING_API_KEY' || e.code === 'NO_FILES' ? 400 : 500;
+      const status = e.code === 'MISSING_API_KEY' || e.code === 'NO_FILES' ? 400 : 500;
       // `rawLogs` may carry reflected document content / env var names —
       // only forward it for client-side-fixable issues; otherwise omit.
       const safeRawLogs =
