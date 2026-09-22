@@ -23,7 +23,7 @@ async function improve(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is missing. Skipping AI improvement.');
-    process.exit(0);
+    return;
   }
 
   let contextFiles = '';
@@ -73,7 +73,8 @@ Detail your findings and recommend specific, actionable fixes or refactors.`;
     }
   } catch (error) {
     console.error('Error generating AI improvement report:', error);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 }
 

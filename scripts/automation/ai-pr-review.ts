@@ -22,13 +22,13 @@ async function reviewPR(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is missing. Skipping AI PR review.');
-    process.exit(0);
+    return;
   }
 
   const diffPath = 'pr-diff.txt';
   if (!fs.existsSync(diffPath)) {
     console.warn('pr-diff.txt not found. Skipping PR review.');
-    process.exit(0);
+    return;
   }
 
   let diffContent = '';
@@ -36,12 +36,13 @@ async function reviewPR(): Promise<void> {
     diffContent = fs.readFileSync(diffPath, 'utf-8');
   } catch {
     console.error('Failed to read pr-diff.txt');
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   if (!diffContent.trim()) {
     console.info('Empty diff. No review needed.');
-    process.exit(0);
+    return;
   }
 
   let contextFiles = '';
@@ -91,7 +92,8 @@ Provide a constructive, detailed review. If it looks perfect, say so. Format you
     }
   } catch (error) {
     console.error('Error generating AI PR review:', error);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 }
 
