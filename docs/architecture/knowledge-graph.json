@@ -1,0 +1,196 @@
+{
+  "api/_lib/__tests__/analyze-core.test.ts": [
+    "api/_lib/analyze-core.ts"
+  ],
+  "api/_lib/__tests__/limits.test.ts": [
+    "api/_lib/limits.ts"
+  ],
+  "api/_lib/__tests__/mcp-tools.test.ts": [
+    "api/_lib/mcp-tools.ts"
+  ],
+  "api/_lib/analyze-core.ts": [
+    "api/_lib/limits.ts",
+    "api/_lib/mcp-tools.ts",
+    "src/lib/gemini-config.ts"
+  ],
+  "api/_lib/limits.ts": [],
+  "api/_lib/mcp-tools.ts": [],
+  "api/analyze.ts": [
+    "api/_lib/analyze-core.ts",
+    "api/_lib/limits.ts"
+  ],
+  "src/App.tsx": [
+    "src/components/ActionRecommendation.tsx",
+    "src/components/CAMReport.tsx",
+    "src/components/CompanyProfile.tsx",
+    "src/components/DataIngestion.tsx",
+    "src/components/DecisionPanel.tsx",
+    "src/components/ErrorDisplay.tsx",
+    "src/components/FinancialMetrics.tsx",
+    "src/components/FiveCsAnalysis.tsx",
+    "src/components/FraudFlags.tsx",
+    "src/components/IndustryBenchmarking.tsx",
+    "src/components/IndustryBenchmarkingPanel.tsx",
+    "src/components/IntelligenceRow.tsx",
+    "src/components/LoanRecommendationPanel.tsx",
+    "src/components/RiskDimensions.tsx",
+    "src/components/RiskScorePanel.tsx",
+    "src/components/StressTestingModule.tsx",
+    "src/components/StressTestingPanel.tsx",
+    "src/components/VerificationEngine.tsx",
+    "src/constants.ts",
+    "src/lib/utils.ts",
+    "src/services/analysisService.ts",
+    "src/types.ts"
+  ],
+  "src/__tests__/App.test.tsx": [],
+  "src/components/ActionRecommendation.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/CAMReport.tsx": [
+    "src/lib/export.ts",
+    "src/types.ts"
+  ],
+  "src/components/CompanyProfile.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/DataIngestion.tsx": [],
+  "src/components/DecisionPanel.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/ErrorDisplay.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/FinancialMetrics.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/FiveCsAnalysis.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/FraudFlags.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/IndustryBenchmarking.tsx": [
+    "src/constants.ts",
+    "src/types.ts"
+  ],
+  "src/components/IndustryBenchmarkingPanel.tsx": [
+    "src/constants.ts",
+    "src/types.ts"
+  ],
+  "src/components/IntelligenceRow.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/LoanRecommendationPanel.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/RiskDimensions.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/RiskScorePanel.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/StressTestingModule.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/StressTestingPanel.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/VerificationEngine.tsx": [
+    "src/types.ts"
+  ],
+  "src/components/__tests__/ActionRecommendation.test.tsx": [
+    "src/components/ActionRecommendation.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/CAMReport.test.tsx": [
+    "src/components/CAMReport.tsx",
+    "src/lib/export.ts",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/CompanyProfile.test.tsx": [
+    "src/components/CompanyProfile.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/DataIngestion.test.tsx": [
+    "src/components/DataIngestion.tsx"
+  ],
+  "src/components/__tests__/DecisionPanel.test.tsx": [
+    "src/components/DecisionPanel.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/ErrorDisplay.test.tsx": [
+    "src/components/ErrorDisplay.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/FinancialMetrics.test.tsx": [
+    "src/components/FinancialMetrics.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/FiveCsAnalysis.test.tsx": [
+    "src/components/FiveCsAnalysis.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/FraudFlags.test.tsx": [
+    "src/components/FraudFlags.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/IndustryBenchmarking.test.tsx": [
+    "src/components/IndustryBenchmarking.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/IntelligenceRow.test.tsx": [
+    "src/components/IntelligenceRow.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/RiskDimensions.test.tsx": [
+    "src/components/RiskDimensions.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/RiskScorePanel.test.tsx": [
+    "src/components/RiskScorePanel.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/StressTestingModule.test.tsx": [
+    "src/components/StressTestingModule.tsx",
+    "src/types.ts"
+  ],
+  "src/components/__tests__/VerificationEngine.test.tsx": [
+    "src/components/VerificationEngine.tsx",
+    "src/types.ts"
+  ],
+  "src/constants.ts": [],
+  "src/index.css": [],
+  "src/lib/__tests__/export.test.ts": [
+    "src/lib/export.ts",
+    "src/types.ts"
+  ],
+  "src/lib/__tests__/file-utils.test.ts": [
+    "src/lib/file-utils.ts"
+  ],
+  "src/lib/export.ts": [
+    "src/types.ts"
+  ],
+  "src/lib/file-utils.ts": [],
+  "src/lib/gemini-config.ts": [],
+  "src/lib/utils.test.ts": [
+    "src/lib/utils.ts"
+  ],
+  "src/lib/utils.ts": [],
+  "src/main.tsx": [
+    "src/App.tsx",
+    "src/index.css"
+  ],
+  "src/services/__tests__/analysisService.test.ts": [
+    "src/lib/file-utils.ts",
+    "src/services/analysisService.ts",
+    "src/types.ts"
+  ],
+  "src/services/analysisService.ts": [
+    "src/constants.ts",
+    "src/lib/file-utils.ts",
+    "src/types.ts"
+  ],
+  "src/types.ts": [],
+  "src/vite-env.d.ts": []
+}
