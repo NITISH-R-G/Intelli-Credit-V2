@@ -14,10 +14,11 @@ async function triage() {
   }
 
   try {
-    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as Record<string, any>;
-    const issueTitle = eventData.issue?.title || 'Unknown Issue';
-    const issueBody = eventData.issue?.body || 'No description provided.';
-    const issueNumber = eventData.issue?.number;
+    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as Record<string, unknown>;
+    const issueTitle = (eventData.issue as Record<string, unknown>)?.title || 'Unknown Issue';
+    const issueBody =
+      (eventData.issue as Record<string, unknown>)?.body || 'No description provided.';
+    const issueNumber = (eventData.issue as Record<string, unknown>)?.number;
 
     if (!issueNumber) {
       console.warn('No issue number found in event payload.');

@@ -22,10 +22,11 @@ async function prReview() {
   }
 
   try {
-    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as Record<string, any>;
-    const prTitle = eventData.pull_request?.title || 'Unknown PR';
-    const prBody = eventData.pull_request?.body || 'No description provided.';
-    const prNumber = eventData.pull_request?.number;
+    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as Record<string, unknown>;
+    const prTitle = (eventData.pull_request as Record<string, unknown>)?.title || 'Unknown PR';
+    const prBody =
+      (eventData.pull_request as Record<string, unknown>)?.body || 'No description provided.';
+    const prNumber = (eventData.pull_request as Record<string, unknown>)?.number;
 
     if (!prNumber) {
       console.warn('No pull request number found in event payload.');

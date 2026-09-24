@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import { GoogleGenAI } from '@google/genai';
 import * as path from 'node:path';
+import * as crypto from 'node:crypto';
 
 function getAllFiles(dirPath: string, arrayOfFiles: string[] = []): string[] {
   const files = fs.readdirSync(dirPath);
@@ -31,7 +32,7 @@ async function analyzeRepo() {
 
     const allFiles = [...srcFiles, ...apiFiles];
     // Sample to avoid hitting token limits
-    const sampledFiles = allFiles.sort(() => 0.5 - Math.random()).slice(0, 5);
+    const sampledFiles = allFiles.sort(() => 0.5 - crypto.randomBytes(1)[0] / 255).slice(0, 5);
 
     let codebaseContext = '';
     for (const file of sampledFiles) {
