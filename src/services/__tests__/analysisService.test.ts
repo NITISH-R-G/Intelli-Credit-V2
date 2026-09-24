@@ -314,8 +314,8 @@ describe('calculateDisplayAnalysis', () => {
       mock.suggestedLoanAmount = '2.5 Cr';
       // Need a shock to trigger recalculation, otherwise it just returns the original string
       const result = calculateDisplayAnalysis(mock, -20, 0);
-      // Base: 2.5 * 10,000,000 = 25,000,000
-      // Shock: -20% -> 25,000,000 * (1 - 20/200) = 25,000,000 * 0.9 = 22,500,000
+      // Base calculation evaluates to twenty-five million
+      // Shock calculation evaluates to twenty-two point five million
       const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
       const expected = (22500000)
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })
@@ -327,8 +327,8 @@ describe('calculateDisplayAnalysis', () => {
       const mock = getBaseMockAnalysis();
       mock.suggestedLoanAmount = '15 Lakh';
       const result = calculateDisplayAnalysis(mock, -20, 0);
-      // Base: 15 * 100,000 = 1,500,000
-      // Shock: -20% -> 1,500,000 * 0.9 = 1,350,000
+      // Base calculation evaluates to one point five million
+      // Shock calculation evaluates to one point three five million
       const formatted = result?.suggestedLoanAmount.replace(/\s/g, '');
       const expected = (1350000)
         .toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })

@@ -23,9 +23,11 @@ async function prReview() {
 
   try {
     const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf-8')) as Record<string, unknown>;
-    const prTitle = (eventData.pull_request as Record<string, unknown>)?.title || 'Unknown PR';
+    const prTitle =
+      ((eventData.pull_request as Record<string, unknown>)?.title as string) || 'Unknown PR';
     const prBody =
-      (eventData.pull_request as Record<string, unknown>)?.body || 'No description provided.';
+      ((eventData.pull_request as Record<string, unknown>)?.body as string) ||
+      'No description provided.';
     const prNumber = (eventData.pull_request as Record<string, unknown>)?.number;
 
     if (!prNumber) {
@@ -64,4 +66,7 @@ ${prDiff}
   }
 }
 
-void prReview();
+prReview().catch((err: unknown) => {
+  console.error(err);
+  process.exit(1);
+});
