@@ -16,15 +16,21 @@ async function reviewPR(): Promise<void> {
   }
 
   try {
-    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8')) as Record<string, unknown>;
-    const pr = eventData.pull_request as Record<string, unknown> | undefined;
+    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8')) as {
+      pull_request?: { url?: string };
+    };
+    const pr = eventData.pull_request;
 
     if (!pr || !pr.url) {
       console.warn('No pull request URL found in event payload.');
       return;
     }
 
-    const prUrl = pr.url as string;
+    const prUrl = String(pr.url);
+    if (!prUrl.startsWith('https://api.github.com/repos/')) {
+      console.error('Invalid PR URL.');
+      return;
+    }
     const githubToken = process.env.GITHUB_TOKEN;
 
     if (!githubToken) {
@@ -72,8 +78,11 @@ Provide constructive feedback and recommendations in Markdown format.`;
     const aiResponse = response.text || 'Unable to generate review at this time.';
     fs.writeFileSync('pr-comment.txt', aiResponse);
     console.info('Successfully generated PR review comment.');
-  } catch {
-    console.error('Error during AI PR review processing.');
+  } catch (error) {
+    console.error(
+      'Error during AI PR review processing:',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   }
 }

@@ -21,8 +21,11 @@ function generateDiagrams(): void {
     const args = ['--yes', 'madge', '--image', outPath, ...existingTargets];
     execFileSync('npx', args, { stdio: 'inherit' });
     console.info(`Successfully generated dependency graph at ${outPath}`);
-  } catch {
-    console.error('Failed to generate dependency graph with madge.');
+  } catch (error) {
+    console.error(
+      'Failed to generate dependency graph with madge:',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   }
 }

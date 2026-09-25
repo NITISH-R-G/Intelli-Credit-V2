@@ -15,16 +15,18 @@ async function triage(): Promise<void> {
   }
 
   try {
-    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8')) as Record<string, unknown>;
-    const issue = eventData.issue as Record<string, unknown> | undefined;
+    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8')) as {
+      issue?: { title?: string; body?: string };
+    };
+    const issue = eventData.issue;
 
     if (!issue) {
       console.warn('No issue found in event payload.');
       return;
     }
 
-    const issueTitle = issue.title as string;
-    const issueBody = issue.body as string;
+    const issueTitle = String(issue.title);
+    const issueBody = String(issue.body);
 
     const ai = new GoogleGenAI({ apiKey });
 
@@ -44,8 +46,11 @@ Provide a brief, actionable response welcoming the contributor, summarizing the 
 
     fs.writeFileSync('triage-comment.txt', aiResponse);
     console.info('Successfully generated triage comment.');
-  } catch {
-    console.error('Error during AI triage processing.');
+  } catch (error) {
+    console.error(
+      'Error during AI triage processing:',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   }
 }

@@ -81,8 +81,11 @@ ${codeContext}`;
 
     fs.writeFileSync(outPath, finalOutput);
     console.info(`Successfully generated AI improvement report at ${outPath}`);
-  } catch {
-    console.error('Error during AI improve processing.');
+  } catch (error) {
+    console.error(
+      'Error during AI improve processing:',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   }
 }

@@ -23,8 +23,11 @@ function generateKnowledgeGraph(): void {
     const outPath = path.join(outDir, 'knowledge-graph.json');
     fs.writeFileSync(outPath, jsonOutput);
     console.info(`Successfully generated knowledge graph at ${outPath}`);
-  } catch {
-    console.error('Failed to generate knowledge graph with madge.');
+  } catch (error) {
+    console.error(
+      'Failed to generate knowledge graph with madge:',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   }
 }
