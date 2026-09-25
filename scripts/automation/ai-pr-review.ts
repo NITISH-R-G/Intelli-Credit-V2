@@ -1,18 +1,17 @@
 import * as fs from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import { GoogleGenAI } from '@google/genai';
 
 async function reviewPR(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is not set. Exiting ai-pr-review gracefully.');
-    process.exit(0);
+    return;
   }
 
   const eventPath = process.env.GITHUB_EVENT_PATH;
   if (!eventPath || !fs.existsSync(eventPath)) {
     console.error('GITHUB_EVENT_PATH is missing or invalid.');
-    process.exit(0);
+    return;
   }
 
   try {
@@ -35,20 +34,27 @@ async function reviewPR(): Promise<void> {
 
     if (!githubToken) {
       console.warn('GITHUB_TOKEN is not set. Exiting ai-pr-review gracefully.');
-      process.exit(0);
+      return;
     }
 
     // Fetch PR diff directly from GitHub API using curl
+
     console.info('Fetching PR diff from GitHub API...');
-    const diffBuffer = execFileSync('curl', [
-      '-s',
-      '-H',
-      `Authorization: Bearer ${githubToken}`,
-      '-H',
-      'Accept: application/vnd.github.v3.diff',
-      prUrl,
-    ]);
-    const diffText = diffBuffer.toString('utf-8');
+    const diffResponse = await fetch(prUrl, {
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        Accept: 'application/vnd.github.v3.diff',
+      },
+    });
+
+    if (!diffResponse.ok) {
+      console.warn('Failed to fetch diff: ', diffResponse.statusText);
+      fs.writeFileSync('pr-comment.txt', 'The pull request diff could not be retrieved.');
+      return;
+    }
+
+    const diffText = await diffResponse.text();
+
 
     if (!diffText) {
       console.warn('Failed to fetch diff or diff is empty.');
@@ -83,7 +89,7 @@ Provide constructive feedback and recommendations in Markdown format.`;
       'Error during AI PR review processing:',
       error instanceof Error ? error.message : String(error),
     );
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 

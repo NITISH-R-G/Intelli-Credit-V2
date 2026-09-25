@@ -26,7 +26,7 @@ async function improve(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is not set. Exiting ai-improve gracefully.');
-    process.exit(0);
+    return;
   }
 
   try {
@@ -86,7 +86,7 @@ ${codeContext}`;
       'Error during AI improve processing:',
       error instanceof Error ? error.message : String(error),
     );
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 

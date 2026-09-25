@@ -5,13 +5,13 @@ async function triage(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is not set. Exiting ai-triage gracefully.');
-    process.exit(0);
+    return;
   }
 
   const eventPath = process.env.GITHUB_EVENT_PATH;
   if (!eventPath || !fs.existsSync(eventPath)) {
     console.error('GITHUB_EVENT_PATH is missing or invalid.');
-    process.exit(0);
+    return;
   }
 
   try {
@@ -51,7 +51,7 @@ Provide a brief, actionable response welcoming the contributor, summarizing the 
       'Error during AI triage processing:',
       error instanceof Error ? error.message : String(error),
     );
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 
