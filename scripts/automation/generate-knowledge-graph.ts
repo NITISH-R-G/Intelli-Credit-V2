@@ -18,13 +18,13 @@ function generateKnowledgeGraph(): void {
   try {
     const args = ['--yes', 'madge', '--json', ...existingTargets];
     // Madge prints JSON to stdout when --json is used.
-    const jsonOutput = execFileSync('npx', args, { encoding: 'utf-8' }) as string;
+    const jsonOutput = (execFileSync('npx', args) as unknown as Buffer).toString();
 
     const outPath = path.join(outDir, 'knowledge-graph.json');
     fs.writeFileSync(outPath, jsonOutput);
     console.info(`Successfully generated knowledge graph at ${outPath}`);
-  } catch (error) {
-    console.error('Failed to generate knowledge graph with madge:', error);
+  } catch {
+    console.error('Failed to generate knowledge graph with madge.');
     process.exit(1);
   }
 }

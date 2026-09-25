@@ -44,8 +44,8 @@ Provide a brief, actionable response welcoming the contributor, summarizing the 
 
     fs.writeFileSync('triage-comment.txt', aiResponse);
     console.info('Successfully generated triage comment.');
-  } catch (error) {
-    console.error('Error during AI triage processing:', error);
+  } catch {
+    console.error('Error during AI triage processing.');
     process.exit(1);
   }
 }

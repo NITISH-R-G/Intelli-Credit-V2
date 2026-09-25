@@ -72,8 +72,8 @@ Provide constructive feedback and recommendations in Markdown format.`;
     const aiResponse = response.text || 'Unable to generate review at this time.';
     fs.writeFileSync('pr-comment.txt', aiResponse);
     console.info('Successfully generated PR review comment.');
-  } catch (error) {
-    console.error('Error during AI PR review processing:', error);
+  } catch {
+    console.error('Error during AI PR review processing.');
     process.exit(1);
   }
 }

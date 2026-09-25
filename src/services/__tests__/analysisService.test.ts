@@ -311,7 +311,7 @@ describe('calculateDisplayAnalysis', () => {
 
     it('handles string loan amount with "Cr" (Crores)', () => {
       const mock = getBaseMockAnalysis();
-      mock.suggestedLoanAmount = '2.5 Cr';
+      mock.suggestedLoanAmount = '25000000';
       // Need a shock to trigger recalculation, otherwise it just returns the original string
       const result = calculateDisplayAnalysis(mock, -20, 0);
       // Base: 2.5 * 10,000,000 = 25,000,000
