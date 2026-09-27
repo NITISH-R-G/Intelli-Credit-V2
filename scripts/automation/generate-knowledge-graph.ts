@@ -13,16 +13,14 @@ function generateKnowledgeGraph(): void {
     fs.mkdirSync('docs/architecture', { recursive: true });
 
     // Ensure we use npx --yes to prevent prompts, and explicitly cast output to string
-    const output = execFileSync(
-      'npx',
-      ['--yes', 'madge', '--json', ...targetDirs],
-      { encoding: 'utf-8' }
-    ) as string;
+    const output = execFileSync('npx', ['--yes', 'madge', '--json', ...targetDirs], {
+      encoding: 'utf-8',
+    }) as string;
 
     fs.writeFileSync('docs/architecture/knowledge-graph.json', output, 'utf-8');
     console.info('Knowledge graph saved to docs/architecture/knowledge-graph.json');
-  } catch (error) {
-    console.error('Failed to generate knowledge graph', error);
+  } catch {
+    console.error('Failed to generate knowledge graph');
     process.exit(1);
   }
 }

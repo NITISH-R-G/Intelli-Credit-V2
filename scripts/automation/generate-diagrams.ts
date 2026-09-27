@@ -16,12 +16,12 @@ function generateDiagrams(): void {
     execFileSync(
       'npx',
       ['--yes', 'madge', '--image', 'docs/architecture/dependency-graph.svg', ...targetDirs],
-      { stdio: 'inherit' }
+      { stdio: 'inherit' },
     );
 
     console.info('Diagrams saved to docs/architecture/');
-  } catch (error) {
-    console.error('Failed to generate diagrams', error);
+  } catch {
+    console.error('Failed to generate diagrams');
     process.exit(1);
   }
 }

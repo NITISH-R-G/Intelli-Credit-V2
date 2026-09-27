@@ -18,8 +18,8 @@ async function triage(): Promise<void> {
   try {
     const rawData = fs.readFileSync(eventPath, 'utf8');
     eventData = JSON.parse(rawData) as Record<string, unknown>;
-  } catch (error) {
-    console.error('Failed to read or parse event data', error);
+  } catch {
+    console.error('Failed to read or parse event data');
     process.exit(1);
   }
 
@@ -51,11 +51,11 @@ ${body}
     });
 
     if (response.text) {
-        fs.writeFileSync('triage-comment.txt', response.text, 'utf8');
-        console.info('Triage comment written to triage-comment.txt');
+      fs.writeFileSync('triage-comment.txt', response.text, 'utf8');
+      console.info('Triage comment written to triage-comment.txt');
     }
-  } catch (error) {
-    console.error('Failed to generate AI content', error);
+  } catch {
+    console.error('Failed to generate AI content');
     process.exit(1);
   }
 }

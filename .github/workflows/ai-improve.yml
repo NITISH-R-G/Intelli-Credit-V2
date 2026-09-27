@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Dependencies
@@ -34,6 +34,6 @@ jobs:
         if: hashFiles('docs/history/ai-improvement-report.md') != ''
         uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd # v5
         with:
-          title: "AI Continuous Improvement Report"
+          title: 'AI Continuous Improvement Report'
           content-filepath: docs/history/ai-improvement-report.md
           labels: ai-enhancement, automation

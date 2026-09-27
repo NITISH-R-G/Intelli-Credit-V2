@@ -44,7 +44,9 @@ async function improve(): Promise<void> {
 
   // Prioritize some core files if they exist
   const coreFiles = allTargetFiles.filter((f) => f.includes('server.ts') || f.includes('App.tsx'));
-  const otherFiles = allTargetFiles.filter((f) => !f.includes('server.ts') && !f.includes('App.tsx'));
+  const otherFiles = allTargetFiles.filter(
+    (f) => !f.includes('server.ts') && !f.includes('App.tsx'),
+  );
 
   // Randomly sample to avoid context limits
   const sampledOtherFiles = otherFiles.sort(() => secureRandom() - 0.5).slice(0, 5);
@@ -52,11 +54,13 @@ async function improve(): Promise<void> {
 
   let codebaseContext = '';
   for (const file of filesToAnalyze) {
-    try {
-      const content = fs.readFileSync(file, 'utf8');
-      codebaseContext += `\n--- File: ${file} ---\n${content}\n`;
-    } catch {
-      console.warn(`Could not read file: ${file}`);
+    if (fs.existsSync(file)) {
+      try {
+        const content = fs.readFileSync(file, 'utf8');
+        codebaseContext += `\n--- File: ${file} ---\n${content}\n`;
+      } catch {
+        console.warn(`Could not read file: ${file}`);
+      }
     }
   }
 
@@ -87,12 +91,12 @@ ${codebaseContext}
     });
 
     if (response.text) {
-        fs.mkdirSync('docs/history', { recursive: true });
-        fs.writeFileSync('docs/history/ai-improvement-report.md', response.text, 'utf8');
-        console.info('Improvement report written to docs/history/ai-improvement-report.md');
+      fs.mkdirSync('docs/history', { recursive: true });
+      fs.writeFileSync('docs/history/ai-improvement-report.md', response.text, 'utf8');
+      console.info('Improvement report written to docs/history/ai-improvement-report.md');
     }
-  } catch (error) {
-    console.error('Failed to generate AI improvement report', error);
+  } catch {
+    console.error('Failed to generate AI improvement report');
     process.exit(1);
   }
 }

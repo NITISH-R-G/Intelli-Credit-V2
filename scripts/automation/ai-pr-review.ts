@@ -47,11 +47,11 @@ ${prDiff}
     });
 
     if (response.text) {
-        fs.writeFileSync('pr-comment.txt', response.text, 'utf8');
-        console.info('PR review comment written to pr-comment.txt');
+      fs.writeFileSync('pr-comment.txt', response.text, 'utf8');
+      console.info('PR review comment written to pr-comment.txt');
     }
-  } catch (error) {
-    console.error('Failed to generate AI PR review', error);
+  } catch {
+    console.error('Failed to generate AI PR review');
     process.exit(1);
   }
 }

@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install System Dependencies
@@ -39,8 +39,8 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c # v6
         with:
-          commit-message: "docs(architecture): Update knowledge graph and diagrams"
-          title: "docs(architecture): Automated Architecture Update"
-          body: "This PR automatically updates the repository architecture diagrams and knowledge graph based on recent changes."
-          branch: "automated-architecture-update"
-          base: "main"
+          commit-message: 'docs(architecture): Update knowledge graph and diagrams'
+          title: 'docs(architecture): Automated Architecture Update'
+          body: 'This PR automatically updates the repository architecture diagrams and knowledge graph based on recent changes.'
+          branch: 'automated-architecture-update'
+          base: 'main'
