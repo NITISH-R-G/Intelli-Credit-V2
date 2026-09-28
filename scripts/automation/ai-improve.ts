@@ -35,7 +35,7 @@ async function improve(): Promise<void> {
   const sampleSize = 3;
   const sampled = [...coreFiles];
   for (let i = 0; i < sampleSize && otherFiles.length > 0; i++) {
-    const idx = crypto.randomBytes(1)[0] % otherFiles.length;
+    const idx = Math.floor((crypto.randomBytes(1)[0] / 255) * otherFiles.length); if (idx >= otherFiles.length) continue;
     sampled.push(otherFiles.splice(idx, 1)[0]);
   }
 
@@ -73,4 +73,4 @@ ${codeContext}`;
   }
 }
 
-void improve();
+improve().catch(console.error);
