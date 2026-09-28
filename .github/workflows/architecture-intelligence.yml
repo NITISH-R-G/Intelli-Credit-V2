@@ -1,0 +1,43 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/architecture/**'
+  workflow_dispatch:
+
+jobs:
+  generate-architecture:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - run: npm ci --ignore-scripts
+
+      - name: Ensure Architecture Directory Exists
+        run: mkdir -p docs/architecture
+
+      - name: Generate Diagrams and Knowledge Graph
+        run: npm run analyze:repo
+
+      - name: Create Pull Request for Architecture Updates
+        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f
+        with:
+          commit-message: 'docs: autonomous architecture intelligence update'
+          title: 'Automated Architecture Diagrams & Knowledge Graph Update'
+          body: 'This PR was automatically generated to update architecture diagrams and knowledge graphs.'
+          branch: 'auto/architecture-update'
