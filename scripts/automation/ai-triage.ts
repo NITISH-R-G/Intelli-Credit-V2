@@ -49,4 +49,4 @@ Issue Body: ${issueBody}`;
   }
 }
 
-triage().catch(console.error);
+void triage();

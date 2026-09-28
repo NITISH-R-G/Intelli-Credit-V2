@@ -73,4 +73,4 @@ ${codeContext}`;
   }
 }
 
-improve().catch(console.error);
+void improve();

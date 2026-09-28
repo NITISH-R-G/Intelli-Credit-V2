@@ -50,4 +50,4 @@ ${diff}`;
   }
 }
 
-reviewPR().catch(console.error);
+void reviewPR();
