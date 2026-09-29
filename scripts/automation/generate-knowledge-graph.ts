@@ -20,7 +20,7 @@ function generateKnowledgeGraph(): void {
     console.info('Successfully generated knowledge graph.');
   } catch (error) {
     console.error('Failed to generate knowledge graph:', error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 

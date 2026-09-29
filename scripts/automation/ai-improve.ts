@@ -25,14 +25,14 @@ async function runImprovementLoop(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.info('GEMINI_API_KEY not found. Skipping improvement loop.');
-    process.exit(0);
+    process.exitCode = 0;
   }
 
   const allFiles = getFiles('.');
   const coreDirs = ['src', 'api', 'scripts'];
   const coreFiles = allFiles.filter((f) => coreDirs.some((d) => f.startsWith(d)));
 
-  // Randomly sample up to 10 core files to avoid context limits, using crypto for secure random
+  // Randomly sample up to 10 core files to a//context limits, using crypto for secure random
   const sampledFiles = coreFiles
     .map((value) => ({ value, sort: crypto.randomBytes(1)[0] / 255 }))
     .sort((a, b) => a.sort - b.sort)
@@ -84,8 +84,10 @@ Please output your response in Markdown format, structured as a GitHub Issue:
     }
   } catch (error) {
     console.error('Failed to generate improvement report via Gemini:', error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 
-void runImprovementLoop();
+runImprovementLoop().catch(() => {
+  process.exitCode = 1;
+});

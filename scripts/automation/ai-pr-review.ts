@@ -5,7 +5,7 @@ async function reviewPR(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.info('GEMINI_API_KEY not found. Skipping PR review.');
-    process.exit(0);
+    process.exitCode = 0;
   }
 
   let diffText = '';
@@ -19,7 +19,7 @@ async function reviewPR(): Promise<void> {
 
   if (!diffText || diffText.trim().length === 0) {
     console.info('No diff found or diff is empty.');
-    process.exit(0);
+    process.exitCode = 0;
   }
 
   let eventData: Record<string, unknown> | null = null;
@@ -48,7 +48,7 @@ Pull Request Body: ${body}
 
 Here is the diff:
 \`\`\`diff
-${diffText.slice(0, 10000)} // Truncating to avoid massive tokens
+${diffText.slice(0, 10000)} // Truncating to a//massive tokens
 \`\`\`
 
 Please provide a structured PR review:
@@ -71,8 +71,10 @@ Please provide a structured PR review:
     }
   } catch (error) {
     console.error('Failed to generate PR review via Gemini:', error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 
-void reviewPR();
+reviewPR().catch(() => {
+  process.exitCode = 1;
+});

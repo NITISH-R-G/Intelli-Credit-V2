@@ -5,13 +5,13 @@ async function triage(): Promise<void> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.info('GEMINI_API_KEY not found. Skipping triage.');
-    process.exit(0);
+    process.exitCode = 0;
   }
 
   const eventPath = process.env.GITHUB_EVENT_PATH;
   if (!eventPath) {
     console.error('GITHUB_EVENT_PATH not found.');
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   let eventData: Record<string, unknown>;
@@ -20,13 +20,13 @@ async function triage(): Promise<void> {
     eventData = JSON.parse(rawData);
   } catch (error) {
     console.error('Failed to read GITHUB_EVENT_PATH', error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   const issue = eventData.issue as Record<string, unknown> | undefined;
   if (!issue) {
     console.error('No issue data found in event.');
-    process.exit(0);
+    process.exitCode = 0;
   }
 
   const title = (issue.title as string) || '';
@@ -57,8 +57,10 @@ Please provide a helpful, professional, and detailed comment to welcome the user
     }
   } catch (error) {
     console.error('Failed to generate triage comment via Gemini:', error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 
-void triage();
+triage().catch(() => {
+  process.exitCode = 1;
+});

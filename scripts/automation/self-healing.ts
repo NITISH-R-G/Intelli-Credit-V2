@@ -8,7 +8,7 @@ function selfHeal(): void {
     console.info('Self-healing complete:\n', output);
   } catch (error) {
     console.error('Self-healing encountered an issue:', error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 

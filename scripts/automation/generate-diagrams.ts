@@ -18,7 +18,7 @@ function generateDiagrams(): void {
     console.info('Successfully generated diagram:', output);
   } catch (error) {
     console.error('Failed to generate diagrams:', error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 

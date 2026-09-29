@@ -14,4 +14,6 @@ async function analyzeRepo(): Promise<void> {
   console.info('Repository analysis complete.');
 }
 
-void analyzeRepo();
+analyzeRepo().catch(() => {
+  process.exitCode = 1;
+});
