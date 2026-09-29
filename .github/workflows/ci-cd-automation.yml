@@ -15,10 +15,10 @@ jobs:
         node-version: [20.x, 22.x]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v4
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@7f84f1d52d0c56afb45c62fee31a93b843cea4d6 # v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
