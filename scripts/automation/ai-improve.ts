@@ -15,7 +15,12 @@ function getRandomFiles(dir: string, filelist: string[] = [], numFiles = 5): str
   }
   // Shuffle array and pick `numFiles` random items
   for (let i = filelist.length - 1; i > 0; i--) {
-    const j = crypto.randomBytes(1)[0] % (i + 1);
+    const max = 256 - (256 % (i + 1));
+    let r;
+    do {
+      r = crypto.randomBytes(1)[0];
+    } while (r >= max);
+    const j = r % (i + 1);
     [filelist[i], filelist[j]] = [filelist[j], filelist[i]];
   }
   return filelist.slice(0, numFiles);
