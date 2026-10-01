@@ -151,7 +151,6 @@ const mapServerCodeToAppError = (
   }
 };
 
-
 interface StressedFinancials {
   stressedRevenue: number;
   stressedProfit: number;
@@ -715,8 +714,10 @@ export const performAnalysis = async (
       );
     }
 
-    const { analysis: parsedData } = (await response.json()) as { analysis: any };
-    const result = calculateRiskAndFraud(parsedData);
+    const { analysis: parsedData } = (await response.json()) as {
+      analysis: Record<string, unknown>;
+    };
+    const result = calculateRiskAndFraud(parsedData as unknown as CreditAnalysis);
 
     fileCache.current.set(combinedHash, result);
     setAnalysis(result);

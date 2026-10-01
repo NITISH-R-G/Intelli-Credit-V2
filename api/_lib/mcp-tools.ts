@@ -11,7 +11,7 @@
  */
 export const callMcpTool = async (
   toolName: string,
-  args: any,
+  args: Record<string, unknown>,
   apiMode: boolean,
   bureauApiKey: string,
 ) => {
@@ -24,8 +24,7 @@ export const callMcpTool = async (
     if (toolName === 'search_cases') {
       if (!apiKey) {
         return {
-          error:
-            'eCourts API key not configured. Please set ECOURTS_API_KEY in your environment.',
+          error: 'eCourts API key not configured. Please set ECOURTS_API_KEY in your environment.',
         };
       }
       return {
@@ -63,7 +62,7 @@ export const callMcpTool = async (
             };
           }
           return await response.json();
-        } catch (error) {
+        } catch {
           return {
             error: 'Network error: Failed to reach the Bureau API endpoint. Check your connection.',
           };
@@ -100,7 +99,7 @@ export const callMcpTool = async (
             };
           }
           return await response.json();
-        } catch (error) {
+        } catch {
           return {
             error: 'Network error: Failed to reach the LTV Calculation API. Check your connection.',
           };
@@ -112,9 +111,9 @@ export const callMcpTool = async (
           Machinery: 0.5,
           Inventory: 0.4,
         };
-        const ratio = ltvRatios[args.assetType] || 0.5;
+        const ratio = ltvRatios[args.assetType as string] || 0.5;
         return {
-          estimatedValue: args.marketValue * ratio,
+          estimatedValue: (args.marketValue as number) * ratio,
           ltvRatio: ratio,
           remarks: `Standard LTV applied for ${args.assetType}.`,
         };
@@ -124,11 +123,14 @@ export const callMcpTool = async (
     if (toolName === 'get_mca_info') {
       if (apiMode && bureauApiKey) {
         try {
-          const res = await fetch('https://api.mca.gov.in/resource/4dbe5667-7b6b-41d7-82af-211562424d9a', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ companyName: args.companyName }),
-          });
+          const res = await fetch(
+            'https://api.mca.gov.in/resource/4dbe5667-7b6b-41d7-82af-211562424d9a',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ companyName: args.companyName }),
+            },
+          );
           if (res.ok) return await res.json();
 
           const getRes = await fetch(
@@ -137,7 +139,7 @@ export const callMcpTool = async (
           if (getRes.ok) return await getRes.json();
 
           return { error: `MCA API returned status ${getRes.status}` };
-        } catch (e) {
+        } catch {
           return { error: 'Failed to fetch MCA info from API' };
         }
       } else {
@@ -155,7 +157,7 @@ export const callMcpTool = async (
     }
 
     return { error: 'Unknown tool' };
-  } catch (error) {
+  } catch {
     return { error: 'Tool execution failed' };
   }
 };
