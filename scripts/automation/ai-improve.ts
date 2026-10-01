@@ -60,8 +60,11 @@ async function improve() {
     fs.mkdirSync('docs/history', { recursive: true });
     fs.writeFileSync('docs/history/ai-improvement-report.md', response.text || '');
     console.info('AI improvement report generated successfully.');
-  } catch (error) {
-    console.error('Error calling Gemini API for ai-improve', error);
+  } catch (error: unknown) {
+    console.error(
+      'Error calling Gemini API for ai-improve',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   }
 }

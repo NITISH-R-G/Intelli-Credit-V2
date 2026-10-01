@@ -104,6 +104,7 @@ const generateWithResilience = async (
   model: string,
   currentContents: Record<string, unknown>[],
   config: Record<string, unknown>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> => {
   let lastErr: unknown;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
@@ -180,7 +181,10 @@ const buildContents = (files: AnalyzeInputFile[]): Record<string, unknown>[] => 
   }
 
   if (contents.length > 0) {
-    (contents[contents.length - 1] as any).parts.push({ text: EXTRACTION_PROMPT });
+    const lastContent = contents[contents.length - 1];
+    if (lastContent && Array.isArray(lastContent.parts)) {
+      lastContent.parts.push({ text: EXTRACTION_PROMPT });
+    }
   }
 
   return contents;

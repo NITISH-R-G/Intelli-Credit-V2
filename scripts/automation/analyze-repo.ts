@@ -16,8 +16,11 @@ function analyze() {
       'src',
     ]);
     console.info('Dependency graph generated.');
-  } catch (error) {
-    console.error('Error generating dependency graph:', error);
+  } catch (error: unknown) {
+    console.error(
+      'Error generating dependency graph:',
+      error instanceof Error ? error.message : String(error),
+    );
   }
 
   try {
@@ -30,8 +33,11 @@ function analyze() {
 
     fs.writeFileSync('docs/architecture/knowledge-graph.json', output);
     console.info('Knowledge graph generated.');
-  } catch (error) {
-    console.error('Error generating knowledge graph:', error);
+  } catch (error: unknown) {
+    console.error(
+      'Error generating knowledge graph:',
+      error instanceof Error ? error.message : String(error),
+    );
   }
 }
 

@@ -34,8 +34,11 @@ async function review() {
 
     fs.writeFileSync('pr-comment.txt', response.text || '');
     console.info('PR review comment generated successfully.');
-  } catch (error) {
-    console.error('Error calling Gemini API for PR review', error);
+  } catch (error: unknown) {
+    console.error(
+      'Error calling Gemini API for PR review',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   }
 }

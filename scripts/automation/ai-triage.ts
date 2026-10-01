@@ -39,8 +39,11 @@ async function triage() {
 
     fs.writeFileSync('triage-comment.txt', response.text || '');
     console.info('Triage comment generated successfully.');
-  } catch (error) {
-    console.error('Error calling Gemini API for triage', error);
+  } catch (error: unknown) {
+    console.error(
+      'Error calling Gemini API for triage',
+      error instanceof Error ? error.message : String(error),
+    );
     process.exit(1);
   }
 }
