@@ -7,9 +7,8 @@ import {
 import { CreditAnalysis } from '../../types';
 import * as fileUtils from '../../lib/file-utils';
 
-describe('calculateRiskAndFraud', () => {
-  const getBaseMockParsedData = (): any => ({
-    companyInfo: {
+const getBaseMockParsedData = (): CreditAnalysis => ({
+  companyInfo: {
       name: 'Test Co',
       establishedYear: 2010,
       industry: 'Manufacturing',
@@ -47,8 +46,23 @@ describe('calculateRiskAndFraud', () => {
       collateral: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
       conditions: { score: 80, insights: [], redFlags: [], positiveSignals: [] },
     },
+    camMarkdown: '',
+    riskAnalysisDetails: { financialRisk: '', legalRisk: '', behavioralRisk: '', industryRisk: '', managementRisk: '' },
+    ratios: { debtToIncome: 0, profitMargin: 0, currentRatio: 0 },
+    riskScore: 50,
+    riskLevel: 'Medium',
+    fraudFlags: [],
+    explanation: '',
+    recommendation: '',
+    decisionConfidence: 0,
+    suggestedLoanAmount: '',
+    suggestedInterestRate: '',
+    riskGrade: '',
+    missingData: [],
+    requiredDocs: [],
   });
 
+describe('calculateRiskAndFraud', () => {
   it('calculates risk for a healthy company correctly', () => {
     const mock = getBaseMockParsedData();
     const result = calculateRiskAndFraud(mock);
@@ -77,12 +91,14 @@ describe('calculateRiskAndFraud', () => {
 
   it('penalizes shell company indicators', () => {
     const mock = getBaseMockParsedData();
-    mock.fraudDetection = [{ indicator: 'Shell Company', details: 'test', status: 'Fail' }];
+    mock.fraudDetection = [{ category: 'General', indicator: 'Shell Company', details: 'test', status: 'Fail' }];
     mock.shellCompanyAnalysis = {
       isPotentialShell: true,
       riskLevel: 'High',
-      indicators: [{ name: 'Test', details: 'test', status: 'Fail' }],
+      indicators: [{ name: 'Test', details: 'test', status: 'Fail', evidence: 'test' }],
       operationalEvidence: ['virtual office', 'no physical assets'],
+      employeeCount: 0,
+      officeType: 'Virtual',
     };
     const result = calculateRiskAndFraud(mock);
     expect(result.riskScore).toBeGreaterThan(85);
@@ -95,7 +111,10 @@ describe('calculateRiskAndFraud', () => {
     mock.structuredData.debt[0].value = 1000000;
     mock.structuredData.revenue[0].value = 100000;
     mock.structuredData.cashflow[0].value = -10000;
-    mock.verificationLayer = [{ status: 'Mismatch' }, { status: 'Mismatch' }];
+    mock.verificationLayer = [
+      { category: 'Financials', dataPoint: 'Revenue', status: 'Mismatch', confidenceScore: 0, source: 'API', notes: '' },
+      { category: 'Financials', dataPoint: 'Debt', status: 'Mismatch', confidenceScore: 0, source: 'API', notes: '' }
+    ];
     const result = calculateRiskAndFraud(mock);
     expect(result.riskScore).toBeGreaterThan(85);
     expect(result.riskLevel).toBe('Critical');
@@ -128,6 +147,8 @@ describe('calculateRiskAndFraud', () => {
   it('penalizes director shareholder rapid changes and negative news', () => {
     const mock = getBaseMockParsedData();
     mock.directorShareholderHistory = {
+      events: [],
+      summary: '',
       hasRapidChanges: true,
       riskLevel: 'High',
     };
@@ -479,7 +500,7 @@ describe('performAnalysis', () => {
   let mockSetError: any;
   let mockSetAnalysis: any;
   let mockSetShowLogs: any;
-  let mockFileCache: any;
+  let mockFileCache: { current: Map<string, CreditAnalysis> };
 
   beforeEach(() => {
     mockSetLoading = vi.fn();
@@ -516,12 +537,14 @@ describe('performAnalysis', () => {
 
   it('returns cached analysis if hash matches', async () => {
     vi.spyOn(fileUtils, 'hashFile').mockResolvedValue('testhash');
-    mockFileCache.current.set('testhash', { riskScore: 50 });
+    const mockAnalysis = getBaseMockParsedData();
+    mockAnalysis.riskScore = 50;
+    mockFileCache.current.set('testhash', mockAnalysis);
 
     const mockFile = new File([''], 'test.pdf');
     await callPerformAnalysis([mockFile]);
 
-    expect(mockSetAnalysis).toHaveBeenCalledWith({ riskScore: 50 });
+    expect(mockSetAnalysis).toHaveBeenCalledWith(mockAnalysis);
     expect(mockSetLoading).toHaveBeenCalledWith(false);
     expect(global.fetch).not.toHaveBeenCalled();
   });
@@ -538,7 +561,13 @@ describe('performAnalysis', () => {
     // Complete CreditAnalysis shape — the server always returns one that
     // satisfies RESPONSE_SCHEMA, and calculateRiskAndFraud reads many fields.
     const serverAnalysis = {
-      companyInfo: { name: 'Co', establishedYear: 2020, industry: 'IT', registrationNumber: 'r', employees: '10' },
+      companyInfo: {
+        name: 'Co',
+        establishedYear: 2020,
+        industry: 'IT',
+        registrationNumber: 'r',
+        employees: '10',
+      },
       structuredData: {
         revenue: [{ year: '2023', value: 1000000 }],
         debt: [{ year: '2023', value: 100000 }],
@@ -549,7 +578,11 @@ describe('performAnalysis', () => {
       },
       verificationLayer: [],
       fraudDetection: [],
-      unstructuredInsights: { boardMeetingNotes: [], ratingAgencyReports: '', shareholdingPattern: '' },
+      unstructuredInsights: {
+        boardMeetingNotes: [],
+        ratingAgencyReports: '',
+        shareholdingPattern: '',
+      },
       externalIntelligence: { mcaStatus: 'Active', legalDisputes: [], newsSectorTrends: [] },
       primaryInsights: { siteVisitObservations: [], managementInterviews: [] },
       fiveCs: {
