@@ -33,6 +33,6 @@ jobs:
         if: hashFiles('docs/history/ai-improvement-report.md') != ''
         uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e470eea31ce8ba270ef # v5
         with:
-          title: "🤖 Daily AI Improvement Report"
+          title: '🤖 Daily AI Improvement Report'
           content-filepath: docs/history/ai-improvement-report.md
           labels: ai-enhancement, technical-debt

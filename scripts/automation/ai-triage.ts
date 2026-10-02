@@ -40,8 +40,8 @@ Please provide a helpful triage summary. Recommend labels, identify if this look
       fs.writeFileSync('triage-comment.txt', comment);
       console.info('Triage comment generated successfully.');
     }
-  } catch (error) {
-    console.error('Error during AI triage:', error);
+  } catch {
+    console.error('Error during AI triage.');
     process.exit(0);
   }
 }

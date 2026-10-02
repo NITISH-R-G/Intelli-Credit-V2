@@ -39,8 +39,8 @@ ${diff.slice(0, 50000)} // Truncating to avoid context window issues
       fs.writeFileSync('pr-comment.txt', comment);
       console.info('PR review generated successfully.');
     }
-  } catch (error) {
-    console.error('Error during AI PR review:', error);
+  } catch {
+    console.error('Error during AI PR review.');
     process.exit(0);
   }
 }

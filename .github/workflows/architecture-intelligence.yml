@@ -39,7 +39,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7
         with:
-          title: "🤖 Chore: Update Architecture Intelligence"
-          body: "Automated update of repository architecture diagrams and knowledge graphs."
-          branch: "chore/update-architecture"
-          commit-message: "chore: update architecture diagrams and knowledge graph"
+          title: '🤖 Chore: Update Architecture Intelligence'
+          body: 'Automated update of repository architecture diagrams and knowledge graphs.'
+          branch: 'chore/update-architecture'
+          commit-message: 'chore: update architecture diagrams and knowledge graph'

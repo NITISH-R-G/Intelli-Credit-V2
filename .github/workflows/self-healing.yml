@@ -30,7 +30,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7
         with:
-          title: "🤖 Chore: Autonomous Self-Healing"
-          body: "Automated code formatting and linting fixes applied by the self-healing system."
-          branch: "chore/self-healing"
-          commit-message: "chore: apply automated formatting and lint fixes"
+          title: '🤖 Chore: Autonomous Self-Healing'
+          body: 'Automated code formatting and linting fixes applied by the self-healing system.'
+          branch: 'chore/self-healing'
+          commit-message: 'chore: apply automated formatting and lint fixes'

@@ -12,7 +12,7 @@ function getFiles(dir: string, fileList: string[] = []): string[] {
       getFiles(filePath, fileList);
     } else {
       if (filePath.endsWith('.ts') || filePath.endsWith('.tsx')) {
-         fileList.push(filePath);
+        fileList.push(filePath);
       }
     }
   }
@@ -33,12 +33,12 @@ async function improve() {
 
     let allFiles = [...srcFiles, ...apiFiles, ...scriptFiles];
     // Securely sample files to avoid context limits
-    allFiles = allFiles.sort(() => (crypto.randomBytes(1)[0] / 255) - 0.5).slice(0, 10);
+    allFiles = allFiles.sort(() => crypto.randomBytes(1)[0] / 255 - 0.5).slice(0, 10);
 
     let codeContext = '';
     for (const file of allFiles) {
-       codeContext += `\n--- File: ${file} ---\n`;
-       codeContext += fs.readFileSync(file, 'utf8').substring(0, 2000); // sample content
+      codeContext += `\n--- File: ${file} ---\n`;
+      codeContext += fs.readFileSync(file, 'utf8').substring(0, 2000); // sample content
     }
 
     const ai = new GoogleGenAI({ apiKey });
@@ -62,8 +62,8 @@ ${codeContext}
       fs.writeFileSync(path.join(outputDir, 'ai-improvement-report.md'), report);
       console.info('Improvement report generated successfully.');
     }
-  } catch (error) {
-    console.error('Error during AI improvement analysis:', error);
+  } catch {
+    console.error('Error during AI improvement analysis.');
     process.exit(0);
   }
 }
