@@ -25,8 +25,9 @@ async function improve(): Promise<void> {
   }
 
   try {
+    const crypto = await import('node:crypto');
     const allTsFiles = getFilesRecursively(process.cwd());
-    const sampledFiles = allTsFiles.sort(() => 0.5 - Math.random()).slice(0, 10); // Sample 10 random files
+    const sampledFiles = allTsFiles.sort(() => 0.5 - crypto.randomBytes(1)[0] / 255).slice(0, 10); // Sample 10 random files
 
     let codeContext = '';
     for (const file of sampledFiles) {
@@ -60,12 +61,12 @@ Response format: Markdown`;
       fs.writeFileSync(path.join(outDir, 'ai-improvement-report.md'), report, 'utf-8');
       console.info('AI improvement report generated successfully.');
     } else {
-        console.warn('AI generated an empty response.');
+      console.warn('AI generated an empty response.');
     }
-  } catch (error: unknown) {
-    console.error('Error during AI improvement loop:', error);
+  } catch {
+    console.error('Error during AI improvement loop');
     process.exit(1);
   }
 }
 
-void improve();
+improve().catch(() => process.exit(1));

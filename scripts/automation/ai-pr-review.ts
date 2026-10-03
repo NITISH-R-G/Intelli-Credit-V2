@@ -45,12 +45,12 @@ Response format: Markdown`;
       fs.writeFileSync('pr-comment.txt', prComment, 'utf-8');
       console.info('PR review comment generated successfully.');
     } else {
-        console.warn('AI generated an empty response.');
+      console.warn('AI generated an empty response.');
     }
-  } catch (error: unknown) {
-    console.error('Error during AI PR review:', error);
+  } catch {
+    console.error('Error during AI PR review');
     process.exit(1);
   }
 }
 
-void reviewPR();
+reviewPR().catch(() => process.exit(1));

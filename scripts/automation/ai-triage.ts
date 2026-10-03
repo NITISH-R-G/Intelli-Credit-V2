@@ -43,12 +43,12 @@ Response format: Markdown`;
       fs.writeFileSync('triage-comment.txt', triageComment, 'utf-8');
       console.info('Triage comment generated successfully.');
     } else {
-        console.warn('AI generated an empty response.');
+      console.warn('AI generated an empty response.');
     }
-  } catch (error: unknown) {
-    console.error('Error during AI triage:', error);
+  } catch {
+    console.error('Error during AI triage');
     process.exit(1);
   }
 }
 
-void triage();
+triage().catch(() => process.exit(1));

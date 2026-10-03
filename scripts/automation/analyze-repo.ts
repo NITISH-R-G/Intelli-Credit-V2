@@ -1,6 +1,5 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { execFileSync } from 'node:child_process';
 
 async function analyze(): Promise<void> {
   try {
@@ -16,10 +15,10 @@ async function analyze(): Promise<void> {
 
     fs.writeFileSync(path.join(outDir, 'repo-stats.json'), JSON.stringify(stats, null, 2), 'utf-8');
     console.info('Repository statistics generated successfully.');
-  } catch (error: unknown) {
-    console.error('Error during repository analysis:', error);
+  } catch {
+    console.error('Error during repository analysis');
     process.exit(1);
   }
 }
 
-void analyze();
+analyze().catch(() => process.exit(1));
