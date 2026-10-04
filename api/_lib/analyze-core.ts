@@ -102,9 +102,9 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const generateWithResilience = async (
   genAI: GoogleGenAI,
   model: string,
-  currentContents: Record<string, unknown>[],
-  config: Record<string, unknown>,
-): Promise<Record<string, unknown>> => {
+  currentContents: any[],
+  config: any,
+): Promise<any> => {
   let lastErr: unknown;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
@@ -141,7 +141,7 @@ const buildConfig = () => ({
   ],
   toolConfig: { includeServerSideToolInvocations: true },
   responseMimeType: 'application/json',
-  responseSchema: RESPONSE_SCHEMA as Record<string, unknown>,
+  responseSchema: RESPONSE_SCHEMA as any,
 });
 
 /**
@@ -149,8 +149,8 @@ const buildConfig = () => ({
  * array from already-base64-encoded file inputs (files never hit the model
  * directly — they are passed as `inlineData` parts or as inline text).
  */
-const buildContents = (files: AnalyzeInputFile[]): Record<string, unknown>[] => {
-  const contents: Record<string, unknown>[] = [];
+const buildContents = (files: AnalyzeInputFile[]): any[] => {
+  const contents: any[] = [];
 
   for (const f of files) {
     if (f.mimeType === 'application/pdf' || f.mimeType.startsWith('image/')) {
@@ -195,7 +195,7 @@ export const runAnalysis = async (
   files: AnalyzeInputFile[],
   apiMode: boolean,
   bureauApiKey: string,
-): Promise<Record<string, unknown>> => {
+): Promise<any> => {
   if (!files || files.length === 0) {
     throw new AnalysisError('NO_FILES', 'No files were provided for analysis.');
   }
@@ -258,7 +258,10 @@ export const runAnalysis = async (
   }
 
   if (!extractionResponse.text) {
-    if (extractionResponse.functionCalls && extractionResponse.functionCalls.length > 0) {
+    if (
+      extractionResponse.functionCalls &&
+      (extractionResponse.functionCalls as any[]).length > 0
+    ) {
       throw new AnalysisError(
         'TOO_MANY_TOOL_CALLS',
         'Analysis stopped: Too many tool calls required. The model is still trying to gather information.',
@@ -280,7 +283,7 @@ export const runAnalysis = async (
   }
 
   try {
-    return JSON.parse(extractionResponse.text);
+    return JSON.parse(extractionResponse.text as string);
   } catch {
     throw new AnalysisError(
       'INVALID_JSON',

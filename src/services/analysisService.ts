@@ -714,7 +714,9 @@ export const performAnalysis = async (
       );
     }
 
-    const { analysis: parsedData } = (await response.json()) as { analysis: Record<string, unknown> };
+    const { analysis: parsedData } = (await response.json()) as {
+      analysis: Record<string, unknown>;
+    };
     const result = calculateRiskAndFraud(parsedData as unknown as CreditAnalysis);
 
     fileCache.current.set(combinedHash, result);

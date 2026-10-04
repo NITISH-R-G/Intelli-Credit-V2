@@ -11,7 +11,7 @@
  */
 export const callMcpTool = async (
   toolName: string,
-  args: Record<string, unknown>,
+  args: any,
   apiMode: boolean,
   bureauApiKey: string,
 ) => {

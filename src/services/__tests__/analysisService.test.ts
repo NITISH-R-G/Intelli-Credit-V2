@@ -8,7 +8,7 @@ import { CreditAnalysis } from '../../types';
 import * as fileUtils from '../../lib/file-utils';
 
 describe('calculateRiskAndFraud', () => {
-  const getBaseMockParsedData = (): Record<string, unknown> => ({
+  const getBaseMockParsedData = (): any => ({
     companyInfo: {
       name: 'Test Co',
       establishedYear: 2010,
@@ -475,11 +475,11 @@ describe('calculateDisplayAnalysis', () => {
  * (caching, fetch, error mapping) is unit-tested here.
  */
 describe('performAnalysis', () => {
-  let mockSetLoading: ReturnType<typeof vi.fn>;
-  let mockSetError: ReturnType<typeof vi.fn>;
-  let mockSetAnalysis: ReturnType<typeof vi.fn>;
-  let mockSetShowLogs: ReturnType<typeof vi.fn>;
-  let mockFileCache: { current: Map<string, unknown> };
+  let mockSetLoading: any;
+  let mockSetError: any;
+  let mockSetAnalysis: any;
+  let mockSetShowLogs: any;
+  let mockFileCache: any;
 
   beforeEach(() => {
     mockSetLoading = vi.fn();

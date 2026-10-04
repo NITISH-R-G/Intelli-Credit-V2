@@ -38,11 +38,11 @@ const json = (status: number, body: unknown) =>
   });
 
 const toArrayBuffer = async (b: Blob): Promise<ArrayBuffer> => {
-  if (typeof (b as Record<string, unknown>).arrayBuffer === 'function') {
-    return (b as { arrayBuffer: () => Promise<ArrayBuffer> }).arrayBuffer();
+  if (typeof (b as unknown as Record<string, unknown>).arrayBuffer === 'function') {
+    return (b as unknown as { arrayBuffer: () => Promise<ArrayBuffer> }).arrayBuffer();
   }
   // Node 18/20 Web polyfill fallback
-  const buf = await (b as { buffer: Promise<ArrayBuffer> | ArrayBuffer }).buffer;
+  const buf = await (b as unknown as { buffer: Promise<ArrayBuffer> | ArrayBuffer }).buffer;
   return buf as ArrayBuffer;
 };
 
