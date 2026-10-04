@@ -1,0 +1,38 @@
+name: Self-Healing Automation
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Run weekly on Sunday at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run Auto-Fix (Lint & Format)
+        run: npm run fix || true
+
+      - name: Create Pull Request for Fixes
+        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c
+        with:
+          commit-message: 'chore(auto-fix): apply self-healing formatting and linting fixes'
+          title: 'chore(auto-fix): apply self-healing formatting and linting fixes'
+          body: 'This is an automated pull request containing self-healing fixes for linting and formatting issues.'
+          branch: 'auto-self-healing'
+          delete-branch: true
