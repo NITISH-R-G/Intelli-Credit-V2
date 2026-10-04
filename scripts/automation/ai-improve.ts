@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import * as crypto from 'node:crypto';
 import { GoogleGenAI } from '@google/genai';
 
 function getFiles(dir: string, fileList: string[] = []): string[] {
@@ -43,7 +44,7 @@ async function main() {
     const sourceFiles = allFiles.filter(
       (f) => (f.endsWith('.ts') || f.endsWith('.tsx')) && !coreFiles.includes(f),
     );
-    const sampledSource = sourceFiles.sort(() => 0.5 - Math.random()).slice(0, 5);
+    const sampledSource = sourceFiles.sort(() => crypto.randomBytes(1)[0] / 255 - 0.5).slice(0, 5);
     const filesToAnalyze = [...coreFiles, ...sampledSource];
 
     let context = '';
