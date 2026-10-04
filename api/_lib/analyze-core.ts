@@ -258,7 +258,10 @@ export const runAnalysis = async (
   }
 
   if (!extractionResponse.text) {
-    if (extractionResponse.functionCalls && extractionResponse.functionCalls.length > 0) {
+    if (
+      extractionResponse.functionCalls &&
+      (extractionResponse.functionCalls as any[]).length > 0
+    ) {
       throw new AnalysisError(
         'TOO_MANY_TOOL_CALLS',
         'Analysis stopped: Too many tool calls required. The model is still trying to gather information.',
@@ -280,7 +283,7 @@ export const runAnalysis = async (
   }
 
   try {
-    return JSON.parse(extractionResponse.text);
+    return JSON.parse(extractionResponse.text as string);
   } catch {
     throw new AnalysisError(
       'INVALID_JSON',
