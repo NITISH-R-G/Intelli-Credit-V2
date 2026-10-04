@@ -78,7 +78,7 @@ async function main() {
                 JSON.stringify({ labels }),
               ]);
             }
-          } catch (e) {
+          } catch {
             console.error('Failed to apply labels.');
           }
         }
