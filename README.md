@@ -115,6 +115,19 @@ key. Full details in
      `x-analyze-secret` header; gates the public endpoint)
 4. Deploy. The API key never reaches the client bundle.
 
+## 🤖 Autonomous Intelligence
+
+This repository leverages an automated AI ecosystem built around `gemini-2.0-flash` to continuously analyze, review, and self-heal the codebase.
+Automated capabilities include:
+
+- **Issue Triage**: Immediate AI context and triage comments on new issues.
+- **PR Review**: Automated AI code reviews for pull requests.
+- **Continuous Improvement**: Daily repository analysis reporting technical debt and refactoring opportunities.
+- **Self-Healing Code**: Weekly automated linting and format fixes.
+- **Architecture Intelligence**: Autonomous updates to `dependency-graph.svg` and `knowledge-graph.json` via Madge upon merges to main.
+
+See `AGENTS.md` for our strict guidelines on AI interactions and development constraints.
+
 ## 🧪 Development
 
 ```bash
@@ -123,6 +136,7 @@ npm run lint        # eslint .
 npm run test        # vitest run
 npm run build       # vite build
 npm run format      # prettier --write .
+npm run fix         # Autonomously heal formatting and lint issues
 ```
 
 CI runs `typecheck`, `lint`, `test`, and `build` on every pull request.

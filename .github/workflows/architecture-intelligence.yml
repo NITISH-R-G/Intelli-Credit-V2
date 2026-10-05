@@ -1,0 +1,44 @@
+name: Architecture Intelligence
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/architecture/**'
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Analyze Repository
+        run: npm run analyze:repo
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        with:
+          commit-message: 'docs: update architecture diagrams and knowledge graph'
+          title: 'Automated Architecture Intelligence Update'
+          body: 'This PR updates the repository architecture diagrams and knowledge graph to reflect the latest codebase changes.'
+          branch: 'automated-architecture-update'
+          delete-branch: true
+          labels: documentation, automated-pr
