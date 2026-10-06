@@ -9,7 +9,7 @@ function analyzeRepo() {
     fs.mkdirSync('docs/architecture', { recursive: true });
 
     // Using explicit string casting as per instructions for execFileSync
-    const madgeOutput = (execFileSync('npx', ['--yes', 'madge', '--json', '--extensions', 'ts,tsx', 'src', 'api']) as unknown as Buffer).toString();
+    const madgeOutput = (execFileSync('npx', ['--yes', 'madge', '--json', '--extensions', 'ts,tsx', 'src', 'api'], { encoding: 'utf-8' }) as string);
 
     fs.writeFileSync('docs/architecture/knowledge-graph.json', madgeOutput);
     console.info('Knowledge graph generated at docs/architecture/knowledge-graph.json');

@@ -38,11 +38,14 @@ async function triage() {
 
     const comment = response.text || 'Thank you for your issue. A maintainer will review it shortly.';
     fs.writeFileSync('triage-comment.txt', comment);
-    console.log('Triage comment generated successfully.');
+    console.info('Triage comment generated successfully.');
   } catch (err) {
     console.error('Error generating triage comment:', err);
     process.exit(1);
   }
 }
 
-void triage();
+triage().catch((err) => {
+  console.error('Unhandled error in triage:', err);
+  process.exit(1);
+});

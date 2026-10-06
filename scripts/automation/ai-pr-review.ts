@@ -40,11 +40,14 @@ async function reviewPR() {
 
     const review = response.text || 'LGTM! (Automated basic check passed, but AI was unable to generate a detailed review.)';
     fs.writeFileSync('pr-comment.txt', review);
-    console.log('PR review generated successfully.');
+    console.info('PR review generated successfully.');
   } catch (err) {
     console.error('Error generating PR review:', err);
     process.exit(1);
   }
 }
 
-void reviewPR();
+reviewPR().catch((err) => {
+  console.error('Unhandled error in PR review:', err);
+  process.exit(1);
+});

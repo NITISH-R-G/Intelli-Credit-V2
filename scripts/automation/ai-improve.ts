@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { GoogleGenAI } from '@google/genai';
 
-function getFiles(dir: string, fileList: string[] = []) {
+function getFiles(dir: string, fileList: string[] = []): string[] {
   const files = fs.readdirSync(dir);
   for (const file of files) {
     const stat = fs.statSync(path.join(dir, file));
@@ -67,4 +67,7 @@ async function improve() {
   }
 }
 
-void improve();
+improve().catch((err) => {
+  console.error('Unhandled error in improve:', err);
+  process.exit(1);
+});
