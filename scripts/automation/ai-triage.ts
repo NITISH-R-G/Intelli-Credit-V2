@@ -45,7 +45,7 @@ async function triage() {
   }
 }
 
-triage().catch((err) => {
+await triage().catch((err) => {
   console.error('Unhandled error in triage:', err);
   process.exit(1);
 });

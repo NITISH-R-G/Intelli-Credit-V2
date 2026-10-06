@@ -10,10 +10,8 @@ function getFiles(dir: string, fileList: string[] = []): string[] {
       if (!['node_modules', '.git', 'dist', 'coverage', '.github'].includes(file)) {
         getFiles(path.join(dir, file), fileList);
       }
-    } else {
-      if (file.endsWith('.ts') || file.endsWith('.tsx')) {
-        fileList.push(path.join(dir, file));
-      }
+    } else if (file.endsWith('.ts') || file.endsWith('.tsx')) {
+      fileList.push(path.join(dir, file));
     }
   }
   return fileList;
@@ -67,7 +65,7 @@ async function improve() {
   }
 }
 
-improve().catch((err) => {
+await improve().catch((err) => {
   console.error('Unhandled error in improve:', err);
   process.exit(1);
 });

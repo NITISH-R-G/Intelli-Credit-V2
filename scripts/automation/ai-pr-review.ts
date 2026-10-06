@@ -47,7 +47,7 @@ async function reviewPR() {
   }
 }
 
-reviewPR().catch((err) => {
+await reviewPR().catch((err) => {
   console.error('Unhandled error in PR review:', err);
   process.exit(1);
 });
