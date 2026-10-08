@@ -1,0 +1,32 @@
+name: Self Healing Repository
+on:
+  schedule:
+    - cron: '0 3 * * 0' # Every Sunday at 3 AM
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci --ignore-scripts
+
+      - name: Run Self Healing Script
+        run: npx --yes tsx scripts/automation/self-healing.ts
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        with:
+          commit-message: 'chore(self-healing): automated format and lint fixes'
+          title: 'Automated Repository Self-Healing (Format & Lint)'
+          body: 'This PR contains automated fixes from the weekly self-healing run (Prettier format & ESLint auto-fix).'
+          branch: auto/self-healing

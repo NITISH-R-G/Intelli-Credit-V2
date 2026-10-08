@@ -1,0 +1,47 @@
+name: Architecture Intelligence
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/architecture/**'
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Install Graphviz
+        run: sudo apt-get install -y graphviz
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci --ignore-scripts
+
+      - name: Create docs/architecture directory
+        run: mkdir -p docs/architecture
+
+      - name: Generate Knowledge Graph
+        run: npm run generate:knowledge-graph
+
+      - name: Generate Dependency Graph
+        run: npm run generate:diagrams
+
+      - name: Run Architecture Analysis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run analyze:repo
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        with:
+          commit-message: 'docs(architecture): autonomous update of diagrams and overview'
+          title: 'Automated Architecture Documentation Update'
+          body: 'This PR updates the architecture diagrams, knowledge graph, and overview based on recent changes.'
+          branch: auto/architecture-update

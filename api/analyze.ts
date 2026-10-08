@@ -83,7 +83,7 @@ const clientIp = (req: Request): string => {
 
 export default async function handler(req: Request): Promise<Response> {
   // Cheap, unique-per-request id for client correlation without leaking internals.
-  const requestId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  const requestId = `${Date.now().toString(36)}-${((await import('node:crypto')).randomBytes(1)[0] / 255).toString(36).slice(2, 8)}`;
 
   if (req.method !== 'POST') {
     return json(405, { error: 'Method not allowed. Use POST.', requestId });
@@ -193,8 +193,7 @@ export default async function handler(req: Request): Promise<Response> {
     console.error(`[/api/analyze:${requestId}]`, e?.stack ?? e);
 
     if (e instanceof AnalysisError) {
-      const status =
-        e.code === 'MISSING_API_KEY' || e.code === 'NO_FILES' ? 400 : 500;
+      const status = e.code === 'MISSING_API_KEY' || e.code === 'NO_FILES' ? 400 : 500;
       // `rawLogs` may carry reflected document content / env var names —
       // only forward it for client-side-fixable issues; otherwise omit.
       const safeRawLogs =
