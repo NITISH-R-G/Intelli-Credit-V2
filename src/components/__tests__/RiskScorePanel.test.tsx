@@ -13,7 +13,7 @@ describe('RiskScorePanel', () => {
       riskLevel: 'Low',
     } as CreditAnalysis;
 
-    const { container } = render(<RiskScorePanel displayAnalysis={lowRiskAnalysis} />);
+    render(<RiskScorePanel displayAnalysis={lowRiskAnalysis} />);
 
     expect(screen.getByText('A')).toBeInTheDocument();
     expect(screen.getByText('85')).toBeInTheDocument();
