@@ -20,42 +20,9 @@ const StressTestingModule = React.lazy(() => import('./components/StressTestingM
 const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBenchmarking'));
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
-import { INDUSTRY_BENCHMARKS } from './constants';
-import { useDropzone } from 'react-dropzone';
-import {
-  ShieldAlert,
-  ShieldCheck,
-  FileText,
-  Upload,
-  TrendingUp,
-  AlertTriangle,
-  CheckCircle2,
-  XCircle,
-  BarChart3,
-  Loader2,
-  Info,
-  Search,
-  Landmark,
-  BadgeAlert,
-  History,
-  Fingerprint,
-  Gavel,
-  ShieldQuestion,
-  ChevronRight,
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from 'recharts';
-import { cn } from './lib/utils';
 
+import { useDropzone } from 'react-dropzone';
+import { ShieldCheck } from 'lucide-react';
 
 export default function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -119,7 +86,7 @@ export default function App() {
     );
   };
 
-  const getRiskColor = (level: string) => {
+  const _getRiskColor = (level: string) => {
     switch (level) {
       case 'Low':
         return 'text-emerald-500 bg-emerald-50 border-emerald-100';
@@ -134,7 +101,7 @@ export default function App() {
     }
   };
 
-  const chartData = analysis
+  const _chartData = analysis
     ? [
         { name: 'Revenue', value: analysis.structuredData.revenue },
         { name: 'Debt', value: analysis.structuredData.debt },
@@ -262,6 +229,7 @@ export default function App() {
 
             <div className="lg:col-span-12 flex justify-end mt-4">
               <button
+                type="button"
                 onClick={() => setAnalysis(null)}
                 className="border border-zinc-700 hover:border-zinc-500 bg-black text-zinc-400 hover:text-zinc-200 px-6 py-2 text-xs uppercase tracking-widest transition-colors"
               >
