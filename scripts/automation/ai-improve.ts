@@ -30,7 +30,7 @@ async function improve(): Promise<void> {
   const allFiles = getFiles('src').concat(getFiles('api')).concat(getFiles('scripts'));
 
   // Randomly sample files to avoid context limit
-  const sampledFiles = allFiles.sort(() => 0.5 - Math.random()).slice(0, 5);
+  const sampledFiles = allFiles.sort(() => 0.5 - (((await import('node:crypto')).randomBytes(1)[0]) / 255)).slice(0, 5);
 
   let context = '';
   for (const file of sampledFiles) {

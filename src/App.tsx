@@ -21,6 +21,7 @@ const IndustryBenchmarking = React.lazy(() => import('./components/IndustryBench
 const FiveCsAnalysis = React.lazy(() => import('./components/FiveCsAnalysis'));
 import { CreditAnalysis } from './types';
 
+import { useDropzone } from 'react-dropzone';
 import { ShieldCheck } from 'lucide-react';
 
 export default function App() {
