@@ -14,10 +14,13 @@ async function triage() {
     process.exit(1);
   }
 
-  const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8')) as Record<string, any>;
+  const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8')) as Record<
+    string,
+    Record<string, unknown>
+  >;
   const issue = eventData.issue;
 
-  if (!issue || !issue.title || !issue.body) {
+  if (!issue || typeof issue.title !== 'string' || typeof issue.body !== 'string') {
     process.stderr.write('Issue data is missing or incomplete.\n');
     process.exit(0);
   }

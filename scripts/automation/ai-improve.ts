@@ -30,9 +30,10 @@ async function improve() {
     process.exit(1);
   }
 
+  const crypto = await import('node:crypto');
   const allFiles = getFiles('.');
   // Sample up to 10 random files to avoid context limits
-  const sampleFiles = allFiles.sort(() => 0.5 - Math.random()).slice(0, 10);
+  const sampleFiles = allFiles.sort(() => 0.5 - crypto.randomBytes(1)[0] / 255).slice(0, 10);
 
   let codebaseContext = '';
   for (const file of sampleFiles) {
