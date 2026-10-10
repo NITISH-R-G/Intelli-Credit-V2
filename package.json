@@ -29,10 +29,17 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "fix": "npm run format && npm run lint:fix",
+    "generate:diagrams": "madge --image docs/architecture/dependency-graph.svg --extensions ts,tsx src api",
+    "generate:knowledge-graph": "tsx scripts/automation/analyze-repo.ts",
+    "ai:triage": "tsx scripts/automation/ai-triage.ts",
+    "ai:improve": "tsx scripts/automation/ai-improve.ts",
+    "ai:pr-review": "tsx scripts/automation/ai-pr-review.ts",
+    "analyze:repo": "tsx scripts/automation/analyze-repo.ts"
   },
   "dependencies": {
-    "@google/genai": "^1.29.0",
+    "@google/genai": "^2.28.0",
     "@tailwindcss/vite": "^4.1.14",
     "clsx": "^2.1.1",
     "cors": "^2.8.6",
@@ -53,6 +60,7 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -67,14 +75,15 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
+    "graphviz": "^0.0.9",
     "jsdom": "^29.1.1",
+    "madge": "^8.0.0",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.1.14",
-    "tsx": "^4.22.4",
+    "tsx": "^4.23.15",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.60.1",
     "vite": "^6.4.2",
     "vitest": "^4.1.7"
   }
 }
-
