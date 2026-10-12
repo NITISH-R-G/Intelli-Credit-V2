@@ -13,10 +13,8 @@ function getFiles(dir: string, fileList: string[] = []): string[] {
         if (!ignoredDirs.includes(file)) {
           getFiles(filePath, fileList);
         }
-      } else {
-        if (filePath.endsWith('.ts') || filePath.endsWith('.tsx')) {
-          fileList.push(filePath);
-        }
+      } else if (filePath.endsWith('.ts') || filePath.endsWith('.tsx')) {
+        fileList.push(filePath);
       }
     }
   } catch (error) {
@@ -52,7 +50,7 @@ async function improve() {
     try {
       const content = fs.readFileSync(file, 'utf-8');
       codebaseContext += `\n--- File: ${file} ---\n${content.substring(0, 500)}... (truncated)\n`;
-    } catch (e) {
+    } catch {
        // Ignore read errors
     }
   }

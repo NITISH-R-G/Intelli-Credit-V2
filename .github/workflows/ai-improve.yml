@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@39370e3970a6d050c480ff24fba452818c9b8db6
         with:
           node-version: 20
           cache: 'npm'
@@ -32,7 +32,7 @@ jobs:
 
       - name: Create Improvement Issue
         if: hashFiles('docs/history/ai-improvement-report.md') != ''
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e470eea31ce6a1a0df1
         with:
           title: 'Automated Codebase Improvement Recommendations'
           content-filepath: 'docs/history/ai-improvement-report.md'

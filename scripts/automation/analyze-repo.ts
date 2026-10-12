@@ -12,10 +12,8 @@ function getFiles(dir: string, fileList: string[] = []): string[] {
         if (!ignoredDirs.includes(file)) {
           getFiles(filePath, fileList);
         }
-      } else {
-        if (filePath.endsWith('.ts') || filePath.endsWith('.tsx') || filePath.endsWith('.json') || filePath.endsWith('.md')) {
-          fileList.push(filePath);
-        }
+      } else if (filePath.endsWith('.ts') || filePath.endsWith('.tsx') || filePath.endsWith('.json') || filePath.endsWith('.md')) {
+        fileList.push(filePath);
       }
     }
   } catch (error) {

@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout base branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@39370e3970a6d050c480ff24fba452818c9b8db6
         with:
           node-version: 20
           cache: 'npm'
@@ -42,7 +42,7 @@ jobs:
 
       - name: Post PR Comment
         if: hashFiles('pr-comment.txt') != ''
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
         with:
           file-path: pr-comment.txt
           comment-tag: ai-pr-review
