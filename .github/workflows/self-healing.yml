@@ -1,0 +1,38 @@
+name: Self-Healing Repository
+
+on:
+  schedule:
+    - cron: '0 4 * * 0' # Run weekly on Sunday at 4 AM
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run Self-Healing Automation
+        run: npm run fix
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(self-healing): auto-fix linting and formatting issues'
+          title: 'Automated Self-Healing Fixes'
+          body: 'This PR was automatically generated to fix formatting and linting issues.'
+          branch: 'chore/self-healing-fixes'
+          labels: 'automation, auto-generated'
